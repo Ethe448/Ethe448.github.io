@@ -10,12 +10,12 @@
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="反序列化基础知识php的序列化和反序列化主要是通过serialize和unserialize两个函数 serialize()将一个对象转换成一个字符串，unserialize()将字符串还原为一个对象">
+  <meta name="description" content="反序列化基础知识php的序列化和反序列化主要是通过serialize和unserialize两个函数 serialize()将一个对象转换成一个字符串，unserialize()将字符串还原为一个对象，对反序列化进行利用也主要是通过其中的魔术方法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="反序列化">
 <meta property="og:url" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
 <meta property="og:site_name" content="Ethe&#39;s blog">
-<meta property="og:description" content="反序列化基础知识php的序列化和反序列化主要是通过serialize和unserialize两个函数 serialize()将一个对象转换成一个字符串，unserialize()将字符串还原为一个对象">
+<meta property="og:description" content="反序列化基础知识php的序列化和反序列化主要是通过serialize和unserialize两个函数 serialize()将一个对象转换成一个字符串，unserialize()将字符串还原为一个对象，对反序列化进行利用也主要是通过其中的魔术方法">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501204543745.png">
 <meta property="og:image" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501183046395.png">
@@ -27,9 +27,15 @@
 <meta property="og:image" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501220212731.png">
 <meta property="og:image" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210704003613462.png">
 <meta property="og:image" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210704003713873.png">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705135850186.png">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705141338826.png">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705141616910.png">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705150325057.png">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705150240715.png">
+<meta property="og:image" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705150647307.png">
 <meta property="og:image" content="https://ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210704004536648.png">
 <meta property="article:published_time" content="2021-06-29T16:19:02.000Z">
-<meta property="article:modified_time" content="2021-07-03T16:46:58.770Z">
+<meta property="article:modified_time" content="2021-07-05T07:09:43.341Z">
 <meta property="article:author" content="Ethe">
 <meta property="article:tag" content="web学习">
 <meta property="article:tag" content="反序列化">
@@ -252,7 +258,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">1.7k字</span>
+      <span class="post-count">2.6k字</span>
     </span>
   </span>
 
@@ -261,7 +267,7 @@
     <span class="post-meta-item-icon">
       <i class="icon-book icon"></i>
       <span class="post-meta-item-text"> 阅读时长≈</span>
-      <span class="post-count">6分</span>
+      <span class="post-count">11分</span>
     </span>
   </span>
 </div>
@@ -279,7 +285,7 @@
   <div id="toc-article" class="toc-article">
       <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
     <strong class="toc-title">文章目录</strong>
-           <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">反序列化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POP%E9%93%BE%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.</span> <span class="toc-text">POP链简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POP%E9%93%BE%E5%88%A9%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-number">1.3.</span> <span class="toc-text">POP链利用技巧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wp"><span class="toc-number">2.</span> <span class="toc-text">wp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ZJCTF-2019-NiZhuanSiWei"><span class="toc-number">2.1.</span> <span class="toc-text">[ZJCTF 2019]NiZhuanSiWei</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-PHP"><span class="toc-number">2.2.</span> <span class="toc-text">[极客大挑战 2019]PHP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MRCTF2020-Ezpop"><span class="toc-number">2.3.</span> <span class="toc-text">[MRCTF2020]Ezpop</span></a></li></ol></li></ol>
+           <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">反序列化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POP%E9%93%BE%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.</span> <span class="toc-text">POP链简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POP%E9%93%BE%E5%88%A9%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-number">1.3.</span> <span class="toc-text">POP链利用技巧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wp"><span class="toc-number">2.</span> <span class="toc-text">wp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ZJCTF-2019-NiZhuanSiWei"><span class="toc-number">2.1.</span> <span class="toc-text">[ZJCTF 2019]NiZhuanSiWei</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-PHP"><span class="toc-number">2.2.</span> <span class="toc-text">[极客大挑战 2019]PHP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MRCTF2020-Ezpop"><span class="toc-number">2.3.</span> <span class="toc-text">[MRCTF2020]Ezpop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CODE-REVIEW"><span class="toc-number">2.4.</span> <span class="toc-text">CODE REVIEW</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E9%BC%8E%E6%9D%AF-2020-%E9%9D%92%E9%BE%99%E7%BB%84-AreUSerialz"><span class="toc-number">2.5.</span> <span class="toc-text">[网鼎杯 2020 青龙组]AreUSerialz</span></a></li></ol></li></ol>
          </div>
    <script type="text/javascript">
   function showToc(){
@@ -300,11 +306,11 @@
   <div class="article-entry" itemprop="articleBody">
     
     <h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>php的序列化和反序列化主要是通过serialize和unserialize两个函数</p>
-<p>serialize()将一个对象转换成一个字符串，unserialize()将字符串还原为一个对象</p>
+<p>serialize()将一个对象转换成一个字符串，unserialize()将字符串还原为一个对象，对反序列化进行利用也主要是通过其中的魔术方法</p>
  <span id="more"></span>
 
 <p>几个常见的魔术方法</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__construct： 在创建对象时候初始化对象，一般用于对变量赋初值。</span><br><span class="line">__destruct： 和构造函数相反，当对象所在函数调用完毕后执行。</span><br><span class="line">__toString：当对象被当做一个字符串使用时调用。</span><br><span class="line">__sleep:序列化对象之前就调用此方法(其返回需要一个数组)</span><br><span class="line">__wakeup:反序列化恢复对象之前调用该方法</span><br><span class="line">__call:当调用对象中不存在的方法会自动调用该方法。</span><br><span class="line">__get:在调用私有属性的时候会自动执行</span><br><span class="line">__isset()在不可访问的属性上调用isset()或empty()触发</span><br><span class="line">__unset()在不可访问的属性上使用unset()时触发</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">__construct： 在创建对象时候初始化对象，一般用于对变量赋初值。</span><br><span class="line">__destruct： 和构造函数相反，当对象所在函数调用完毕后执行。</span><br><span class="line">__toString：当对象被当做一个字符串使用时调用。</span><br><span class="line">__sleep:序列化对象之前就调用此方法(其返回需要一个数组)</span><br><span class="line">__wakeup:反序列化恢复对象之前调用该方法</span><br><span class="line">__call:当调用对象中不存在的方法会自动调用该方法。</span><br><span class="line">__get:在调用私有属性的时候会自动执行</span><br><span class="line">__isset()在不可访问的属性上调用isset()或empty()触发</span><br><span class="line">__invoke()	当尝试把对象当方法调用时调用。</span><br><span class="line">__unset()在不可访问的属性上使用unset()时触发</span><br></pre></td></tr></table></figure>
 
 <p>格式</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">O:4:&quot;Test&quot;:2:&#123;s:1:&quot;a&quot;;s:5:&quot;Hello&quot;;s:1:&quot;b&quot;;i:20;&#125;</span><br><span class="line">类型:长度:&quot;名字&quot;:类中变量的个数:&#123;类型:长度:&quot;名字&quot;;类型:长度:&quot;值&quot;;......&#125;</span><br></pre></td></tr></table></figure>
@@ -330,7 +336,8 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s:<span class="number">4</span>:<span class="string">&quot;user&quot;</span>; -&gt; S:<span class="number">4</span>:<span class="string">&quot;use\72&quot;</span>;</span><br></pre></td></tr></table></figure>
 
 <p>3、深浅copy：在 php中如果我们使用 &amp; 对变量A的值指向变量B，这个时候是属于浅拷贝，当变量B改变时，变量A也会跟着改变。在被反序列化的对象的某些变量被过滤了，但是其他变量可控的情况下，就可以利用浅拷贝来绕过过滤。<br> 4、配合PHP伪协议实现文件包含、命令执行等漏洞。</p>
-<h2 id="wp"><a href="#wp" class="headerlink" title="wp"></a>wp</h2><h3 id="ZJCTF-2019-NiZhuanSiWei"><a href="#ZJCTF-2019-NiZhuanSiWei" class="headerlink" title="[ZJCTF 2019]NiZhuanSiWei"></a>[ZJCTF 2019]NiZhuanSiWei</h3><p><img src="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501204543745.png" alt="image-20210501204543745"></p>
+<h2 id="wp"><a href="#wp" class="headerlink" title="wp"></a>wp</h2><p>先贴俩之前写的简单的</p>
+<h3 id="ZJCTF-2019-NiZhuanSiWei"><a href="#ZJCTF-2019-NiZhuanSiWei" class="headerlink" title="[ZJCTF 2019]NiZhuanSiWei"></a>[ZJCTF 2019]NiZhuanSiWei</h3><p><img src="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501204543745.png" alt="image-20210501204543745"></p>
 <p>看见file_get_contents(),利用伪协议data://text/plain;base64绕过</p>
 <p>再利用php://filter读取useless内的内容</p>
 <p>解码后</p>
@@ -373,6 +380,37 @@
 
 <p>base64解码拿到flag</p>
 <p><img src="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210704003713873.png" alt="image-20210704003713873"></p>
+<h3 id="CODE-REVIEW"><a href="#CODE-REVIEW" class="headerlink" title="CODE REVIEW"></a>CODE REVIEW</h3><p><img src="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705135850186.png" alt="image-20210705135850186"></p>
+<p>代码审计可以看出这里首先要先get进pleaseget=1然后post进pleasepost，md51，md52和obj四个值，而obj这里存在反序列化的漏洞</p>
+<p>且当if($this-&gt;correct === $this-&gt;input)成立时就会打印出flag</p>
+<p>这里同时要求传入的md51和md52的md5值相等，且自身不相等，由于md5不能处理数组，所以传入数组的返回值都为null</p>
+<p>而因为$this-&gt;correct这里进行了编码，所以要使if语句成立在构造payload时可以采用引用赋值的方法</p>
+<p>构造payload</p>
+<p><img src="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705141338826.png" alt="image-20210705141338826"></p>
+<p>//uniqid() :函数基于以微秒计的当前时间，生成一个唯一的 ID。</p>
+<p>//传值赋值：变量默认总是传值赋值。那也就是说，当将一个表达式的值赋予一个变量时，整个原始表达式的值被赋值到目标变量。这意味着，例如，当一个变量的值赋予另外一个变量时，改变其中一个变量的值，将不会影响到另外一个变量。</p>
+<p>//引用赋值：PHP 也提供了另外一种方式给变量赋值：引用赋值。这意味着新的变量简单的引用（换言之，“成为其别名” 或者 “指向”）了原始变量。改动新的变量将影响到原始变量，反之亦然。</p>
+<p>所以最终payload为</p>
+<p>get内容为：?pleaseget=1</p>
+<p>post内容为：pleasepost=2&amp;md51[]=1&amp;md52[]=2&amp;obj=O:3:”BUU”:2:{s:7:”correct”;s:0:””;s:5:”input”;R:2;}</p>
+<p>拿到flag</p>
+<p><img src="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705141616910.png" alt="image-20210705141616910"></p>
+<h3 id="网鼎杯-2020-青龙组-AreUSerialz"><a href="#网鼎杯-2020-青龙组-AreUSerialz" class="headerlink" title="[网鼎杯 2020 青龙组]AreUSerialz"></a>[网鼎杯 2020 青龙组]AreUSerialz</h3><p>源码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">include(&quot;flag.php&quot;);</span><br><span class="line"></span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line"></span><br><span class="line">class FileHandler &#123;</span><br><span class="line"></span><br><span class="line">    protected $op;</span><br><span class="line">    protected $filename;</span><br><span class="line">    protected $content;</span><br><span class="line"></span><br><span class="line">    function __construct() &#123;</span><br><span class="line">        $op = &quot;1&quot;;</span><br><span class="line">        $filename = &quot;/tmp/tmpfile&quot;;</span><br><span class="line">        $content = &quot;Hello World!&quot;;</span><br><span class="line">        $this-&gt;process();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function process() &#123;</span><br><span class="line">        if($this-&gt;op == &quot;1&quot;) &#123;</span><br><span class="line">            $this-&gt;write();</span><br><span class="line">        &#125; else if($this-&gt;op == &quot;2&quot;) &#123;</span><br><span class="line">            $res = $this-&gt;read();</span><br><span class="line">            $this-&gt;output($res);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $this-&gt;output(&quot;Bad Hacker!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private function write() &#123;</span><br><span class="line">        if(isset($this-&gt;filename) &amp;&amp; isset($this-&gt;content)) &#123;</span><br><span class="line">            if(strlen((string)$this-&gt;content) &gt; 100) &#123;</span><br><span class="line">                $this-&gt;output(&quot;Too long!&quot;);</span><br><span class="line">                die();</span><br><span class="line">            &#125;</span><br><span class="line">            $res = file_put_contents($this-&gt;filename, $this-&gt;content);</span><br><span class="line">            if($res) $this-&gt;output(&quot;Successful!&quot;);</span><br><span class="line">            else $this-&gt;output(&quot;Failed!&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $this-&gt;output(&quot;Failed!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private function read() &#123;</span><br><span class="line">        $res = &quot;&quot;;</span><br><span class="line">        if(isset($this-&gt;filename)) &#123;</span><br><span class="line">            $res = file_get_contents($this-&gt;filename);</span><br><span class="line">        &#125;</span><br><span class="line">        return $res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private function output($s) &#123;</span><br><span class="line">        echo &quot;[Result]: &lt;br&gt;&quot;;</span><br><span class="line">        echo $s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function __destruct() &#123;</span><br><span class="line">        if($this-&gt;op === &quot;2&quot;)</span><br><span class="line">            $this-&gt;op = &quot;1&quot;;</span><br><span class="line">        $this-&gt;content = &quot;&quot;;</span><br><span class="line">        $this-&gt;process();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function is_valid($s) &#123;</span><br><span class="line">    for($i = 0; $i &lt; strlen($s); $i++)</span><br><span class="line">        if(!(ord($s[$i]) &gt;= 32 &amp;&amp; ord($s[$i]) &lt;= 125))</span><br><span class="line">            return false;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if(isset($_GET&#123;&#x27;str&#x27;&#125;)) &#123;</span><br><span class="line"></span><br><span class="line">    $str = (string)$_GET[&#x27;str&#x27;];</span><br><span class="line">    if(is_valid($str)) &#123;</span><br><span class="line">        $obj = unserialize($str);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到unserialize可以很容易想到反序列化，源码里还有file_get_contents，所以猜测这题是利用反序列化通过文件包含读取flag，利用php://filter来造成任意文件读取</p>
+<p>在传入后还存在一个is__valid()函数的过滤，要求传入内容的ascii码在32到123之内</p>
+<p>之后进行反序列化，由于要利用file_get_contents()读取flag，并将其打印出来，所以需要让op=2，执行read()中的内容</p>
+<p>构造payload</p>
+<p><img src="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705150325057.png" alt="image-20210705150325057"></p>
+<p>这里因为protect进行反序列化时会出现特殊符号，导致无法通过is__valid函数的过滤，可以利用对于PHP版本7.1+，对属性的类型不敏感，我们可以将protected类型改为public，以消除不可打印字符。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?str=O:11:&quot;FileHandler&quot;:3:&#123;s:2:&quot;op&quot;;i:2;s:8:&quot;filename&quot;;s:57:&quot;php://filter/read=convert.base64-encode/resource=flag.php&quot;;s:7:&quot;content&quot;;N;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（刚开始给op赋了个字符型的“2”，找错找了半天。。。</p>
+<p>拿到flag</p>
+<p><img src="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705150240715.png" alt="image-20210705150240715"></p>
+<p>接下来base64解码就可以拿到flag了</p>
+<p><img src="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705150647307.png" alt="image-20210705150647307"></p>
 <p>这周划水了（</p>
 <p>忙着学科目三了，周三考完试再补点（</p>
 <p><img src="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210704004536648.png" alt="image-20210704004536648"></p>
@@ -548,7 +586,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">反序列化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POP%E9%93%BE%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.</span> <span class="toc-text">POP链简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POP%E9%93%BE%E5%88%A9%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-number">1.3.</span> <span class="toc-text">POP链利用技巧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wp"><span class="toc-number">2.</span> <span class="toc-text">wp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ZJCTF-2019-NiZhuanSiWei"><span class="toc-number">2.1.</span> <span class="toc-text">[ZJCTF 2019]NiZhuanSiWei</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-PHP"><span class="toc-number">2.2.</span> <span class="toc-text">[极客大挑战 2019]PHP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MRCTF2020-Ezpop"><span class="toc-number">2.3.</span> <span class="toc-text">[MRCTF2020]Ezpop</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">反序列化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POP%E9%93%BE%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.</span> <span class="toc-text">POP链简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POP%E9%93%BE%E5%88%A9%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-number">1.3.</span> <span class="toc-text">POP链利用技巧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wp"><span class="toc-number">2.</span> <span class="toc-text">wp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ZJCTF-2019-NiZhuanSiWei"><span class="toc-number">2.1.</span> <span class="toc-text">[ZJCTF 2019]NiZhuanSiWei</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-PHP"><span class="toc-number">2.2.</span> <span class="toc-text">[极客大挑战 2019]PHP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MRCTF2020-Ezpop"><span class="toc-number">2.3.</span> <span class="toc-text">[MRCTF2020]Ezpop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CODE-REVIEW"><span class="toc-number">2.4.</span> <span class="toc-text">CODE REVIEW</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E9%BC%8E%E6%9D%AF-2020-%E9%9D%92%E9%BE%99%E7%BB%84-AreUSerialz"><span class="toc-number">2.5.</span> <span class="toc-text">[网鼎杯 2020 青龙组]AreUSerialz</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>

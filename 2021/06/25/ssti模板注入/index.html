@@ -385,8 +385,8 @@ ssti概述贴个大佬的文章
     }
 
     #toc-content {
-        padding-bottom: 30px;
-        overflow: auto;
+        height: calc(100vh - 250px);
+        overflow: scroll;
     }
 
     #toc-content ol {
@@ -1407,13 +1407,13 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
 
 <script src="/libs/tocbot/tocbot.min.js"></script>
 <script>
-    $(function () {
+$(function () {
         tocbot.init({
             tocSelector: '#toc-content',
             contentSelector: '#articleContent',
             headingsOffset: -($(window).height() * 0.4 - 45),
             collapseDepth: Number('0'),
-            headingSelector: 'h1, h2, h3, h4'
+            headingSelector: 'h2, h3, h4'
         });
 
         // modify the toc link href to support Chinese.
@@ -1425,7 +1425,7 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
 
         // modify the heading title id to support Chinese.
         i = 0;
-        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+        $('#articleContent').children('h2, h3, h4').each(function () {
             $(this).attr('id', tocHeading + (++i));
         });
 

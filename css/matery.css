@@ -40,18 +40,7 @@ body {
     overflow-x: hidden;
     overflow-y: auto;
 }
-.line-numbers-rows {
-    border-right-width: 0px !important;
-}
 
-.line-numbers {
-    padding: 1.5rem 1.5rem 1.5rem 3.5rem !important;
-    margin: 1rem 0 !important;
-    background: #272822;
-    overflow: auto;
-    border-radius: 0.35rem;
-    tab-size: 4;
-}
 h1 {
     margin: 48px 0 22px -5px;
     font-size: 2.0rem;
@@ -112,11 +101,7 @@ blockquote {
 }
 
 pre {
-    /* padding: 1.5rem !important; */
-    padding: 1.5rem 1.5rem 1.5rem 3.3rem !important;
-    margin: 1rem 0 !important;
-    background: #272822;
-    overflow: auto;
+    padding: 2rem 1rem 1rem 3rem !important;
     border-radius: 0.35rem;
     tab-size: 4;
 }

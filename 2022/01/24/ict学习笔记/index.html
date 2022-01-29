@@ -1,0 +1,1922 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="ict学习笔记, Ethe&#39;s blog">
+    <meta name="description" content="数据通信网络基础概念通信：人与人，人与物，物与物之间通过某种媒介和行为进行的信息传递与交流
+网络通信：终端设备之间通过计算机网络进行的通信
+信息传递过程
+数据被打包成原始的数据载荷，并添加一定信息(目的地址)的头部和尾部形成报文(封装)，报">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>ict学习笔记 | Ethe&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+
+   <style>
+    body{
+       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-repeat:no-repeat;
+       background-size: cover;
+       background-attachment:fixed;
+    }
+</style>
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ethe&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ethe&#39;s blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">ict学习笔记</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: scroll;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%8D%8E%E4%B8%BAict/">
+                                <span class="chip bg-color">华为ict</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-01-24
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2022-01-27
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    8.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    31 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="数据通信网络基础"><a href="#数据通信网络基础" class="headerlink" title="数据通信网络基础"></a>数据通信网络基础</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>通信：人与人，人与物，物与物之间通过某种媒介和行为进行的信息传递与交流</p>
+<p>网络通信：终端设备之间通过计算机网络进行的通信</p>
+<h2 id="信息传递过程"><a href="#信息传递过程" class="headerlink" title="信息传递过程"></a>信息传递过程</h2><p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124122207098.png" alt="image-20220124122207098"></p>
+<p>数据被打包成原始的数据载荷，并添加一定信息(目的地址)的头部和尾部形成报文(封装)，报文通过网线到达网关，网关对报文进行&quot;解封装&quot;，读取目的地址，再重新封装，根据不同的目的地址送往不同的路由器，报文由此离开本地网络，进入internet的干道进行传输，后进入目的地址所在的本地链路，由本地链路的网关或路由器再进行解封装和封装，并根据目的地址觉得发往相应的下一台路由器，最终到达目的计算机所在的网络的网关，再进行解封装和封装，根据目的地址发往相应的计算机。计算机收到报文后对其进行校验处理，校验无误后，接收报文，并将其中的数据载荷交由相应的应用程序进行处理。</p>
+<h2 id="常见术语"><a href="#常见术语" class="headerlink" title="常见术语"></a>常见术语</h2><p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124122239944.png" alt="image-20220124122239944"></p>
+<p>• 数据载荷：可以理解为最终想要传递的信息，但实际上，在具有层次化结构的通信过程中， 上一层协议传递给下一层协议的数据单元（报文）都可以称之为下一层协议的数据载荷。 </p>
+<p>• 报文：网络中交换与传输的数据单元，具有一定的内在格式，通常都具有头部+数据载荷+ 尾部的基本结构。传输过程中，报文的格式和内容可能发生改变。 </p>
+<p>• 头部：为了更好的传递信息，在组装报文时，在数据载荷的前面添加的信息段统称为报文 的头部。 </p>
+<p>• 尾部：为了更好的传递信息，在组装报文时，在数据载荷的后面添加的信息段统称为报文 的尾部。注意，很多报文是没有尾部的。</p>
+<p>• 封装：分层协议所采用的一种技术，底层协议收到来自上层协议的消息时，将该消息附加 到底层帧的数据部分。 • 解封装：是封装的逆过程，也就是去掉报文的头部和尾部，获取数据载荷的过程。</p>
+<p>• 网关：是在采用不同体系结构或协议的网络之间进行互通时，用于提供协议转换、路由选 择、数据交换等功能的网络设备。网关是一种根据其部署位置和功能而命名的术语，而不 是一种特定的设备类型。</p>
+<p>• 路由器：为报文选择传递路径的网络设备。 </p>
+<p>• 终端设备：数据通信系统的端设备，作为数据的发送者或接收者，提供用户接入协议操作 所需必要功能，可以是计算机、服务器、VoIP、手机等。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><strong>数据通信网络：</strong>由路由器，交换机，防火墙，无线控制器，无线接入点，以及个人电脑，网络打印机，服务器等设备构成的通信网络。</p>
+<p><strong>功能：</strong>实现数据互通</p>
+<h2 id="网络设备"><a href="#网络设备" class="headerlink" title="网络设备"></a>网络设备</h2><p><strong>交换机：</strong>距离终端用户最近的设备，用于终端用户接入网络、对数据帧进行交换</p>
+<ul>
+<li>终端设备（pc，服务器等）的网络接入</li>
+<li>二层交换</li>
+</ul>
+<p>在园区网络中，交换机一般来说是距离终端用户最近的设备，接入层的交换机一般为 <strong>二层交换机</strong>，又称为<strong>以太网交换机</strong>，二层是指<strong>TCP/IP参考模型的数据链路层</strong>； </p>
+<p>以太网交换机可以实现：<strong>数据帧的交换</strong>、<strong>终端用户设备的接入</strong>、<strong>基本的接入安全功能</strong>、 <strong>二层链路的冗余</strong>等； </p>
+<p>广播域：一个节点发送一个广播报文其余节点都能够收到的节点的集合</p>
+<p><strong>路由器：</strong>网络层设备，可以在因特网中进行数据的转发</p>
+<ul>
+<li>实现同类型网络或异种网络之间的通信</li>
+<li>隔离广播域</li>
+<li>维护路由表、运行路由协议</li>
+<li>路径（路由信息）选择、IP报文的转发</li>
+<li>广域网接入、网络地址转换</li>
+<li>连接通过交换机组建的二层网络</li>
+</ul>
+<p>路由器工作在TCP/IP参考模型的网络层； 路由器可以实现：维护路由表和路由信息、路由发现及路径   选择、数据转发、隔离广 播域、广域网接入和网络地址转换及特定的安全功能</p>
+<p><strong>防火墙</strong>：网络安全设备，用于控制两个网络之间的安全通信。通过监测、限制、更改跨越防火墙的数据流，尽可能地对外部屏蔽网络内部的信息、结构和运行状况，以此来实现对网络的安全保护</p>
+<ul>
+<li>隔离不同安全级别的网络</li>
+<li>实现不同安全级别的网络之间的访问控制（安全策略）</li>
+<li>用户身份认真</li>
+<li>实现远程接入功能</li>
+<li>实现数据加密及虚拟专用网业务</li>
+<li>执行网络地址转换</li>
+<li>其他安全功能</li>
+</ul>
+<p>是位于两个信任程度不同的网络之间（如企业内部网络和Internet之间）的设备，它 对两个网络之间的通信进行控制，通过强制实施统一的安全策略，防止对重要信息资 源的非法存取和访问，以达到保护系统安全的目的。</p>
+<p><strong>无线网络：</strong></p>
+<ul>
+<li><p>​    无线局域网WLAN广义上是指以无线电波、激光、红外线等无线信号来代替有线局域网中 的部分或全部传输介质所构成的网络。而常见的Wi-Fi是指IEEE 802.11标准上的无线局域网 技术。</p>
+</li>
+<li><p>​    在WLAN中，常见的设备有胖AP、瘦AP和无线控制器AC。 </p>
+<ul>
+<li><p>无线接入点 (AP, Access Point）</p>
+<ul>
+<li>​    一般支持FAT AP、FIT AP和云管理工作模式，根据网络规划的需求，可以灵活地在各种模式下切换。</li>
+<li>​    FAT AP：适用于家庭，独立工作，需单独配置，功能较为单一，成本低。</li>
+<li>​    FIT AP：适用于大中型企业，需要配合AC使用，由AC统一管理和配置，功能丰富。</li>
+<li>​    云管理：适用于中小型企业，需要配合云管理平台使用，由云管理平台统一管<br>理和配置，功能丰富，即插即用。</li>
+</ul>
+</li>
+<li><p>无线接入控制器 (AC, Access Controller) </p>
+<ul>
+<li>​    一般位于整个网络的汇聚层，提供高速、安全、可靠的WLAN业务。 </li>
+<li>​    提供大容量、高性能、高可靠性、易安装、易维护的无线数据控制业务，具有 组网灵活、绿色节能等优势</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="局域网、城域网、广域网"><a href="#局域网、城域网、广域网" class="headerlink" title="局域网、城域网、广域网"></a><strong>局域网、城域网、广域网</strong></h2><p>局域网：覆盖范围在几公里之内。主要作用是把分布较近的若干终端电脑连接起来，使用以太网、wi-fi等技术</p>
+<p>城域网：较大型的局域网，成本高，传输速率快。改进了局域网的传输介质，扩大了访问范围。主要作用是将同一城市内不同地点的主机、数据库以及局域网等连接起来；与广域网作用相似，但实现方式和性能不同。基于大型的局域网，与局域网技术相似，如：以太网 (10Gbps/100Gbps)、 WiMAX (全球互通微波访问)</p>
+<p>广域网：覆盖范围一般在几公里以上，可大至几十、几百或几千公里。主要作用是把分布较远 (如: 跨越城市、跨越国家， 等等) 的若干局域网或城域 网连接起来；会用到电信运营商的通信线路。使用HDLC、PPP等技术</p>
+<h2 id="网络拓扑"><a href="#网络拓扑" class="headerlink" title="网络拓扑"></a>网络拓扑</h2><p>是指用传输介质（如双绞线、光纤等）互联各种设备所呈现的结构化布局。</p>
+<p><strong>形态</strong></p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124181356966.png" alt="image-20220124181356966"></p>
+<p>星型网络：</p>
+<ul>
+<li>所有节点通过一个中心节点连接在一起。</li>
+<li>优点：容易在网络中增加新的节点。通信数据必须经过中心节点中转，易于实现网络 监控。</li>
+<li>缺点：中心节点的故障会影响到整个网络的通信。</li>
+</ul>
+<p>总线型网络：</p>
+<ul>
+<li>所有节点通过一条总线（如同轴电缆）连接在一起。</li>
+<li>优点：安装简便，节省线缆。某一节点的故障一般不会影响到整个网络的通信。</li>
+<li> 缺点：总线故障会影响到整个网络的通信。某一节点发出的信息可以被所有其他节点 收到，安全性低。</li>
+</ul>
+<p>环形网络：</p>
+<ul>
+<li>所有节点连成一个封闭的环形。</li>
+<li>优点：节省线缆。</li>
+<li>缺点：增加新的节点比较麻烦，必须先中断原来的环，才能插入新节点以形成新环。</li>
+</ul>
+<p>树形网络：</p>
+<ul>
+<li>树型结构实际上是一种层次化的星型结构。</li>
+<li>优点：能够快速将多个星型网络连接在一起，易于扩充网络规模。</li>
+<li>缺点：层级越高的节点故障导致的网络问题越严重</li>
+</ul>
+<p>全网状网络：</p>
+<ul>
+<li>所有节点都通过线缆两两互联。</li>
+<li>优点：具有高可靠性和高通信效率。</li>
+<li>缺点：每个节点都需要大量的物理端口，同时还需要大量的互连线缆。成本高，不易 扩展。</li>
+</ul>
+<p>部分网状网络：</p>
+<ul>
+<li>只是重点节点之间才两两互连。</li>
+<li>优点：成本低于全网状网络。</li>
+<li>缺点：可靠性比全网状网络有所降低。</li>
+</ul>
+<p> 在实际组网中，通常都会根据成本、通信效率、可靠性等具体需求而采用多种拓扑形态相 结合的方法。</p>
+<h2 id="网络工程"><a href="#网络工程" class="headerlink" title="网络工程"></a>网络工程</h2><p>网络工程，就是围绕着网络进行的一系列的活动，包括：网络规划、设计、实施、调试、 排错等。</p>
+<p>网络工程设计的知识领域很宽广，其中路由和交换是计算机网络的基本</p>
+<p>网络工程师：</p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124182016579.png" alt="image-20220124182016579"></p>
+<h1 id="网络参考模型"><a href="#网络参考模型" class="headerlink" title="网络参考模型"></a>网络参考模型</h1><h2 id="应用和数据"><a href="#应用和数据" class="headerlink" title="应用和数据"></a>应用和数据</h2><p><strong>应用：</strong>应用的存在是为了满足人们的各种需求，伴随着应用会有信息的产生。比如文本，图片，视频等都是信息的不同呈现方式</p>
+<p><strong>数据：</strong>数据是各种信息的载体，大部分应用程序所产生的数据需要在不同的设备之间传递。</p>
+<p>• 计算机只能识别0和1的组成的电子数据(digital data)。它不具备读取各种信息的能力，所 以信息需要通过一定的规则翻译成数据。 </p>
+<p>• 而对人来说，我们不具备读取电子数据的能力，所以在读取信息的时候，需要将数据转成 人能理解的信息。 </p>
+<p>• 对于一名网络工程师来说，需要更关注数据的端到端传递的过程。</p>
+<h2 id="OSI参考模型"><a href="#OSI参考模型" class="headerlink" title="OSI参考模型"></a>OSI参考模型</h2><p> OSI 模型(Open Systems Interconnection Model)，由国际化标准组织ISO (The  International Organization for Standardization ) 收录在ISO 7489标准中并于1984年发布。</p>
+<p>OSI参考模型又被称为七层模型，由下至上依次为：</p>
+<ul>
+<li>物理层：在设备之间传输比特流，规定了电平、速度和电缆针脚等物理特性。</li>
+<li>物理层：在设备之间传输比特流，规定了电平、速度和电缆针脚等物理特性。</li>
+<li>网络层：定义逻辑地址，供路由器确定路径，负责将数据从源网络传输到目的网络。</li>
+<li>传输层：提供面向连接或非面向连接的数据传递以及进行重传前的差错检测。</li>
+<li>会话层：负责建立、管理和终止表示层实体之间的通信会话。该层的通信由不同设备 中的应用程序之间的服务请求和响应组成。</li>
+<li>表示层：提供各种用于应用层数据的编码和转换功能，确保一个系统的应用层发送的 数据能被另一个系统的应用层识别。</li>
+<li>应用层：OSI参考模型中最靠近用户的一层，为应用程序提供网络服务。</li>
+</ul>
+<h2 id="TCP-IP参考模型"><a href="#TCP-IP参考模型" class="headerlink" title="TCP/IP参考模型"></a>TCP/IP参考模型</h2><p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124182840485.png" alt="image-20220124182840485"></p>
+<p>结构上与OSI模型类似，采用分层架构，同时层与层之间联系紧密。</p>
+<p>TCP/IP标准参考模型将OSI中的数据链路层和物理层合并为网络接入层，这种划分方式其实 是有悖于现实协议制定情况的，故融合了TCP/IP标准模型和OSI模型的TCP/IP对等模型被提出</p>
+<h2 id="TCP-IP常见协议"><a href="#TCP-IP常见协议" class="headerlink" title="TCP/IP常见协议"></a>TCP/IP常见协议</h2><p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124183002339.png" alt="image-20220124183002339"></p>
+<p>应用层</p>
+<ul>
+<li>HTTP（Hypertext Transfer Protocol，超文本传输协议）：用来访问在网页服务器上 的各种页面。</li>
+<li>FTP（File Transfer Protocol，文件传输协议）：为文件传输提供了途径，它允许数据从一台主机传送到另一台主机上，用于文件的下载和上传，采用C/S（Client/Server）结构。</li>
+<li>DNS（Domain Name Service，域名称解析服务）：用于实现从主机域名到IP地址之 间的转换。</li>
+<li>Telnet：是数据网络中提供远程登录服务的标准协议。Telnet为用户提供了在本地计算机上完成远程设备工作的能力。</li>
+</ul>
+<p>传输层</p>
+<ul>
+<li> TCP （Transmission Control Protocol，传输控制协议） ：为应用程序提供可靠的面向连接的通信服务。目前，许多流行的应用程序都使用TCP。</li>
+<li> UDP（User Datagram Protocol，用户数据报协议）：提供了无连接通信，且不对传 送数据包进行可靠性的保证。</li>
+</ul>
+<p>网络层</p>
+<ul>
+<li>IP（Internet Protocol，互联网协议）：将传输层的数据封装成数据包并完成源站点 到目的站点的转发，提供无连接的、不可靠的服务。</li>
+<li>IGMP（Internet Group Management Protocol，因特网组管理协议）：负责IP组播 成员管理的协议。它用来在IP主机和与其直接相邻的组播路由器之间建立、维护组播 组成员关系。</li>
+<li>ICMP（Internet Control Message Protocol，网际报文控制协议）：基于IP协议在网 络中发送控制消息，提供可能发生在通信环境中的各种问题反馈。通过这些信息，使 管理者可以对所发生的问题作出诊断，然后采取适当的措施解决。</li>
+</ul>
+<p>数据链路层</p>
+<ul>
+<li>PPP（Point-to-Point Protocol，点对点协议）：一种点对点模式的数据链路层协议， 多用于广域网。</li>
+<li>Ethernet( 以太网协议 )：一种多路访问广播型数据链路层协议，是当前应用最为广 泛的局域网技术。</li>
+<li> PPPoE（Point-to-Point Protocol over Ethernet，以太网承载PPP协议）：PPPoE提 供通过简单桥接访问设备（接入设备）把一个网络的多个主机连接到远程访问集中器 的功能。常见的应用有家庭宽带拨号上网。</li>
+</ul>
+<h2 id="常见协议标准化组织"><a href="#常见协议标准化组织" class="headerlink" title="常见协议标准化组织"></a>常见协议标准化组织</h2><p><strong>IETF：</strong>负责开发和推广互联网协议（特别是TCP/IP协议族的协议）的志愿组织</p>
+<p><strong>IEEE：</strong>制定了全世界电子，电气和计算机科学领域30%左右的标准，如IEEE802.3（Ethernet）、IEEE802.11（WiFi）等。</p>
+<p><strong>ISO：</strong>指定计算机网络标准，如OSI模型</p>
+<h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h2><p>应用层为应用软件提供接口，使应用程序能够使用网络服务。应用层协议会指定使用相应的传输层协议，以及传输层所使用的端口等。</p>
+<p>应用层的PDU被称为Data（数据）。</p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124184248517.png" alt="image-20220124184248517"></p>
+<p>TCP/IP每一层都让数据得以通过网络进行传输，这些层之间使用PDU（Packet Data Unit， 协议数据单元）彼此交换信息，确保网络设备之间能够通信。</p>
+<p>不同层的PDU中包含有不同的信息，因此PDU在不同层被赋予了不同的名称</p>
+<p><strong>FTP:</strong></p>
+<p><strong>FTP客户端</strong>提供本地设备对远程服务器的文件进行操作的命令，用户在PC上通过应用程序作为FTP Client，并与FTP服务器建立连接后，可以对FTP Server上的文件进行操作</p>
+<p><strong>FTP服务器</strong>是运行FTP服务的设备，提供远程客户端访问和操作的功能，用户可以通过FTP客户端程序登录到服务器上，访问设备上的文件。</p>
+<p><strong>Telnet：</strong></p>
+<p>用户通过Telnet客户端程序连接到Telnet服务器。用户在Telnet客户端中输入命令，这些命令会在服务器端运行，就像直接在服务端的控制台输入一样</p>
+<h2 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h2><p>传输层协议接收来自应用层的数据baoz，封装上相应的传输层头部，帮助其建立“端到端”的连接。</p>
+<p>传输层的PDU被称为Segment（段）。</p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124185652699.png" alt="image-20220124185652699"></p>
+<h3 id="TCP和UDP"><a href="#TCP和UDP" class="headerlink" title="TCP和UDP"></a>TCP和UDP</h3><p>报文格式</p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124185736705.png" alt="image-20220124185736705"></p>
+<p><strong>TCP报文头部：</strong></p>
+<ul>
+<li>Source Port：源端口，标识哪个应用程序发送。长度为16比特。</li>
+<li>Destination Port：目的端口，标识哪个应用程序接收。长度为16比特。</li>
+<li>Sequence Number：序号字段。TCP链接中传输的数据流每个字节都编上一个序号。 序号字段的值指的是本报文段所发送数据的第一个字节的序号。长度为32比特。</li>
+<li>Acknowledgment Number：确认序列号，是期望收到对方下一个报文段数据的第1 个字节的序号，即上次已成功接收到的数据段的最后一个字节数据的序号加1。只有 Ack标识为1，此字段有效。长度为32比特。</li>
+<li>Header Length：头部长度，指出TCP报文头部长度，以32比特（4字节）为计算单位。 若无选项内容，则该字段为5，即头部为20字节。</li>
+<li>Reserved：保留，必须填0。长度为6比特。</li>
+<li>Control bits：控制位，包含FIN、ACK、SYN等标志位，代表不同状态下的TCP数据 段。</li>
+<li>Window：窗口TCP的流量控制，这个值表明当前接收端可接受的最大的数据总数 （以字节为单位）。窗口最大为65535字节。长度为16比特。</li>
+<li> Checksum：校验字段，是一个强制性的字段，由发端计算和存储，并由收端进行验 证。在计算检验和时，要包括TCP头部和TCP数据，同时在TCP报文段的前面加上12 字节的伪头部。长度为16比特。</li>
+<li>Urgent:紧急指针，只有当URG标志置1时紧急指针才有效。TCP的紧急方式是发送端 向另一端发送紧急数据的一种方式。紧急指针指出在本报文段中紧急数据共有多少个 字节（紧急数据放在本报文段数据的最前面）。长度为16比特。</li>
+<li>Options：选项字段（可选），长度为0-40字节。</li>
+</ul>
+<p><strong>UDP报文头部</strong></p>
+<ul>
+<li>Source Port:源端口，标识哪个应用程序发送。长度为16比特。</li>
+<li>Source Port:源端口，标识哪个应用程序发送。长度为16比特。</li>
+<li>Length:该字段指定UDP报头和数据总共占用的长度。可能的最小长度是8字节，因为 UDP报头已经占用了8字节。由于这个字段的存在，UDP报文总长不可能超过65535 字节（包括8字节的报头，和65527字节的数据）。</li>
+<li>Checksum:覆盖UDP头部和UDP数据的校验和，长度为16比特</li>
+</ul>
+<p><strong>端口号</strong></p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124190431491.png" alt="image-20220124190431491"></p>
+<p><strong>TCP的建立-三次握手</strong></p>
+<p>▫由TCP连接发起方（图中PC1），发送第一个SYN位置1的TCP报文。初始序列号a为一 个随机生成的数字，因为没收到过来自PC2的任何报文，所以确认序列号为0 ； </p>
+<p>▫ 接收方（图中PC2）接收到合法的SYN报文之后，回复一个SYN和ACK置1的TCP报文。 初始序列号b为一个随机生成的数字，同时因为此报文是回复给PC1的报文，所以确 认序列号为a+1； </p>
+<p>▫ PC1接收到PC2发送的SYN和ACK置位的TCP报文后，回复一个ACK置位的报文，此时 序列号为a+1,确认序列号为b+1。PC2收到之后，TCP双向连接建立</p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124193244163.png" alt="image-20220124193244163"></p>
+<p><strong>TCP的序列号与确认序列号：</strong></p>
+<p>TCP使用序列号和确认序列号字段实现数据的可靠和有序传输。</p>
+<p>• 假设PC1要给PC2发送一段数据，传输过程如下： </p>
+<p>​         ▫ 1. PC1将全部待TCP发送的数据按照字节为单位编上号。假设第一个字节的编号为 “a+1”，第二个字节的序号为“a+2”，依次类推。</p>
+<p>​         ▫ 2. PC1会把每一段数据的第一个字节的编号作为序列号（Sequence number），然后将TCP报文发送出去。</p>
+<p>​         ▫ 3. PC2在收到PC1发送来的TCP报文后，需要给予确认同时请求下一段数据，如何确 定下一段数据呢？序列号( a+1 )+载荷长度=下一段数据的第一个字节的序号 （a+1+12） </p>
+<p>​        ▫ 4. PC1在收到PC2发送的TCP报文之后，发现确认序列号为“a+1+12” ，说明“a+1” 到“a+12”这一段的数据已经被接受，需要从“a+1+12”开始发送。</p>
+<p> • 为了提升发送效率，也可以一次性发送多段数据，由接收方统一确认。</p>
+<p><strong>TCP的窗口滑动机制</strong></p>
+<p>• 1. 在TCP三次握手建立连接时，双方都会通过Window字段告诉对方本端最大能够接受的字 节数（也就是缓冲区大小）。</p>
+<p>• 2. 连接建立成功之后，发送方会根据接受方宣告的Window大小发送相应字节数的数据。 </p>
+<p>• 3. 接受方接受到数据之后会放在缓冲区内，等待上层应用来取走缓冲的数据。若数据被上 层取走，则相应的缓冲空间将被释放。 </p>
+<p>• 4. 接收方根据自身的缓存空间大小通告当前的可以接受的数据大小( Window )。 </p>
+<p>• 5. 发送方根据接收方当前的Window大小发送相应数量的数据</p>
+<p><strong>TCP的关闭-四次挥手</strong></p>
+<p>▫ 1. 由PC1发出一个FIN字段置”1 ”的不带数据的TCP段；</p>
+<p> ▫ 2. PC2收到PC1发来的FIN置位的TCP报文后，会回复一个ACK置位的TCP报文。 </p>
+<p>▫ 3. 若PC2也没有需要发送的数据，则直接发送FIN置位的TCP报文。假设此时PC2还有 数据要发送，那么当PC2发送完这些数据之后会发送一个FIN置位的TCP报文去关闭连 接。 </p>
+<p>▫ 4. PC1收到FIN置位的TCP报文，回复ACK报文，TCP双向连接断开</p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124202101704.png" alt="image-20220124202101704"></p>
+<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><p>传输层负责建立主机之间进程与进程之间的连接，而网络层则负责数据从一台主机到另一台主机之间的传递。</p>
+<p>网络层的PDU被称为包</p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124202325984.png" alt="image-20220124202325984"></p>
+<h3 id="网络层协议工作过程"><a href="#网络层协议工作过程" class="headerlink" title="网络层协议工作过程"></a>网络层协议工作过程</h3><ul>
+<li> 当采用IP作为网络层协议时，通信的双方都会被分配到一个“独一无二”的IP地址来标识自 己。IP地址可被写成32位的二进制整数值形式，但为了方便人们阅读和分析，它通常被写 成点分十进制的形式，即四个字节被分开用十进制表示，中间用点分隔，比如192.168.1.1。</li>
+<li>IP数据包的封装与转发：<ul>
+<li>网络层收到上层（如传输层）协议传来的数据时候，会封装一个IP报文头部，并且把 源和目的IP地址都添加到该头部中。</li>
+<li>中间经过的网络设备（如路由器），会维护一张指导IP报文转发的“地图”——路由 表，通过读取IP数据包的目的地址，查找本地路由表后转发IP数据包。</li>
+<li>IP数据包最终到达目的主机，目的主机通过读取目的IP地址确定是否接受并做下一步 处理。</li>
+</ul>
+</li>
+<li> IP协议工作时，需要如OSPF、IS-IS、BGP等各种路由协议帮助路由器建立路由表，ICMP帮 忙进行网络的控制和状态诊断。</li>
+</ul>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124202532079.png" alt="image-20220124202532079"></p>
+<h2 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h2><p>数据链路层位于网络层和物理层之间，可以向网络层的IP、IPV6等协议提供服务，数据链路层的PDU被称为Frame（帧）。</p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124202733379.png" alt="image-20220124202733379"></p>
+<h3 id="以太网与MAC地址"><a href="#以太网与MAC地址" class="headerlink" title="以太网与MAC地址"></a>以太网与MAC地址</h3><p><strong>以太网：</strong>是一种支持多点接入的广播式数据链路层协议。个人电脑的网络接口遵循的就是以太网标准。一般情况下，一个广播域对应一个IP网段。</p>
+<p><strong>以太网MAC地址：</strong>MAC地址在网络中唯一标识一个网卡，每个网卡都需要且会有唯一的一个MAC地址，MAC地址用于在一个IP网段内，寻址找到具体的物理设备。工作在数据链路层的设备，例如以太网交换机，会维护一张MAC地址表，用于指导数据帧转发。MAC地址由48比特（6个字节）长，12位的16进制数字组成。例如：48-A4-72-1C-8F-4F</p>
+<h3 id="地址解析协议（ARP"><a href="#地址解析协议（ARP" class="headerlink" title="地址解析协议（ARP)"></a>地址解析协议（ARP)</h3><p>ARP（Address Resolution Protocol，地址解析协议）是根据IP地址获取数据链路层地址的 一个TCP/IP协议。</p>
+<p>ARP是IPv4中必不可少的一种协议，它的主要功能是：</p>
+<ul>
+<li>将IP地址解析为MAC地址；</li>
+<li>维护IP地址与MAC地址的映射关系的缓存，即ARP表项；</li>
+<li>实现网段内重复IP地址的检测。</li>
+</ul>
+<h3 id="ARP的工作原理"><a href="#ARP的工作原理" class="headerlink" title="ARP的工作原理"></a>ARP的工作原理</h3><p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124203445209.png" alt="image-20220124203445209"></p>
+<ul>
+<li>网络设备一般都有一个ARP缓存（ARP Cache）。ARP缓存用来存放IP地址和MAC地址的关联信息。</li>
+<li> 在发送数据前，设备会先查找ARP缓存表。如果缓存表中存在对方设备的ARP表项，则直接 采用该表项中的MAC地址来封装帧，然后将帧发送出去。如果缓存表中不存在相应信息， 则通过发送ARP Request报文来获得它。</li>
+<li>学习到的IP地址和MAC地址的映射关系会被放入ARP缓存表中存放一段时间。在有效期内 （缺省：180s），设备可以直接从这个表中查找目的MAC地址来进行数据封装，而无需进 行ARP查询。过了这段有效期，ARP表项会被自动删除。</li>
+<li>如果目标设备位于其他网络，则源设备会在ARP缓存表中查找网关的MAC地址。然后将数 据发送给网关。最后网关再把数据转发给目的设备</li>
+</ul>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124203752805.png" alt="image-20220124203752805"></p>
+<ul>
+<li> 主机1的ARP缓存表中不存在主机2的MAC地址，所以主机1会发送ARP Request来获取目的 MAC地址。</li>
+<li>ARP Request报文封装在以太帧里。帧头中的源MAC地址为发送端主机1的MAC地址。此时， 由于主机1不知道主机2的MAC地址，所以目的MAC地址为广播地址FF-FF-FF-FF-FF-FF。</li>
+<li> ARP Request报文中包含发送端MAC地址、发送端IP地址、目的端MAC地址、目的端IP地 址，其中目的端MAC地址的值为0。ARP Request报文会在整个网络上传播，该网络中所有 主机包括网关都会接收到此ARP Request报文。</li>
+</ul>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124203834076.png" alt="image-20220124203834076"></p>
+<p>若不匹配则不会响应，若匹配则则该主机会 将ARP请求报文中的发送端MAC地址和发送端IP地址信息记录到自己的ARP缓存表中，然后 通过ARP Reply报文进行响应</p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124203926268.png" alt="image-20220124203926268"></p>
+<ul>
+<li>主机2会向主机1回应ARP Reply报文。</li>
+<li>ARP Reply报文中的发送端IP地址是主机2自己的IP地址，目的端IP地址是主机1的IP地址， 目的端MAC地址是主机1的MAC地址，发送端MAC地址是自己的MAC地址，同时操作类型 被设置为Reply。</li>
+<li>ARP Reply报文通过单播传送</li>
+</ul>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124204003680.png" alt="image-20220124204003680"></p>
+<h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h2><p>数据到达物理层之后，物理层会根据物理介质的不同，将数字信号转换为光信号、电信号或者是电磁波信号</p>
+<p>物理层的PDU被称为比特流</p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124204140328.png" alt="image-20220124204140328"></p>
+<h3 id="常见传输介质"><a href="#常见传输介质" class="headerlink" title="常见传输介质"></a>常见传输介质</h3><ul>
+<li>双绞线：当今以太网最常见的传输介质，按照抗电磁干扰能力还可以分为： STP-屏蔽双绞线和UTP-非屏蔽双绞线</li>
+<li>光纤传输，按照功能部件可分为：<ul>
+<li>光纤传输，按照功能部件可分为：</li>
+<li>光模块：将电信号与光信号互转的器件，产生光信号。</li>
+</ul>
+</li>
+<li>串口电缆在WAN（Wide Area Network，广域网）中大规模使用，根据WAN线路类型不同， 串口电缆在设备上连接的接口类型也不同：异/同步串口、ATM接口、POS接口、CE1/PRI 接口等。</li>
+<li>无线信号的传输可以通过电磁波进行，例如：无线路由器将数据通过调制以电磁波发送出 去，移动终端的无线网卡将电磁波解调，得到数据，完成从无线路由器到移动终端的数据 传输。</li>
+</ul>
+<h2 id="数据通信过程"><a href="#数据通信过程" class="headerlink" title="数据通信过程"></a>数据通信过程</h2><p>发送方数据封装-&gt;中间网络数据传输-&gt;接收方数据解封装</p>
+<h3 id="发送方数据封装"><a href="#发送方数据封装" class="headerlink" title="发送方数据封装"></a>发送方数据封装</h3><p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124204458566.png" alt="image-20220124204458566"></p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124204507478.png" alt="image-20220124204507478"></p>
+<h3 id="中间网络数据传输"><a href="#中间网络数据传输" class="headerlink" title="中间网络数据传输"></a>中间网络数据传输</h3><p>封装好的完整数据，会在网络中被传递</p>
+<p> 一般情况下：</p>
+<ul>
+<li> 网络中的二层设备（如以太网交换机）只会解封装数据的二层头部，根据二层头部的 信息进行相应的“交换”操作。 </li>
+<li>网络中的三层设备（如路由器）只会解封装到三层头部，并且根据三层头部的信息进 行相应的“路由”操作。</li>
+</ul>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124204629644.png" alt="image-20220124204629644"></p>
+<h3 id="接收方数据解封装"><a href="#接收方数据解封装" class="headerlink" title="接收方数据解封装"></a>接收方数据解封装</h3><p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220124204656862.png" alt="image-20220124204656862"></p>
+<p> 经过中间网络传递之后，数据最终到达目的服务器。根据不同的协议头部的信息，数据将 被一层层的解封装并做相应的处理和传递，最终交由WEB服务器上的应用程序进行处理。</p>
+<h2 id="分层模型的概念的优势"><a href="#分层模型的概念的优势" class="headerlink" title="分层模型的概念的优势"></a>分层模型的概念的优势</h2><ul>
+<li> 各个层次之间分工、界限明确，有助于各个部件的开发、设计和故障排除。 </li>
+<li>通过定义在模型的每一层实现什么功能,鼓励产业的标准化。 </li>
+<li>通过提供接口的方式，使得各种类型的网络硬件和软件能够相互通信，提高兼容性。</li>
+</ul>
+<h1 id="网络层协议及IP编址"><a href="#网络层协议及IP编址" class="headerlink" title="网络层协议及IP编址"></a>网络层协议及IP编址</h1><h2 id="网络层协议"><a href="#网络层协议" class="headerlink" title="网络层协议"></a>网络层协议</h2><p>网络层协议包括IP协议，ICMP协议，IPX协议等</p>
+<p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220127163103508.png" alt="image-20220127163103508"></p>
+<h3 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h3><p>ip是Internet Protocol的缩写。Internet Protocol本身是一个协议文件的名称，该协议文件的内容非常少，主要是定义并阐述了IP报文的格式</p>
+<p>经常被提及的IP，一般不是特指Internet Protocol这个协议本身，而是泛指直接或间接与IP协议相关的任何内容。</p>
+<p><strong>作用：</strong>为网络层的设备提供逻辑地址，负责数据包的寻址和转发。</p>
+<p> IPv4（Internet Protocol Version 4）协议族是TCP/IP协议族中最为核心的协议族。它工作在TCP/IP协议栈的网络层，该层与OSI参考模型的网络层相对应。</p>
+<p> IPv6（Internet Protocol Version 6）是网络层协议的第二代标准协议，也被称为IPng （IP Next Generation）。它是Internet工程任务组IETF（Internet Engineering Task  Force）设计的一套规范，是IPv4（Internet Protocol Version 4）的升级版本。</p>
+<h3 id="数据封装"><a href="#数据封装" class="headerlink" title="数据封装"></a>数据封装</h3><p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220127163557973.png" alt="image-20220127163557973"></p>
+<p>应用数据需要经过TCP/IP每一层处理之后才能通过网络传输到目的端，每一层上都使用该 层的协议数据单元PDU（Protocol Data Unit）彼此交换信息。</p>
+<p>如上层<strong>数据</strong>在<strong>传输层</strong>添加TCP报头后得到的PDU被称为<strong>Segment（数据段）</strong>；数据段被传递给<strong>网络层</strong>，网络层添加IP报头得到的PDU被称为<strong>Packet（数据包）</strong>；数据包被传递到<strong>数据链路层</strong>，封装数据链路层报头和尾部得到的PDU被称为<strong>Frame（数据帧）</strong>； 最后，帧被转换为<strong>比特</strong>，通过网络介质传输。</p>
+<h3 id="IPV4报文格式"><a href="#IPV4报文格式" class="headerlink" title="IPV4报文格式"></a>IPV4报文格式</h3><p><img src="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220127163943203.png" alt="image-20220127163943203"></p>
+<ul>
+<li>Version：4 bit，4：表示为IPv4；6：表示为IPv6。</li>
+<li>Header Length：4 bit，首部长度，如果不带Option字段，则为20，最长为60。</li>
+<li>Type of Service：8 bit，服务类型。只有在有QoS差分服务要求时，这个字段才起作用</li>
+<li>Total Length：16 bit，总长度，整个IP数据包的长度。</li>
+<li>Identification：16 bit，标识，分片重组时会用到该字段。</li>
+<li>Flags：3 bit，标志位。<ul>
+<li>保留段位：0，保留。</li>
+<li>不分段位：1，表示“不能分片”；0，表示“能分片”。</li>
+<li>更多段位：1，表示“后面还有分片”；0，表示“最后一个数据片”。</li>
+</ul>
+</li>
+<li>Fragment Offset：12 bit，片偏移，分片重组时会用到该字段。指出较长的分组在分片后， 该片在原分组中的相对位置，与更多段位组合，帮助接收方组合分段的报文。</li>
+<li>Time to Live：8 bit，生存时间。可经过的最多路由数，即数据包在网络中可通过的路由器数的最大值。</li>
+<li>Protocol：8 bit，协议：下一层协议。指出此数据包携带的数据使用何种协议，以便目的主机的IP层将数据部分上交给哪个进程处理。<ul>
+<li>1: ICMP, Internet Control Message；</li>
+<li>2: IGMP, Internet Group Management；</li>
+<li>6: TCP , Transmission Control Protocol；</li>
+<li>17: UDP, User Datagram Protocol。</li>
+</ul>
+</li>
+<li>Header Checksum：16 bit，首部检验和。</li>
+<li>Source IP Address：32 bit，源IP地址。</li>
+<li>Destination IP Address：32 bit，目的IP地址。</li>
+<li>Options：可变，选项字段。</li>
+<li>Padding：可变，填充字段，全填0</li>
+</ul>
+<h3 id="数据包分片"><a href="#数据包分片" class="headerlink" title="数据包分片"></a>数据包分片</h3><p>将报文分割成多个片段的过程叫分片</p>
+<p>网络中转发的ip报文的长度可以不同，但若报文长度超过了数据链路所支持的最大长度，则报文就要分割成若干个较小的片段才能在链路上传输</p>
+<p>与IP数据包包头中的Identification，Flags，Fragment Offset三部分内容有关</p>
+<h3 id="生存时间（Time-to-Live-TTL"><a href="#生存时间（Time-to-Live-TTL" class="headerlink" title="生存时间（Time to Live,TTL)"></a>生存时间（Time to Live,TTL)</h3><p>TTL字段设置了数据包可以经过的路由器数目，一旦经过一个路由器，TTL值减一，当为0时，数据包被丢弃</p>
+<p>报文在网段间转发时，如果网络设备上的路由规划不合理，就可能会出现环路，导致报文在网络中无限循环，无法到达目的端。环路发生后，所有发往这个目的地的报文都会被循环转发，随着这种报文逐渐增多，网络将会发生拥塞。 </p>
+<p>为避免环路导致的网络拥塞，IP报文头中包含一个生存时间TTL（Time To Live）字段。 报文每经过一台三层设备，TTL值减1。初始TTL值由源端设备设置。当报文中的TTL 降为0时，报文会被丢弃。同时，丢弃报文的设备会根据报文头中的源IP地址向源端 发送ICMP错误消息。（注意：网络设备也可被配置为不向源端发送ICMP错误消息。）</p>
+<h3 id="协议号"><a href="#协议号" class="headerlink" title="协议号"></a>协议号</h3><p>目的端的网络层在接收并处理报文以后，需要决定下一步对报文如何处理。IP报文头中的协 议字段标识了将会继续处理报文的协议。</p>
+<p>该字段可以标识网络层协议，如ICMP（Internet Control Message Protocol，因特网控制 报文协议，对应值0x01）；也可以标识上层协议，如TCP（Transmission Control Protocol， 传输控制协议，对应值0x06）、UDP（User Datagram Protocol，用户数据包协议，对应 值0x11）</p>
+<h2 id="IPV4地址介绍"><a href="#IPV4地址介绍" class="headerlink" title="IPV4地址介绍"></a>IPV4地址介绍</h2>
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Ethe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://Ethe448.github.io/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">https://Ethe448.github.io/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Ethe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%8D%8E%E4%B8%BAict/">
+                                    <span class="chip bg-color">华为ict</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '9uxoX9BlIsmwlt8gNkGLF9Ow-gzGzoHsz',
+        appKey: 'rrsgRW80sgJP9PdFwFycskT9',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '8',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="ict学习笔记">
+                        
+                        <span class="card-title">ict学习笔记</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ethe
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%8D%8E%E4%B8%BAict/">
+                        <span class="chip bg-color">华为ict</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/01/21/wp/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="wp">
+                        
+                        <span class="card-title">wp</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-21
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ethe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+$(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2022</span>
+            
+            <a href="/about" target="_blank">Ethe</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">55.4k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Ethe448" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1078240421@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1078240421" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1078240421" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+    <!-- 白天和黑夜主题 -->
+<div class="sum-moon-box">
+  <a class="btn-floating btn-large waves-effect waves-light" onclick="switchNightMode()" title="切换主题" >
+    <i id="sum-moon-icon" class="fas fa-sun" style="width:48px; height:48px; font-size: 28px;"></i>
+  </a>
+</div>
+
+<script>
+  function switchNightMode() {
+    $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+      setTimeout(function () {
+        $('body').hasClass('DarkMode') 
+        ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+        : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+          
+        setTimeout(function () {
+          $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+            $(this).remove()
+          })
+        }, 2e3)
+      })
+  }
+</script>
+
+    <script>
+    //模式判断 
+    if (localStorage.getItem('isDark') === '0') {
+        document.body.classList.add('DarkMode');
+        $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')
+    } else {
+        document.body.classList.remove('DarkMode');
+        $('#sum-moon-icon').removeleClass("fa-sun").addClass('fa-moon')
+    }
+    </script>
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+        
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/sakura.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

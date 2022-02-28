@@ -482,21 +482,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-02-13
+                    2022-02-28
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    17.2k
+                    20.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    60 分
+                    72 分
                 </div>
                 
 
@@ -1170,6 +1170,126 @@
 <p>首先根据preference选择，如果preference相同则继续比较度量值，如果度量值也相同， 则都会被加入路由表形成等价路由。</p>
 <p><strong>将10.1.1.0/24、10.1.3.0/24、10.1.9.0/24汇总之后的网段是？</strong></p>
 <p>10.1.0.0/20</p>
+<h1 id="OSPF基础"><a href="#OSPF基础" class="headerlink" title="OSPF基础"></a>OSPF基础</h1><p>静态路由由网络管理员手工配置，因此当网络变化时，静态路由需要手工调整，制约了静态路由在现网的大规模应用。因此动态路由因其灵活性高、可靠性好，易于扩展等特点被广泛应用于现网。</p>
+<p>而在动态路由协议中，OSPF(开放式最短路径优先)协议是使用场景非常广泛的动态路由协议之一，是一种基于链路状态算法的路由协议</p>
+<h2 id="OSPF协议概述"><a href="#OSPF协议概述" class="headerlink" title="OSPF协议概述"></a>OSPF协议概述</h2><h3 id="为什么需要动态路由"><a href="#为什么需要动态路由" class="headerlink" title="为什么需要动态路由"></a>为什么需要动态路由</h3><p>静态路由由网络管理员手动配置和维护，适用于小型或稳定的网络</p>
+<p>但无法适应规模较大的网络，无法动态响应网络变化。</p>
+<p>随着设备数量增加，配置量急剧增加，静态路由已无法适应</p>
+<h3 id="动态路由协议的分类"><a href="#动态路由协议的分类" class="headerlink" title="动态路由协议的分类"></a>动态路由协议的分类</h3><p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220228200522599.png" alt="image-20220228200522599"></p>
+<p>BGP使用一种基于距离矢量算法修改后的算法，该算法被称为路径矢量（Path Vector）算法。因此在某些场合下，BGP也被称为路径矢量路由协议。</p>
+<h3 id="距离矢量路由协议"><a href="#距离矢量路由协议" class="headerlink" title="距离矢量路由协议"></a>距离矢量路由协议</h3><ul>
+<li>运行矢量路由协议的路由器周期性的泛洪自己的路由表。通过路由交互，每台路由器都从相邻的路由器学习到路由，并且加载进自己的路由表中</li>
+<li>对于网络中的所有路由器而言，路由器并不清楚网络的拓扑，只是简单的知道要去往某个目的方向在哪里，距离有多远。这就是距离矢量算法的本质。</li>
+</ul>
+<h3 id="链路状态路由协议"><a href="#链路状态路由协议" class="headerlink" title="链路状态路由协议"></a>链路状态路由协议</h3><h4 id="链路状态路由协议-LSA泛洪"><a href="#链路状态路由协议-LSA泛洪" class="headerlink" title="链路状态路由协议-LSA泛洪"></a>链路状态路由协议-LSA泛洪</h4><p>与距离矢量协议不同，链路状态由协议通告的是链路状态而不是路由表。运行链路状态路由协议的路由器之间首先会建立一个协议的邻居关系，然后彼此之间开始交互LSA（Link State Advertisement，链路状态通告）</p>
+<p><strong>不再通告路由信息，而是LSA</strong></p>
+<p>链路状态通告，可以简单的理解为每台路由器都产生一个描述自己直连接口状态（包括接口的开销、与邻居路由器之间的关系等）的通告</p>
+<h4 id="链路状态路由协议-LSDB泛洪"><a href="#链路状态路由协议-LSDB泛洪" class="headerlink" title="链路状态路由协议-LSDB泛洪"></a>链路状态路由协议-LSDB泛洪</h4><p>每台路由器都会产生LSAs，路由器将接收到的LSAs放入自己的LSDB（Link State DataBase，链路状态数据库）。LSDB汇总了网络中路由器对于自己接口的描述，包含全网拓扑的描述。路由器通过LSDB，掌握了全网的拓扑</p>
+<h4 id="链路状态路由协议-SPF计算"><a href="#链路状态路由协议-SPF计算" class="headerlink" title="链路状态路由协议-SPF计算"></a>链路状态路由协议-SPF计算</h4><p>每台路由器基于LSDB，使用SPF（Shortest Path First，最短路径优先）算法进行计算，每台路由器都计算出一颗以自己为根的、无环的、拥有最短路径的“树”。有了这颗“树”，路由器就以及知道了到达网络各个角落的优选路径</p>
+<p><strong>SPF是OSPF路由协议的一个核心算法，用来在一个复杂的网络中做出路由优选的决策。</strong></p>
+<h4 id="链路状态路由协议-路由表生成"><a href="#链路状态路由协议-路由表生成" class="headerlink" title="链路状态路由协议-路由表生成"></a>链路状态路由协议-路由表生成</h4><p>路由器将根据SPF计算出来的优选路径，加载进自己的路由表</p>
+<h4 id="链路状态路由协议总结"><a href="#链路状态路由协议总结" class="headerlink" title="链路状态路由协议总结"></a>链路状态路由协议总结</h4><ul>
+<li>第一步是建立相邻路由器之间的邻居关系。</li>
+<li>第二步是邻居之间交互链路状态信息和同步LSDB。</li>
+<li>第三步是进行优选路径计算。</li>
+<li>第四步是根据最短路径树生成路由表项加载到路由表</li>
+</ul>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220228202547086.png" alt="image-20220228202547086"></p>
+<h3 id="OSPF简介"><a href="#OSPF简介" class="headerlink" title="OSPF简介"></a>OSPF简介</h3><p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220228202917315.png" alt="image-20220228202917315"></p>
+<h3 id="OSPF基础术语"><a href="#OSPF基础术语" class="headerlink" title="OSPF基础术语"></a>OSPF基础术语</h3><h4 id="区域"><a href="#区域" class="headerlink" title="区域"></a>区域</h4><p>OSPF Area用于标识一个OSPF的区域</p>
+<p>区域是从逻辑上将设备划分为不同的组，每个组用区域号(Area ID)来标识</p>
+<h4 id="Router-ID"><a href="#Router-ID" class="headerlink" title="Router-ID"></a>Router-ID</h4><p>Router-ID（Router Identifier，路由器标识符），用于在一个OSPF域中唯一地标识一台路由器。</p>
+<p>Router-ID的设定可以通过手工配置的方式，或使用系统自动配置的方式。</p>
+<p>在实际项目中，通常会通过手工配置方式为设备指定OSPF Router-ID。请注意必须保证在OSPF域中任意两台设备的Router-ID都不相同。通常的做法是将Router-ID配置为与该设备某个接口（通常为Loopback接口）的IP地址一致</p>
+<h4 id="度量值"><a href="#度量值" class="headerlink" title="度量值"></a>度量值</h4><p><strong>OSPF使用Colongtst（开销）作为路由的度量值</strong>。每一个激活了OSPF的接口都会维护一个接口的Cost值，缺省时接口Cost值=100 Mbit/s/接口带宽。其中100 Mbit/s为OSPF指定的缺省参考值，该值是可以配置的。</p>
+<p>笼统地说，一条OSPF路由的Cost值可以理解为是从目的网段到本路由器沿途所有入接口的Cost值累加。</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220228203750713.png" alt="image-20220228203750713"></p>
+<h3 id="OSPF协议报文类型"><a href="#OSPF协议报文类型" class="headerlink" title="OSPF协议报文类型"></a>OSPF协议报文类型</h3><p>OSPF有五种类型的协议报文，这些报文在OSPF路由器之间交互中起不同的作用</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220228203915191.png" alt="image-20220228203915191"></p>
+<h3 id="OSPF三大表项"><a href="#OSPF三大表项" class="headerlink" title="OSPF三大表项"></a>OSPF三大表项</h3><p>OSPF有三张重要的表项，OSPF邻居表、LSDB表和OSPF路由表</p>
+<h4 id="OSPF邻居表"><a href="#OSPF邻居表" class="headerlink" title="OSPF邻居表"></a>OSPF邻居表</h4><p>OSPF在传递链路状态信息之前，需先建立OSPF邻居关系</p>
+<p>OSPF的邻居关系通过交互Hello报文建立</p>
+<p>OSPF邻居表显示了OSPF路由器之间的邻居状态，使用display ospf peer查看</p>
+<h4 id="LSDB表"><a href="#LSDB表" class="headerlink" title="LSDB表"></a>LSDB表</h4><p>LSDB会保存自己产生的及从邻居收到的LSA信息</p>
+<p>Type标识LSA的类型，AdvRouter标识发送LSA的路由器</p>
+<p>使用命令行display ospf lsdb查看LSDB表</p>
+<h4 id="OSPF路由表"><a href="#OSPF路由表" class="headerlink" title="OSPF路由表"></a>OSPF路由表</h4><p>OSPF路由表和路由器路由表是两张不同的表项</p>
+<p>OSPF路由表包含Destination、Cost和NextHop等指导转发的信息。</p>
+<p>使用display ospf routing查看OSPF路由表</p>
+<h2 id="OSPF协议工作原理"><a href="#OSPF协议工作原理" class="headerlink" title="OSPF协议工作原理"></a>OSPF协议工作原理</h2><h3 id="OSPF路由器之间的关系"><a href="#OSPF路由器之间的关系" class="headerlink" title="OSPF路由器之间的关系"></a>OSPF路由器之间的关系</h3><ul>
+<li>OSPF路由器之间的关系有两个重要的概念，邻居关系和邻接关系</li>
+<li>假设两台路由器直连，在双方互联接口上激活OSPF，路由器开始发送及侦听Hello报文，在通过Hello报文发现彼此后，这两台路由器便形成了邻居关系</li>
+<li>邻居关系的建立只是开始，后续会进行一系列的报文交互，例如前文提到的DD、LSR、LSU和LS ACK等，当两台路由器LSDB同步完成，并开始独立计算路由时，这两台路由器形成了邻接关系</li>
+</ul>
+<h3 id="OSPF邻接关系建立过程"><a href="#OSPF邻接关系建立过程" class="headerlink" title="OSPF邻接关系建立过程"></a>OSPF邻接关系建立过程</h3><p>OSPF完成邻接关系的建立有四个步骤，建立邻居关系、协商主/从、交互LSDB信息，同步LSDB。</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220228205756827.png" alt="image-20220228205756827"></p>
+<h4 id="流程1"><a href="#流程1" class="headerlink" title="流程1"></a>流程1</h4><p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220228205823933.png" alt="image-20220228205823933"></p>
+<ul>
+<li>当一台OSPF路由器收到其他路由器发来的首个Hello报文时会从初始Down状态切换为Init 状态。</li>
+<li>当OSPF路由器收到的Hello报文中的邻居字段包含自己的Router ID时，从Init切换2-way状 态</li>
+</ul>
+<h4 id="流程2-amp-3"><a href="#流程2-amp-3" class="headerlink" title="流程2&amp;3"></a>流程2&amp;3</h4><p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220228205912512.png" alt="image-20220228205912512"></p>
+<ul>
+<li>邻居状态机从2-way转为Exstart状态后开始主从关系选举：<ul>
+<li>R1向R2发送的第一个DD报文内容为空，其Seq序列号假设为X。</li>
+<li>R2也向R1发出第一个DD报文，其Seq序列号假设为Y。</li>
+<li>选举主从关系的规则是比较Router ID，越大越优。R2的Router ID比R1大，因此R2成 为真正的主设备。主从关系比较结束后，R1的状态从Exstart转变为Exchange。</li>
+</ul>
+</li>
+<li>R1邻居状态变为Exchange后，R1发送一个新的DD报文，包含自己LSDB的描述信息，其序 列号采用主设备R2的序列号。R2收到后邻居状态从Exstart转变为Exchange。</li>
+<li>R2向R1发送一个新的DD报文，包含自己LSDB的描述信息，序列号为Y+1。</li>
+<li> R1作为从路由器需要对主路由R2发送的每个DD报文进行确认，回复报文的序列号与主路由 R2一致。</li>
+<li>发送完最后一个DD报文后，R1将邻居状态切换为Loading。</li>
+</ul>
+<h4 id="流程4"><a href="#流程4" class="headerlink" title="流程4"></a>流程4</h4><p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220228210119658.png" alt="image-20220228210119658"></p>
+<ul>
+<li>邻居状态转变为Loading后，R1向R2发送LSR报文，请求那些在Exchange状态下通过DD报 文发现的，但是在本地LSDB中没有的LSA。 </li>
+<li>R2收到后向R1回复LSU。在LSU报文中包含被请求的LSA的详细信息。 </li>
+<li>R1收到LSU报文后，向R2回复LS ACK报文，确认已接收到，确保信息传输的可靠性。 </li>
+<li>此过程中R2也会向R1发送LSA请求。当两端LSDB完全一致时，邻居状态变为Full，表示成 功建立邻接关系。</li>
+</ul>
+<h3 id="OSPF网络类型简介"><a href="#OSPF网络类型简介" class="headerlink" title="OSPF网络类型简介"></a>OSPF网络类型简介</h3><p>OSPF网络类型是一个非常重要的接口变量，这个变量将影响OSPF在接口上的操作，例如采用什么方式发送OSPF协议报文，以及是否需要选举DR、BDR等。</p>
+<p>接口默认的OSPF网络类型取决于接口所使用的数据链路层封装</p>
+<p>OSPF有四种网络类型 Broadcast、NBMA、P2MP和P2P</p>
+<h4 id="OSPF网络类型（1）"><a href="#OSPF网络类型（1）" class="headerlink" title="OSPF网络类型（1）"></a>OSPF网络类型（1）</h4><p>一般情况下，链路两端的OSPF接口网络类型必须一致，否则双方无法建立邻居关系</p>
+<p>OSPF网络类型可以在接口下通过命令手动修改以适应不同网络场景</p>
+<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220228210759910.png" alt="image-20220228210759910"></p>
+<h4 id="OSPF网络类型（2）"><a href="#OSPF网络类型（2）" class="headerlink" title="OSPF网络类型（2）"></a>OSPF网络类型（2）</h4><p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220228210824072.png" alt="image-20220228210824072"></p>
+<h3 id="DR与BDR"><a href="#DR与BDR" class="headerlink" title="DR与BDR"></a>DR与BDR</h3><p><strong>背景：</strong></p>
+<ul>
+<li>MA（Multi-Access）多路访问网络有两种类型：广播型多路访问网络（BMA）及非广播类多路访问网络（NBMA）。以太网（Ethernet）是一种典型的广播型多路访问网络</li>
+<li>在MA网络中，如果每台OSPF路由器都与其他的路由器建立OSPF邻接关系，便会导致网络中存在过多的OSPF邻接关系，增加设备负担，也增加了网络中泛洪的OSPF报文数量</li>
+<li>当拓扑出现变更，网络中的LSA泛洪可能会造成带宽的浪费和设备资源的损耗</li>
+</ul>
+<p>为优化MA网络中OSPF邻接关系，OSPF指定了三种OSPF路由器身份，DR（Designated Router，指定路由器）、BDR（Backup Designated Router，备用指定路由器）和DRother路由器。</p>
+<p>只允许DR、BDR与其他OSPF路由器建立邻接关系。DRother之间不会建立全毗邻的OSPF邻接关系，双方停滞在2-way状态</p>
+<p>BDR会监控DR的状态，并在当前DR发生故障时接替其角色</p>
+<p>选举规则：OSPF DR优先级更高的接口成为该MA的DR，如果优先级相等（默认为1），则 具有更高的OSPF Router-ID的路由器（的接口）被选举成DR，并且DR具有非抢占性。</p>
+<h3 id="OSPF域与单区域"><a href="#OSPF域与单区域" class="headerlink" title="OSPF域与单区域"></a>OSPF域与单区域</h3><p>OSPF域（Domain）：一系列使用相同策略的连续OSPF网络设备所构成的网络。</p>
+<p>OSPF路由器在同一个区域内网络中泛洪LSA。为了确保每台路由器都拥有对网络拓扑的一致认知，LSDB需要在区域内进行同步。</p>
+<p>如果OSPF域仅有一个区域，随着网络规模越来越大，OSPF路由器的数量越来越多，这将会导致诸多问题：</p>
+<ul>
+<li>LSDB越来越庞大，同时导致OSPF路由表规模增加，路由器资源消耗多，设备性能下降，影响数据转发</li>
+<li>基于庞大的LSDB进行路由计算变得困难</li>
+<li>当网络拓扑变更时，LSA全域泛洪和全网SPF重计算带来巨大负担</li>
+</ul>
+<h3 id="OSPF多区域"><a href="#OSPF多区域" class="headerlink" title="OSPF多区域"></a>OSPF多区域</h3><p>OSPF引入区域的概念，将一个OSPF域划分成多个区域，可以使OSPF支撑更大规模组网。</p>
+<p>OSPF多区域的设计减小了LSA泛洪的范围，有效的把拓扑变化的影响控制在区域内，达到网络优化的目的。</p>
+<p>在区域边界可以做路由汇总，减小了路由表规模。</p>
+<p>多区域提高了网络扩展性，有利于组建大规模的网络。</p>
+<ul>
+<li>区域的分类：区域可以分为骨干区域与非骨干区域。骨干区域即Area0，除Area0以外其他 区域都称为非骨干区域。 </li>
+<li>多区域互联原则：基于防止区域间环路的考虑，非骨干区域与非骨干区域不能直接相连， 所有非骨干区域必须与骨干区域相连</li>
+</ul>
+<h3 id="OSPF路由器类型"><a href="#OSPF路由器类型" class="headerlink" title="OSPF路由器类型"></a>OSPF路由器类型</h3><p>OSPF路由器根据其位置或功能不同，分为</p>
+<ul>
+<li>区域内路由器（Internal Router）：该类路由器的所有接口都属于同一个OSPF区域。 </li>
+<li>区域边界路由器ABR（Area Border Router）：该类路由器的接口同时属于两个以上的区域， 但至少有一个接口属于骨干区域。 </li>
+<li>骨干路由器（Backbone Router）：该类路由器至少有一个接口属于骨干区域。 </li>
+<li>自治系统边界路由器ASBR（AS Boundary Router）：该类路由器与其他AS交换路由信息。 只要一台OSPF路由器引入了外部路由的信息，它就成为ASBR。</li>
+</ul>
+<h3 id="OSPF单区域-amp-多区域典型组网"><a href="#OSPF单区域-amp-多区域典型组网" class="headerlink" title="OSPF单区域&amp;多区域典型组网"></a>OSPF单区域&amp;多区域典型组网</h3><p>中小型企业网络规模不大，路由设备数量有限，可以考虑将所有设备都放在同一个OSPF区 域。</p>
+<p>大型企业网络规模大，路由设备数量很多，网络层次分明，建议采用OSPF多区域的方式部 署。</p>
 
                 
             </div>
@@ -1959,7 +2079,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">74k</span>
+                        class="white-color">77.3k</span>
             
             
             

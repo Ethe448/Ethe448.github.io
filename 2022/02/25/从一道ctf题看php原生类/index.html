@@ -484,7 +484,7 @@ if(isset($_GET[&amp;#39;source&amp;#39;]))&amp;#123;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-02-26
+                    2022-03-28
                 </div>
                 
 
@@ -550,23 +550,23 @@ $flag_filename &#x3D; &#39;flag&#39;.md5(???).&#39;php&#39;;</code></pre>
 <p>然后进入else语句</p>
 <p>一般看到echo new $a($b)这种形式，就需要考虑利用php的原生类来遍历目录以及读取文件</p>
 <h2 id="报错类"><a href="#报错类" class="headerlink" title="报错类"></a>报错类</h2><h3 id="Error"><a href="#Error" class="headerlink" title="Error"></a>Error</h3><p>在PHP7版本中，因为Error中带有<code>__toString</code>方法，该方法会将传入给<code>__toString</code>的参数原封不动的输出到浏览器。在这么一个过程中可能会产生XSS。</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226142059060.png"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226142059060.png"></p>
 <pre class="language-none"><code class="language-none">a&#x3D;Error&amp;b&#x3D;&lt;script&gt;alert(1);&lt;&#x2F;script&gt;&amp;c&#x3D;9223372036854775806</code></pre>
 
 <h3 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h3><p>与Error类似，Exception同样有<code>__toString</code>方法，因此测试代码和上方一样，传入以下payload，同样可以XSS。</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226173222714.png" alt="image-20220226173222714"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226173222714.png" alt="image-20220226173222714"></p>
 <pre class="language-none"><code class="language-none">a&#x3D;Exception&amp;b&#x3D;&lt;script&gt;alert(1);&lt;&#x2F;script&gt;&amp;c&#x3D;9223372036854775806</code></pre>
 
 <h2 id="遍历目录类"><a href="#遍历目录类" class="headerlink" title="遍历目录类"></a>遍历目录类</h2><h3 id="DirectoryIterator"><a href="#DirectoryIterator" class="headerlink" title="DirectoryIterator"></a>DirectoryIterator</h3><p>DirectoryIterator类的<code>__construct</code>方法会构造一个迭代器，如果使用echo输出该迭代器，将会返回迭代器的第一项</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226173809874.png" alt="image-20220226173809874"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226173809874.png" alt="image-20220226173809874"></p>
 <p>返回了一个点，这个点代表这当前目录</p>
 <p>如果要匹配其他文件，要利用glob协议</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226174839331.png" alt="image-20220226174839331"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226174839331.png" alt="image-20220226174839331"></p>
 <p>glob协议支持通配符，所以对于不知道文件名的文件可以利用通配符进行匹配</p>
 <h3 id="FilesystemIterator"><a href="#FilesystemIterator" class="headerlink" title="FilesystemIterator"></a>FilesystemIterator</h3><p>与DirectoryIterator类似，但实际使用时发现有些不同</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226175041268.png" alt="image-20220226175041268"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226175041268.png" alt="image-20220226175041268"></p>
 <h3 id="GlobIterator"><a href="#GlobIterator" class="headerlink" title="GlobIterator"></a>GlobIterator</h3><p>无需加glob协议，因为这是自带的</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226175140543.png" alt="image-20220226175140543"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226175140543.png" alt="image-20220226175140543"></p>
 <h2 id="读取文件类"><a href="#读取文件类" class="headerlink" title="读取文件类"></a>读取文件类</h2><h3 id="SplFileObject"><a href="#SplFileObject" class="headerlink" title="SplFileObject"></a>SplFileObject</h3><blockquote>
 <p>SplFileObject类为文件提供了一个面向对象接口</p>
 </blockquote>
@@ -574,16 +574,16 @@ $flag_filename &#x3D; &#39;flag&#39;.md5(???).&#39;php&#39;;</code></pre>
 <pre class="language-none"><code class="language-none">a&#x3D;SplFileObject&amp;b&#x3D;flag.php</code></pre>
 
 <p>但是由于这个类返回的是迭代器，所以不能完整的读出文件，所以就要利用php://filter来将文件内容以全部输出</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226181714890.png" alt="image-20220226181714890"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226181714890.png" alt="image-20220226181714890"></p>
 <h2 id="回到这道题"><a href="#回到这道题" class="headerlink" title="回到这道题"></a>回到这道题</h2><p>我们可以利用</p>
 <p>FilesystemIterator、DirectoryIterator或GlobIterator找到flag所在的目录，再用SplFileObject读出文件内容</p>
 <p>但是这道题中flag文件并不叫flag.php而是flag.md5(???).php，所以我们要用通配符找到真正的flag文件，</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226184433903.png" alt="image-20220226184433903"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226184433903.png" alt="image-20220226184433903"></p>
 <p>在通配符中，？代表一个字符，但是必须存在，而*表示存在任意个字符，但是也包括零个，所以因为迭代器的性质，只加*就只能匹配到flag.php</p>
 <p>但是如果我们用FilesystemIterator，我们可以直接加路径看到这个flag文件，不太理解为什么</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226184809317.png" alt="image-20220226184809317"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226184809317.png" alt="image-20220226184809317"></p>
 <p>接下来就是用SplFileObject读出来就然后base64解个码就行</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226185100750.png" alt="image-20220226185100750"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226185100750.png" alt="image-20220226185100750"></p>
 <h2 id="原生类获取注释"><a href="#原生类获取注释" class="headerlink" title="原生类获取注释"></a>原生类获取注释</h2><p>看见这个想起了去年国赛我唯一出了的一道题</p>
 <pre class="language-none"><code class="language-none">&lt;?php
 highlight_file(__file__);
@@ -706,7 +706,7 @@ var_dump($method-&gt;$rd());</code></pre>
 <p>flag在注释里但并不会被显示出来，但是我们可以利用通过反射 ReflectionMethod 类来获取类方法的相关信息</p>
 <pre class="language-text" data-language="text"><code class="language-text">?rc&#x3D;ReflectionMethod&amp;ra&#x3D;User&amp;rb&#x3D;e&amp;rd&#x3D;getDocComment</code></pre>
 
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226193319167.png" alt="image-20220226193319167"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226193319167.png" alt="image-20220226193319167"></p>
 
                 
             </div>
@@ -1212,18 +1212,17 @@ var_dump($method-&gt;$rd());</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/02/25/%E4%BB%8E%E4%B8%80%E9%81%93ctf%E9%A2%98%E7%9C%8Bphp%E5%8E%9F%E7%94%9F%E7%B1%BB/">
+                <a href="/2022/03/16/sqlilab/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="从一道ctf题看php原生类">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="sqlilab">
                         
-                        <span class="card-title">从一道ctf题看php原生类</span>
+                        <span class="card-title">sqlilab</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1233,9 +1232,9 @@ var_dump($method-&gt;$rd());</code></pre>
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-02-25
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-16
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1243,15 +1242,6 @@ var_dump($method-&gt;$rd());</code></pre>
                             
                         </span>
                     </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/web/">
-                        <span class="chip bg-color">web</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -1498,7 +1488,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">77.3k</span>
+                        class="white-color">81k</span>
             
             
             

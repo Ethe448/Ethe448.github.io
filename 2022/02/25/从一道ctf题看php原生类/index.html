@@ -484,14 +484,14 @@ if(isset($_GET[&amp;#39;source&amp;#39;]))&amp;#123;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-25
+                    2022-05-05
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    962
+                    1k
                 </div>
                 
 
@@ -584,7 +584,7 @@ $flag_filename &#x3D; &#39;flag&#39;.md5(???).&#39;php&#39;;</code></pre>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226184809317.png" alt="image-20220226184809317"></p>
 <p>接下来就是用SplFileObject读出来就然后base64解个码就行</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226185100750.png" alt="image-20220226185100750"></p>
-<h2 id="原生类获取注释"><a href="#原生类获取注释" class="headerlink" title="原生类获取注释"></a>原生类获取注释</h2><p>看见这个想起了去年国赛我唯一出了的一道题</p>
+<h2 id="反射类获取注释"><a href="#反射类获取注释" class="headerlink" title="反射类获取注释"></a>反射类获取注释</h2><p>看见这个想起了去年国赛我唯一出了的一道题</p>
 <pre class="language-none"><code class="language-none">&lt;?php
 highlight_file(__file__);
 class User
@@ -707,6 +707,8 @@ var_dump($method-&gt;$rd());</code></pre>
 <pre class="language-text" data-language="text"><code class="language-text">?rc&#x3D;ReflectionMethod&amp;ra&#x3D;User&amp;rb&#x3D;e&amp;rd&#x3D;getDocComment</code></pre>
 
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226193319167.png" alt="image-20220226193319167"></p>
+<p>直接查看类可以用ReflectionClass</p>
+<p>反射类不仅仅可以建立对类的映射，也可以<strong>建立对PHP基本方法的映射</strong>，并且返回基本方法执行的情况。因此可以通过建立反射类<code>new ReflectionClass(system(&#39;cmd&#39;))</code>来执行命令</p>
 
                 
             </div>
@@ -1496,7 +1498,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">111.5k</span>
+                        class="white-color">113.6k</span>
             
             
             

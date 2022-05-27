@@ -493,7 +493,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-28
+                    2022-05-27
                 </div>
                 
 
@@ -572,7 +572,8 @@
 <p>查到存在一个flag表，尝试查看里面的内容</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/sql/image-20210617020823449.png" alt="image-20210617020823449"></p>
 <p>大概是被过滤了，只好百度搜wp了</p>
-<p>看到dalao能够猜出后端语句为select &quot;.$post[&#39;query&#39;].&quot;||flag from Flag</p>
+<p>看到dalao能够猜出后端语句为select &quot;.$</p>
+<p>post[&#39;query&#39;].&quot;||flag from Flag</p>
 <p>（搜到一篇wp说原环境中存在源码泄露，所以能够知道这部分的sql语言，但是buu的环境里没有[BUUCTF <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44037296/article/details/105190639?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param">SUCTF 2019] EasySQL_Senimo-CSDN博客</a>）</p>
 <p><strong>解法一</strong>：输入*,1</p>
 <p>由于||在MySQL中起或的作用，因此1||flag会返回1，也就变成了</p>
@@ -1795,7 +1796,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">149.6k</span>
+                        class="white-color">159.9k</span>
             
             
             

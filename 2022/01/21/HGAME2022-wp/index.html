@@ -483,21 +483,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-31
+                    2022-05-17
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.8k
+                    5.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    28 分
+                    29 分
                 </div>
                 
 
@@ -769,7 +769,7 @@ if __name__ &#x3D;&#x3D; &#39;__main__&#39;:
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/HGAME2022-wp/image-20220211120719244.png" alt="image-20220211120719244"></p>
 <p>输出用户留言位置的class标签名为content，然后还有一个用var定义的flag全局变量</p>
 <p>为什么同样是两个变量，第一个使用let，而第二个使用var呢？因为使用 var 可 以利用 Object.keys(window) 拿到全局变量 flag 的变量名，而使用let的话无法获取。</p>
-<p>这是官方wp的解释，复现之后发现可以直接用Object.values(window)读取这些全局变量的内容，也就是直接获得flag</p>
+<p>也可以直接用Object.values(window)读取这些全局变量的内容，也就是直接获得flag</p>
 <pre class="language-js" data-language="js"><code class="language-js"><span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token number">1</span> onerror<span class="token operator">=</span><span class="token string">"document.getElementsByClassName('content')[0].innerHTML= Object.values(window)"</span><span class="token operator">></span></code></pre>
 
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/HGAME2022-wp/image-20220211121033670.png" alt="image-20220211121033670"></p>
@@ -1077,6 +1077,31 @@ lUtMgGyxmfNgmbdycrcjDislpPUj9+NkD1ce2f28
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/HGAME2022-wp/image-20220204180050478.png" alt="image-20220204180050478"></p>
 <p>所以只要根据加密脚本将flag变为给的parts里的内容就能分段解密</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/HGAME2022-wp/image-20220204180213786.png" alt="image-20220204180213786"></p>
+<p>贴一下其他师傅写的解码脚本（我是菜b</p>
+<pre class="language-python" data-language="python"><code class="language-python">import operator
+import gmpy2
+from Crypto.Util.number import long_to_bytes
+import random
+from functools import reduce
+
+iv &#x3D; b&#39;Up\x14\x98r\x14%\xb9&#39;
+key &#x3D; b&#39;\r\xe8\xb86\x9c33^&#39;
+parts &#x3D; [b&#39;0\xff\xcd\xc3\x8b\\T\x8b&#39;, b&#39;RT\x1e\x89t&amp;\x17\xbd&#39;, b&#39;\x1a\xee\x8d\xd6\x9b&gt;w\x8c&#39;, b&#39;9CT\xb3^pF\xd0&#39;]
+results &#x3D; []
+
+def xor(a, b):
+    assert len(a) &#x3D;&#x3D; len(b)
+    return bytes(map(operator.xor, a, b))
+
+def decrypt():
+    for index, part in enumerate(parts):
+        results.append(reduce(xor, [part, iv if index &#x3D;&#x3D; 0 else parts[index - 1], key]))
+
+decrypt()
+print(results)</code></pre>
+
+
+
 <h2 id="WEB-2"><a href="#WEB-2" class="headerlink" title="WEB"></a>WEB</h2><h3 id="SecurityCenter"><a href="#SecurityCenter" class="headerlink" title="SecurityCenter"></a>SecurityCenter</h3><p>看一下这个路径</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/HGAME2022-wp/image-20220204190318143.png" alt="image-20220204190318143"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/HGAME2022-wp/image-20220204190356431.png" alt="image-20220204190356431"></p>
@@ -2098,7 +2123,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">149.6k</span>
+                        class="white-color">159.9k</span>
             
             
             

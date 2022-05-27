@@ -483,7 +483,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-29
+                    2022-05-27
                 </div>
                 
 
@@ -622,7 +622,7 @@ if (isset($_POST[&#39;url&#39;]))&#123;
 <li>file对应的类似http的协议是ftp协议（文件传输协议）</li>
 <li>file不能跨域</li>
 </ul>
-<h1 id="Gopher协议"><a href="#Gopher协议" class="headerlink" title="Gopher协议"></a>Gopher协议</h1><h3 id="协议简介"><a href="#协议简介" class="headerlink" title="协议简介"></a>协议简介</h3><p>gopher 协议是一个在http 协议诞生前用来访问Internet 资源的协议可以理解为http 协议的前身或简化版，虽然很古老但现在很多库还支持gopher 协议而且gopher 协议功能很强大。<br>它可以实现多个数据包整合发送，然后gopher 服务器将多个数据包捆绑着发送到客户端，这就是它的菜单响应。比如使用一条gopher 协议的curl 命令就能操作mysql 数据库或完成对redis 的攻击等等。<br>gopher 协议使用tcp 可靠连接。</p>
+<h1 id="Gopher协议"><a href="#Gopher协议" class="headerlink" title="Gopher协议"></a>Gopher协议</h1><h3 id="协议简介"><a href="#协议简介" class="headerlink" title="协议简介"></a>协议简介</h3><p>gopher 协议是一个在http 协议诞生前用来访问Internet 资源的协议可以理解为http协议的前身或简化版，虽然很古老但现在很多库还支持gopher 协议而且gopher 协议功能很强大。<br>它可以实现多个数据包整合发送，然后gopher 服务器将多个数据包捆绑着发送到客户端，这就是它的菜单响应。比如使用一条gopher 协议的curl 命令就能操作mysql 数据库或完成对redis 的攻击等等。<br>gopher 协议使用tcp 可靠连接。</p>
 <p>gopher协议是比http协议更早出现的协议，现在已经不常用了，但是在SSRF漏洞利用中gopher可以说是万金油，因为<strong>可以使用gopher发送各种格式的请求包，这样就可以解决漏洞点不在GET参数的问题</strong>了。 </p>
 <h3 id="协议格式"><a href="#协议格式" class="headerlink" title="协议格式"></a>协议格式</h3><pre class="language-none"><code class="language-none">URL:gopher:&#x2F;&#x2F;&lt;host&gt;:&lt;port&gt;&#x2F;&lt;gopher-path&gt;_后接TCP数据流</code></pre>
 
@@ -715,7 +715,7 @@ if (isset($_POST[&#39;url&#39;]))&#123;
 <li><strong>TCP模式</strong>即是PHP-FPM进程会监听本机上的一个端口（默认为9000），然后Nginx会把客户端请求数据通过FastCGI协议传给9000端口，PHP-FPM拿到数据后会调用CGI进程解析</li>
 <li><strong>Unix套接字模式</strong>是Unix系统进程间通信（IPC）的一种被广泛采用方式，以文件（一般是.sock）作为socket的唯一标识（描述符），需要通信的两个进程引用同一个socket描述符文件就可以建立通道进行通信了。上述原理图中提到的<strong>Socket 通信</strong>即为此模式</li>
 </ul>
-<p>ssrf中对FastCGI的攻击也是利用了TCP模式</p>
+<p>ssrf中对FastCGI的攻击是利用了TCP模式</p>
 <h3 id="FastCGI攻击"><a href="#FastCGI攻击" class="headerlink" title="FastCGI攻击"></a>FastCGI攻击</h3><h4 id="FastCGI协议"><a href="#FastCGI协议" class="headerlink" title="FastCGI协议"></a>FastCGI协议</h4><p>HTTP协议是浏览器和服务器中间件进行数据交换的协议，类比HTTP协议来说，fastcgi协议则是服务器中间件和某个语言后端（如PHP-FPM）进行数据交换的协议</p>
 <p>Fastcgi协议由多个record组成，record也有header和body一说，服务器中间件将这二者按照fastcgi的规则封装好发送给语言后端（PHP-FPM），语言后端（PHP-FPM）解码以后拿到具体数据，进行指定操作，并将结果再按照该协议封装好后返回给服务器中间件</p>
 <p>record的头固定8个字节，body是由头中的contentLength指定，其结构如下：</p>
@@ -737,7 +737,7 @@ if (isset($_POST[&#39;url&#39;]))&#123;
 
 <blockquote>
 <p>语言端（PHP-FPM）解析了fastcgi头以后，拿到<code>contentLength</code><br>，然后再在TCP流里读取大小等于<code>contentLength</code><br>的数据，这就是body体</p>
-<p>Body后面还有一段额外的数据（Padding），其长度由头中的paddingLength指定，起保留作用  &gt;不需要该Padding的时候，将其长度设置&gt;为0即可</p>
+<p>Body后面还有一段额外的数据（Padding），其长度由头中的paddingLength指定，起保留作用  不需要该Padding的时候，将其长度设置为0即可</p>
 <p>可见，一个fastcgi record结构最大支持的body大小是<code>2^16</code></p>
 <p>，也就是65536字节</p>
 </blockquote>
@@ -870,6 +870,7 @@ typedef struct &#123;
 <li>知道题目环境中的一个PHP文件的绝对路径</li>
 <li>PHP-FPM监听在本机9000端口</li>
 </ul>
+<p>例题参考</p>
 <h1 id="一些绕过"><a href="#一些绕过" class="headerlink" title="一些绕过"></a>一些绕过</h1><p>对于SSRF的限制大致有如下几种：</p>
 <ul>
 <li>限制请求的端口只能为Web端口，只允许访问HTTP和HTTPS的请求。</li>
@@ -985,7 +986,7 @@ for i in range(0,255):
         print(&#39;timeout&#39;)
 print(a)</code></pre>
 
-<p><img src="/2022/04/26/ssrf/Users/ethe/AppData/Roaming/Typora/typora-user-images/image-20220426181836817.png" alt="image-20220426181836817"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426181836817.png" alt="image-20220426181836817"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426184230846.png" alt="image-20220426184230846"></p>
 <p>根据提示找找端口，再测一下发现有6379端口</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426182507562.png" alt="image-20220426182507562"></p>
@@ -1958,7 +1959,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">149.6k</span>
+                        class="white-color">159.9k</span>
             
             
             

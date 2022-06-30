@@ -40,7 +40,7 @@ function get_the_flag()&amp;#123;
 
    <style>
     body{
-       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-image: url(https://epicture.oss-cn-beijing.aliyuncs.com/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
        background-repeat:no-repeat;
        background-size: cover;
        background-attachment:fixed;
@@ -481,7 +481,7 @@ function get_the_flag()&amp;#123;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-17
+                    2022-05-27
                 </div>
                 
 
@@ -966,7 +966,7 @@ if (!isset($_POST[&#39;girl_friend&#39;])) &#123;
     &#125;
 &#125;</code></pre>
 
-<p>能看出数据库中是存在admin用户的，但是密码我们不知道，这里的sql查询语句为<code>select id,password from user where username=?</code><br>如果能控制这里的sql执行语句为<br><code>select 1,&quot;c4ca4238a0b923820dcc509a6f75849b&quot; from user where username=?</code>便可经过登陆的密码验证，这个操作是可以实现的<br>c4ca4238a0b923820dcc509a6f75849b是1的MD5值数据库</p>
+<p>能看出数据库中是存在admin用户的，但是密码我们不知道，这里的sql查询语句为<code>select id,password from user where username=?</code><br>如果能控制这里的sql执行语句为<br><code>select 1,&quot;c4ca4238a0b923820dcc509a6f75849b&quot; from user where username=?</code>便可经过登陆的密码验证，这个操作是可以实现的<br>c4ca4238a0b923820dcc509a6f75849b是1的MD5值</p>
 <p>这是sql创造临时列的一种方法，如果查询的参数不存在，那就会创建一个临时的列，并且设置该列所有参数都是查询的参数。所以整个payload语句的意思就是查询所有数据，然后增加了一个临时列，第一列是数据库中的数据，第二列是添加的临时列1</p>
 <pre class="language-php" data-language="php"><code class="language-php">class User
 &#123;
@@ -1251,7 +1251,7 @@ for($i &#x3D;0 ; $i &lt; 1000 ; $i++)
     echo &quot;\r\n&quot;;
 &#125;</code></pre>
 
-<p>我们想构造system（这里不构造eval的原因是<strong>eval 属于PHP语法构造的一部分，并不是一个函数，所以不能通过 变量函数 的形式来调用（虽然她确实像极了函数原型）。</strong>这样的语法构造还包括：echo，print，unset()，isset()，empty()，include，require，..</p>
+<p>我们想构造system（这里不构造eval的原因是<strong>eval 属于PHP语法构造的一部分，并不是一个函数，所以不能通过 变量函数 的形式来调用（虽然它确实像极了函数原型）。</strong>这样的语法构造还包括：echo，print，unset()，isset()，empty()，include，require，..</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220406154353685.png" alt="image-20220406154353685"></p>
 <p>然后把我们想要的字母找出来</p>
 <pre class="language-none"><code class="language-none">北&#x3D;s
@@ -1636,7 +1636,7 @@ call_user_func($b, $a);
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220412182406433.png" alt="image-20220412182406433"></p>
 <p>发现要本地访问，再结合session_start函数，猜测是要利用session反序列化</p>
 <p><strong>session反序列化</strong></p>
-<p>php中的session中的内容并不是放在内存中的，而是以文件的方式来存储的，存储方式就是由配置项session.save_handler来进行确定的，默认是以文件的方式存储。<br>存储的文件是以sess_sessionid来进行命名的，文件的内容就是session值的序列话之后的内容。</p>
+<p>php中的session中的内容并不是放在内存中的，而是以文件的方式来存储的，存储方式就是由配置项session.save_handler来进行确定的，默认是以文件的方式存储。<br>存储的文件是以sess_sessionid来进行命名的，文件的内容就是session值的序列化之后的内容。</p>
 <p>session反序列化产生的原因是由于序列化与反序列化的处理器的不同导致的，默认是php</p>
 <p>可以用<code>ini_set(‘session.serialize_handler’, ‘php’)</code>来规定</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220412182535003.png" alt="image-20220412182535003"></p>
@@ -1670,7 +1670,7 @@ $a &#x3D; array(reset($_SESSION), &#39;welcome_to_the_lctf2018&#39;);
 call_user_func($b, $a);
 ?&gt; </code></pre>
 
-<p>要在调用Soapclient反序列化，就要有一个不存在的方法被调用，而extract可以导致变量覆盖，那我们就利用第一个回调函数，将b赋值为call_user_func，如果传入的参数是 array 型的化，会将数组的成员当作 <code>类名</code> 和 <code>方法名</code>。此时第二个回调函数的内容为</p>
+<p>要在调用Soapclient反序列化，就要有一个不存在的方法被调用，而extract可以导致变量覆盖，那我们就利用第一个回调函数，将b赋值为call_user_func，如果传入的参数是 array 型的话，会将数组的成员当作 <code>类名</code> 和 <code>方法名</code>。此时第二个回调函数的内容为</p>
 <pre class="language-none"><code class="language-none">call_user_func(call_user_func(reset($_SESSION), &#39;welcome_to_the_lctf2018&#39;))</code></pre>
 
 <p>关于reset函数：reset() 函数将内部指针指向数组中的第一个元素，并输出。<br>在这里就相当于<code>$_SESSION[&#39;name&#39;]</code></p>
@@ -3218,7 +3218,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">159.9k</span>
+                        class="white-color">159.8k</span>
             
             
             

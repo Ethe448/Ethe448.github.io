@@ -485,21 +485,21 @@ JavaScript中，我们如果要定义一个类，需要以">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-09-20
+                    2022-09-26
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.6k
+                    4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    15 分
+                    18 分
                 </div>
                 
 
@@ -810,6 +810,91 @@ module.exports &#x3D; router;</code></pre>
 
 <p>把c也编码的原因是防止和双引号的url编码构成%22c</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/js/image-20220223150552411.png" alt="image-20220223150552411"></p>
+<p>1</p>
+<pre class="language-none"><code class="language-none">
+const crypto &#x3D; require(&#39;crypto&#39;);
+const express &#x3D; require(&#39;express&#39;);
+const session &#x3D; require(&quot;express-session&quot;);
+const app &#x3D; express();
+const jwt &#x3D; require(&quot;jsonwebtoken&quot;);
+const fs &#x3D; require(&quot;fs&quot;)
+const bodyParser &#x3D; require(&#39;body-parser&#39;)
+session_secret &#x3D; Math.random().toString(36).substr(2);
+const cookieParser &#x3D; require(&#39;cookie-parser&#39;);
+const &#123;json&#125; &#x3D; require(&quot;express&quot;);
+app.use(cookieParser(session_secret));
+app.use(bodyParser.json())
+app.use(session(&#123; secret: session_secret, resave: true, saveUninitialized: true &#125;))
+const secret &#x3D; crypto.randomBytes(18).toString(&#39;hex&#39;);
+
+app.post(&#39;&#x2F;register&#39;, function (req, res) &#123;
+    const username &#x3D; req.body.name;
+    if ( username &#x3D;&#x3D; &#39;admin&#39;)&#123;
+        res.send(&quot;admin not allowed&quot;);
+        return
+    &#125;
+    const token &#x3D; jwt.sign(&#123;username&#125;, secret, &#123;algorithm: &#39;HS256&#39;&#125;);
+    res.send(&#123;token: token&#125;);
+&#125;);
+
+app.post(&#39;&#x2F;login&#39;, function (req, res) &#123;
+    const token &#x3D; req.body.auth
+    try &#123;
+        jwt.verify(token, secret, &#123;algorithm: &#39;HS256&#39;&#125;,function (_,user)&#123;
+            console.log(user)
+            req.session.user &#x3D; &#123;&quot;username&quot;:user.username&#125;
+        &#125;);
+    &#125;catch (e) &#123;
+        res.send(&quot;login error&quot;)
+        return
+    &#125;
+    res.send(req.session.user.username + &quot; login successfully&quot;)
+&#125;);
+
+
+app.post(&#39;&#x2F;readfile&#39;, function (req, res) &#123;
+    if (req.session.user.username !&#x3D;&#x3D; &quot;admin&quot;)&#123;
+        res.send(&quot;only admin can get flag&quot;)
+        return
+    &#125;
+    if (typeof req.body[&quot;secret&quot;] !&#x3D;&#x3D; &quot;number&quot;)&#123;
+        &#x2F;&#x2F;仅允许16进字符串
+        let regex_pattern &#x3D; &#x2F;^[a-fA-F\d.]+$&#x2F;
+        if (!regex_pattern.test(req.body[&quot;secret&quot;]))&#123;
+            res.send(&quot;only valid string under 16 radix allowed&quot;)
+            return
+        &#125;
+    &#125;
+    if (req.body.file &amp;&amp; parseInt(req.body[&quot;secret&quot;],16) &#x3D;&#x3D;&#x3D; 158 &amp;&amp; parseFloat(req.body[&quot;secret&quot;]) &lt; 9)&#123;
+        let file_param &#x3D; JSON.stringify(req.body.file)
+        if (file_param.includes(&quot;flag&quot;) || file_param.includes(&quot;fd&quot;)) &#123;
+            res.send(&quot;flag not allowed&quot;)
+            return
+        &#125;else &#123;
+            res.setHeader(&quot;Content-Type&quot;, &quot;text&#x2F;html&quot;);
+            res.send(fs.readFileSync(req.body.file || &quot;app.js&quot;).toString())
+            return
+        &#125;
+    &#125;
+    res.send(&quot;try to read &#x2F;flag&quot;)
+&#125;);
+app.get(&#39;&#x2F;&#39;, function (req, res) &#123;
+    res.send(&#39;see &#96;&#x2F;src&#96;&#39;);
+&#125;);
+
+
+
+app.get(&#39;&#x2F;src&#39;, function (req, res) &#123;
+    var data &#x3D; fs.readFileSync(&#39;app.js&#39;);
+    res.send(data.toString());
+&#125;);
+
+app.listen(3000, function () &#123;
+    console.log(&#39;start listening on port 3000&#39;);
+&#125;);
+</code></pre>
+
+<p>1</p>
 
                 
             </div>
@@ -1599,7 +1684,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">169.1k</span>
+                        class="white-color">170.8k</span>
             
             
             

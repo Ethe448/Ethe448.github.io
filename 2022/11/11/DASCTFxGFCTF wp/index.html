@@ -4,15 +4,14 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="github使用, Ethe&#39;s blog">
-    <meta name="description" content="​    在学python的时候顺便学了些GitHub的使用，写个文档防止忘了
- 
-
-绑定用户
-打开git-bash
-填写用户名和密码
-提示（配置的帐号名和邮箱一定要与GitHub相同，不然会提交失败）
-git config --globa">
+    <meta name="keywords" content="DASCTF X GFCTF wp, Ethe&#39;s blog">
+    <meta name="description" content="hade_waibo非预期就是先读start.sh文件，找到flag位置后读flag文件
+预期解
+#index.php
+&amp;lt;?php
+error_reporting(0);
+session_start();
+include &amp;#39;c">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -24,7 +23,7 @@ git config --globa">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>github使用 | Ethe&#39;s blog</title>
+    <title>DASCTF X GFCTF wp | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -328,12 +327,12 @@ git config --globa">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">github使用</h1>
+                    <h1 class="description center-align post-title">DASCTF X GFCTF wp</h1>
                 </div>
             </div>
         </div>
@@ -461,13 +460,9 @@ git config --globa">
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                                <span class="chip bg-color">随笔</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -479,28 +474,28 @@ git config --globa">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-10-02
+                    2022-11-11
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-27
+                    2022-11-11
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    532
+                    721
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    4 分
                 </div>
                 
 
@@ -523,60 +518,146 @@ git config --globa">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>​    在学python的时候顺便学了些GitHub的使用，写个文档防止忘了</p>
- <span id="more"></span>
+                <h2 id="hade-waibo"><a href="#hade-waibo" class="headerlink" title="hade_waibo"></a>hade_waibo</h2><p>非预期就是先读start.sh文件，找到flag位置后读flag文件</p>
+<p><strong>预期解</strong></p>
+<pre class="language-php" data-language="php"><code class="language-php">#index.php
+&lt;?php
+error_reporting(0);
+session_start();
+include &#39;class.php&#39;;
 
-<p><strong>绑定用户</strong></p>
-<p>打开git-bash</p>
-<p>填写用户名和密码</p>
-<p>提示（配置的帐号名和邮箱一定要与GitHub相同，不然会提交失败）</p>
-<pre class="language-none"><code class="language-none">git config --global user.name &quot;@@@&quot;     (GitHub相对应的帐号名称)
+if(isset($_POST[&#39;username&#39;]) &amp;&amp; $_POST[&#39;username&#39;]!&#x3D;&#39;&#39;)&#123;
+	#修复了登录还需要passwd的漏洞
+	$user &#x3D; new User($_POST[&#39;username&#39;]);
+&#125;
 
-git config --global user.email &quot;123@163.com&quot;  （GitHbu相对应的邮箱帐号）
-</code></pre>
+if($_SESSION[&#39;isLogin&#39;])&#123;
+	die(&quot;&lt;script&gt;alert(&#39;Login success!&#39;);location.href&#x3D;&#39;file.php&#39;&lt;&#x2F;script&gt;&quot;);
+&#125;else&#123;
+	die(&#39;
+&lt;form action&#x3D;&quot;index.php&quot; method&#x3D;&quot;post&quot;&gt;
+	&lt;div class&#x3D;&quot;ui input&quot;&gt;
+		&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;username&quot; placeholder&#x3D;&quot;Give me uname&quot; maxlength&#x3D;&quot;6&quot;&gt;
+	&lt;&#x2F;div&gt;
+&lt;form&gt;&#39;);
+&#125;</code></pre>
 
-<p><strong>设置ssh key</strong></p>
-<p>生成ssh key</p>
-<p>首先检查是否已生成密钥 cd ~/.ssh，ls如果有3个文件，则密钥已经生成，id_rsa.pub就是公钥</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvNzc0ODI0LzIwMTkwNy83NzQ4MjQtMjAxOTA3MTExNDU0MTYwMjAtOTMyNTYwNjcxLnBuZw?x-oss-process=image/format,png" alt="img"></p>
-<p> 如果没有，输入: ssh-keygen -t rsa -C &quot;你的邮箱&quot;</p>
-<p>复制ssh key</p>
-<p> 方法1: 输入 clip &lt; ~/.ssh/id_rsa.pub   会自动复制ssh key，可以直接粘贴</p>
-<p> 方法2:在c/Users/Administrator/.ssh/id_rsa)文件找到直接复制</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvNzc0ODI0LzIwMTkwNy83NzQ4MjQtMjAxOTA3MTExNTA5MzI2MTItMTQ3ODE2MTQ3NC5wbmc?x-oss-process=image/format,png" alt="img"></p>
-<p>连接github，打开GitHub 进入setting找到ssh key并新建</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/github%E4%BD%BF%E7%94%A8/format,png.png" alt="img">format,png.png)</p>
-<p>然后测试连接是否成功</p>
-<p>输入: ssh -T <a href="mailto:&#x67;&#105;&#116;&#64;&#103;&#105;&#x74;&#x68;&#117;&#x62;&#46;&#99;&#x6f;&#109;">&#x67;&#105;&#116;&#64;&#103;&#105;&#x74;&#x68;&#117;&#x62;&#46;&#99;&#x6f;&#109;</a> </p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvNzc0ODI0LzIwMTkwNy83NzQ4MjQtMjAxOTA3MTExNTI1MDg3MzYtNDUwMTA1MTMwLnBuZw?x-oss-process=image/format,png" alt="img"></p>
-<p><strong>上传</strong></p>
-<p>上传的基本步骤就是这样了</p>
-<p>先打开一个文件夹按着图片里的步骤来</p>
-<p>先初始化再把想传的文件传上去</p>
-<p>可以用git add .上传所有文件</p>
-<pre class="language-none"><code class="language-none">注：
-输入git add .后如果报错
-warning: LF will be replaced by CRLF in gradlew.
-The file will have its original line endings in your working directory
+<pre class="language-php" data-language="php"><code class="language-php">#class.php
+&lt;?php
+class User
+&#123;
+    public $username;
+    public function __construct($username)&#123;
+        $this-&gt;username &#x3D; $username;
+        $_SESSION[&#39;isLogin&#39;] &#x3D; True;
+        $_SESSION[&#39;username&#39;] &#x3D; $username;
+    &#125;
+    public function __wakeup()&#123;
+        $cklen &#x3D; strlen($_SESSION[&quot;username&quot;]);
+        if ($cklen !&#x3D; 0 and $cklen &lt;&#x3D; 6) &#123;
+            $this-&gt;username &#x3D; $_SESSION[&quot;username&quot;];
+        &#125;
+    &#125;
+    public function __destruct()&#123;
+        if ($this-&gt;username &#x3D;&#x3D; &#39;&#39;) &#123;
+            session_destroy();
+        &#125;
+    &#125;
+&#125;
 
-则在输入git config --global core.autocrlf false后再重新输入git add .命令即可</code></pre>
+class File
+&#123;
+    #更新黑名单为白名单，更加的安全
+    public $white &#x3D; array(&quot;jpg&quot;,&quot;png&quot;);
 
-<p>git commit添加备注</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/github%E4%BD%BF%E7%94%A8/image-20211002123234287.png" alt="image-20211002123234287"></p>
-<p>克隆仓库</p>
-<pre class="language-console" data-language="console"><code class="language-console">$ git clone 网址 [自定义目录名]</code></pre>
+    public function show($filename)&#123;
+        echo &#39;&lt;div class&#x3D;&quot;ui action input&quot;&gt;&lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;filename&quot; placeholder&#x3D;&quot;Search...&quot;&gt;&lt;button class&#x3D;&quot;ui button&quot; onclick&#x3D;&quot;window.location.href&#x3D;\&#39;file.php?m&#x3D;show&amp;filename&#x3D;\&#39;+document.getElementById(\&#39;filename\&#39;).value&quot;&gt;Search&lt;&#x2F;button&gt;&lt;&#x2F;div&gt;&lt;p&gt;&#39;;
+        if(empty($filename))&#123;die();&#125;
+        return &#39;&lt;img src&#x3D;&quot;data:image&#x2F;png;base64,&#39;.base64_encode(file_get_contents($filename)).&#39;&quot; &#x2F;&gt;&#39;;
+    &#125;
+    public function upload($type)&#123;
+        $filename &#x3D; &quot;dasctf&quot;.md5(time().$_FILES[&quot;file&quot;][&quot;name&quot;]).&quot;.$type&quot;;
+        move_uploaded_file($_FILES[&quot;file&quot;][&quot;tmp_name&quot;], &quot;upload&#x2F;&quot; . $filename);
+        return &quot;Upload success! Path: upload&#x2F;&quot; . $filename;
+    &#125;
+    public function rmfile()&#123;
+        system(&#39;rm -rf &#x2F;var&#x2F;www&#x2F;html&#x2F;upload&#x2F;*&#39;);
+    &#125;
+    public function check($type)&#123;
+        if (!in_array($type,$this-&gt;white))&#123;
+            return false;
+        &#125;
+        return true;
+    &#125;
 
-<p>可以用https://或git://或ssh传输协议</p>
-<p>查看连接的仓库地址</p>
-<pre class="language-none"><code class="language-none">git remote -v</code></pre>
+&#125;
 
-<p>如果在另外的文件夹提交需重新进行一遍图中步骤</p>
-<p>还要再push前输入</p>
-<pre class="language-none"><code class="language-none">git pull --rebase origin main</code></pre>
+#更新了一个恶意又有趣的Test类
+class Test
+&#123;
+    public $value;
 
-<p>该命令的意思是把远程库中的<strong>更新合并</strong>到（<strong>pull=fetch+merge</strong>）本地库中，<strong>–-rebase</strong>的作用是取消掉本地库中刚刚的commit，并把他们<strong>接到</strong>更新后的版本库之中。出现如下图执行pull执行成功后，可以成功执行git push origin main操作。</p>
-<p>否则就会因为本地库与远程库不一致导致报错</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/github%E4%BD%BF%E7%94%A8/image-20211002130237512.png" alt="image-20211002130237512"></p>
+    public function __destruct()&#123;
+        chdir(&#39;.&#x2F;upload&#39;);
+        $this-&gt;backdoor();
+    &#125;
+    public function __wakeup()&#123;
+        $this-&gt;value &#x3D; &quot;Don&#39;t make dream.Wake up plz!&quot;;
+    &#125;
+    public function __toString()&#123;
+        $file &#x3D; substr($_GET[&#39;file&#39;],0,3);
+        file_put_contents($file, &quot;Hack by $file !&quot;);
+        return &#39;Unreachable! :)&#39;;
+    &#125;
+    public function backdoor()&#123;
+        if(preg_match(&#39;&#x2F;[A-Za-z0-9?$@]+&#x2F;&#39;, $this-&gt;value))&#123;
+            $this-&gt;value &#x3D; &#39;nono~&#39;;
+        &#125;
+        system($this-&gt;value);
+    &#125;
+
+&#125;</code></pre>
+
+<pre class="language-php" data-language="php"><code class="language-php">#file.php
+&lt;?php
+error_reporting(0);
+session_start();
+include &#39;class.php&#39;;
+
+
+$file &#x3D; new file();
+switch ($_GET[&#39;m&#39;]) &#123;
+
+	case &#39;upload&#39;:
+		if(empty($_FILES))&#123;die($form);&#125;
+
+		$type &#x3D; end(explode(&quot;.&quot;, $_FILES[&#39;file&#39;][&#39;name&#39;]));
+		if ($file-&gt;check($type)) &#123;
+			die($file-&gt;upload($type));
+		&#125;else&#123;
+			die(&#39;你食不食油饼🤬&#39;);
+		&#125;
+		break;
+
+	case &#39;show&#39;:
+		die($file-&gt;show($_GET[&#39;filename&#39;]));
+		break;
+
+	case &#39;rm&#39;:
+		$file-&gt;rmfile();
+		die(&quot;全删干净了捏😋&quot;);
+		break;
+
+	case &#39;logout&#39;:
+		session_destroy();
+		die(&quot;&lt;script&gt;alert(&#39;已退出登录&#39;);location.href&#x3D;&#39;index.php&#39;&lt;&#x2F;script&gt;&quot;);
+		break;
+
+	default:
+		echo &#39;&lt;h2&gt;Halo! &#39;.$_SESSION[&#39;username&#39;].&#39;&lt;&#x2F;h2&gt;&#39;;
+		break;
+&#125;
+?&gt;</code></pre>
 
                 
             </div>
@@ -603,7 +684,7 @@ The file will have its original line endings in your working directory
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2021/10/02/github%E4%BD%BF%E7%94%A8/">https://Ethe448.github.io/2021/10/02/github%E4%BD%BF%E7%94%A8/</a>
+                    <a href="https://Ethe448.github.io/2022/11/11/DASCTFxGFCTF%20wp/">https://Ethe448.github.io/2022/11/11/DASCTFxGFCTF%20wp/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -640,11 +721,7 @@ The file will have its original line endings in your working directory
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                                    <span class="chip bg-color">随笔</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -1082,17 +1159,18 @@ The file will have its original line endings in your working directory
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/01/19/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/">
+                <a href="/2022/11/11/DASCTFxGFCTF%20wp/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/18.jpg" class="responsive-img" alt="buu刷题记录(二)">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/21.jpg" class="responsive-img" alt="DASCTF X GFCTF wp">
                         
-                        <span class="card-title">buu刷题记录(二)</span>
+                        <span class="card-title">DASCTF X GFCTF wp</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1102,9 +1180,9 @@ The file will have its original line endings in your working directory
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-19
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-11
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1113,14 +1191,7 @@ The file will have its original line endings in your working directory
                         </span>
                     </div>
                 </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/ctf/">
-                        <span class="chip bg-color">ctf</span>
-                    </a>
-                    
-                </div>
+
                 
             </div>
         </div>
@@ -1131,24 +1202,24 @@ The file will have its original line endings in your working directory
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/08/31/%E6%80%BB%E7%BB%93/">
+                <a href="/2022/10/20/%E4%B8%80%E4%BA%9Bweb%E9%A2%98/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/2.jpg" class="responsive-img" alt="总结">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/16.jpg" class="responsive-img" alt="一些web题">
                         
-                        <span class="card-title">总结</span>
+                        <span class="card-title">一些web题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            随便写点东西，写的挺乱的
+                            
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-31
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-20
                             </span>
                         <span class="publish-author">
                             
@@ -1157,14 +1228,6 @@ The file will have its original line endings in your working directory
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                        <span class="chip bg-color">随笔</span>
-                    </a>
-                    
                 </div>
                 
             </div>

@@ -4,14 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="DASCTF X GFCTF wp, Ethe&#39;s blog">
-    <meta name="description" content="hade_waibo非预期就是先读start.sh文件，找到flag位置后读flag文件
-预期解
-#index.php
-&amp;lt;?php
-error_reporting(0);
-session_start();
-include &amp;#39;c">
+    <meta name="keywords" content="Java, Ethe&#39;s blog">
+    <meta name="description" content="https://www.javasec.org
+02.Java反射机制 · d4m1ts 知识库 (gm7.org)
+ClassLoader（类加载机制）Java能成为跨平台开发语言的原因就是JVM（Java虚拟机）的存在，Java程序在允">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -23,7 +19,7 @@ include &amp;#39;c">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>DASCTF X GFCTF wp | Ethe&#39;s blog</title>
+    <title>Java | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -327,12 +323,12 @@ include &amp;#39;c">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">DASCTF X GFCTF wp</h1>
+                    <h1 class="description center-align post-title">Java</h1>
                 </div>
             </div>
         </div>
@@ -460,9 +456,13 @@ include &amp;#39;c">
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/web/">
+                                <span class="chip bg-color">web</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -474,28 +474,28 @@ include &amp;#39;c">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-11-11
+                    2023-03-16
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-02-07
+                    2023-03-18
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    721
+                    5.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    24 分
                 </div>
                 
 
@@ -518,146 +518,469 @@ include &amp;#39;c">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="hade-waibo"><a href="#hade-waibo" class="headerlink" title="hade_waibo"></a>hade_waibo</h2><p>非预期就是先读start.sh文件，找到flag位置后读flag文件</p>
-<p><strong>预期解</strong></p>
-<pre class="language-php" data-language="php"><code class="language-php">#index.php
-&lt;?php
-error_reporting(0);
-session_start();
-include &#39;class.php&#39;;
+                <p><a target="_blank" rel="noopener" href="https://www.javasec.org/">https://www.javasec.org</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.gm7.org/%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/02.%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/01.Java%E5%AE%89%E5%85%A8/01.%E5%AE%A1%E8%AE%A1%E5%9F%BA%E7%A1%80/02.Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6.html#%E4%BD%95%E4%B8%BA%E5%8F%8D%E5%B0%84">02.Java反射机制 · d4m1ts 知识库 (gm7.org)</a></p>
+<h1 id="ClassLoader（类加载机制）"><a href="#ClassLoader（类加载机制）" class="headerlink" title="ClassLoader（类加载机制）"></a>ClassLoader（类加载机制）</h1><p>Java能成为跨平台开发语言的原因就是JVM（Java虚拟机）的存在，Java程序在允许前要先编译为class文件，然后在Java类初始化（这是类加载的最后阶段，所有的静态变量都将被赋予原始值，并且静态区块将被执行。）时会调用<code>java.lang.ClassLoader</code>加载类字节码，<code>ClassLoader</code>会调用JVM的native方法（<code>defineClass0/1/2</code>）来定义一个<code>java.lang.Class</code>实例。</p>
+<h2 id="Jvm架构图"><a href="#Jvm架构图" class="headerlink" title="Jvm架构图"></a>Jvm架构图</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316151025559.png" alt="image-20230316151025559"></p>
+<p>具体介绍看这个<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1042507">https://cloud.tencent.com/developer/article/1042507</a></p>
+<h2 id="ClassLoader"><a href="#ClassLoader" class="headerlink" title="ClassLoader"></a>ClassLoader</h2><p>一切的Java类都必须经过JVM加载后才能运行，而<code>ClassLoader</code>的主要作用就是Java类文件的加载。在JVM类加载器中最顶层的是<code>Bootstrap ClassLoader（引导类加载器）</code>、<code>Extension ClassLoader（扩展类加载器）</code>、<code>App ClassLoader（系统类加载器）</code>，<code>AppClassLoader</code>是默认的类加载器，如果类加载时我们不指定类加载器的情况下，默认会使用<code>AppClassLoader</code>加载类，<code>ClassLoader.getSystemClassLoader()</code>返回的系统类加载器也是<code>AppClassLoader</code>。</p>
+<p><strong>但是虽然默认使用的App ClassLoader加载类，但是加载顺序却是不同的</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316155755283.png" alt="image-20230316155755283"></p>
+<p>但是我们在尝试获取被<code>Bootstrap ClassLoader</code>类加载器所加载的类的<code>ClassLoader</code>时候都会返回<code>null</code>。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316160205108.png" alt="image-20230316160205108"></p>
+<p><code>ClassLoader</code>类有如下核心方法：</p>
+<ol>
+<li><p><code>loadClass</code>（加载指定的Java类）</p>
+</li>
+<li><p><code>findClass</code>（查找指定的Java类）</p>
+</li>
+<li><p><code>findLoadedClass</code>（查找JVM已经加载过的类）</p>
+</li>
+<li><p><code>defineClass</code>（定义一个Java类）</p>
+</li>
+<li><p><code>resolveClass</code>（链接指定的Java类）</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316153913076.png" alt="image-20230316153913076"></p>
+</li>
+</ol>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316153905380.png" alt="image-20230316153905380"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316154411264.png" alt="image-20230316154411264"></p>
+<p><code>Class.forName(&quot;类名&quot;)</code>默认会初始化被加载类的静态属性和方法，如果不希望初始化类可以使用<code>Class.forName(&quot;类名&quot;, 是否初始化类, 类加载器)</code>，而<code>ClassLoader.loadClass</code>默认不会初始化类方法。</p>
+<h2 id="类加载流程"><a href="#类加载流程" class="headerlink" title="类加载流程"></a>类加载流程</h2><p>就以上图使用反射加载test为例</p>
+<ol>
+<li><p>ClassLoader会调用public Class&lt;?&gt; loadClass(String name)去加载test类</p>
+</li>
+<li><p>调用<strong>findLoadedClass</strong>方法检查test类是否已经初始化，如果JVM已初始化过该类则直接返回类对象。</p>
+</li>
+<li><p>如果创建当前ClassLoader时传入了父类加载器（new ClassLoader(父类加载器)）就使用父类加载器加载test类，否则使用JVM的Bootstrap ClassLoader加载。</p>
+<p>但是这里它并不是自己进行查找，而是先委托给父加载器，然后递归委托，直到Bootstrap ClassLoader加载器；如果Bootstrap classloader找到了，直接加载并且返回class和resource；如果没有找到，则一级一级返回，最后才是自己（这里的自己正常的肯定就是App ClassLoader，要不然就是你的自定义的类加载器）去查找加载。这个机制被称为<strong>双亲委派</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316162218853.png" alt="image-20230316162218853"></p>
+</li>
+<li><p>如果当前的ClassLoader没有重写了findClass方法，那么直接返回类加载失败异常。如果当前类重写了findClass方法并通过传入的test类名找到了对应的类字节码，那么应该调用<strong>defineClass</strong>方法去JVM中注册该类。</p>
+</li>
+<li><p>如果调用loadClass的时候传入的resolve参数为true，那么还需要调用<strong>resolveClass</strong>方法链接类，默认为false。</p>
+</li>
+<li><p>返回一个被JVM加载后的java.lang.Class类对象。</p>
+</li>
+</ol>
+<h2 id="双亲委派"><a href="#双亲委派" class="headerlink" title="双亲委派"></a>双亲委派</h2><p>之前我们简单提到了双亲委派的含义</p>
+<p>接下来介绍一下双亲委派的优点</p>
+<p>​    使用双亲委派模型来组织类加载器之间的关系，有一个显而易见的好处就是Java类随着它的类加载器一起具备了一种带有优先级的层次关系。</p>
+<p>​    例如类<code>java.lang.Object</code>，它存放在<code>rt.jar</code>之中，无论哪一个类加载器要加载这个类，最终都是委派给处于模型最顶端的启动类加载器进行加载，因此Object类在程序的各种类加载器环境中都是同一个类。相反，如果没有使用双亲委派模型，由各个类加载器自行去加载的话，如果用户自己编写了一个称为<code>java.lang.Object</code>的类，并放在程序的ClassPath中，那系统中将会出现多个不同的Object类，Java类型体系中最基础的行为也就无法保证，应用程序也将会变得一片混乱。</p>
+<p>所以它的优点</p>
+<ul>
+<li>系统类防止内存中出现多份同样的字节码</li>
+<li>保证Java程序安全稳定运行</li>
+</ul>
+<h2 id="自定义ClassLoader"><a href="#自定义ClassLoader" class="headerlink" title="自定义ClassLoader"></a>自定义ClassLoader</h2><p><code>java.lang.ClassLoader</code>是所有的类加载器的父类，<code>java.lang.ClassLoader</code>有非常多的子类加载器，比如我们用于加载jar包的<code>java.net.URLClassLoader</code>其本身通过继承<code>java.lang.ClassLoader</code>类，重写了<code>findClass</code>方法从而实现了加载目录class文件甚至是远程资源文件。</p>
+<p>既然URLClassLoader可以加载目录class文件或者远程资源文件，那这里我们也可以写一个ClassLoader去加载我们自己写的类</p>
+<p>例子</p>
+<pre class="language-java" data-language="java"><code class="language-java">package com.anbai.sec.classloader;
 
-if(isset($_POST[&#39;username&#39;]) &amp;&amp; $_POST[&#39;username&#39;]!&#x3D;&#39;&#39;)&#123;
-	#修复了登录还需要passwd的漏洞
-	$user &#x3D; new User($_POST[&#39;username&#39;]);
-&#125;
+import java.lang.reflect.Method;
 
-if($_SESSION[&#39;isLogin&#39;])&#123;
-	die(&quot;&lt;script&gt;alert(&#39;Login success!&#39;);location.href&#x3D;&#39;file.php&#39;&lt;&#x2F;script&gt;&quot;);
-&#125;else&#123;
-	die(&#39;
-&lt;form action&#x3D;&quot;index.php&quot; method&#x3D;&quot;post&quot;&gt;
-	&lt;div class&#x3D;&quot;ui input&quot;&gt;
-		&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;username&quot; placeholder&#x3D;&quot;Give me uname&quot; maxlength&#x3D;&quot;6&quot;&gt;
-	&lt;&#x2F;div&gt;
-&lt;form&gt;&#39;);
+&#x2F;**
+ * Creator: yz
+ * Date: 2019&#x2F;12&#x2F;17
+ *&#x2F;
+public class TestClassLoader extends ClassLoader &#123;
+
+    &#x2F;&#x2F; TestHelloWorld类名
+    private static String testClassName &#x3D; &quot;com.anbai.sec.classloader.TestHelloWorld&quot;;
+
+    &#x2F;&#x2F; TestHelloWorld类字节码
+    private static byte[] testClassBytes &#x3D; new byte[]&#123;
+            -54, -2, -70, -66, 0, 0, 0, 51, 0, 17, 10, 0, 4, 0, 13, 8, 0, 14, 7, 0, 15, 7, 0,
+            16, 1, 0, 6, 60, 105, 110, 105, 116, 62, 1, 0, 3, 40, 41, 86, 1, 0, 4, 67, 111, 100,
+            101, 1, 0, 15, 76, 105, 110, 101, 78, 117, 109, 98, 101, 114, 84, 97, 98, 108, 101,
+            1, 0, 5, 104, 101, 108, 108, 111, 1, 0, 20, 40, 41, 76, 106, 97, 118, 97, 47, 108,
+            97, 110, 103, 47, 83, 116, 114, 105, 110, 103, 59, 1, 0, 10, 83, 111, 117, 114, 99,
+            101, 70, 105, 108, 101, 1, 0, 19, 84, 101, 115, 116, 72, 101, 108, 108, 111, 87, 111,
+            114, 108, 100, 46, 106, 97, 118, 97, 12, 0, 5, 0, 6, 1, 0, 12, 72, 101, 108, 108, 111,
+            32, 87, 111, 114, 108, 100, 126, 1, 0, 40, 99, 111, 109, 47, 97, 110, 98, 97, 105, 47,
+            115, 101, 99, 47, 99, 108, 97, 115, 115, 108, 111, 97, 100, 101, 114, 47, 84, 101, 115,
+            116, 72, 101, 108, 108, 111, 87, 111, 114, 108, 100, 1, 0, 16, 106, 97, 118, 97, 47, 108,
+            97, 110, 103, 47, 79, 98, 106, 101, 99, 116, 0, 33, 0, 3, 0, 4, 0, 0, 0, 0, 0, 2, 0, 1,
+            0, 5, 0, 6, 0, 1, 0, 7, 0, 0, 0, 29, 0, 1, 0, 1, 0, 0, 0, 5, 42, -73, 0, 1, -79, 0, 0, 0,
+            1, 0, 8, 0, 0, 0, 6, 0, 1, 0, 0, 0, 7, 0, 1, 0, 9, 0, 10, 0, 1, 0, 7, 0, 0, 0, 27, 0, 1,
+            0, 1, 0, 0, 0, 3, 18, 2, -80, 0, 0, 0, 1, 0, 8, 0, 0, 0, 6, 0, 1, 0, 0, 0, 10, 0, 1, 0, 11,
+            0, 0, 0, 2, 0, 12
+    &#125;;
+
+    @Override
+    public Class&lt;?&gt; findClass(String name) throws ClassNotFoundException &#123;
+        &#x2F;&#x2F; 只处理TestHelloWorld类
+        if (name.equals(testClassName)) &#123;
+            &#x2F;&#x2F; 调用JVM的native方法定义TestHelloWorld类
+            return defineClass(testClassName, testClassBytes, 0, testClassBytes.length);
+        &#125;
+
+        return super.findClass(name);
+    &#125;
+
+    public static void main(String[] args) &#123;
+        &#x2F;&#x2F; 创建自定义的类加载器
+        TestClassLoader loader &#x3D; new TestClassLoader();
+
+        try &#123;
+            &#x2F;&#x2F; 使用自定义的类加载器加载TestHelloWorld类
+            Class testClass &#x3D; loader.loadClass(testClassName);
+
+            &#x2F;&#x2F; 反射创建TestHelloWorld类，等价于 TestHelloWorld t &#x3D; new TestHelloWorld();
+            Object testInstance &#x3D; testClass.newInstance();
+
+            &#x2F;&#x2F; 反射获取hello方法
+            Method method &#x3D; testInstance.getClass().getMethod(&quot;hello&quot;);
+
+            &#x2F;&#x2F; 反射调用hello方法,等价于 String str &#x3D; t.hello();
+            String str &#x3D; (String) method.invoke(testInstance);
+
+            System.out.println(str);
+        &#125; catch (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
 &#125;</code></pre>
 
-<pre class="language-php" data-language="php"><code class="language-php">#class.php
-&lt;?php
-class User
-&#123;
-    public $username;
-    public function __construct($username)&#123;
-        $this-&gt;username &#x3D; $username;
-        $_SESSION[&#39;isLogin&#39;] &#x3D; True;
-        $_SESSION[&#39;username&#39;] &#x3D; $username;
+<h2 id="URLClassLoader"><a href="#URLClassLoader" class="headerlink" title="URLClassLoader"></a>URLClassLoader</h2><p>上面我们说URLClassLoader可以加载远程的资源文件，所以我们可以利用这一特性让程序加载远程的恶意jar文件，去执行其中的命令</p>
+<p>这里直接python起一个本地服务器放cmd.jar的恶意jar包</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316194721004.png" alt="image-20230316194721004"></p>
+<pre class="language-java" data-language="java"><code class="language-java">public class CMD &#123;
+    public static Process exec(String[] cmd) throws IOException &#123;
+        return Runtime.getRuntime().exec(cmd);
     &#125;
-    public function __wakeup()&#123;
-        $cklen &#x3D; strlen($_SESSION[&quot;username&quot;]);
-        if ($cklen !&#x3D; 0 and $cklen &lt;&#x3D; 6) &#123;
-            $this-&gt;username &#x3D; $_SESSION[&quot;username&quot;];
-        &#125;
-    &#125;
-    public function __destruct()&#123;
-        if ($this-&gt;username &#x3D;&#x3D; &#39;&#39;) &#123;
-            session_destroy();
-        &#125;
-    &#125;
-&#125;
-
-class File
-&#123;
-    #更新黑名单为白名单，更加的安全
-    public $white &#x3D; array(&quot;jpg&quot;,&quot;png&quot;);
-
-    public function show($filename)&#123;
-        echo &#39;&lt;div class&#x3D;&quot;ui action input&quot;&gt;&lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;filename&quot; placeholder&#x3D;&quot;Search...&quot;&gt;&lt;button class&#x3D;&quot;ui button&quot; onclick&#x3D;&quot;window.location.href&#x3D;\&#39;file.php?m&#x3D;show&amp;filename&#x3D;\&#39;+document.getElementById(\&#39;filename\&#39;).value&quot;&gt;Search&lt;&#x2F;button&gt;&lt;&#x2F;div&gt;&lt;p&gt;&#39;;
-        if(empty($filename))&#123;die();&#125;
-        return &#39;&lt;img src&#x3D;&quot;data:image&#x2F;png;base64,&#39;.base64_encode(file_get_contents($filename)).&#39;&quot; &#x2F;&gt;&#39;;
-    &#125;
-    public function upload($type)&#123;
-        $filename &#x3D; &quot;dasctf&quot;.md5(time().$_FILES[&quot;file&quot;][&quot;name&quot;]).&quot;.$type&quot;;
-        move_uploaded_file($_FILES[&quot;file&quot;][&quot;tmp_name&quot;], &quot;upload&#x2F;&quot; . $filename);
-        return &quot;Upload success! Path: upload&#x2F;&quot; . $filename;
-    &#125;
-    public function rmfile()&#123;
-        system(&#39;rm -rf &#x2F;var&#x2F;www&#x2F;html&#x2F;upload&#x2F;*&#39;);
-    &#125;
-    public function check($type)&#123;
-        if (!in_array($type,$this-&gt;white))&#123;
-            return false;
-        &#125;
-        return true;
-    &#125;
-
-&#125;
-
-#更新了一个恶意又有趣的Test类
-class Test
-&#123;
-    public $value;
-
-    public function __destruct()&#123;
-        chdir(&#39;.&#x2F;upload&#39;);
-        $this-&gt;backdoor();
-    &#125;
-    public function __wakeup()&#123;
-        $this-&gt;value &#x3D; &quot;Don&#39;t make dream.Wake up plz!&quot;;
-    &#125;
-    public function __toString()&#123;
-        $file &#x3D; substr($_GET[&#39;file&#39;],0,3);
-        file_put_contents($file, &quot;Hack by $file !&quot;);
-        return &#39;Unreachable! :)&#39;;
-    &#125;
-    public function backdoor()&#123;
-        if(preg_match(&#39;&#x2F;[A-Za-z0-9?$@]+&#x2F;&#39;, $this-&gt;value))&#123;
-            $this-&gt;value &#x3D; &#39;nono~&#39;;
-        &#125;
-        system($this-&gt;value);
-    &#125;
-
 &#125;</code></pre>
 
-<pre class="language-php" data-language="php"><code class="language-php">#file.php
-&lt;?php
-error_reporting(0);
-session_start();
-include &#39;class.php&#39;;
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316222229237.png" alt="image-20230316222229237"></p>
+<pre class="language-java" data-language="java"><code class="language-java">import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLClassLoader;
 
+public class TestURLClassLoader &#123;
+    public static void main(String[] args) throws Exception &#123;
+        &#x2F;&#x2F; 从url指定的远程http服务器上加载的jar文件
+        URL url &#x3D; new URL(&quot;http:&#x2F;&#x2F;127.0.0.1:8001&#x2F;cmd.jar&quot;);
+        &#x2F;&#x2F; 创建URLClassLoader加载远程jar包
+        URLClassLoader urlClassLoader &#x3D; new URLClassLoader(new URL[]&#123;url&#125;);
+        &#x2F;&#x2F;rce命令弹出计算器
+        String[] cmd &#x3D; new String[]&#123;&quot;cmd&quot;,&quot;&#x2F;c&quot;,&quot;dir&quot;&#125;;
+        &#x2F;&#x2F; 通过URLClassLoader加载远程jar包中的CMD类
+        Class&lt;?&gt; aClass &#x3D; urlClassLoader.loadClass(&quot;CMD&quot;);
+        Process process &#x3D; (Process) aClass.getMethod(&quot;exec&quot;, String[].class).invoke(null, (Object) cmd);
+        InputStream inputStream &#x3D; process.getInputStream();
+        byte[]                b    &#x3D; new byte[1024];
+        ByteArrayOutputStream baos &#x3D; new ByteArrayOutputStream();
+        int                   a    &#x3D; -1;
+        while ((a &#x3D; inputStream.read(b)) !&#x3D; -1) &#123;
+            baos.write(b, 0, a);
+        &#125;
+        System.out.println(baos);
+    &#125;
+&#125;</code></pre>
 
-$file &#x3D; new file();
-switch ($_GET[&#39;m&#39;]) &#123;
+<p>这里补一点java命令执行的知识，使用<code>Runtime.getRuntime().exec(cmd);</code>执行java命令的时候，如果只传一个参数就只能执行类似calc这样的命令，如果想执行dir之类的命令，需要穿一个字符数组，格式在Windows上为<code>&#123;&quot;cmd&quot;,&quot;/c&quot;,&quot;dir&quot;&#125;</code>，在Linux下为</p>
+<p><code>&#123;&quot;/bin/sh&quot;,&quot;-c&quot;,&quot;dir&quot;&#125;</code></p>
+<h1 id="Java反射机制"><a href="#Java反射机制" class="headerlink" title="Java反射机制"></a>Java反射机制</h1><p>反射就是Reflection，<strong>Java的反射是指程序在运行期可以拿到一个对象的所有信息</strong>。即Java反射机制是在运行状态时，对于任意一个类，都能够获取到这个类的所有属性和方法，对于任意一个对象，都能够调用它的任意一个方法和属性(包括私有的方法和属性)，这种动态获取的信息以及动态调用对象的方法的功能就称为java语言的反射机制。</p>
+<p><strong><code>class</code>是由JVM在执行过程中动态加载的。JVM在第一次读取到一种<code>class</code>类型时，将其加载进内存。</strong></p>
+<p>每加载一种<code>class</code>，JVM就为其创建一个<code>Class</code>类型的实例，并关联起来。注意：这里的<code>Class</code>类型是一个名叫<code>Class</code>的<code>class</code>。简单来说，这里的Class是Class类</p>
+<pre class="language-java" data-language="java"><code class="language-java">public final class Class &#123;
+    private Class() &#123;&#125;
+&#125;</code></pre>
 
-	case &#39;upload&#39;:
-		if(empty($_FILES))&#123;die($form);&#125;
-
-		$type &#x3D; end(explode(&quot;.&quot;, $_FILES[&#39;file&#39;][&#39;name&#39;]));
-		if ($file-&gt;check($type)) &#123;
-			die($file-&gt;upload($type));
-		&#125;else&#123;
-			die(&#39;你食不食油饼🤬&#39;);
-		&#125;
-		break;
-
-	case &#39;show&#39;:
-		die($file-&gt;show($_GET[&#39;filename&#39;]));
-		break;
-
-	case &#39;rm&#39;:
-		$file-&gt;rmfile();
-		die(&quot;全删干净了捏😋&quot;);
-		break;
-
-	case &#39;logout&#39;:
-		session_destroy();
-		die(&quot;&lt;script&gt;alert(&#39;已退出登录&#39;);location.href&#x3D;&#39;index.php&#39;&lt;&#x2F;script&gt;&quot;);
-		break;
-
-	default:
-		echo &#39;&lt;h2&gt;Halo! &#39;.$_SESSION[&#39;username&#39;].&#39;&lt;&#x2F;h2&gt;&#39;;
-		break;
+<p>这个Class实例是JVM内部创建的，构造方法是private，只有JVM能创建<code>Class</code>实例</p>
+<p><strong>JVM为每个加载的<code>class</code>创建了对应的<code>Class</code>实例，并在实例中保存了该<code>class</code>的所有信息，包括类名、包名、父类、实现的接口、所有方法、字段等，因此，如果获取了某个<code>Class</code>实例，我们就可以通过这个<code>Class</code>实例获取到该实例对应的<code>class</code>的所有信息。</strong></p>
+<p>通过Class实例获取到class信息的方法就被成为反射</p>
+<h2 id="获取class的Class实例方法"><a href="#获取class的Class实例方法" class="headerlink" title="获取class的Class实例方法"></a>获取class的Class实例方法</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316224422778.png" alt="image-20230316224422778"></p>
+<h2 id="通过反射获取字段"><a href="#通过反射获取字段" class="headerlink" title="通过反射获取字段"></a>通过反射获取字段</h2><p>newInstance()调用<strong>无参数构造方法</strong></p>
+<pre class="language-java" data-language="java"><code class="language-java">class ReflectTest02&#123;
+    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException &#123;
+        &#x2F;&#x2F; 下面这段代码是以反射机制的方式创建对象。    &#x2F;&#x2F; 通过反射机制，获取Class，通过Class来实例化对象
+    Class c &#x3D; Class.forName(&quot;javase.reflectBean.User&quot;);
+    &#x2F;&#x2F; newInstance() 这个方法会调用User这个类的无参数构造方法，完成对象的创建。
+    &#x2F;&#x2F; 重点是：newInstance()调用的是无参构造，必须保证无参构造是存在的！
+    Object obj &#x3D; c.newInstance();
+    System.out.println(obj);
 &#125;
-?&gt;</code></pre>
+&#125;</code></pre>
+<p>获取属性</p>
+<pre class="language-java" data-language="java"><code class="language-java">import java.util.Arrays;
+
+public class Java &#123;
+    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException, InstantiationException &#123;
+        Class tc &#x3D; aa.class;
+        System.out.println(tc.getName());&#x2F;&#x2F;获取类名
+        System.out.println(Arrays.toString(tc.getDeclaredFields()));&#x2F;&#x2F;获取所有的属性
+        System.out.println(tc.getField(&quot;a&quot;));&#x2F;&#x2F; 根据字段名获取某个 public 的field（包括父类）
+        System.out.println(tc.getDeclaredField(&quot;b&quot;));&#x2F;&#x2F; 根据字段名获取某个 public 的field（不包括父类）
+
+        System.out.println(tc.getField(&quot;a&quot;).getName()); &#x2F;&#x2F; 字段名称
+        System.out.println(tc.getField(&quot;a&quot;).getType()); &#x2F;&#x2F; 字段类型，也是一个Class实例
+        System.out.println(tc.getField(&quot;a&quot;).getModifiers()); &#x2F;&#x2F; 修饰符
+
+        tc.getDeclaredField(&quot;a&quot;).setAccessible(true);
+        Object o &#x3D; tc.newInstance();
+
+        System.out.println(tc.getDeclaredField(&quot;a&quot;).get(o));&#x2F;&#x2F; 获取值
+
+        tc.getDeclaredField(&quot;a&quot;).set(o,&quot;111&quot;);
+        System.out.println(tc.getDeclaredField(&quot;a&quot;).get(o));&#x2F;&#x2F; 获取值
+
+
+    &#125;
+&#125;
+class aa&#123;
+    public  String a &#x3D; &quot;xxx&quot;;
+    private  int b;
+    public void a()&#123;
+        System.out.println(1);
+    &#125;
+    public void b(String a)&#123;
+        System.out.println(a);
+    &#125;
+&#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316232232508.png" alt="image-20230316232232508"></p>
+<p>小结：</p>
+<blockquote>
+<ol>
+<li>通过<code>Class</code>实例的方法可以获取<code>Field</code>实例：<code>getField()</code>，<code>getFields()</code>，<code>getDeclaredField()</code>，<code>getDeclaredFields()</code>；</li>
+<li>通过Field实例可以获取字段信息：<code>getName()</code>，<code>getType()</code>，<code>getModifiers()</code>；</li>
+<li>通过Field实例可以读取或设置某个对象的字段，如果存在访问限制，要首先调用<code>setAccessible(true)</code>来访问非<code>public</code>字段。</li>
+<li>通过反射读写字段是一种非常规方法，它会破坏对象的封装。</li>
+</ol>
+</blockquote>
+<h2 id="通过反射获取方法"><a href="#通过反射获取方法" class="headerlink" title="通过反射获取方法*"></a>通过反射获取方法*</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230317124813556.png" alt="image-20230317124813556"></p>
+<p>使用invoke进行调用</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230317125053005.png" alt="image-20230317125053005"></p>
+<p>小结：</p>
+<blockquote>
+<p>Java的反射API提供的Method对象封装了方法的所有信息：</p>
+<ol>
+<li>通过<code>Class</code>实例的方法可以获取<code>Method</code>实例：<code>getMethod()</code>，<code>getMethods()</code>，<code>getDeclaredMethod()</code>，<code>getDeclaredMethods()</code>；</li>
+<li>通过<code>Method</code>实例可以获取方法信息：<code>getName()</code>，<code>getReturnType()</code>，<code>getParameterTypes()</code>，<code>getModifiers()</code>；</li>
+<li>通过<code>Method</code>实例可以调用某个对象的方法：<code>Object invoke(Object instance, Object... parameters)</code>；</li>
+<li>通过设置<code>setAccessible(true)</code>来访问非<code>public</code>方法；</li>
+<li>通过反射调用方法时，仍然遵循多态原则。</li>
+</ol>
+</blockquote>
+<h2 id="调用构造方法"><a href="#调用构造方法" class="headerlink" title="调用构造方法"></a>调用构造方法</h2><p>newInstance()只能调用无参的且为public类型的构造方法来进行实例化对象，但是如果构造方法有参数时或者不是public类型时，需要用getConstructor来配合newInstance()使用</p>
+<p>我们把aa类里的构造方法写为</p>
+<pre class="language-java" data-language="java"><code class="language-java">public aa(String a) &#123;
+    System.out.println(a);
+&#125;</code></pre>
+
+<p>此时需要创建实例化对象的步骤就应该变为</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230317125725886.png" alt="image-20230317125725886"></p>
+<p>小结：</p>
+<blockquote>
+<p><code>Constructor</code>对象封装了构造方法的所有信息；</p>
+<ol>
+<li>通过<code>Class</code>实例的方法可以获取<code>Constructor</code>实例：<code>getConstructor()</code>，<code>getConstructors()</code>，<code>getDeclaredConstructor()</code>，<code>getDeclaredConstructors()</code>；</li>
+<li>通过<code>Constructor</code>实例可以创建一个实例对象：<code>newInstance(Object... parameters)</code>； 通过设置<code>setAccessible(true)</code>来访问非<code>public</code>构造方法。</li>
+</ol>
+</blockquote>
+<h2 id="反射java-lang-Runtime"><a href="#反射java-lang-Runtime" class="headerlink" title="反射java.lang.Runtime"></a>反射java.lang.Runtime</h2><p>之前在URLClassLoader的部分我们提到java.lang.Runtime有一个exec方法可以执行我们本地的命令，所有这里我们尝试用反射的方式来调用其中的exec方法执行命令</p>
+<pre class="language-java" data-language="java"><code class="language-java">import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public class TestRuntime &#123;
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException &#123;
+        &#x2F;&#x2F; 获取Runtime的类对象
+        Class&lt;?&gt; r &#x3D; Class.forName(&quot;java.lang.Runtime&quot;);
+        &#x2F;&#x2F;可以跟进去发现Runtime的构造方法不是public的，需要改访问权限
+        Constructor&lt;?&gt; declaredConstructor &#x3D; r.getDeclaredConstructor();
+        declaredConstructor.setAccessible(true);
+        Runtime o &#x3D; (Runtime)declaredConstructor.newInstance();
+        &#x2F;&#x2F; 获取调用方法
+        Method exec &#x3D; r.getMethod(&quot;exec&quot;, String[].class);
+        Process cmd &#x3D; (Process)exec.invoke(o, (Object) new String[]&#123;&quot;cmd&quot;, &quot;&#x2F;c&quot;, &quot;dir&quot;&#125;);
+        &#x2F;&#x2F;到这里其实已经执行成功了，但是如果执行的是有回显的命令时，还需要把命令回显出来
+        InputStream inputStream &#x3D; cmd.getInputStream();
+        ByteArrayOutputStream baos &#x3D; new ByteArrayOutputStream();
+        int a &#x3D; -1;
+        byte[] b &#x3D; new byte[1024];
+        while ((a &#x3D; inputStream.read(b)) !&#x3D; -1)&#123;
+            baos.write(b,0,a);
+        &#125;
+        System.out.println(baos);
+    &#125;
+&#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230317131148484.png" alt="image-20230317131148484"></p>
+<p>也可以用ASCII码的形式</p>
+<pre class="language-java" data-language="java"><code class="language-java">        String[] str &#x3D; new String[]&#123;&quot;cmd&quot;,&quot;&#x2F;c&quot;,&quot;dir&quot;&#125;;
+
+        &#x2F;&#x2F; 定义&quot;java.lang.Runtime&quot;字符串变量
+        String rt &#x3D; new String(new byte[]&#123;106, 97, 118, 97, 46, 108, 97, 110, 103, 46, 82, 117, 110, 116, 105, 109, 101&#125;);
+
+        &#x2F;&#x2F; 反射java.lang.Runtime类获取Class对象
+        Class&lt;?&gt; c &#x3D; Class.forName(rt);
+
+        &#x2F;&#x2F; 反射获取Runtime类的getRuntime方法
+        Method m1 &#x3D; c.getMethod(new String(new byte[]&#123;103, 101, 116, 82, 117, 110, 116, 105, 109, 101&#125;));
+
+        &#x2F;&#x2F; 反射获取Runtime类的exec方法
+        Method m2 &#x3D; c.getMethod(new String(new byte[]&#123;101, 120, 101, 99&#125;), String[].class);
+
+        &#x2F;&#x2F; 反射调用Runtime.getRuntime().exec(xxx)方法
+        Process obj2 &#x3D; (Process)m2.invoke(m1.invoke(null), (Object) str);
+
+
+&#x2F;&#x2F;
+        &#x2F;&#x2F; 反射获取Process类的getInputStream方法
+        &#x2F;&#x2F; 反射获取Process类的getInputStream方法  等价于Method m &#x3D; obj2.getClass().getMethod(&quot;getInputStream&quot;);
+        Method m &#x3D; obj2.getClass().getMethod(new String(new byte[]&#123;103, 101, 116, 73, 110, 112, 117, 116, 83, 116, 114, 101, 97, 109&#125;));
+        m.setAccessible(true);
+
+&#x2F;&#x2F;
+&#x2F;&#x2F;        &#x2F;&#x2F; 获取命令执行结果的输入流对象：p.getInputStream()并使用Scanner按行切割成字符串
+        Scanner s &#x3D; new Scanner((InputStream) m.invoke(obj2, new Object[]&#123;&#125;),&quot;GBK&quot;);
+        while (s.hasNext())&#123;
+            System.out.println(s.next());
+        &#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230317170243417.png" alt="image-20230317170243417"></p>
+<p>还可以使用ProcessBuilder或UNIXProcess/ProcessImpl执行命令</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230317171619043.png" alt="image-20230317171619043"></p>
+<h1 id="Java反序列化"><a href="#Java反序列化" class="headerlink" title="Java反序列化"></a>Java反序列化</h1><blockquote>
+<p>java的序列化机制就是为了持久化存储某个对象或者在网络上传输某个对象。我们都知道，一旦jvm关闭，那么java中的对象也就销毁了，所以要想保存它，就需要把他转换为字节序列写到某个文件或是其它哪里。</p>
+</blockquote>
+<ol>
+<li>Java 提供了一种对象序列化的机制，该机制中，<strong>一个对象可以被表示为一个字节序列</strong>，该字节序列包括该对象的<strong>数据、有关对象的类型的信息和存储在对象中数据的类型</strong>。即序列化是指把一个Java对象变成二进制内容，本质上就是一个<code>byte[]</code>数组。</li>
+<li>为什么要把Java对象序列化呢？因为序列化后可以把<code>byte[]</code>保存到文件中，或者把<code>byte[]</code>通过网络传输到远程，这样，就相当于把Java对象存储到文件或者通过网络传输出去了。</li>
+<li>将序列化对象写入文件之后，可以从文件中读取出来，并且对它进行反序列化，即把一个二进制内容（也就是<code>byte[]</code>数组）变回Java对象。有了反序列化，保存到文件中的<code>byte[]</code>数组又可以“变回”Java对象，或者从网络上读取<code>byte[]</code>并把它“变回”Java对象。也就是说，对象的类型信息、对象的数据，还有对象中的数据类型可以用来在内存中新建对象。</li>
+<li>整个过程都是 Java 虚拟机（JVM）独立的，也就是说，在一个平台上序列化的对象可以在另一个完全不同的平台上反序列化该对象。</li>
+<li>Java的序列化机制仅适用于Java，如果需要与其它语言交换数据，必须使用通用的序列化方法，例如JSON。</li>
+</ol>
+<p>java对象实现序列化的<strong>前提</strong>是必须实现一个特殊的<code>java.io.Serializable</code>接口</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318141741509.png" alt="image-20230318141741509"></p>
+<p>这个接口没有定义任何方法，只是一个空接口，也被叫做&quot;标记接口&quot;，实现了标记接口的类仅仅是给自身贴了个“标记”，并没有增加任何方法。</p>
+<p>就像php中有serialize和unserialize函数负责序列化和反序列化一样，Java也有<strong>writeObject</strong>和<strong>readObject</strong>负责序列化和反序列化，他们分别属于<code>ObjectInputStream</code> 和 <code>ObjectOutputStream</code> 这两个高层次的数据流</p>
+<blockquote>
+<p>静态成员变量不能被序列化，序列化是针对对象属性的，而静态变量属于类</p>
+<p>transient标识的对象成员变量不参与序列化</p>
+</blockquote>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>序列化步骤：</p>
+<blockquote>
+<p>把对象转换为字节序列</p>
+</blockquote>
+<ul>
+<li>步骤一：创建一个ObjectOutputStream输出流</li>
+<li>步骤二：调用ObjectOutputStream对象的writeObject输出可序列化对象。</li>
+</ul>
+<p>反序列化步骤</p>
+<blockquote>
+<p>把字节序列转换为对象</p>
+</blockquote>
+<ul>
+<li>步骤一：创建一个ObjectInputStream输入流；</li>
+<li>步骤二：调用ObjectInputStream对象的readObject()得到序列化的对象。</li>
+</ul>
+<p>代码实现</p>
+<pre class="language-java" data-language="java"><code class="language-java">package serializTest;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class Run &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException &#123;
+        SerializeDemo serializeDemo &#x3D; new SerializeDemo();
+        serializeDemo.x &#x3D; 123;
+        Path path &#x3D; Paths.get(&quot;1.ser&quot;);
+
+        &#x2F;&#x2F;序列化
+        &#x2F;&#x2F; 创建一个FileOutputStream，且将这个FileOutputStream封装到ObjectOutputStream中
+        ObjectOutputStream objectOutputStream &#x3D; new ObjectOutputStream(Files.newOutputStream(path));
+                &#x2F;&#x2F; 调用writeObject方法，序列化对象到文件1.ser中
+        objectOutputStream.writeObject(serializeDemo);
+        objectOutputStream.close();
+
+        &#x2F;&#x2F;反序列化
+                &#x2F;&#x2F;  创建一个FIleInutputStream，并将FileInputStream封装到ObjectInputStream中
+        ObjectInputStream objectInputStream &#x3D; new ObjectInputStream(Files.newInputStream(path));
+                    &#x2F;&#x2F; 调用readObject从1.ser中反序列化出对象，还需要进行一下类型转换，默认是Object类型
+        SerializeDemo serializeDemo1 &#x3D; (SerializeDemo) objectInputStream.readObject();
+        System.out.println(serializeDemo1.add(1,2));
+    &#125;
+&#125;
+class SerializeDemo implements Serializable &#123;   &#x2F;&#x2F; 必须要实现Serializable这个接口，可以不用里面的方法
+    public int x;
+    public int add(int a,int b)&#123;
+        return a+b+x;
+    &#125;
+&#125;</code></pre>
+
+<p>输出可以看出x的值是序列化之前的123，也就是通过序列化存储的信息可以重新通过反序列化得到恢复</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318143751540.png" alt="image-20230318143751540"></p>
+<p>序列化后的内容是无法正常查看的</p>
+<p>但是我们可以在十六进制的内容中得到一点信息，比如前八位中</p>
+<p><strong>AC ED</strong>：<code>STREAM_MAGIC</code>，声明使用了序列化协议，<strong>从这里可以判断保存的内容是否为序列化数据。</strong> （这是在黑盒挖掘反序列化漏洞很重要的一个点）</p>
+<p><strong>00 05</strong>：<code>STREAM_VERSION</code>，序列化协议版本。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318143831170.png" alt="image-20230318143831170"></p>
+<p>也可以存到 bytes数组中</p>
+<pre class="language-java" data-language="java"><code class="language-java">package serializTest;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+
+public class Run &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException &#123;
+        SerializeDemo serializeDemo &#x3D; new SerializeDemo();
+        serializeDemo.x &#x3D; 666;
+
+        &#x2F;&#x2F; 序列化
+        ByteArrayOutputStream byteArrayOutputStream &#x3D; new ByteArrayOutputStream();  &#x2F;&#x2F; 本体
+        ObjectOutputStream objectOutputStream &#x3D; new ObjectOutputStream(byteArrayOutputStream); &#x2F;&#x2F; 只是一个装饰器的作用 Filter模式
+        objectOutputStream.writeObject(serializeDemo);
+        objectOutputStream.close();
+        System.out.println(Arrays.toString(byteArrayOutputStream.toByteArray()));
+
+        &#x2F;&#x2F; 反序列化
+        ByteArrayInputStream byteArrayInputStream &#x3D; new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        ObjectInputStream objectInputStream &#x3D; new ObjectInputStream(byteArrayInputStream);
+        SerializeDemo serializeDemo1 &#x3D; (SerializeDemo)objectInputStream.readObject();
+        objectInputStream.close();
+        System.out.println(serializeDemo1.add(1, 2));
+    &#125;
+&#125;
+class SerializeDemo implements Serializable &#123;   &#x2F;&#x2F; 必须要实现Serializable这个接口，可以不用里面的方法
+    public int x;
+    public int add(int a,int b)&#123;
+        return a+b+x;
+    &#125;
+&#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318144835373.png" alt="image-20230318144835373"></p>
+<h2 id="反序列化的安全问题"><a href="#反序列化的安全问题" class="headerlink" title="反序列化的安全问题"></a>反序列化的安全问题</h2><p>我们看到反序列化可以恢复序列化时对属性的赋值，那如果我们构造一个恶意的序列化文件替换掉系统自动生成的序列化文件，或者直接在反序列化的位置上传一个构造好的恶意byte数组，就会让系统中出现我们构造的内容，从而造成一些安全漏洞</p>
+<blockquote>
+<p>实际上，Java本身提供的基于对象的序列化和反序列化机制既存在安全性问题，也存在兼容性问题。更好的序列化方法是通过JSON这样的通用数据结构来实现，只输出基本类型（包括String）的内容，而不存储任何与代码相关的信息。</p>
+</blockquote>
+<p>​        <strong>同时，为了能够更加灵活的传输内容，Java允许用户进行重写    writeObject和readObject方法。也就是说，如果服务端反序列化数据，客户端传递的类中的readObject方法中的代码就会执行，让攻击者可以在服务器上运行自己的代码</strong></p>
+<h2 id="可能的形式"><a href="#可能的形式" class="headerlink" title="可能的形式"></a>可能的形式</h2><p><strong>1.入口类的readObject直接调用危险方法</strong></p>
+<p>我在SerializeDemo类中加入一个readObject类，其余部分不变，再次执行程序</p>
+<pre class="language-java" data-language="java"><code class="language-java">private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException &#123;
+    ois.defaultReadObject();
+    Runtime.getRuntime().exec(&quot;calc&quot;);
+&#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318154541243.png" alt="image-20230318154541243"></p>
+<p><strong>2.入口类参数中包含可控类，该类有危险方法，readObject时调用</strong></p>
+<p><strong>3.入口类参数中包含可控类，该类又调用其他有危险方法的类，readObject时调用</strong></p>
+<p><strong>4.构造函数/静态代码块等类加载时隐性执行</strong></p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p>共同条件 继承Serializable</p>
+<p>入口类 source （需要重写readObject方法，参数类型宽泛，最好jdk自带）（Map）</p>
+<p>调用链 gadget chaiin</p>
+<p>执行类 sink</p>
 
                 
             </div>
@@ -684,7 +1007,7 @@ switch ($_GET[&#39;m&#39;]) &#123;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2022/11/11/DASCTFxGFCTF%20wp/">https://Ethe448.github.io/2022/11/11/DASCTFxGFCTF%20wp/</a>
+                    <a href="https://Ethe448.github.io/2023/03/16/Java/">https://Ethe448.github.io/2023/03/16/Java/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -721,7 +1044,11 @@ switch ($_GET[&#39;m&#39;]) &#123;
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/web/">
+                                    <span class="chip bg-color">web</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1159,9 +1486,56 @@ switch ($_GET[&#39;m&#39;]) &#123;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2023/03/16/Java/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/6.jpg" class="responsive-img" alt="Java">
+                        
+                        <span class="card-title">Java</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-16
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ethe
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/web/">
+                        <span class="chip bg-color">web</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2023/02/06/HGAME2023-wp/">
                     <div class="card-image">
@@ -1179,9 +1553,9 @@ switch ($_GET[&#39;m&#39;]) &#123;
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-02-06
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-02-06
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1197,43 +1571,6 @@ switch ($_GET[&#39;m&#39;]) &#123;
                         <span class="chip bg-color">ctf</span>
                     </a>
                     
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/10/20/%E4%B8%80%E4%BA%9Bweb%E9%A2%98/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/16.jpg" class="responsive-img" alt="一些web题">
-                        
-                        <span class="card-title">一些web题</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-20
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            Ethe
-                            
-                        </span>
-                    </div>
                 </div>
                 
             </div>

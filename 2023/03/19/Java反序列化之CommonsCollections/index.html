@@ -1017,8 +1017,6 @@ hashMap.put(tiedMapEntry, &quot;123&quot;);
 ser(decorate);
 unser();</code></pre>
 
-
-
 <h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p>看起来链子很完美，但实际上如果真正运行不会运行成功</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320203448437.png" alt="image-20230320203448437"></p>
 <p>他会提示java.lang.ProcessImpl这个类不能进行序列化，为什么会出现这个类呢，原因就是hashMap.put，</p>
@@ -1033,7 +1031,7 @@ unser();</code></pre>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320231731235.png" alt="image-20230320231731235"></p>
 <p>解决这两个问题都很好办，因为这个键值对的key就是TiedMapEntry里我们传入的第二个参数</p>
 <p>所以用<code>decorate.remove(tiedMapEntry.getKey());</code>删了就行，不过推荐直接decorate.clear();</p>
-<p>还有一个问题是如果objectObjectHashMap里有值，那么调用的HashMap里的readObject的key和value第一次就是objectObjectHashMap的key和value，很怪，不知道为什么</p>
+<p>还有一个问题是如果objectObjectHashMap里有值，那么调用的HashMap里的readObject的key和value第一次就是objectObjectHashMap的key和value，第二次才会到hashMap的键值，很怪，不知道为什么。可能是因为两个HashMap对象反序列化的时候是一块调用的同一个readObject</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320231342833.png" alt="image-20230320231342833"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320214626642.png" alt="image-20230320214626642"></p>
 <p>但如果没有值，key的值就是TiedMapEntry类型的对象</p>

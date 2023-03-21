@@ -488,21 +488,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-03-20
+                    2023-03-21
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.5k
+                    7.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    28 分
+                    34 分
                 </div>
                 
 
@@ -968,7 +968,7 @@ public class main &#123;
 <p> ChainedTransformer</p>
 <p> HashMap</p>
 <p> Proxy</p>
-<h1 id="CC6"><a href="#CC6" class="headerlink" title="CC6"></a>CC6</h1><h3 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h3><blockquote>
+<h1 id="CC6"><a href="#CC6" class="headerlink" title="CC6"></a>CC6</h1><h2 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h2><blockquote>
 <p>先说一些前置知识</p>
 <p>由于cc1的两条链都利用了AnnotationinvocationHandler中的readObject方法，导致在高版本的jdk中由于AnnotationinvocationHandler的readObject方法的修改而无法进行利用。但cc6的链并没有版本限制。</p>
 <p>TiredMapEntry类官方的介绍是这可用于使映射条目能够在基础映射上进行更改，没太看懂，但是具体的效果是把输入的Map对象和Object对象以key=value的形式输出出来，Object对象是key。</p>
@@ -1017,7 +1017,7 @@ hashMap.put(tiedMapEntry, &quot;123&quot;);
 ser(decorate);
 unser();</code></pre>
 
-<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p>看起来链子很完美，但实际上如果真正运行不会运行成功</p>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>看起来链子很完美，但实际上如果真正运行不会运行成功</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320203448437.png" alt="image-20230320203448437"></p>
 <p>他会提示java.lang.ProcessImpl这个类不能进行序列化，为什么会出现这个类呢，原因就是hashMap.put，</p>
 <p>put方法会调用hashCode，然后调用TiedMapEntry类里的get方法，恰好get方法里还有个put</p>
@@ -1030,7 +1030,8 @@ unser();</code></pre>
 <p>另外put后调用的LazyMap的get方法在map中没有这个key，也就是在decorate中没有对应的key时将这个key加入decorate，那么在反序列化时，由于decorate已经有了这个key，所以就不满足if判断，直接return了</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320231731235.png" alt="image-20230320231731235"></p>
 <p>解决这两个问题都很好办，因为这个键值对的key就是TiedMapEntry里我们传入的第二个参数</p>
-<p>所以用<code>decorate.remove(tiedMapEntry.getKey());</code>删了就行，不过推荐直接decorate.clear();</p>
+<p>所以用decorate.remove(tiedMapEntry.getKey());或者decorate.clear();删了就行（如果是用删除的方法，在用idea调试的过程中不要去看tiedMapEntry属性的值，因为这样会调用tiedMapEntry类中的toString，然后再调getValue，我们前边的删除就白删了）</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321180456163.png" alt="image-20230321180456163"></p>
 <p>还有一个问题是如果objectObjectHashMap里有值，那么调用的HashMap里的readObject的key和value第一次就是objectObjectHashMap的key和value，第二次才会到hashMap的键值，很怪，不知道为什么。可能是因为两个HashMap对象反序列化的时候是一块调用的同一个readObject</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320231342833.png" alt="image-20230320231342833"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320214626642.png" alt="image-20230320214626642"></p>
@@ -1041,7 +1042,8 @@ Field factory &#x3D; LazyMapClass.getDeclaredField(&quot;factory&quot;);
 factory.setAccessible(true);
 factory.set(decorate,chainedTransformer);</code></pre>
 
-<p>在put后把factory的值改为我们构造的chainedTransformer，而在LazyMap初始化时的Transformer可以随便填一个Transformer</p>
+<p>在put后把factory的值改为我们构造的chainedTransformer，而在LazyMap初始化时的Transformer可以随便填一个Transformer，比如new ConstantTransformer(1)。另外这样还可以让在put时调用的LazyMap的get方法里的put就会变成123=1了，不会出现java.lang.ProcessImpl类型影响反序列化</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321180003691.png" alt="image-20230321180003691"></p>
 <p>最终的payload为</p>
 <pre class="language-java" data-language="java"><code class="language-java">package org;
 
@@ -1101,7 +1103,7 @@ public class HashMapTest &#123;
 &#125;
 </code></pre>
 
-<h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><p>调用链为：</p>
+<h2 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h2><p>调用链为：</p>
 <p>HashMap -&gt; readObject</p>
 <p>TiedMapEntry -&gt; hashCode</p>
 <p>TiredMapEntry -&gt; getValue</p>
@@ -1109,6 +1111,102 @@ public class HashMapTest &#123;
 <p>​                ChainedTransformer.transform()</p>
 <p>​                ConstantTransformer.transform()</p>
 <p>InvokerTransformer -&gt; transform</p>
+<h1 id="CC3"><a href="#CC3" class="headerlink" title="CC3"></a>CC3</h1><p>CC3和上面写的CC1和CC6有不小的区别，最大的区别就是原本的 CC1 链与 CC6 链是通过 <code>Runtime.exec()</code> 进行命令执行。</p>
+<p>而在CC3里，是通过动态类加载机制来执行恶意代码</p>
+<h2 id="动态类加载机制"><a href="#动态类加载机制" class="headerlink" title="动态类加载机制"></a>动态类加载机制</h2><p>在类加载的过程中，我们知道字节码加载过程是</p>
+<p>loadClass -&gt; findClass -&gt; defineClass</p>
+<p>而在<a href="https://ethe448.github.io/2023/03/16/Java/#toc-heading-14">Java | Ethe&#39;s blog (ethe448.github.io)</a>的类加载机制的部分，我们展示了一种通过ClassLoader.defineClass 字节码加载任意类的攻击方式</p>
+<p>不给单纯的调用defineClass是不能执行类的，若要执行就必须先进行实例化</p>
+<p>而CC3恰好就是找到了利用defineClass并进行了实例化实现的反序列化攻击</p>
+<h2 id="TemplatesImpl类"><a href="#TemplatesImpl类" class="headerlink" title="TemplatesImpl类"></a>TemplatesImpl类</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321205745553.png" alt="image-20230321205745553"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321205923522.png" alt="image-20230321205923522"></p>
+<p>defineClass被重载了好几次，这里随便讲两个</p>
+<p><code>name</code>为类名，<code>b</code>为字节码数组，<code>off</code>为偏移量，<code>len</code>为字节码数组的长度。</p>
+<p>现在我们的 <code>defineClass()</code> 方法的作用域为 <code>protected</code>，我们需要找到作用域为 <code>public</code> 的类，方便我们利用。</p>
+<p>IDEA里右键查找用法</p>
+<p>最后会在TemplatesImpl.TransletClassLoader里找到一个可以利用的地方，这里没有标注作用域，也就是默认的default属性，在同一个包下可以访问</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321210813430.png" alt="image-20230321210813430"></p>
+<p>我们再找一下调用它的函数</p>
+<p>又被defineTransletClasses调用了，但是又是个private，所以还要接着找</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321211236734.png" alt="image-20230321211236734"></p>
+<p>还是TemplatesImpl这个类，getTransletInstance调用了defineTransletClasses</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321211934212.png" alt="image-20230321211934212"></p>
+<p>这里的_class值会在defineTransletClasses里赋值为defineClass加载后的字节码，然后再借助后面的newInstance就能实现恶意类的实例化，然后执行恶意代码。但是这个还是private，所以还要去找一个public的。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321223945893.png" alt="image-20230321223945893"></p>
+<p>恰好这里就有一个</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321212359633.png" alt="image-20230321212359633"></p>
+<p>找到这里之后我们就可以先想办法去利用我们之前找到的这些去试着动态加载类了</p>
+<h2 id="TemplatesImpl利用"><a href="#TemplatesImpl利用" class="headerlink" title="TemplatesImpl利用"></a>TemplatesImpl利用</h2><p>理论上只要调用new TemplatesImpl()，然后调用newTransformer方法就能到达defineClass()，然后加载恶意类。但在这里面还有一些代码逻辑上的问题</p>
+<p>首先这里遇到的问题就是在getTransletInstance方法里的两个if判断</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321220023834.png" alt="image-20230321220023834"></p>
+<p>要让_name不为null，还要让_class为null</p>
+<p>这两个都是类里的私有变量，而TemplatesImpl的公共的构造函数是个空函数</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321220203590.png" alt="image-20230321220203590"></p>
+<p>也就是说我们只能利用反射的方式来进行赋值了</p>
+<p>在defineTransletClasses里也有一个if判断</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321220909684.png" alt="image-20230321220909684"></p>
+<p>_bytecodes不能为null，不然会直接抛出异常</p>
+<p>而且他还是我们想要执行的恶意类，一个字节的二维数组类型</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321222119461.png" alt="image-20230321222119461"></p>
+<p>另外这个_tfactory也不能为空，不然也会报错</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321221000135.png" alt="image-20230321221000135"></p>
+<p>这里我们生成一个恶意类的字节码文件</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321222300927.png" alt="image-20230321222300927"></p>
+<p>写完后现在的代码为</p>
+<pre class="language-java" data-language="java"><code class="language-java">TemplatesImpl templates &#x3D; new TemplatesImpl();
+&#x2F;&#x2F; _name赋值不为null
+Field name &#x3D; templates.getClass().getDeclaredField(&quot;_name&quot;);
+name.setAccessible(true);
+name.set(templates,&quot;123&quot;);
+&#x2F;&#x2F; _class赋值为null
+Field classField &#x3D; templates.getClass().getDeclaredField(&quot;_class&quot;);
+classField.setAccessible(true);
+classField.set(templates,null);
+&#x2F;&#x2F;加载恶意类的字节码
+Field bytecodes &#x3D; templates.getClass().getDeclaredField(&quot;_bytecodes&quot;);
+bytecodes.setAccessible(true);
+byte[] code &#x3D; Files.readAllBytes(Paths.get(&quot;D:&#x2F;&#x2F;ctftools&#x2F;ctfscript&#x2F;javastudy&#x2F;CC&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cc3&#x2F;cmd.class&quot;));
+&#x2F;&#x2F;转为二维数组
+byte[][] codes &#x3D; &#123;code&#125;;
+&#x2F;&#x2F;_tfactory赋值
+bytecodes.set(templates,codes);
+Field tfactory &#x3D; templates.getClass().getDeclaredField(&quot;_tfactory&quot;);
+tfactory.setAccessible(true);
+tfactory.set(templates,new TransformerFactoryImpl());
+templates.newTransformer();</code></pre>
+
+<p>但是执行后报了空指针异常</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321222918052.png" alt="image-20230321222918052"></p>
+<p>在TemlatesImpl的defineTransletClasses方法里，第422行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321223042602.png" alt="image-20230321223042602"></p>
+<p>搭个断点能看出来因为不满足if判断，进入了else中，然后又因为_auxClasses的值为空，导致的空指针异常</p>
+<p>但是这里我们要选让程序满足if判断的方式，而不是给_auxClasses赋值，因为在下面还有一个对_transletIndex的判断（两个都改了也能弹计算器，而且感觉更简单一点</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321224210163.png" alt="image-20230321224210163"></p>
+<p>接下来说一下满足if判断的方式</p>
+<p>这里superClass是我们构造的恶意类的父类，所以这个if判断就是让我们恶意类的父类的名称和这个ABSTRACT_TRANSLET一样</p>
+<p>这个ABSTRACT_TRANSLET是个被赋值的常量</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321224930251.png" alt="image-20230321224930251"></p>
+<p>所以只要让我们的恶意类继承一下com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet就好了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321225038543.png" alt="image-20230321225038543"></p>
+<p>改完后重新编译一下</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321225547734.png" alt="image-20230321225547734"></p>
+<h2 id="CC1的利用"><a href="#CC1的利用" class="headerlink" title="CC1的利用"></a>CC1的利用</h2><p>现在确定只要调用newTransformer方法就可以加载恶意类</p>
+<p>那我们还记得在cc1里InvokerTransformer.transform可以反射的方式去调用一些其他的方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230319191708721.png" alt="image-20230319191708721"></p>
+<p>所以这里我们以反射调用newTransformer不就行了吗</p>
+<p>这里我们改一改CC1的Transformer数组</p>
+<pre class="language-java" data-language="java"><code class="language-java">Transformer[] t &#x3D; new Transformer[]&#123;
+        new ConstantTransformer(templates),
+        new InvokerTransformer(&quot;newTransformer&quot;, null,null)
+&#125;;</code></pre>
+
+<p>然后前半部分用我们之前构造的，后面用CC1的就行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321231854359.png" alt="image-20230321231854359"></p>
+<h2 id="CC6的利用"><a href="#CC6的利用" class="headerlink" title="CC6的利用"></a>CC6的利用</h2><p>既然CC1可以，那CC6自然也可以，改的地方也一样，其余部分不动</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321232250015.png" alt="image-20230321232250015"></p>
+<h2 id="调用链"><a href="#调用链" class="headerlink" title="调用链"></a>调用链</h2><p>这里这个TrAXFilter类的构造函数里调用了newTransformer方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321230200262.png" alt="image-20230321230200262"></p>
+<p>但是这个TrAXFilter类没有实现Serializable接口，所以就不能进行序列化操作。但是就像Runtime也不能进行序列化操作一样，我们可以利用反射把这个传过去</p>
 
                 
             </div>
@@ -1924,7 +2022,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">190.8k</span>
+                        class="white-color">192.2k</span>
             
             
             

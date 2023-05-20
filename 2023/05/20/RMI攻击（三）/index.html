@@ -4,9 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="RMI攻击, Ethe&#39;s blog">
-    <meta name="description" content="RMI介绍​    RMI (Remote Method Invocation) 远程方法调用，顾名思义，它的功能就是就是实现调用远程方法
-​    实现RMI的协议叫JRMP，RMI实现的过程中进行了java对象的传递，自然使用了序列化和">
+    <meta name="keywords" content="RMI攻击（三）, Ethe&#39;s blog">
+    <meta name="description" content="最后一篇了吧（大概
+前两篇介绍了RMI的流程和基础的攻击，这一篇写点进阶的东西
+JEP290在JDK6u141、JDK7u131、JDK 8u121加入了JEP 290限制,JEP 290过滤策略有
+进程级过滤器
+可以将进程级序列化过滤器作">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +21,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>RMI攻击 | Ethe&#39;s blog</title>
+    <title>RMI攻击（三） | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -322,12 +325,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">RMI攻击</h1>
+                    <h1 class="description center-align post-title">RMI攻击（三）</h1>
                 </div>
             </div>
         </div>
@@ -477,28 +480,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-04-21
+                    2023-05-20
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-05-16
+                    2023-05-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.6k
+                    1.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    22 分
+                    7 分
                 </div>
                 
 
@@ -521,531 +524,97 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="RMI介绍"><a href="#RMI介绍" class="headerlink" title="RMI介绍"></a>RMI介绍</h1><p>​    RMI (Remote Method Invocation) 远程方法调用，顾名思义，它的功能就是就是实现调用远程方法</p>
-<p>​    实现RMI的协议叫JRMP，RMI实现的过程中进行了java对象的传递，自然使用了序列化和反序列化，也自然产生了反序列化漏洞</p>
-<p>这里介绍一下rmi的流程。</p>
-<p>首先，rmi里有三个角色，分别是客户端、服务端以及注册中心</p>
-<p>设计上客户端和服务端不直接通信，而是通过注册中心通信。简单理解三者的关系如下：服务端创建远程对象，并将远程对象在注册中心注册，客户端到注册中心端查找并获取对应的远程对象，最终在服务端调用其方法。</p>
-<p>具体实现时，客户端没有直接调用服务器上的对象，也没有直接调用注册中心上的对象，而是操作一个进行网络通信的代理类叫Stub，服务端也一样有一个类似的代理类叫Skel，具体操作都是这两个代理类进行的。</p>
-<blockquote>
-<p>RMI 引入了两个概念，分别是 Stubs（客户端存根） 以及 Skeletons（服务端骨架），当客户端（Client）试图调用一个在远端的 Object 时，实际调用的是客户端本地的一个代理类（Proxy），这个代理类就称为 Stub，而在调用远端（Server）的目标类之前，也会经过一个对应的远端代理类，就是 Skeleton，它从 Stub 中接收远程方法调用并传递给真实的目标类。Stubs 以及 Skeletons 的调用对于 RMI 服务的使用者来讲是隐藏的，我们无需主动的去调用相关的方法。但实际的客户端和服务端的网络通信时通过 Stub 和 Skeleton 来实现的。</p>
-</blockquote>
-<p>整体调用时序图：</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421192523136.png" alt="image-20230421192523136"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1633059061409.png" alt="img"></p>
-<h1 id="rmi-demo"><a href="#rmi-demo" class="headerlink" title="rmi demo"></a>rmi demo</h1><p>写个demo具体介绍一下rmi的利用</p>
-<p>首先需要定义<strong>远程对象类</strong>。远程方法调用不是所有类都可以，想进行远程方法调用的类，需要实现一个继承Remote接口的接口，远程方法要抛RemoteException。先定义这个接口：</p>
-<pre class="language-java" data-language="java"><code class="language-java">import java.rmi.Remote;
-import java.rmi.RemoteException;
-
-public interface IRemoteObj extends Remote &#123;
-    &#x2F;&#x2F; 远程方法要抛RemoteException
-    public String sayHello() throws RemoteException;
-&#125;</code></pre>
-
-<p>然后去定义实现类</p>
-<p>这个实现类在后续需要被远程调用，服务端需要把这个远程对象发布出去，因此也有条件。</p>
-<p>这个实现类必须调用UnicastRemoteObject.exportObject方法</p>
-<p>这里有两个选择，一个是去继承UnicastRemoteObject，然后UnicastRemoteObject的构造方法就会自动去调用UnicastRemoteObject.exportObject。另一个是直接自己去调用UnicastRemoteObject.exportObject方法。</p>
-<p>定义好的远程对象类</p>
-<pre class="language-java" data-language="java"><code class="language-java">import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-
-public class IRemoteObjImpl extends UnicastRemoteObject implements IRemoteObj&#123;
-    protected IRemoteObjImpl() throws RemoteException &#123;
-    &#125;
-
-    @Override
-    public String sayHello() throws RemoteException &#123;
-        String name &#x3D; this.getClass().getName();
-        System.out.println(name);
-        return name;
-    &#125;
-&#125;</code></pre>
-
-<p>远程对象类定义好后，也就是说我们现在有可以发布的东西了，接下来就可以去定义服务端和客户端了，<strong>服务端</strong>一般和注册中心写在一起，做如下几件事：<br>1、首先创建远程对象，创建时也会进行远程对象的发布。<br>2、创建注册中心<br>3、将远程对象绑定到注册中心</p>
-<pre class="language-java" data-language="java"><code class="language-java">public class RMIServer &#123;
-    public static void main(String[] args) throws RemoteException, AlreadyBoundException &#123;
-        &#x2F;&#x2F;创建远程对象
-        IRemoteObjImpl iRemoteObj &#x3D; new IRemoteObjImpl();
-        &#x2F;&#x2F;创建注册中心
-        Registry registry &#x3D; LocateRegistry.createRegistry(1099);
-        &#x2F;&#x2F;把远程对象发布到注册中心上，这里还提供了查询（lookup）、重新绑定（rebind）、接触绑定（unbind）、list（列表）的方式
-        registry.bind(&quot;iRemoteObj&quot;,iRemoteObj);
-    &#125;
-&#125;</code></pre>
-
-<p>这里看到好像还可以用java.rmi.Naming类来实现</p>
-<p>方式是<code>Naming.bind(&quot;rmi://localhost:1099/iRemoteObj&quot;, iRemoteObj);</code></p>
-<p>接下来是<strong>客户端</strong>，客户端也做三件事</p>
-<p>1、获取“注册中心”对象<br>2、利用注册中心对象获取远程对象<br>3、调用远程对象上的方法</p>
-<pre class="language-java" data-language="java"><code class="language-java">import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
-public class RMIClient &#123;
-    public static void main(String[] args) throws  RemoteException, NotBoundException &#123;
-        Registry registry &#x3D; LocateRegistry.getRegistry(&quot;127.0.0.1&quot;, 1099);
-        IRemoteObj remoteObj &#x3D; (IRemoteObj) registry.lookup(&quot;iRemoteObj&quot;);
-        String s &#x3D; remoteObj.sayHello();
-        System.out.println(s);
-    &#125;
-&#125;</code></pre>
-
-<p>启动之后在服务端上可以看见输出的name，在客户端上也可以接收返回的name值并打印出来</p>
-<h1 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h1><h2 id="创建远程对象"><a href="#创建远程对象" class="headerlink" title="创建远程对象"></a>创建远程对象</h2><p><code>IRemoteObjImpl iRemoteObj = new IRemoteObjImpl();</code></p>
-<p>这行代码的作用就是创建远程对象</p>
-<p>具体的执行过程是</p>
-<p>首先调用IRemoteObjImpl的构造函数</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421203350191.png" alt="image-20230421203350191"></p>
-<p>然后就会进入UnicastRemoteObject的构造函数</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421204727058.png" alt="image-20230421204727058"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421204805312.png" alt="image-20230421204805312"></p>
-<p>再进入exportObject方法，会看到UnicastServerRef类，它代表远程对象的引用。这个类继承了Dispatcher接口，代表由它分发客户端的操作给远程对象。</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421204953544.png" alt="image-20230421204953544"></p>
-<p>根据注释能知道这里obj是要导出的远程对象，port是导出的端口，返回值是存根，也就是stub</p>
-<p>再跟到UnicastServerRef里</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421205239533.png" alt="image-20230421205239533"></p>
-<p>这里出现了一个LiveRef类，接着跟进去</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421205623143.png" alt="image-20230421205623143"></p>
-<p>在LiveRef的构造方法里有一个TCPEndpoint类，显然和通信有关，再继续跟</p>
-<pre class="language-java" data-language="java"><code class="language-java">  public static TCPEndpoint getLocalEndpoint(int port) &#123;
-        return getLocalEndpoint(port, null, null);
-    &#125;
-
-public static TCPEndpoint getLocalEndpoint(int port,
-        RMIClientSocketFactory csf, RMIServerSocketFactory ssf) &#123;
-    &#x2F;*
-     * 查找将一个端点键映射到此客户端&#x2F;服务器套接字工厂对的本地唯一端点列表（可能为null）的特定端口。
-     *&#x2F;
-    TCPEndpoint ep &#x3D; null;
-
-    &#x2F;&#x2F; 使用localEndpoints对象对方法进行同步
-    synchronized (localEndpoints) &#123;
-        &#x2F;&#x2F; 创建一个 TCPEndpoint 实例作为端点键
-        TCPEndpoint endpointKey &#x3D; new TCPEndpoint(null, port, csf, ssf);
-        &#x2F;&#x2F; 获取本地唯一端点列表
-        LinkedList&lt;TCPEndpoint&gt; epList &#x3D; localEndpoints.get(endpointKey);
-        &#x2F;&#x2F; 获取本地主机名称
-        String localHost &#x3D; resampleLocalHost();
-
-        &#x2F;&#x2F; 如果本地唯一端点列表不存在
-        if (epList &#x3D;&#x3D; null) &#123;
-            &#x2F;*
-             * 创建新的端点列表
-             *&#x2F;
-            &#x2F;&#x2F; 创建一个 TCPEndpoint 实例，作为新的唯一端点
-            ep &#x3D; new TCPEndpoint(localHost, port, csf, ssf);
-            &#x2F;&#x2F; 创建一个 LinkedList 实例，将新唯一端点添加到其中
-            epList &#x3D; new LinkedList&lt;TCPEndpoint&gt;();
-            epList.add(ep);
-            &#x2F;&#x2F; 设置唯一端点的监听端口和传输协议
-            ep.listenPort &#x3D; port;
-            ep.transport &#x3D; new TCPTransport(epList);
-            &#x2F;&#x2F; 将端点键与新的唯一端点列表加入到 localEndpoints 对象中
-            localEndpoints.put(endpointKey, epList);
-
-            &#x2F;&#x2F; 如果 tcpLog 的记录级别为 BRIEF，则记录端口创建成功的日志信息
-            if (TCPTransport.tcpLog.isLoggable(Log.BRIEF)) &#123;
-                TCPTransport.tcpLog.log(Log.BRIEF,
-                        &quot;created local endpoint for socket factory &quot; + ssf +
-                        &quot; on port &quot; + port);
-            &#125;
-        &#125; else &#123;
-            synchronized (epList) &#123;
-                &#x2F;&#x2F; 获取本地唯一端点列表的最后一个唯一端点
-                ep &#x3D; epList.getLast();
-                &#x2F;&#x2F; 获取最后一个唯一端点的主机名称、端口号和传输协议
-                String lastHost &#x3D; ep.host;
-                int lastPort &#x3D;  ep.port;
-                TCPTransport lastTransport &#x3D; ep.transport;
-
-                &#x2F;&#x2F; 如果本地主机名称不为 null 且不等于最后一个唯一端点的主机名称
-                if (localHost !&#x3D; null &amp;&amp; !localHost.equals(lastHost)) &#123;
-                    &#x2F;*
-                     * 主机名称已更新；将更新的端点添加到列表中
-                     *&#x2F;
-                    &#x2F;&#x2F; 如果最后一个唯一端点的端口号已设置，则移除旧唯一端点
-                    if (lastPort !&#x3D; 0) &#123;
-                        epList.clear();
-                    &#125;
-
-                    &#x2F;&#x2F; 创建一个 TCPEndpoint 实例，作为新的唯一端点
-                    ep &#x3D; new TCPEndpoint(localHost, lastPort, csf, ssf);
-                    &#x2F;&#x2F; 设置唯一端点的监听端口和传输协议
-                    ep.listenPort &#x3D; port;
-                    ep.transport &#x3D; lastTransport;
-                    &#x2F;&#x2F; 将新唯一端点添加到列表中
-					epList.add(ep);
-                   &#125;
-                &#125;
-            &#125;
-        &#125;
-        return ep;
-    &#125;</code></pre>
-
-<p>这段代码有点难读，但是最后返回的就是一个TCPEndPoint实例</p>
-<p>这个TCPEndPoint显然就是一个和网络请求有关的类</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421211241357.png" alt="image-20230421211241357"></p>
-<p>里面的属性有端口，ip之类的信息，其中的TCPTransport是真正的处理网络请求的类，这里实际上将TCPEndPoint和TCPTransport进行了绑定。</p>
-<p>返回了一个ep变量</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516201354198.png" alt="image-20230516201354198"></p>
-<p>所以LiveRef里面就是放了一个TCPEndPoint。那么LiveRef可以理解为一个封装了ip、端口和一些id信息之类的辅助类。</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516201529806.png" alt="image-20230516201529806"></p>
-<p>现在LiveRef已经生成了</p>
-<p>重新回到UnicastServerRef的构造函数</p>
-<pre class="language-java" data-language="java"><code class="language-java">public UnicastServerRef(int port) &#123;
-    super(new LiveRef(port));
-&#125;</code></pre>
-
-<p>这里调用了父类UnicastRef的构造函数</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421211601165.png" alt="image-20230421211601165"></p>
-<p>这里只有一个赋值操作</p>
-<p>这时ref里存的就是原本在liveRef里的一些信息</p>
-<p><strong>记住这个ref，在之后我们还会用到</strong></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421211651757.png" alt="image-20230421211651757"></p>
-<p>赋值操作结束后，又重新回到了UnicastRemoteObject类的exportObject方法</p>
-<p>上面的这些过程中，LiveRef、TCPEndoPint、TCPTransport是处理网络通信的类。UnicastRef、UnicastServerRef是远程对象的引用对象，是宏观上处理网络请求的类，也是实现RMI调用的核心逻辑的类。UnicastRemoteObject就是远程对象的基础类，它并不直接处理网络请求，而是通过里面的UnicastServerRef处理。</p>
-<p>目前其实就创建了一个UnicastServerRef，它的ref是一个LiveRef，ref里面有一个TCPEndpoint叫ep，ep里面有个TCPTransport叫transport。<br>继续跟进UnicastRemoteObject#exportObject(Remote obj, UnicastServerRef sref)</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421212559065.png" alt="image-20230421212559065"></p>
-<p>这里把sref，也就是包含着那一堆信息的内容给了一个UnicastRemoteObject实例的ref属性，其实是它父类的RemoteObject的ref属性</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516203422307.png" alt="image-20230516203422307"></p>
-<p>而这个这个实例应该是我们写的继承了UnicastRemoteObject的实现类</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516203513142.png" alt="image-20230516203513142"></p>
-<p>接下来调用了UnicastServerRef的exportObject方法，把刚才的这个实例传进去了，</p>
-<pre class="language-java" data-language="java"><code class="language-java">public Remote exportObject(Remote impl, Object data,
-                           boolean permanent)
-    throws RemoteException
-&#123;
-    Class&lt;?&gt; implClass &#x3D; impl.getClass();
-    Remote stub;
-
-    try &#123;
-        stub &#x3D; Util.createProxy(implClass, getClientRef(), forceStubUse);
-    &#125; catch (IllegalArgumentException e) &#123;
-        throw new ExportException(
-            &quot;remote object implements illegal remote interface&quot;, e);
-    &#125;
-    if (stub instanceof RemoteStub) &#123;
-        setSkeleton(impl);
-    &#125;
-
-    Target target &#x3D;
-        new Target(impl, this, stub, ref.getObjID(), permanent);
-    ref.exportObject(target);
-    hashToMethod_Map &#x3D; hashToMethod_Maps.get(implClass);
-    return stub;
-&#125;
-</code></pre>
-
-<p>可以看到在这个类里出现了stub，也就是最后客户端需要的存根</p>
-<p>然后在这里很显然的创建了代理</p>
-<p><code> stub = Util.createProxy(implClass, getClientRef(), forceStubUse);</code></p>
-<p>这里的参数分别是我们最开始定义的远程对象类，UnicastRef实例对象（里面放着那个一堆信息的LiveRef），以及一个判断是否要强制创建stub的boolen对象</p>
-<p>这里通过UnicastServerRef里的getClientRef()方法获取UnicastRef实例对象、</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516205916768.png" alt="image-20230516205916768"></p>
-<p>这里传入的ref其实就是UnicastRef里的ref，因为UnicastRef是UnicastServerRef父类，所以这里的ref和UnicastServerRef里封装的ref其实是同一个</p>
-<p>然后接下来有个判断，判断是否创建存根</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421215857658.png" alt="image-20230421215857658"></p>
-<p>由于forceStubUse和ignoreStubClasses都是假，所以只要<em>stubClassExists</em>(remoteClass)是真就可以直接到createStub里</p>
-<p>但是这里需要判断以我们的远程对象类的类名+_Stub为名字的类是否存在，存在才会成为true，这里我们不满足这个，所以进不了这个if判断</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421220039206.png" alt="image-20230421220039206"></p>
-<p>然后再往下，创建了一个动态代理。</p>
-<p>这里就是给我们的远程调用类进行代理的</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421220257193.png" alt="image-20230421220257193"></p>
-<p>Invocationhandler里把UnicastRef实例对象放进去了</p>
-<p>这里最核心的就是里边的ref，其实是同一个</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421221006861.png" alt="image-20230421221006861"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421221030596.png" alt="image-20230421221030596"></p>
-<p>毕竟这个代理对象就是代表远程对象的。</p>
-<blockquote>
-<p>所以远程对象的Stub其实就是个动态代理，那么远程调用方法时就是调它的invoke方法，后续调用到的时候再分析。<br>stub是要传给客户端使用的，客户端通过操作stub的UnicastRef，来调用服务端远程对象的UnicastServerRef，是一个对称关系。</p>
-</blockquote>
-<p>接下来判断这个Stub是否属于RemoteStub，如果是就调用setSkeleton。</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421221236863.png" alt="image-20230421221236863"></p>
-<blockquote>
-<p>RemoteStub是jdk里内置的几个通用类，有<br>Activation$ActivationSystemImpl_Stub<br>ActivationGroup_Stub<br>DGCImpl_Stub<br>RMIConnectionImpl_Stub<br>RMIServerImpl_Stub<br>ReferenceWrapper_Stub<br>RegistryImpl_Stub</p>
-</blockquote>
-<p>接下来又创建了一个Target类</p>
-<p><code>Target target = new Target(impl, this, stub, ref.getObjID(), permanent);</code></p>
-<pre class="language-java" data-language="java"><code class="language-java">public Target(Remote impl, Dispatcher disp, Remote stub, ObjID id, boolean permanent)
-&#123;
-    &#x2F;&#x2F; 初始化 weakImpl 为一个 WeakRef 对象，它持有传入的 impl 对象，并将其添加到 ObjectTable 的 reapQueue 队列中。
-    this.weakImpl &#x3D; new WeakRef(impl, ObjectTable.reapQueue);
-    
-    &#x2F;&#x2F; 将传入的 disp 赋值给实例变量 disp。
-    this.disp &#x3D; disp;
-    
-    &#x2F;&#x2F; 将传入的 stub 赋值给实例变量 stub。
-    this.stub &#x3D; stub;
-    
-    &#x2F;&#x2F; 将传入的 id 赋值给实例变量 id。
-    this.id &#x3D; id;
-    
-    &#x2F;&#x2F; 使用 AccessController 获取当前线程的上下文。
-    this.acc &#x3D; AccessController.getContext();
-
-    &#x2F;&#x2F; 获取当前线程的上下文类加载器。
-    ClassLoader threadContextLoader &#x3D; Thread.currentThread().getContextClassLoader();
-    
-    &#x2F;&#x2F; 获取传入的 impl 对象的类加载器。
-    ClassLoader serverLoader &#x3D; impl.getClass().getClassLoader();
-    
-    &#x2F;&#x2F; 检查当前线程的上下文类加载器是否是传入的 impl 对象的类加载器的子级。
-    if (checkLoaderAncestry(threadContextLoader, serverLoader)) &#123;
-        &#x2F;&#x2F; 如果是，则使用当前线程的上下文类加载器作为上下文类加载器。
-        this.ccl &#x3D; threadContextLoader;
-    &#125; else &#123;
-        &#x2F;&#x2F; 如果不是，则使用传入的 impl 对象的类加载器作为上下文类加载器。
-        this.ccl &#x3D; serverLoader;
-    &#125;
-    
-    &#x2F;&#x2F; 将传入的 permanent 赋值给实例变量 permanent。
-    this.permanent &#x3D; permanent;
-    
-    &#x2F;&#x2F; 如果 permanent 为 true，则调用 pinImpl 方法将 impl 对象钉住（防止被 GC 回收）。
-    if (permanent) &#123;
-        pinImpl();
-    &#125;
-&#125;</code></pre>
-
-<p>Target可以理解为是一个远程服务实例，一个Target对应一个远程对象。里面保存了远程对象实例、对应的Stub、对应的远程引用对象UnicastServerRef，之前创建的LiveRef的ObjID。实际上Target就是用LiveRef的ObjID代表了这个远程对象，一个远程对象和一个LiveRef是绑定的。<strong>这里就包括了远程调用所需的全部对象了，远程调用就是Stub使用远程引用来调用远程对象上的方法。</strong></p>
-<p>创建完Target后，又调用了LiveRef的exportObject方法</p>
-<p><code>ref.exportObject(target);</code></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421222508842.png" alt="image-20230421222508842"></p>
-<p>里面又调用了TCPEndPoint的exportObject</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421222607490.png" alt="image-20230421222607490"></p>
-<p>然后又是TCPTransport的exportObject</p>
-<pre class="language-java" data-language="java"><code class="language-java">public void exportObject(Target target) throws RemoteException &#123;
-    
-        synchronized (this) &#123;
-            listen();
-            exportCount++;
-        &#125;
-        boolean ok &#x3D; false;
-        try &#123;
-            super.exportObject(target);
-            ok &#x3D; true;
-        &#125; finally &#123;
-            if (!ok) &#123;
-                synchronized (this) &#123;
-                    decrementExportCount();
-                &#125;
-            &#125;
-        &#125;
-    &#125;</code></pre>
-
-<p>listen方法里主要是监听一个端口</p>
-<pre class="language-java" data-language="java"><code class="language-java">private void listen() throws RemoteException &#123;
-    assert Thread.holdsLock(this); &#x2F;&#x2F; 断言当前线程已经拥有锁，如果不满足会抛出 AssertionError
-
-    TCPEndpoint ep &#x3D; getEndpoint(); &#x2F;&#x2F; 获取 TCPEndpoint 对象
-    int port &#x3D; ep.getPort(); &#x2F;&#x2F; 获取 TCPEndpoint 对象的端口号
-
-    if (server &#x3D;&#x3D; null) &#123; &#x2F;&#x2F; 如果 Server 对象为 null
-        if (tcpLog.isLoggable(Log.BRIEF)) &#123; &#x2F;&#x2F; 如果 TCP 日志记录器支持 brief 日志级别
-            tcpLog.log(Log.BRIEF,
-                &quot;(port &quot; + port + &quot;) create server socket&quot;); &#x2F;&#x2F; 记录 brief 日志
-        &#125;
-
-        try &#123;
-            server &#x3D; ep.newServerSocket(); &#x2F;&#x2F; 创建 ServerSocket 对象
-            Thread t &#x3D; AccessController.doPrivileged(
-                new NewThreadAction(new AcceptLoop(server),
-                                    &quot;TCP Accept-&quot; + port, true)); &#x2F;&#x2F; 创建新线程，启动 AcceptLoop
-            t.start(); &#x2F;&#x2F; 启动新线程
-        &#125; catch (java.net.BindException e) &#123; &#x2F;&#x2F; 如果端口已被占用，抛出 ExportException 异常
-            throw new ExportException(&quot;Port already in use: &quot; + port, e);
-        &#125; catch (IOException e) &#123; &#x2F;&#x2F; 如果监听失败，抛出 ExportException 异常
-            throw new ExportException(&quot;Listen failed on port: &quot; + port, e);
-        &#125;
-
-    &#125; else &#123; &#x2F;&#x2F; 如果 Server 对象不为 null
-        &#x2F;&#x2F; otherwise verify security access to existing server socket
-        SecurityManager sm &#x3D; System.getSecurityManager(); &#x2F;&#x2F; 获取安全管理器
-        if (sm !&#x3D; null) &#123; &#x2F;&#x2F; 如果安全管理器不为 null
-            sm.checkListen(port); &#x2F;&#x2F; 验证监听端口是否被授权访问
-        &#125;
-    &#125;
-&#125;</code></pre>
-
-<p>首先获取了之前保存的TCPEndpoint和端口，然后调用了TCPEndpoint.newServerSocket，跟进去实际最后就是创建了个普通的ServerSocket。然后创建了一个新的AcceptLoop类的监听线程并开启。然后就是等待客户端的连接了。<br>那么实际上服务就已经发布出去了。最后还有一步记录已经发布的Target，调用了TransPort的exportObject</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421223046834.png" alt="image-20230421223046834"></p>
-<pre class="language-java" data-language="java"><code class="language-java">public void exportObject(Target target) throws RemoteException &#123;
-    target.setExportedTransport(this);
-    ObjectTable.putTarget(target);
-&#125;</code></pre>
-
-<p>在Target类里的setExportedTransport方法只是个简单的赋值操作，对应的TCPTransport保存进Target</p>
-<pre class="language-java" data-language="java"><code class="language-java">void setExportedTransport(Transport exportedTransport) &#123;
-    if (this.exportedTransport &#x3D;&#x3D; null) &#123;
-        this.exportedTransport &#x3D; exportedTransport;
-    &#125;
-&#125;</code></pre>
-
-<p>然后调用ObjectTable类putTarget方法</p>
-<pre class="language-java" data-language="java"><code class="language-java">static void putTarget(Target target) throws ExportException &#123;
-    ObjectEndpoint oe &#x3D; target.getObjectEndpoint();
-    WeakRef weakImpl &#x3D; target.getWeakImpl();
-
-    if (DGCImpl.dgcLog.isLoggable(Log.VERBOSE)) &#123;
-        DGCImpl.dgcLog.log(Log.VERBOSE, &quot;add object &quot; + oe);
-    &#125;
-
-    synchronized (tableLock) &#123;
-        if (target.getImpl() !&#x3D; null) &#123;
-            if (objTable.containsKey(oe)) &#123;
-                throw new ExportException(
-                    &quot;internal error: ObjID already in use&quot;);
-            &#125; else if (implTable.containsKey(weakImpl)) &#123;
-                throw new ExportException(&quot;object already exported&quot;);
-            &#125;
-
-            objTable.put(oe, target);
-            implTable.put(weakImpl, target);
-
-            if (!target.isPermanent()) &#123;
-                incrementKeepAliveCount();
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre>
-
-<p>putTarget是把对象和target绑定，放进ObjectTable这个类的静态变量objTable里面。</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516211434995.png" alt="image-20230516211434995"></p>
-<p>下面这段代码因为获取了DGCImpl.dgcLog变量，触发了DGCImpl类的实例化。这是垃圾回收相关的类。</p>
-<pre class="language-java" data-language="java"><code class="language-java">if (DGCImpl.dgcLog.isLoggable(Log.VERBOSE)) &#123;
-    DGCImpl.dgcLog.log(Log.VERBOSE, &quot;add object &quot; + oe);
-&#125;</code></pre>
-
-<p>然后就会调用里面的static代码块</p>
-<pre class="language-java" data-language="java"><code class="language-java">static &#123;
-     &#x2F;*
-      * 在与任意当前线程上下文隔离的上下文中“导出”单例的DGCImpl。
-      *&#x2F;
-     AccessController.doPrivileged(new PrivilegedAction&lt;Void&gt;() &#123;
-         public Void run() &#123;
-             ClassLoader savedCcl &#x3D; Thread.currentThread().getContextClassLoader();
-             try &#123;
-                 &#x2F;&#x2F; 设置上下文类加载器为系统类加载器
-                 Thread.currentThread().setContextClassLoader(ClassLoader.getSystemClassLoader());
-
-                 &#x2F;*
-                  * 将远程收集器对象手动放入表格中，以防止在端口上侦听。 
-                  * （UnicastServerRef.exportObject将导致传输侦听。）
-                  *&#x2F;
-                 try &#123;
-                     &#x2F;&#x2F; 创建并导出 DGCImpl
-                     dgc &#x3D; new DGCImpl();
-                     ObjID dgcID &#x3D; new ObjID(ObjID.DGC_ID);
-                     LiveRef ref &#x3D; new LiveRef(dgcID, 0);
-                     UnicastServerRef disp &#x3D; new UnicastServerRef(ref);
-                     Remote stub &#x3D; Util.createProxy(DGCImpl.class, new UnicastRef(ref), true);
-                     disp.setSkeleton(dgc);
-
-                     &#x2F;&#x2F; 创建一个Target对象，并将其放入ObjectTable中
-                     Permissions perms &#x3D; new Permissions();
-                     perms.add(new SocketPermission(&quot;*&quot;, &quot;accept,resolve&quot;));
-                     ProtectionDomain[] pd &#x3D; &#123; new ProtectionDomain(null, perms) &#125;;
-                     AccessControlContext acceptAcc &#x3D; new AccessControlContext(pd);
-
-                     Target target &#x3D; AccessController.doPrivileged(new PrivilegedAction&lt;Target&gt;() &#123;
-                         public Target run() &#123;
-                             return new Target(dgc, disp, stub, dgcID, true);
-                         &#125;
-                     &#125;, acceptAcc);
-                     ObjectTable.putTarget(target);
-                 &#125; catch (RemoteException e) &#123;
-                     throw new Error(&quot;exception initializing server-side DGC&quot;, e);
-                 &#125;
-             &#125; finally &#123;
-                 &#x2F;&#x2F; 恢复上下文类加载器
-                 Thread.currentThread().setContextClassLoader(savedCcl);
-             &#125;
-             return null;
-         &#125;
-     &#125;);
- &#125;</code></pre>
-
-<p>使用单例模式创建了一个DGCImpl对象，这个对象就是RMI的分布式垃圾处理对象，一旦有远程对象被创建，就会实例化这个对象，但也只会创建这一次。后面的代码和UnicastServerRef#exportObject里很像，创建一个代理。但这里和前面不同的是这是一个系统内置类，所以是直接创建了DGCImpl_Stub类，而不是创建的动态代理。</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421225004284.png" alt="image-20230421225004284"></p>
-<p>并且设置了disp的skeleton是DGCImpl_Skel。</p>
-<p><code>disp.setSkeleton(dgc);</code></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421225338717.png" alt="image-20230421225338717"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421225427745.png" alt="image-20230421225427745"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421225849143.png" alt="image-20230421225849143"></p>
-<p>最后同样把这些放进Target，把Target保存进ObjectTable。</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421230039784.png" alt="image-20230421230039784"></p>
-<p>然后再把target保存到一个map表里，target里存放着一些信息</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421230520295.png" alt="image-20230421230520295"></p>
-<p>到这里服务发布就结束了。</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421230631191.png" alt="image-20230421230631191"></p>
-<p>最后在UnicastServerRef类的exportObject里return了一个stub，但代码里并没有接收。</p>
-<p>第一步的创建远程对象的流程如图：</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516211919469.png" alt="image-20230516211919469"></p>
-<p>去掉垃圾回收的部分，创建远程对象本身并没有什么可以进行漏洞利用的部分，虽然步骤很繁琐，但实际上这一步基本上都是对ref进行一个又一个的封装。主要就是要把这个远程对象发布出去，然后利用动态代理创建一个stub，让之后的客户端可以通过stub来调用现在服务端发布的远程对象</p>
-<h2 id="创建注册中心"><a href="#创建注册中心" class="headerlink" title="创建注册中心"></a>创建注册中心</h2><p>接下来我们来看服务端的第二步</p>
-<p>创建注册中心</p>
-<p><code>Registry registry = LocateRegistry.createRegistry(1099);</code></p>
-<p>首先是调用了LocateRegistry的createRegistry方法，参数就是rmi注册中心的端口1099</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516212912486.png" alt="image-20230516212912486"></p>
-<p>然后在RegistryImpl的构造方法里</p>
-<p>由于不满足这个if判断的后半段</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516213423235.png" alt="image-20230516213423235"></p>
-<p>会进入else里然后创建LiveRef实例，再把这个实例塞进UnicastServerRef里，这里虽然和第一步的时候的参数不太一样，但其实经过一堆super之类的方法，最后调的构造方法都一样</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516213358149.png" alt="image-20230516213358149"></p>
-<p>然后就进了setup</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516214311043.png" alt="image-20230516214311043"></p>
-<p>这里边就一个赋值，然后再去调用UnicastServerRef的exportObject方法</p>
-<p>这一幕在创建远程对象里也出现过</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230421212559065.png" alt="image-20230421212559065"></p>
-<p>但是这次的参数明显有不同，最主要的就是第一个参数的类不同了，而且第三个参数由false变为了true</p>
-<p>然后我们跟进到它进行动态代理的类里</p>
-<p>在创建远程对象时，这个if判断我们没能进入，主要就是因为stubClassExists里判断我们没能为真</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516215025681.png" alt="image-20230516215025681"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516215218806.png" alt="image-20230516215218806"></p>
-<p>但是现在remoteClass是RegistryImpl类，而RegistryImpl_Stub是存在的</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516215251551.png" alt="image-20230516215251551"></p>
-<p>所以现在我们能进入if语句中了</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516215307162.png" alt="image-20230516215307162"></p>
-<p>跟进createStub里</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516215405776.png" alt="image-20230516215405776"></p>
-<p>这里就是利用反射的方式去实例化RegistryImpl_Stub 类，然后return回来</p>
-<blockquote>
-<p>RegistryImpl_Stub 继承了 RemoteStub ，实现了 Registry。这个类实现了 bind/list/lookup/rebind/unbind 等 Registry 定义的方法，全部是通过序列化和反序列化来实现的。</p>
-</blockquote>
-<p>然后执行完毕后跳出方法回到UnicastServerRef的exportObject方法里继续往下执行</p>
-<p>所以此时的stub就是一个实例化了的RegistryImpl_Stub类</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516215913422.png" alt="image-20230516215913422"></p>
-<p>里边套着LiveRef</p>
-<p>因为此时stub就是一个实例化了的RegistryImpl_Stub类，而RegistryImpl_Stub继承了RemoteStub </p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516220132513.png" alt="image-20230516220132513"></p>
-<p>所以接下来程序要执行setSkeleton函数了，看这个名字就知道，这个是创建Skeleton的</p>
-<p>根据最开始对rmi的介绍，我们知道在客户端有stub，而在服务端就对应有Skeleton。客户端通过stub请求远程方法，服务端就通过Skeleton去调用方法，然后通过Skeleton获取结果，最后传给客户端Stub，客户端就从Stub获取结果</p>
-<p>跟进setSkeleton</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516220356163.png" alt="image-20230516220356163"></p>
-<p>进到createSkeleton</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516220631789.png" alt="image-20230516220631789"></p>
-<p>通过反射对RegistryImpl_Skel进行实例化，和获取RegistryImpl_Stub的步骤类似</p>
-<p>后边那就和创建和发布远程对象类似了</p>
-<p>先创建个target对象把信息都放一块</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516221007819.png" alt="image-20230516221007819"></p>
-<p>这里因为disp接收的是UnicastServerRef类，而UnicastServerRef的skel在setSkeleton已经被赋值了，所以现在disp的skel属性也有值了</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516221441838.png" alt="image-20230516221441838"></p>
-<p>然后就是再进LiveRef的exportObject方法</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516221656877.png" alt="image-20230516221656877"></p>
-<p>然后一堆调用调到listen</p>
-<p><del>这里也是和第一步不太一样的地方，因为第一步里调TCPEndpoint的getLocalEndpoint方法的时候</del></p>
-<p><del><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516225946779.png" alt="image-20230516225946779"></del></p>
-<p><del>这里得到的epList的值是null，但现在这个不是null，也就进入了else里，给ep赋值了，有了这个transport属性</del></p>
-<p><del><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516225723747.png" alt="image-20230516225723747"></del></p>
-<p><del>（至于为什么会这样我也不知道，跟着调没调出出原因，不过应该不是端口问题，我调试的时候改了端口，在第一步时的结果也是null</del></p>
-<p>我是笨比，这个应该是有个变量在第一次执行的时候被改变了或者是缓存的原因，导致如果不结束idea的调试而是直接重置帧会导致epList不为空</p>
-<h2 id="绑定"><a href="#绑定" class="headerlink" title="绑定"></a>绑定</h2><p>注册说白了就是 bind 的过程，通常情况下，如果 Server 端和 Registry 在同一端，我们可以直接调用Registry 的 bind 方法进行绑定，具体实现在 RegistryImpl 的 bind 方法，就是将 Remote 对象和名称 String 放在成员变量 bindings 中，这是一个 Hashtable 对象。</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516233203884.png" alt="image-20230516233203884"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230516233015241.png" alt="image-20230516233015241"></p>
-<p>先做个安全检查，然后再判断在hashtable中是否已经有了name这个键，如果没有就把name和object给put进hashtable里</p>
+                <p>最后一篇了吧（大概</p>
+<p>前两篇介绍了RMI的流程和基础的攻击，这一篇写点进阶的东西</p>
+<h1 id="JEP290"><a href="#JEP290" class="headerlink" title="JEP290"></a>JEP290</h1><p>在<code>JDK6u141</code>、<code>JDK7u131</code>、<code>JDK 8u121</code>加入了JEP 290限制,JEP 290过滤策略有</p>
+<p><strong>进程级过滤器</strong></p>
+<p>可以将进程级序列化过滤器作为命令行参数（“-Djdk.serialFilter =”）传递，或将其设置为$JAVA_HOME/conf/security/java.security中的系统属性。</p>
+<p><strong>自定义过滤器</strong></p>
+<p>可以使用自定义过滤器来重写特定流的进程级过滤器</p>
+<p><strong>内置过滤器</strong></p>
+<p>JDK分别为RMI注册表和RMI分布式垃圾收集器提供了相应的内置过滤器。这两个过滤器都配置为白名单，即只允许反序列化特定类。</p>
+<p>这里我把jdk版本换成jdk1.8.0_111,默认使用内置过滤器。然后直接使用上面的服务端攻击注册中心poc看下,执行完RMI Registry会提示这样的一个错误:</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520171314932.png" alt="image-20230520171314932"></p>
+<p>这就是JEP290限制导致的</p>
+<h1 id="JEP-290-核心类"><a href="#JEP-290-核心类" class="headerlink" title="JEP 290 核心类"></a>JEP 290 核心类</h1><p>JEP 290 涉及的核心类有： <code>ObjectInputStream</code> 类，<code>ObjectInputFilter</code> 接口，<code>Config</code> 静态类以及 <code>Global</code> 静态类。其中 <code>Config</code> 类是 <code>ObjectInputFilter</code>接口的内部类，<code>Global</code> 类又是<code>Config</code>类的内部类。</p>
+<h2 id="ObjectInputStream-类"><a href="#ObjectInputStream-类" class="headerlink" title="ObjectInputStream 类"></a>ObjectInputStream 类</h2><p>JEP 290 进行过滤的具体实现方法是在 <code>ObjectInputStream</code> 类中增加了一个<code>serialFilter</code>属性和一个 <code>filterChcek</code> 函数，两者搭配来实现过滤的。</p>
+<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><p>有两个构造函数，我们需要关注的是在这两个构造函数中都会赋值 <code>serialFilter</code> 字段为 <code>ObjectInputFilter.Config.getSerialFilter()</code>:</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520214813392.png" alt="image-20230520214813392"></p>
+<p>跟一下可以发现，<code>ObjectInputFilter.Config.getSerialFilter()</code>:返回的内容是ObjectInputFilter接口里的一个静态属性</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520214855340.png" alt="image-20230520214855340"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520214941035.png" alt="image-20230520214941035"></p>
+<h3 id="serialFilter-属性"><a href="#serialFilter-属性" class="headerlink" title="serialFilter 属性"></a>serialFilter 属性</h3><p>这个属性是ObjectInputFilter类型的，这是一个接口</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520215200219.png" alt="image-20230520215200219"></p>
+<p>这个接口又声明了一个 <code>checkInput</code> 方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520215304451.png" alt="image-20230520215304451"></p>
+<h3 id="filterCheck-函数"><a href="#filterCheck-函数" class="headerlink" title="filterCheck 函数"></a>filterCheck 函数</h3><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520215423869.png" alt="image-20230520215423869"></p>
+<p>看名字就知道这是个负责过滤的方法</p>
+<p>它分了三步</p>
+<p>第一步，先会判断 <code>serialFilter</code> 属性值是否为空，只有不为空，才会进行后续的过滤操作。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520215539088.png" alt="image-20230520215539088"></p>
+<p>第二步，将我们需要检查的 <code>class</code> ，以及 <code>arryLength</code>等信息封装成一个<code>FilterValues</code>对象，传入到 <code>serialFilter.checkInput</code> 方法中，返回值为 <code>ObjectInputFilter.Status</code> 类型。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520215620742.png" alt="image-20230520215620742"></p>
+<p>最后一步，判断 <code>status</code> 的值，如果 <code>status</code> 是 <code>null</code> 或者是 <code>REJECTED</code> 就会抛出异常。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520215633250.png" alt="image-20230520215633250"></p>
+<h3 id="ObjectInputStream-总结"><a href="#ObjectInputStream-总结" class="headerlink" title="ObjectInputStream 总结"></a>ObjectInputStream 总结</h3><p>到这里可以知道，<code>serialFilter</code> 属性就可以认为是 JEP 290 中的&quot;过滤器&quot;。过滤的具体逻辑写到 <code>serialFilter</code> 的<code>checkInput</code> 方法中，配置过滤器其实就是设置 <code>ObjectInputStream</code> 对象的 <code>serialFilter</code>属性。并且在 <code>ObjectInputStream</code> 构造函数中会赋值 <code>serialFilter</code> 为 <code>ObjectInputFilter#Config</code> 静态类的 <code>serialFilter</code> 静态字段。</p>
+<h2 id="ObjectInputFilter-接口"><a href="#ObjectInputFilter-接口" class="headerlink" title="ObjectInputFilter 接口"></a>ObjectInputFilter 接口</h2><p>是 <code>JEP 290</code> 中实现过滤的一个最基础的接口，想理解 JEP 290 ，必须要了解这个接口。</p>
+<p>在低于 <code>JDK 9</code> 的时候的全限定名是 <code>sun.misc.ObjectInputFIlter</code>，<code>JDK 9</code> 及以上是 <code>java.io.ObjectInputFilter</code> 。</p>
+<p>另外低于 <code>JDK 9</code> 的时候，是 <code>getInternalObjectInputFilter</code> 和 <code>setInternalObjectInputFilter</code>，<code>JDK 9</code> 以及以上是 <code>getObjectInputFilter</code> 和 <code>setObjectInputFIlter</code> 。</p>
+<p>这是它的结构</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520224310006.png" alt="image-20230520224310006"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520224205442.png" alt="image-20230520224205442"></p>
+<p>有一个 <code>checkInput</code> 函数，一个静态类 <code>Config</code> ，一个 <code>FilterInfo</code> 接口，一个 <code>Status</code> 枚举类。</p>
+<h3 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h3><p><code>@FunctionalInterface</code> 注解表明， <code>ObjectInputFilter</code> 是一个函数式接口。对于不了解函数式接口的同学，可以参考：<a target="_blank" rel="noopener" href="https://www.runoob.com/java/java8-functional-interfaces.html">https://www.runoob.com/java/java8-functional-interfaces.html</a> 以及 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/40f833bf2c48">https://www.jianshu.com/p/40f833bf2c48</a> ， <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903892166148110">https://juejin.cn/post/6844903892166148110</a> 。</p>
+<p>（我一直觉得这个lambda表达式怪逆天的，为了省两三行代码，把可读性搞得这么差</p>
+<p>这里我们其实只需要关心函数式接口怎么赋值，函数式接口的赋值可以是： lambda 表达式或者是方法引用，当然也可以赋值一个实现了这个接口的对象</p>
+<h2 id="Config-静态类"><a href="#Config-静态类" class="headerlink" title="Config 静态类"></a>Config 静态类</h2><p><code>Config</code> 静态类是 <code>ObjcectInputFilter</code> 接口的一个内部静态类。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1630391557000-image-20210818120140858.png-w331s" alt="image-20210818120140858"></p>
+<h3 id="Config-configuredFilter-静态字段"><a href="#Config-configuredFilter-静态字段" class="headerlink" title="Config#configuredFilter 静态字段"></a>Config#configuredFilter 静态字段</h3><p><code>configuredFilter</code> 的赋值操作是在Config类的静态代码块里，所以调用 <code>Config</code> 类的时候就会触发 <code>configuredFilter</code> 字段的赋值。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520230235320.png" alt="image-20230520230235320"></p>
+<p>可以看到会拿到 <code>SERIAL_FILTER_PROPNAME（也就是jdk.serailFilter)</code> 属性值，如果不为空，会返回 <code>createFilter(props)</code>的结果（<code>createFilter</code> 实际返回的是一个 <code>Global</code> 对象）。</p>
+<p><code>jdk.serailFilter</code> 属性值获取的方法用两种，第一种是获取 JVM 的 <code>jdk.serialFilter</code> 属性，第二种通过在 <code>%JAVA_HOME%\conf\security\java.security</code> 文件中指定 <code>jdk.serialFilter</code> 来设置。</p>
+<h3 id="Config-createFilter-方法"><a href="#Config-createFilter-方法" class="headerlink" title="Config#createFilter 方法"></a>Config#createFilter 方法</h3><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520230558359.png" alt="image-20230520230558359"></p>
+<p><code>Config#createFilter</code> 则会进一步调用 <code>Global.createFilter</code>方法，这个方法在介绍 <code>Global</code> 类的时候会说，其实就是将传入的 JEP 290 规则字符串解析到<code>Global</code>对象的 <code>filters</code> 字段上，并且返回这个 <code>Global</code> 对象。</p>
+<h3 id="Config-静态类总结"><a href="#Config-静态类总结" class="headerlink" title="Config 静态类总结"></a>Config 静态类总结</h3><p><code>Config</code>会将<code>Config.serialFilter</code> 赋值为一个<code>Global</code>对象，这个<code>Global</code> 对象的<code>filters</code>字段值是<code>jdk.serailFilter</code>属性对应的 <code>Function</code> 列表。（关于 <code>Global</code> 对象介绍下面会说到，大家先有这么一个概念）</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520230905590.png" alt="image-20230520230905590"></p>
+<p>而 <code>ObjectInputStream</code> 的构造函数中，正好取的就是 <code>Config.serialFilter</code> 这个静态字段 ， <strong>所以设置了 Config.serialFilter 这个静态字段，就相当于设置了 ObjectInputStream 类全局过滤器</strong>。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520214813392.png" alt="image-20230520214813392"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520214855340.png" alt="image-20230520214855340"></p>
+<p>还可以通过配置 JVM 的 <code>jdk.serialFilter</code> 或者 <code>%JAVA_HOME%\conf\security\java.security</code> 文件的 <code>jdk.serialFilter</code> 字段值，来设置 <code>Config.serialFilter</code> ，也就是设置了全局过滤。</p>
+<p>另外还有就是一些框架，在开始的时候设置也会设置 <code>Config.serialFilter</code> ，来设置 <code>ObjectInputStream</code> 类的全局过滤。 weblogic 就是，在启动的时候会设置 <code>Config.serialFilter</code> 为 <code>WebLogicObjectInputFilterWrapper</code> 对象。</p>
+<h2 id="Global-静态类"><a href="#Global-静态类" class="headerlink" title="Global 静态类"></a>Global 静态类</h2><p><code>Global</code> 静态类是 Config 类中的一个内部静态类。</p>
+<p><code>Global</code> 类的一个重要特征是实现了 ``ObjectInputFilter<code>接口，实现了其中的</code>checkInput<code>方法。所以</code>Global<code>类可以直接赋值到</code>ObjectInputStream.serialFilter` 上。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520231211756.png" alt="image-20230520231211756"></p>
+<h3 id="Global-filters-字段"><a href="#Global-filters-字段" class="headerlink" title="Global#filters 字段"></a>Global#filters 字段</h3><p>是一个函数列表。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520231253842.png" alt="image-20230520231253842"></p>
+<h3 id="Global-checkInput-方法"><a href="#Global-checkInput-方法" class="headerlink" title="Global#checkInput 方法"></a>Global#checkInput 方法</h3><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520231327575.png" alt="image-20230520231327575"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520231353991.png" alt="image-20230520231353991"></p>
+<p><code>Global</code> 类的 <code>checkInput</code> 会遍历 <code>filters</code> 去检测要反序列化的类。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520231407212.png" alt="image-20230520231407212"></p>
+<h3 id="Global-中的构造函数"><a href="#Global-中的构造函数" class="headerlink" title="Global 中的构造函数"></a>Global 中的构造函数</h3><p>构造方法解析相关配置的JEP290规则语法，以<code>;</code>分割将其作为一个个规则，然后添加到 <code>Global.filters</code> 。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20211206184805162.png" alt="image-20211206184805162"></p>
+<h3 id="Global-createFilter-方法"><a href="#Global-createFilter-方法" class="headerlink" title="Global#createFilter 方法"></a>Global#createFilter 方法</h3><p>传入规则字符串，来实例化一个 <code>Global</code> 对象。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520231703032.png" alt="image-20230520231703032"></p>
+<h3 id="Global-类的总结"><a href="#Global-类的总结" class="headerlink" title="Global 类的总结"></a>Global 类的总结</h3><p><code>Global</code> 实现了<code>ObjectInputFilter</code>接口，所以是可以直接赋值到 <code>ObjectInputStream.serialFilter</code> 上。</p>
+<p><code>Global#filters</code> 字段是一个函数列表。</p>
+<p><code>Global</code> 类中的 <code>chekInput</code> 方法会遍历 <code>Global#filters</code> 的函数，传入需要检查的 <code>FilterValues</code>进行检查（<code>FilterValues</code> 中包含了要检查的 <code>class</code>, <code>arrayLength</code>，以及 <code>depth</code> 等）。</p>
+<h1 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h1><p>在上面总结 <code>ObjectInputStream</code> 类的中说过，配置过滤器其实就是设置 <code>ObjectInputStream</code> 类中的 <code>serialFilter</code> 属性。</p>
+<p>过滤器的类型有两种，第一种是通过配置文件或者 <code>JVM</code> 属性来配置的全局过滤器，第二种则是来通过改变 <code>ObjectInputStream</code> 的 <code>serialFilter</code> 属性来配置的局部过滤器。</p>
+<h2 id="全局过滤器"><a href="#全局过滤器" class="headerlink" title="全局过滤器"></a>全局过滤器</h2><p>设置全局过滤器，其实就是设置<code>Config</code>静态类的 <code>serialFilter</code> 静态字段值。</p>
+<p>具体原因是因为在 <code>ObjectInputStream</code> 的两个构造函数中，都会为 <code>serialFilter</code> 属性赋值为 <code>ObjectInputFilter.Config.getSerialFilter()</code> 。</p>
+<p>而 <code>ObjectInputFilter.Config.getSerialFilter</code> 就是直接返回 <code>Config#serialFilter</code>：</p>
+<h3 id="jdk-serailFilter"><a href="#jdk-serailFilter" class="headerlink" title="jdk.serailFilter"></a>jdk.serailFilter</h3><p>在介绍 <code>Config</code> 静态类的时候说到，<code>Config</code> 静态类初始化的时候，会解析 <code>jdk.serailFilter</code> 属性设置的 JEP 290 规则到一个 <code>Global</code> 对象的 <code>filters</code> 属性，并且会将这个 <code>Global</code> 对象赋值到 <code>Config</code> 静态类的 <code>serialFilter</code> 属性上。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520232123483.png" alt="image-20230520232123483"></p>
+<p>所以，这里 <code>Config.serialFilter</code> 值默认是解析 <code>jdk.serailFilter</code> 属性得到得到的 <code>Global</code> 对象。</p>
+<h2 id="局部过滤器"><a href="#局部过滤器" class="headerlink" title="局部过滤器"></a>局部过滤器</h2><p>设置局部过滤器的意思是在 <code>new</code> <code>objectInputStream</code> 对象之后，再通过改变单个 <code>ObjectInputStream</code> 对象的 <code>serialFilter</code>字段值来实现局部过滤。</p>
+<p>改变单个 <code>ObjectInputStream</code> 对象的 <code>serialFilter</code> 字段是有两种方法：</p>
+<p>1.通过调用 <code>ObjectInputStream</code> 对象的 <code>setInternalObjectInputFilter</code> 方法：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520232257747.png" alt="image-20230520232257747"></p>
+<p>2.通过调用 <code>Config.setObjectInputFilter</code> ：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520232514705.png" alt="image-20230520232514705"></p>
+<p>这个其实就是通过<code>setObjectInputFilter</code>调到<code>setInternalObjectInputFilter</code> 方法</p>
+<p>局部过滤器典型的例子是 RMI 中针对 <code>RegsitryImpl</code> 和 <code>DGCImpl</code>有关的过滤。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a target="_blank" rel="noopener" href="https://paper.seebug.org/1689/">https://paper.seebug.org/1689/</a> （前两部分基本上都抄的这个</p>
 
                 
             </div>
@@ -1072,7 +641,7 @@ public static TCPEndpoint getLocalEndpoint(int port,
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2023/04/21/RMI%E6%94%BB%E5%87%BB/">https://Ethe448.github.io/2023/04/21/RMI%E6%94%BB%E5%87%BB/</a>
+                    <a href="https://Ethe448.github.io/2023/05/20/RMI%E6%94%BB%E5%87%BB%EF%BC%88%E4%B8%89%EF%BC%89/">https://Ethe448.github.io/2023/05/20/RMI%E6%94%BB%E5%87%BB%EF%BC%88%E4%B8%89%EF%BC%89/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1555,17 +1124,18 @@ public static TCPEndpoint getLocalEndpoint(int port,
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2023/04/23/HDCTF2023-WP/">
+                <a href="/2023/05/20/RMI%E6%94%BB%E5%87%BB%EF%BC%88%E4%B8%89%EF%BC%89/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/18.jpg" class="responsive-img" alt="HDCTF2023 WP">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/1.jpg" class="responsive-img" alt="RMI攻击（三）">
                         
-                        <span class="card-title">HDCTF2023 WP</span>
+                        <span class="card-title">RMI攻击（三）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1575,9 +1145,9 @@ public static TCPEndpoint getLocalEndpoint(int port,
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-04-23
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-05-20
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1586,11 +1156,16 @@ public static TCPEndpoint getLocalEndpoint(int port,
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/ctf/">
-                        <span class="chip bg-color">ctf</span>
+                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">web学习</span>
+                    </a>
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
                 </div>
@@ -1604,13 +1179,13 @@ public static TCPEndpoint getLocalEndpoint(int port,
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/04/20/Java%E5%AE%89%E5%85%A8/">
+                <a href="/2023/05/19/%E8%AE%B0%E4%BA%8B%E7%B0%BF/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/17.jpg" class="responsive-img" alt="Java安全">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/9.jpg" class="responsive-img" alt="记事簿">
                         
-                        <span class="card-title">Java安全</span>
+                        <span class="card-title">记事簿</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1621,7 +1196,7 @@ public static TCPEndpoint getLocalEndpoint(int port,
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-05-19
                             </span>
                         <span class="publish-author">
                             
@@ -1634,8 +1209,8 @@ public static TCPEndpoint getLocalEndpoint(int port,
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/%E9%9A%8F%E7%AC%94/">
+                        <span class="chip bg-color">随笔</span>
                     </a>
                     
                 </div>
@@ -1839,7 +1414,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">231k</span>
+                        class="white-color">240.8k</span>
             
             
             

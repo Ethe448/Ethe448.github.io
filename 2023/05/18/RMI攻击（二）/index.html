@@ -486,21 +486,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-05-20
+                    2023-05-21
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.9k
+                    5.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    20 分
+                    21 分
                 </div>
                 
 
@@ -788,8 +788,6 @@ Operation[] operations &#x3D; (Operation[])operations_field.get(registry);</code
         ObjectOutput var3 &#x3D; var2.getOutputStream();
         var3.writeObject(o);
         ref.invoke(var2);
-
-
     &#125;
 &#125;</code></pre>
 
@@ -905,12 +903,22 @@ Operation[] operations &#x3D; (Operation[])operations_field.get(registry);</code
 &#125;</code></pre>
 
 <p>原理懂了，代码写不出来<img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/QVJIZ6DSFAY9Y0PP@Q_2%7D8R.gif" alt="img"></p>
+<p>抄一下其他人的做的图</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/20200622140434-3edd6486-b44e-1.png" alt="20200622140434-3edd6486-b44e-1"></p>
 <p>这个攻击手段<strong>实际上就是 ysoserial 中的 ysoserial.exploit.JRMPClient 的实现原理</strong></p>
 <p>DGC其实客户端、注册中心、服务端都能打，但是因为只有注册中心的端口是确认的，所以一般都是打注册中心</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520165828619.png" alt="image-20230520165828619"></p>
 <p>调用链</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230520170306699.png" alt="image-20230520170306699"></p>
+<p>ysoserial里用的是使用socket重写了JRMP协议，这里还有另一种方式，就是获取DGCImpl_Stub对象，重写dirty方法，在DGCImpl_Skel#dispatch中触发反序列化，跟打注册中心的差不多</p>
+<p>就跟客户端攻击注册中心的时候重写lookup差不多</p>
+<h3 id="DGC服务端打客户端"><a href="#DGC服务端打客户端" class="headerlink" title="DGC服务端打客户端"></a>DGC服务端打客户端</h3><p>同样的道理可以用DGC服务端打客户端，在DGCImpl_Stub触发反序列化。但是既然最后调用的都是call.executeCall();，那为啥不用UnicastRef#invoke-&gt;StreamRemoteCall#executeCall-&gt;注册中心/服务端攻击客户端这条路呢。这篇没提这条链，是因为他还有更重要的使命（</p>
+<h2 id="攻击JRMP客户端"><a href="#攻击JRMP客户端" class="headerlink" title="攻击JRMP客户端"></a>攻击JRMP客户端</h2><p>前面分析过，只要客户端的stub发起JRMP请求，就会调用UnicastRef#invoke，也就会调用StreamRemoteCall#executeCall，假设在异常处理的时候满足了那个判断，就会导致被反序列化攻击。这里想实现攻击需要自己实现一个恶意服务端，把返回的异常信息改成payload，其实这就是ysoserial里面的exploit/JRMPListener实现的功能。具体实现大概就是从TCPTransport#run0拷过来，没用的删删，改改最后处理的地方。<br>具体使用是先启动监听</p>
+<p><code>java -cp ysoserial-all.jar ysoserial.exploit.JRMPListener 1099 CommonsCollections6 calc.exe</code></p>
+<p>然后启用客户端去向这个恶意服务端端发起请求</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230521142412750.png" alt="image-20230521142412750"></p>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/346762.html">https://www.freebuf.com/vuls/346762.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7930">https://xz.aliyun.com/t/7930</a></p>
 <p><a target="_blank" rel="noopener" href="https://yagsheg.com/2021/11/29/RMI-%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%A4%8D%E7%9B%98%E6%80%BB%E7%BB%93/">https://yagsheg.com/2021/11/29/RMI-%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%A4%8D%E7%9B%98%E6%80%BB%E7%BB%93/</a></p>
 <p><a target="_blank" rel="noopener" href="https://goodapple.top/archives/520">https://goodapple.top/archives/520</a></p>
 <p><a target="_blank" rel="noopener" href="https://su18.org/post/rmi-attack/">https://su18.org/post/rmi-attack/</a></p>
@@ -1714,7 +1722,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">240.8k</span>
+                        class="white-color">245.4k</span>
             
             
             

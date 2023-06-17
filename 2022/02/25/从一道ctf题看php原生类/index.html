@@ -484,21 +484,21 @@ if(isset($_GET[&amp;#39;source&amp;#39;]))&amp;#123;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-20
+                    2023-05-26
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1k
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    5 分
                 </div>
                 
 
@@ -709,6 +709,19 @@ var_dump($method-&gt;$rd());</code></pre>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226193319167.png" alt="image-20220226193319167"></p>
 <p>直接查看类可以用ReflectionClass</p>
 <p>反射类不仅仅可以建立对类的映射，也可以<strong>建立对PHP基本方法的映射</strong>，并且返回基本方法执行的情况。因此可以通过建立反射类<code>new ReflectionClass(system(&#39;cmd&#39;))</code>来执行命令</p>
+<h2 id="ReflectionFunction"><a href="#ReflectionFunction" class="headerlink" title="ReflectionFunction"></a>ReflectionFunction</h2><p>这玩意能执行命令</p>
+<p>demo</p>
+<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
+$function &#x3D; new ReflectionFunction(&#39;system&#39;);
+echo $function-&gt;invoke(&quot;whoami&quot;);
+?&gt;
+    
+&lt;?php
+$function &#x3D; new ReflectionFunction(&#39;call_user_func&#39;);
+echo $function-&gt;invokeArgs(array(&#39;s&#39;.&#39;y&#39;.&#39;s&#39;.&#39;tem&#39;,&#39;whoami&#39;));
+&#x2F;&#x2F;array(%27s%27.%27y%27.%27s%27.%27tem%27,%27cat%20&#x2F;f%27.%27lag%27)
+?&gt;</code></pre>
+
 
                 
             </div>
@@ -1498,7 +1511,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">255k</span>
+                        class="white-color">259.9k</span>
             
             
             

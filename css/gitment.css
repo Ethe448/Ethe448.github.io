@@ -5,7 +5,14 @@
 .gitment-card {
     margin-top: 20px;
 }
+.heimu {
+    background-color: var(--hty-text-color);
+    transition: .2s;}
 
+.heimu:hover{
+    cursor:pointer;
+    background-color:transparent;}
+    
 .gitment-container {
     color: #34495e !important;
 }

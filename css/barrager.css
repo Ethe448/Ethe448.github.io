@@ -7,8 +7,10 @@
     z-index: 99999
 }
 
+    
 .barrage_box {
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0
+        , 0, .5);
     padding-right: 8px;
     height: 40px;
     display: inline-block;

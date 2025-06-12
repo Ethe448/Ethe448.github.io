@@ -488,21 +488,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-05-22
+                    2025-06-08
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    12.4k
+                    12.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    56 分
+                    57 分
                 </div>
                 
 
@@ -594,10 +594,20 @@
 <h1 id="CC1"><a href="#CC1" class="headerlink" title="CC1"></a>CC1</h1><p>关于cc1的反序列化，网上一般有两条链子，一个就是ysoserial中的lazymap链，还有transformedmap链</p>
 <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html">JDK8u65</a>（高版本jdk中AnnotationinvocationHandler的readObject被重写了</li>
-<li>[openJDK 8u65](<a target="_blank" rel="noopener" href="https://hg.openjdk.org/jdk8u/jdk8u/jdk/rev/af660750b2f4">jdk8u/jdk8u/jdk: af660750b2f4 (openjdk.org)</a>)</li>
+<li>[openJDK 8u65](<a target="_blank" rel="noopener" href="https://hg.openjdk.org/jdk8u/jdk8u/jdk/rev/af660750b2f4">jdk8u/jdk8u/jdk: af660750b2f4 (openjdk.org)</a>) (25年更新:网站维护了)</li>
 <li>Maven</li>
 </ul>
 <p>后面的具体配置可以看<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1no4y1U7E1/?spm_id_from=333.999.0.0&vd_source=053f03b424a45370bc5813843ae5268f">Java反序列化CommonsCollections篇(一) CC1链手写EXP_哔哩哔哩_bilibili</a>和<a target="_blank" rel="noopener" href="https://drun1baby.top/2022/06/06/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Commons-Collections%E7%AF%8701-CC1%E9%93%BE/#toc-heading-2">Java反序列化Commons-Collections篇01-CC1链 | 芜风 (drun1baby.top)</a></p>
+<p>maven内容</p>
+<pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token comment">&lt;!-- https://mvnrepository.com/artifact/commons-collections/commons-collections --></span>  
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>  
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>commons-collections<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>  
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>commons-collections<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>  
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>3.2.1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>  
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+
+
+
 <h2 id="执行类分析"><a href="#执行类分析" class="headerlink" title="执行类分析"></a>执行类分析</h2><p>我们要先了解一下在cc1里实现了Transformer接口的几个方法</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230319190319370.png" alt="image-20230319190319370"></p>
 <p><strong>ChainedTransformer</strong>：输入对象将传递给第一个转换器。转换后的结果将传递给第二个转换器，依此类推。类似递归的操作，每次转换的输出结果将作为下一次转换的输入。</p>
@@ -2295,6 +2305,14 @@ public class cc7 &#123;
                     </div>
                 </div>
                 
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                        <span class="chip bg-color">漏洞复现</span>
+                    </a>
+                    
+                </div>
+                
             </div>
         </div>
         
@@ -2547,7 +2565,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">241.6k</span>
+                        class="white-color">243k</span>
             
             
             

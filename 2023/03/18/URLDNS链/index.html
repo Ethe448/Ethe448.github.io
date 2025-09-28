@@ -492,7 +492,7 @@ URLDNS链反序列化分三个部分
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-03-24
+                    2025-09-17
                 </div>
                 
 
@@ -558,9 +558,8 @@ URLDNS链反序列化分三个部分
 <p>是URLStreamHandler类（也是我们传入的handler），也就是说这里调用的是URLStreamHandler.hashCode</p>
 <p>跟进去之后有个getHostAddress方法</p>
 <p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318181320932.png" alt="image-20230318181320932"></p>
-<p>再往里跟会发现u是通过InetAddress.getByName获取到的ip地址</p>
-<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/DASCTFxCBCTF/image-20230318181948359.png" alt="image-20230318181948359"></p>
-<p>然后再通过getHost发送一个DNS请求</p>
+<p>再往里跟会发现接下来对u做了个getHostAddress来进行dns查询</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/htb/202509171629638.png" alt="image-20250917162944520"></p>
 <p>至此执行类的分析完成</p>
 <h2 id="调用链"><a href="#调用链" class="headerlink" title="调用链"></a>调用链</h2><p>最后一部分是调用链，其实从入口类和执行类的分析就可以大概的看出调用链</p>
 <ol>
